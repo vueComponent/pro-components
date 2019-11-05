@@ -1,0 +1,27 @@
+@import "~ant-design-vue/es/style/themes/default";
+
+@sider-menu-prefix-cls: ~'@{ant-prefix}-pro-sider-menu';
+@nav-header-height: @layout-header-height;
+
+.basicLayout {
+
+  .ant-layout-sider-children {
+    height: 100%;
+  }
+
+  .trigger {
+    font-size: 18px;
+    line-height: 64px;
+    padding: 0 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #1890ff;
+    }
+  }
+
+  .color-picker {
+    margin: 10px 0;
+  }
+}
