@@ -1,8 +1,8 @@
-English | [简体中文](./README.zh-CN.md)
+[English](./README.md) | 简体中文
 
 <h1 align="center">Ant Design Pro Layout</h1>
 
-## Usage
+## 使用
 
 ```bash
 npm i @vue-component/pro-layout --save
@@ -42,3 +42,5 @@ export default {
 | headerRender | custom header render method | (props: BasicLayoutProps) => VNode | - |
 | rightContentRender | header right content render method | (props: HeaderViewProps) => VNode | - |
 | collapsedButtonRender | custom collapsed button method | (collapsed: boolean) => VNode | - |
+
+> 由于文档正在编写，可能与实际 API 不一致，如需请参考 `/example/` 下例子
