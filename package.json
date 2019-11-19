@@ -1,6 +1,6 @@
 {
-  "name": "@vue-component/pro-layout",
-  "version": "1.0.0",
+  "name": "@ant-design-vue/pro-layout",
+  "version": "0.1.0",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -8,6 +8,13 @@
     "lint": "vue-cli-service lint",
     "analyz": "vue-cli-service build --mode analyz"
   },
+  "main": "./src/index.js",
+  "author": "vueComponent",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vueComponent/pro-layout"
+  },
+  "license":"MIT",
   "dependencies": {
     "ant-design-vue": "^1.4.4",
     "core-js": "^3.1.2",

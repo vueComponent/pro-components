@@ -1,7 +1,7 @@
 import { Layout } from 'ant-design-vue'
 import { ContainerQuery } from 'vue-container-query'
-import GridContent from '@/components/GridContent'
-import { SiderMenuWrapper, GlobalFooter } from '@/components'
+import GridContent from './components/GridContent'
+import { SiderMenuWrapper, GlobalFooter } from './components'
 
 import './BasicLayout.less'
 import { SiderMenuProps } from './components/SiderMenu/SiderMenu'
