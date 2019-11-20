@@ -5,13 +5,13 @@
 ## 使用
 
 ```bash
-npm i @vue-component/pro-layout --save
+npm i @ant-design-vue/pro-layout --save
 // or
-yarn add @vue-component/pro-layout
+yarn add @ant-design-vue/pro-layout
 ```
 
 ```jsx
-import ProLayout from '@vue-component/pro-layout'
+import ProLayout from '@ant-design-vue/pro-layout'
 
 export default {
   name: 'BasicLayout',
