@@ -1,5 +1,5 @@
 // import SideEffect from './SideEffect'
-import { setDocumentTitle } from '@/utils/util'
+import { setDocumentTitle } from './util'
 
 // const sideEffect = new SideEffect({
 //   propsToState (propsList) {
