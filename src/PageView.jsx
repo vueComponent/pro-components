@@ -1,11 +1,11 @@
-import { PageHeaderWrapper } from '@/components'
+import { PageHeaderWrapper } from './components'
 
 const PageView = {
   name: 'PageView',
   render () {
     return (
       <PageHeaderWrapper>
-        <route-view />
+        <router-view />
       </PageHeaderWrapper>
     )
   }

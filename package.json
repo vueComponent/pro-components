@@ -1,51 +1,72 @@
 {
-  "name": "@ant-design-vue/pro-layout",
-  "version": "0.1.1",
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint",
-    "analyz": "vue-cli-service build --mode analyz"
-  },
-  "main": "./src/index.js",
-  "author": "vueComponent",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/vueComponent/pro-layout"
-  },
-  "license":"MIT",
-  "dependencies": {
-    "ant-design-vue": "^1.4.4",
-    "core-js": "^3.1.2",
-    "umi-request": "^1.2.8",
-    "vue": "^2.6.10",
-    "vue-container-query": "^0.1.0",
-    "vue-i18n": "^8.15.0",
-    "vue-ls": "^3.2.1",
-    "vue-router": "^3.0.6",
-    "vue-svg-component-runtime": "^1.0.1",
-    "vuex": "^3.0.1"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.0.0",
-    "@vue/cli-plugin-eslint": "^4.0.0",
-    "@vue/cli-plugin-router": "^4.0.0",
-    "@vue/cli-plugin-unit-jest": "^4.0.0",
-    "@vue/cli-plugin-vuex": "^4.0.0",
-    "@vue/cli-service": "^4.0.0",
-    "@vue/eslint-config-standard": "^4.0.0",
-    "@vue/test-utils": "1.0.0-beta.29",
-    "babel-eslint": "^10.0.1",
-    "babel-plugin-import": "^1.12.2",
-    "eslint": "^5.16.0",
-    "eslint-plugin-html": "^6.0.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "less": "^3.0.4",
-    "less-loader": "^5.0.0",
-    "vue-svg-icon-loader": "^2.1.1",
-    "vue-template-compiler": "^2.6.10",
-    "webpack-bundle-analyzer": "^3.6.0",
-    "webpack-theme-color-replacer": "^1.3.2"
-  }
+    "name": "@ant-design-vue/pro-layout",
+    "version": "0.1.1-beta",
+    "main": "./lib/index.js",
+    "module": "./es/index.js",
+    "sideEffects": false,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/vueComponent/pro-layout"
+    },
+    "contributors": [
+        "tangjinzhou <415800467@qq.com>",
+        "Sendya <yladmxa@gmail.com>"
+    ],
+    "license": "MIT",
+    "scripts": {
+        "cleanup": "./scripts/cleanup.sh",
+        "start": "vc-tools run server",
+        "lint": "eslint -c ./.eslintrc --fix --ext .jsx,.js,.vue ./src",
+        "compile": "vc-tools run compile --babel-runtime",
+        "test": "cross-env NODE_ENV=test jest --config .jest.js",
+        "prepublishOnly": "npm run lint && npm run test && npm run compile && np --no-cleanup --yolo --no-publish"
+    },
+    "files": [
+        "es",
+        "lib"
+    ],
+    "peerDependencies": {
+        "vue": ">=2.5.0",
+        "vue-template-compiler": ">=2.5.0"
+    },
+    "devDependencies": {
+        "@types/jest": "^24.0.17",
+        "@types/node": "^10.5.5",
+        "@types/vue": "^2.0.0",
+        "@vue/server-test-utils": "1.0.0-beta.16",
+        "@vue/test-utils": "1.0.0-beta.16",
+        "babel-core": "^6.26.3",
+        "babel-helper-vue-jsx-merge-props": "^2.0.3",
+        "babel-plugin-transform-vue-jsx": "^3.7.0",
+        "babel-runtime": "^6.26.0",
+        "cross-env": "^5.2.0",
+        "eslint": "^6.5.1",
+        "eslint-config-prettier": "^6.4.0",
+        "eslint-plugin-vue": "^5.2.3",
+        "jest": "^23.4.2",
+        "jest-serializer-vue": "^2.0.2",
+        "np": "^5.1.1",
+        "prettier": "^1.18.2",
+        "vc-tools": "^1.0.0",
+        "vue": ">=2.5.0",
+        "vue-jest": "^2.5.0",
+        "vue-template-compiler": ">=2.5.0"
+    },
+    "dependencies": {
+        "ant-design-vue": "^1.4.6",
+        "classnames": "^2.2.6",
+        "insert-css": "^2.0.0",
+        "lodash": "^4.17.15",
+        "umi-request": "^1.2.11",
+        "vue-container-query": "^0.1.0"
+    },
+    "config": {
+        "port": 9528,
+        "entry": {
+            "@ant-design-vue/pro-layout": [
+                "./src/index.js"
+            ]
+        }
+    },
+    "description": "<h1 align=\"center\"> Ant Design Vue Pro Layout </h1>"
 }

@@ -38,7 +38,8 @@ const DocumentTitle = {
       required: true
     }
   },
-  // eslint-disable-next-line // { props, data, children }
+  // { props, data, children }
+  // eslint-disable-next-line
   render (createElement, { props, data, children }) {
     handleStateChange(props.title, props.prefix)
     return children
