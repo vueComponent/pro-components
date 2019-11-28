@@ -5,7 +5,7 @@ import { SiderMenuWrapper, GlobalFooter } from './components'
 
 import './BasicLayout.less'
 import { SiderMenuProps } from './components/SiderMenu/SiderMenu'
-import HeaderView, { HeaderViewProps } from './Header.jsx'
+import HeaderView, { HeaderViewProps } from './Header'
 
 export const BasicLayoutProps = {
   ...SiderMenuProps,
