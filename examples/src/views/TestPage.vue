@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { loadLanguageAsync } from '@example/locales'
+import { loadLanguageAsync } from '@/locales'
 
 export default {
   methods: {

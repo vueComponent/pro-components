@@ -27,6 +27,9 @@
     ],
     "peerDependencies": {
         "vue": ">=2.5.0",
+        "ant-design-vue": "^1.4.6",
+        "umi-request": "^1.2.11",
+        "vue-container-query": "^0.1.0",
         "vue-template-compiler": ">=2.5.0"
     },
     "devDependencies": {

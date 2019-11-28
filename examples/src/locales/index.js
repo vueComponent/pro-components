@@ -3,8 +3,6 @@ import VueI18n from 'vue-i18n'
 
 // default lang
 import enUS from './lang/en-US'
-// eslint-disable-next-line
-import { request } from '@/utils/request'
 
 Vue.use(VueI18n)
 

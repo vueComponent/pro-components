@@ -2,9 +2,9 @@ import './BasicLayout.less'
 
 import { Avatar, Dropdown, Menu } from 'ant-design-vue'
 import { asyncRouterMap } from '../config/router.config.js'
-import { i18nRender } from '@example/locales'
-import ProLayout from '@/'
-import SelectLang from '@example/components/SelectLang'
+import { i18nRender } from '../locales'
+import ProLayout from '@ant-design-vue/pro-layout'
+import SelectLang from '../components/SelectLang'
 import LogoSvg from '../assets/logo.svg?inline'
 import defaultSettings from '@config/defaultSettings'
 
