@@ -2,6 +2,7 @@ import Vue from 'vue'
 import store from '../store'
 import defaultSettings from '@config/defaultSettings'
 import {
+  APP_LANGUAGE,
   TOGGLE_CONTENT_WIDTH,
   TOGGLE_FIXED_HEADER,
   TOGGLE_FIXED_SIDEBAR, TOGGLE_HIDE_HEADER,
@@ -19,4 +20,5 @@ export default function initializer () {
   store.commit(TOGGLE_HIDE_HEADER, Vue.ls.get(TOGGLE_HIDE_HEADER, defaultSettings.autoHideHeader))
   store.commit(TOGGLE_NAV_THEME, Vue.ls.get(TOGGLE_NAV_THEME, defaultSettings.navTheme))
   store.commit(TOGGLE_WEAK, Vue.ls.get(TOGGLE_WEAK, defaultSettings.colorWeak))
+  store.dispatch('setLang', Vue.ls.get(APP_LANGUAGE, 'en-US'))
 }

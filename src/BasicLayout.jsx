@@ -29,6 +29,10 @@ export const BasicLayoutProps = {
   handleMediaQuery: {
     type: Function,
     default: () => undefined
+  },
+  footerRender: {
+    type: Function,
+    default: () => undefined
   }
 }
 
@@ -82,6 +86,7 @@ const BasicLayout = {
       collapsed,
       // eslint-disable-next-line
       collapsedButtonRender, autoHideHeader,
+      footerRender,
       mediaQuery,
       handleMediaQuery,
       handleCollapse
@@ -131,15 +136,19 @@ const BasicLayout = {
                 </GridContent>
               </Layout.Content>
               <Layout.Footer>
-                <GlobalFooter>
-                  <template slot="links">
-                    <a href="https://www.github.com/vueComponent/" target="_self">Github</a>
-                    <a href="https://www.github.com/sendya/" target="_self">@Sendya</a>
-                  </template>
-                  <template slot="copyright">
-                    <a href="https://github.com/vueComponent">vueComponent</a>
-                  </template>
-                </GlobalFooter>
+                { footerRender && (
+                  footerRender(h)
+                ) || (
+                  <GlobalFooter>
+                    <template slot="links">
+                      <a href="https://www.github.com/vueComponent/" target="_self">Github</a>
+                      <a href="https://www.github.com/sendya/" target="_self">@Sendya</a>
+                    </template>
+                    <template slot="copyright">
+                      <a href="https://github.com/vueComponent">vueComponent</a>
+                    </template>
+                  </GlobalFooter>
+                )}
               </Layout.Footer>
             </Layout>
           </Layout>

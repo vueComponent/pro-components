@@ -1,6 +1,6 @@
 import './BasicLayout.less'
 
-import { Avatar, Dropdown, Menu } from 'ant-design-vue'
+import { Avatar, Dropdown, Menu, Icon } from 'ant-design-vue'
 import { asyncRouterMap } from '../config/router.config.js'
 import { i18nRender } from '../locales'
 import ProLayout from '@ant-design-vue/pro-layout'
@@ -12,15 +12,16 @@ const Account = {
   name: 'Account',
   render () {
     const accountMenu = (
-      <Menu class="menu">
+      <Menu class="drop-down menu">
         <Menu.Item key="info">
-            个人信息
+          <Icon type={'user'} />个人信息
         </Menu.Item>
         <Menu.Item key="settings">
-            个人设置
+          <Icon type={'setting'} />个人设置
         </Menu.Item>
+        <Menu.Divider />
         <Menu.Item key="logout">
-            退出登录
+          <Icon type={'logout'} />退出登录
         </Menu.Item>
       </Menu>
     )
@@ -40,6 +41,14 @@ const rightContentRender = (h, props) => {
     <div class="ant-pro-global-header-index-right">
       <Account class={'ant-pro-global-header-index-action'} />
       <SelectLang class={'ant-pro-global-header-index-action'} />
+    </div>
+  )
+}
+
+const footerRender = (h, props) => {
+  return (
+    <div class={'footer custom-render'}>
+      <span>footer</span>
     </div>
   )
 }
@@ -87,6 +96,7 @@ export default {
         layout,
         contentWidth,
         rightContentRender,
+        footerRender,
         i18nRender,
         logo: LogoSvg,
         title: defaultSettings.title

@@ -48,4 +48,10 @@ export {
 export {
   default as GlobalOutline
 } from '@ant-design/icons/lib/outline/GlobalOutline'
+export {
+  default as UserOutline
+} from '@ant-design/icons/lib/outline/UserOutline'
+export {
+  default as LogoutOutline
+} from '@ant-design/icons/lib/outline/LogoutOutline'
 /* Layout end */

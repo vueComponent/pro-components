@@ -14,13 +14,12 @@
     "type": "git",
     "url": "https://github.com/vueComponent/pro-layout"
   },
-  "license":"MIT",
+  "license": "MIT",
   "dependencies": {
-    "ant-design-vue": "^1.4.4",
+    "@ant-design/icons": "^4.0.0-alpha.11",
+    "ant-design-vue": "^1.4.8",
     "core-js": "^3.1.2",
-    "umi-request": "^1.2.8",
     "vue": "^2.6.10",
-    "vue-container-query": "^0.1.0",
     "vue-i18n": "^8.15.0",
     "vue-ls": "^3.2.1",
     "vue-router": "^3.0.6",

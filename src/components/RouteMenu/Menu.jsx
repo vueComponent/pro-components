@@ -1,4 +1,7 @@
 import { Menu, Icon } from 'ant-design-vue'
+const MenuItem = Menu.Item
+const SubMenu = Menu.SubMenu
+const ItemGroup = Menu.ItemGroup
 
 export const RouteMenuProps = {
   menus: {
@@ -38,13 +41,14 @@ const renderMenu = (h, item, i18nRender) => {
 
 const renderSubMenu = (h, item, i18nRender) => {
   return (
-    <Menu.SubMenu key={item.path}>
-      <span slot={'title'}>
+    <SubMenu key={item.path} title={(
+      <span>
         {renderIcon(h, item.meta.icon)}
         <span>{renderTitle(h, item.meta.title, i18nRender)}</span>
       </span>
+    )}>
       {!item.hideChildrenInMenu && item.children.map(cd => renderMenu(h, cd, i18nRender))}
-    </Menu.SubMenu>
+    </SubMenu>
   )
 }
 
@@ -63,12 +67,12 @@ const renderMenuItem = (h, item, i18nRender) => {
     })
   }
   return (
-    <Menu.Item key={item.path}>
+    <MenuItem key={item.path}>
       <CustomTag {...{ props, attrs }}>
         {renderIcon(h, meta.icon)}
-        <span>{renderTitle(h, meta.title, i18nRender)}</span>
+        {renderTitle(h, meta.title, i18nRender)}
       </CustomTag>
-    </Menu.Item>
+    </MenuItem>
   )
 }
 
@@ -132,7 +136,7 @@ const RouteMenu = {
       }
       return renderMenu(h, item, i18nRender)
     })
-    return <Menu vModel={this.selectedKeys} {...dynamicProps}>{menuItems}</Menu>
+    return <Menu {...dynamicProps}>{menuItems}</Menu>
   },
   methods: {
     updateMenu () {
