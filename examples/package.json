@@ -19,7 +19,6 @@
     "@ant-design/icons": "^4.0.0-alpha.11",
     "ant-design-vue": "^1.4.8",
     "core-js": "^3.1.2",
-    "vue": "^2.6.10",
     "vue-i18n": "^8.15.0",
     "vue-ls": "^3.2.1",
     "vue-router": "^3.0.6",

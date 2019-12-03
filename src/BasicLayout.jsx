@@ -83,6 +83,7 @@ const BasicLayout = {
       layout,
       logo,
       contentWidth,
+      theme,
       collapsed,
       // eslint-disable-next-line
       collapsedButtonRender, autoHideHeader,
@@ -100,35 +101,17 @@ const BasicLayout = {
               <SiderMenuWrapper
                 { ...{ props: props } }
                 menus={menus}
-                theme={'dark'}
                 mode={'inline'}
                 logo={logo}
-                isMobile={false}
                 collapsed={collapsed}
                 onCollapse={handleCollapse}
                 handleCollapse={handleCollapse}
-                title='Ant Design Pro'
               />
             )}
             <Layout class={[layout]} style={{ paddingLeft: '0', minHeight: '100vh' }}>
-              {/* <HeaderView
-                menus={menus}
-                contentWidth={contentWidth}
-                layout={layout}
-                theme={'dark'}
-                mode={'horizontal'}
-                logo={LogoSvg}
-                collapsed={collapsed}
-                handleCollapse={handleCollapse}
-                collapsedButtonRender={collapsedButtonRender}
-                autoHideHeader={autoHideHeader}
-                headerRender={headerRender}
-                title='Ant Design Pro' /> */}
               {headerRender(h, {
                 ...props,
-                theme: 'dark',
                 mode: 'horizontal',
-                title: 'Ant Design Pro'
               })}
               <Layout.Content style={{ margin: '24px 16px', padding: '24px', minHeight: '280px' }}>
                 <GridContent contentWidth={contentWidth}>

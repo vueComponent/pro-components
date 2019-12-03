@@ -37,8 +37,12 @@ const Account = {
 }
 
 const rightContentRender = (h, props) => {
+  const cls = {
+    'ant-pro-global-header-index-right': true,
+    [`ant-pro-global-header-index-${props.theme}`]: true
+  }
   return (
-    <div class="ant-pro-global-header-index-right">
+    <div class={cls}>
       <Account class={'ant-pro-global-header-index-action'} />
       <SelectLang class={'ant-pro-global-header-index-action'} />
     </div>
@@ -66,7 +70,9 @@ export default {
       // 布局类型
       layout: 'sidemenu', // 'sidemenu', 'topmenu'
       // 定宽: true / 流式: false
-      contentWidth: true
+      contentWidth: true,
+      // 主题
+      theme: 'dark'
     }
   },
   render (h) {
@@ -74,7 +80,8 @@ export default {
       collapsed,
       contentWidth,
       autoHideHeader,
-      layout
+      layout,
+      theme
     } = this
 
     const handleMediaQuery = (val) => {
@@ -95,6 +102,7 @@ export default {
         handleCollapse,
         layout,
         contentWidth,
+        theme,
         rightContentRender,
         footerRender,
         i18nRender,
