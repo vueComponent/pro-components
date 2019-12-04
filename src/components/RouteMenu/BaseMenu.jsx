@@ -1,7 +1,8 @@
 import { Menu, Icon } from 'ant-design-vue'
-const MenuItem = Menu.Item
-const SubMenu = Menu.SubMenu
-const ItemGroup = Menu.ItemGroup
+const {
+  Item: MenuItem,
+  SubMenu
+} = Menu
 
 export const RouteMenuProps = {
   menus: {
@@ -119,7 +120,8 @@ const RouteMenu = {
       props: {
         mode,
         theme,
-        openKeys: this.openKeys
+        openKeys: this.openKeys,
+        selectedKeys: this.selectedKeys
       },
       on: {
         select: menu => {

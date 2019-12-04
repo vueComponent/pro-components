@@ -2,7 +2,7 @@
 import './Header.less'
 
 import { Layout } from 'ant-design-vue'
-import RouteMenu from './components/RouteMenu/Menu'
+import BaseMenu from './components/RouteMenu/BaseMenu'
 import { defaultRenderLogoAntTitle, SiderMenuProps } from './components/SiderMenu/SiderMenu'
 import GlobalHeader, { GlobalHeaderProps } from './components/GlobalHeader'
 
@@ -64,7 +64,7 @@ const renderContent = (h, props) => {
             </div>
           </div>
           <div class={`${baseCls}-menu`} style={{ maxWidth: `${maxWidth}px`, flex: 1 }}>
-            <RouteMenu {...{ props: props }} />
+            <BaseMenu {...{ props: props }} />
           </div>
           {rightContentRender(h, rightContentProps)}
         </div>

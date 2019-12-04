@@ -1,2 +1,2 @@
-import RouteMenu from './Menu'
-export default RouteMenu
+import BaseMenu from './BaseMenu'
+export default BaseMenu

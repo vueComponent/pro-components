@@ -1,5 +1,5 @@
 import { Layout } from 'ant-design-vue'
-import RouteMenu from '../RouteMenu'
+import BaseMenu from '../RouteMenu'
 import './index.less'
 
 const { Sider } = Layout
@@ -136,7 +136,7 @@ const SiderMenu = {
           {defaultRenderLogoAntTitle(h, logo, title, null)}
         </router-link>
       </div>
-      <RouteMenu collapsed={collapsed} menus={menus} mode={mode} theme={theme} i18nRender={i18nRender} />
+      <BaseMenu collapsed={collapsed} menus={menus} mode={mode} theme={theme} i18nRender={i18nRender} />
     </Sider>)
   }
 }

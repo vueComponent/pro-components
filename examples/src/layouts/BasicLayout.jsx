@@ -71,7 +71,7 @@ export default {
       layout: 'sidemenu', // 'sidemenu', 'topmenu'
       // 定宽: true / 流式: false
       contentWidth: true,
-      // 主题
+      // 主题 'dark' | 'light'
       theme: 'dark'
     }
   },
