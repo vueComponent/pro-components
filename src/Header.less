@@ -1,11 +1,6 @@
 @import "~ant-design-vue/es/style/themes/default";
 
-@global-header-prefix-cls: ~'@{ant-prefix}-pro-global-header';
 @top-nav-header-prefix-cls: ~'@{ant-prefix}-pro-top-nav-header';
-
-@pro-header-bg: @component-background;
-@pro-header-hover-bg: @component-background;
-@pro-header-box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
 .@{top-nav-header-prefix-cls} {
   position: relative;
@@ -73,85 +68,6 @@
       height: @layout-header-height;
       line-height: @layout-header-height;
       border: none;
-    }
-  }
-}
-
-.@{global-header-prefix-cls} {
-  position: relative;
-  height: @layout-header-height;
-  padding: 0;
-  background: @pro-header-bg;
-  box-shadow: @pro-header-box-shadow;
-
-  &-index-right {
-    float: right;
-    height: 100%;
-    margin-left: auto;
-    overflow: hidden;
-
-    .@{global-header-prefix-cls}-index-action {
-      display: inline-block;
-      height: 100%;
-      padding: 0 12px;
-      cursor: pointer;
-      transition: all .3s;
-
-      &:hover {
-        background: rgba(0,0,0,.025);
-      }
-    }
-  }
-
-  &-logo {
-    display: inline-block;
-    height: @layout-header-height;
-    padding: 0 0 0 24px;
-    font-size: 20px;
-    line-height: @layout-header-height;
-    vertical-align: top;
-    cursor: pointer;
-    img {
-      display: inline-block;
-      width: 32px;
-      vertical-align: middle;
-    }
-  }
-
-  &-menu {
-    .anticon {
-      margin-right: 8px;
-    }
-    .ant-dropdown-menu-item {
-      min-width: 160px;
-    }
-  }
-
-  &-trigger {
-    height: @layout-header-height;
-    padding: ~'calc((@{layout-header-height} - 26px) / 2)' 24px;
-    font-size: 20px;
-    cursor: pointer;
-    transition: all 0.3s, padding 0s;
-    &:hover {
-      background: @pro-header-hover-bg;
-    }
-  }
-
-  .dark {
-    height: @layout-header-height;
-    .action {
-      color: rgba(255, 255, 255, 0.85);
-      > i {
-        color: rgba(255, 255, 255, 0.85);
-      }
-      &:hover,
-      &.opened {
-        background: @primary-color;
-      }
-      .ant-badge {
-        color: rgba(255, 255, 255, 0.85);
-      }
     }
   }
 }

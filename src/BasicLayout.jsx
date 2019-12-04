@@ -97,17 +97,15 @@ const BasicLayout = {
       <div>
         <ContainerQuery query={MediaQueryEnum} onChange={handleMediaQuery}>
           <Layout class={{ 'basicLayout': true, ...mediaQuery }}>
-            {layout !== 'topmenu' && (
-              <SiderMenuWrapper
-                { ...{ props: props } }
-                menus={menus}
-                mode={'inline'}
-                logo={logo}
-                collapsed={collapsed}
-                onCollapse={handleCollapse}
-                handleCollapse={handleCollapse}
-              />
-            )}
+            <SiderMenuWrapper
+              { ...{ props: props } }
+              menus={menus}
+              mode={'inline'}
+              logo={logo}
+              collapsed={collapsed}
+              onCollapse={handleCollapse}
+              handleCollapse={handleCollapse}
+            />
             <Layout class={[layout]} style={{ paddingLeft: '0', minHeight: '100vh' }}>
               {headerRender(h, {
                 ...props,

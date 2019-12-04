@@ -47,11 +47,10 @@ export const HeaderViewProps = {
 
 const renderContent = (h, props) => {
   const isTop = props.layout === 'topmenu'
-  const isMobile = false
   const maxWidth = 1200 - 280 - 120
   const contentWidth = props.contentWidth
   const baseCls = 'ant-pro-top-nav-header'
-  const { logo, title, theme, headerRender, rightContentRender } = props
+  const { logo, title, theme, isMobile, headerRender, rightContentRender } = props
   const rightContentProps = { theme }
   let defaultDom = <GlobalHeader {...{ props: props }} />
   if (isTop && !isMobile) {

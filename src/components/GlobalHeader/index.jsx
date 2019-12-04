@@ -1,4 +1,3 @@
-/* eslint-disable */
 import './index.less'
 
 import debounce from 'lodash/debounce'
@@ -74,7 +73,7 @@ const GlobalHeader = {
     return (
       <div class={headerCls}>
         {isMobile && (
-          <a class={`${headerCls}-logo`} key="logo">
+          <a class={`${headerCls}-logo`} key="logo" href={'/'}>
             {defaultRenderLogo(h, logo)}
           </a>
         )}
@@ -89,7 +88,7 @@ const GlobalHeader = {
     })
   },
   beforeDestroy () {
-    this.triggerResizeEvent.cancel()
+    this.triggerResizeEvent.cancel && this.triggerResizeEvent.cancel()
   }
 }
 

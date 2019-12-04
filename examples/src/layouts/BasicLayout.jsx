@@ -68,11 +68,13 @@ export default {
       // 媒体查询
       query: {},
       // 布局类型
-      layout: 'sidemenu', // 'sidemenu', 'topmenu'
+      layout: 'topmenu', // 'sidemenu', 'topmenu'
       // 定宽: true / 流式: false
       contentWidth: true,
       // 主题 'dark' | 'light'
-      theme: 'dark'
+      theme: 'light',
+      // 是否手机模式
+      isMobile: false
     }
   },
   render (h) {
@@ -86,6 +88,14 @@ export default {
 
     const handleMediaQuery = (val) => {
       this.query = val
+      if (this.isMobile && !val['screen-xs']) {
+        this.isMobile = false
+        return
+      }
+      if (!this.isMobile && val['screen-xs']) {
+        this.isMobile = true
+        this.collapsed = false
+      }
     }
     const handleCollapse = (val) => {
       this.collapsed = val
@@ -103,6 +113,7 @@ export default {
         layout,
         contentWidth,
         theme,
+        isMobile: this.isMobile,
         rightContentRender,
         footerRender,
         i18nRender,
