@@ -5,6 +5,7 @@ import { Layout } from 'ant-design-vue'
 import BaseMenu from './components/RouteMenu/BaseMenu'
 import { defaultRenderLogoAntTitle, SiderMenuProps } from './components/SiderMenu/SiderMenu'
 import GlobalHeader, { GlobalHeaderProps } from './components/GlobalHeader'
+import { isFun } from './utils/util'
 
 const { Header } = Layout
 
@@ -20,21 +21,24 @@ export const HeaderViewProps = {
     required: true
   },
   logo: {
-    type: null,
-    default: () => null
+    type: [Function, Object],
+    required: false
   },
   autoHideHeader: {
     type: Boolean,
     required: true
   },
   menuRender: {
-    type: null
+    type: null,
+    required: false
   },
   headerRender: {
-    type: null
+    type: null,
+    required: false
   },
   rightContentRender: {
-    type: null
+    type: null,
+    required: false
   },
   siderWidth: {
     type: Number
@@ -65,7 +69,7 @@ const renderContent = (h, props) => {
           <div class={`${baseCls}-menu`} style={{ maxWidth: `${maxWidth}px`, flex: 1 }}>
             <BaseMenu {...{ props: props }} />
           </div>
-          {rightContentRender(h, rightContentProps)}
+          {isFun(rightContentRender) && rightContentRender(h, rightContentProps) || rightContentRender}
         </div>
       </div>
     )

@@ -1,7 +1,7 @@
 import './index.less'
 
 import debounce from 'lodash/debounce'
-import { triggerEvent, inBrowser } from '../../utils/util'
+import { triggerEvent, inBrowser, isFun } from '../../utils/util'
 import { Icon } from 'ant-design-vue'
 import { defaultRenderLogo } from '../SiderMenu/SiderMenu'
 
@@ -23,16 +23,15 @@ export const GlobalHeaderProps = {
     default: () => null
   },
   menuRender: {
-    type: Function,
+    type: null,
     required: false
   },
   collapsedButtonRender: {
-    type: Function,
-    defualt: null,
+    type: null,
     required: false
   },
   rightContentRender: {
-    type: Function,
+    type: null,
     required: false
   }
 }
@@ -59,7 +58,7 @@ const GlobalHeader = {
       if (collapsedButtonRender !== false && menuRender !== false) {
         return (
           <span class="ant-pro-global-header-trigger" onClick={toggle}>
-            {collapsedButtonRender(h, collapsed)}
+            {isFun(collapsedButtonRender) && collapsedButtonRender(h, collapsed) || collapsedButtonRender}
           </span>
         )
       }
@@ -78,7 +77,7 @@ const GlobalHeader = {
           </a>
         )}
         {renderCollapsedButton()}
-        {rightContentRender && rightContentRender(h, this.$props)}
+        {isFun(rightContentRender) && rightContentRender(h, this.$props) || rightContentRender}
       </div>
     )
   },

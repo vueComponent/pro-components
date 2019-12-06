@@ -1,9 +1,10 @@
+import './BasicLayout.less'
+
 import { Layout } from 'ant-design-vue'
 import { ContainerQuery } from 'vue-container-query'
 import GridContent from './components/GridContent'
 import { SiderMenuWrapper, GlobalFooter } from './components'
-
-import './BasicLayout.less'
+import { getComponentFormProp, isFun } from './utils/util'
 import { SiderMenuProps } from './components/SiderMenu/SiderMenu'
 import HeaderView, { HeaderViewProps } from './Header'
 
@@ -36,7 +37,6 @@ export const BasicLayoutProps = {
   }
 }
 
-// eslint-disable-next-line
 const MediaQueryEnum = {
   'screen-xs': {
     maxWidth: 575
@@ -73,11 +73,8 @@ const BasicLayout = {
   name: 'BasicLayout',
   functional: true,
   props: BasicLayoutProps,
-  render (h, {
-    props,
-    data,
-    children
-  }) {
+  render (h, content) {
+    const { props, data, children, slots } = content
     const {
       menus,
       layout,
@@ -86,19 +83,29 @@ const BasicLayout = {
       theme,
       collapsed,
       // eslint-disable-next-line
-      collapsedButtonRender, autoHideHeader,
-      footerRender,
+      autoHideHeader,
       mediaQuery,
       handleMediaQuery,
       handleCollapse
     } = props
+
+    const footerRender = getComponentFormProp(content, 'footerRender')
+    const rightContentRender = getComponentFormProp(content, 'rightContentRender')
+    const collapsedButtonRender = getComponentFormProp(content, 'collapsedButtonRender')
+
+    const cdProps = {
+      ...props,
+      footerRender,
+      rightContentRender,
+      collapsedButtonRender
+    }
 
     return (
       <div>
         <ContainerQuery query={MediaQueryEnum} onChange={handleMediaQuery}>
           <Layout class={{ 'basicLayout': true, ...mediaQuery }}>
             <SiderMenuWrapper
-              { ...{ props: props } }
+              { ...{ props: cdProps } }
               menus={menus}
               mode={'inline'}
               logo={logo}
@@ -108,7 +115,7 @@ const BasicLayout = {
             />
             <Layout class={[layout]} style={{ paddingLeft: '0', minHeight: '100vh' }}>
               {headerRender(h, {
-                ...props,
+                ...cdProps,
                 mode: 'horizontal',
               })}
               <Layout.Content style={{ margin: '24px 16px', padding: '24px', minHeight: '280px' }}>
@@ -118,7 +125,7 @@ const BasicLayout = {
               </Layout.Content>
               <Layout.Footer>
                 { footerRender && (
-                  footerRender(h)
+                  isFun(footerRender) && footerRender(h) || footerRender
                 ) || (
                   <GlobalFooter>
                     <template slot="links">
