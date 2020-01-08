@@ -92,10 +92,12 @@ const BasicLayout = {
     const footerRender = getComponentFormProp(content, 'footerRender')
     const rightContentRender = getComponentFormProp(content, 'rightContentRender')
     const collapsedButtonRender = getComponentFormProp(content, 'collapsedButtonRender')
+    const menuHeaderRender = getComponentFormProp(content, 'menuHeaderRender')
 
     const cdProps = {
       ...props,
       footerRender,
+      menuHeaderRender,
       rightContentRender,
       collapsedButtonRender
     }

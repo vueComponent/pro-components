@@ -33,10 +33,12 @@ export default {
 | --- | --- | --- | --- |
 | title | layout in the upper left corner title | VNode \| String | `'Ant Design Pro'` |
 | logo | layout top left logo url | VNode \| render | - |
+| loading`*` | layout loading status | boolean | - |
+| menuHeaderRender | render logo and title | VNode \| (logo,title)=>VNode | - |
 | layout | layout menu mode, sidemenu: right navigation, topmenu: top navigation | 'sidemenu' \| 'topmenu' | `'sidemenu'` |
 | contentWidth | content mode of layout, Fluid: fixed width 1200px, Fixed: adaptive | true \| false | `false` |
 | theme | Navigation menu theme | 'light' \| 'dark' | `'dark'` |
-| menus | vue-router `routes` prop | Object | `[{}]` |
+| menus | Vue-router `routes` prop | Object | `[{}]` |
 | collapsed | control menu's collapse and expansion | boolean | true |
 | handleCollapse | folding collapse event of menu | (collapsed: boolean) => void | - |
 | headerRender | custom header render method | (props: BasicLayoutProps) => VNode | - |

@@ -6,7 +6,7 @@ import { i18nRender } from '../locales'
 import ProLayout from '@ant-design-vue/pro-layout'
 import SelectLang from '../components/SelectLang'
 import LogoSvg from '../assets/logo.svg?inline'
-import defaultSettings from '@config/defaultSettings'
+// import defaultSettings from '@config/defaultSettings'
 
 const Account = {
   name: 'Account',
@@ -34,6 +34,16 @@ const Account = {
       </Dropdown>
     )
   }
+}
+
+// render logo and title
+const menuHeaderRender = (h, logo, title) => {
+  return (
+    <div>
+      <LogoSvg />
+      <h1>Ant Design Pro</h1>
+    </div>
+  )
 }
 
 const rightContentRender = (h, props) => {
@@ -68,11 +78,11 @@ export default {
       // 媒体查询
       query: {},
       // 布局类型
-      layout: 'topmenu', // 'sidemenu', 'topmenu'
+      layout: 'sidemenu', // 'sidemenu', 'topmenu'
       // 定宽: true / 流式: false
       contentWidth: true,
       // 主题 'dark' | 'light'
-      theme: 'light',
+      theme: 'dark',
       // 是否手机模式
       isMobile: false
     }
@@ -114,11 +124,14 @@ export default {
         contentWidth,
         theme,
         isMobile: this.isMobile,
+        // custom render
         rightContentRender,
         footerRender,
         i18nRender,
-        logo: LogoSvg,
-        title: defaultSettings.title
+        menuHeaderRender
+
+        // logo: LogoSvg,
+        // title: defaultSettings.title
       }
     }
 

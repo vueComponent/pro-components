@@ -60,6 +60,10 @@ export const SiderMenuProps = {
   title: {
     type: String,
     default: ''
+  },
+  menuHeaderRender: {
+    type: Function,
+    default: null
   }
 }
 
@@ -73,7 +77,13 @@ export const defaultRenderLogo = (h, logo) => {
   return h(logo)
 }
 
-export const defaultRenderLogoAntTitle = (h, logo, title, menuHeaderRender) => {
+export const defaultRenderLogoAntTitle = (h, props) => {
+  const {
+    logo = 'https://gw.alipayobjects.com/zos/antfincdn/PmY%24TNNDBI/logo.svg',
+    title,
+    menuHeaderRender
+  } = props
+
   if (menuHeaderRender === false) {
     return null
   }
@@ -81,7 +91,7 @@ export const defaultRenderLogoAntTitle = (h, logo, title, menuHeaderRender) => {
   const titleDom = <h1>{title}</h1>
 
   if (menuHeaderRender) {
-    return menuHeaderRender(h, logoDom, titleDom)
+    return menuHeaderRender(h, logoDom, props.collapsed ? null : titleDom, props)
   }
   return (
     <span>
@@ -110,7 +120,9 @@ const SiderMenu = {
       logo,
       title,
       handleCollapse,
-      i18nRender
+      onMenuHeaderClick = () => null,
+      i18nRender,
+      menuHeaderRender
     } = this
 
     const siderCls = ['ant-pro-sider-menu-sider']
@@ -120,6 +132,10 @@ const SiderMenu = {
     // const handleCollapse = (collapsed, type) => {
     //   this.$emit('collapse', collapsed)
     // }
+
+    const headerDom = defaultRenderLogoAntTitle(h, {
+      logo, title, menuHeaderRender, collapsed
+    })
 
     return (<Sider
       class={siderCls}
@@ -131,11 +147,17 @@ const SiderMenu = {
       collapsed={collapsed}
       onCollapse={handleCollapse}
     >
-      <div class='ant-pro-sider-menu-logo' id='logo'>
-        <router-link to={{ path: '/' }}>
-          {defaultRenderLogoAntTitle(h, logo, title, null)}
-        </router-link>
-      </div>
+      {headerDom && (
+        <div
+          class="ant-pro-sider-menu-logo"
+          onClick={onMenuHeaderClick}
+          id="logo"
+        >
+          <router-link to={{ path: '/' }}>
+            {headerDom}
+          </router-link>
+        </div>
+      )}
       <BaseMenu collapsed={collapsed} menus={menus} mode={mode} theme={theme} i18nRender={i18nRender} />
     </Sider>)
   }
