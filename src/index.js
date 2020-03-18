@@ -1,11 +1,11 @@
 import BasicLayout, { BasicLayoutProps } from './BasicLayout'
 import BlockLayout from './BlockLayout'
-import PageView from './PageView'
+import PageHeaderWrapper from './components/PageHeaderWrapper'
 import DocumentTitle from './components/DocumentTitle'
 import { updateTheme } from './utils/dynamicTheme'
 
 export {
-  PageView,
+  PageHeaderWrapper,
   BlockLayout,
   DocumentTitle,
   BasicLayoutProps,

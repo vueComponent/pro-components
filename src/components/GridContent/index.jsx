@@ -17,11 +17,12 @@ const GridContent = {
     const { contentWidth: propsContentWidth } = content.props
     const children = content.children
 
-    let className = 'ant-pro-grid-content'
-    if (propsContentWidth) {
-      className = className + ' wide'
+    const classNames = {
+      ['ant-pro-grid-content']: true,
+      ['wide']: propsContentWidth
     }
-    return <div class={className}>{children}</div>
+
+    return <div class={classNames}>{children}</div>
   }
 }
 

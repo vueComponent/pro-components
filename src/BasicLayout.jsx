@@ -7,6 +7,7 @@ import { SiderMenuWrapper, GlobalFooter } from './components'
 import { getComponentFormProp, isFun } from './utils/util'
 import { SiderMenuProps } from './components/SiderMenu/SiderMenu'
 import HeaderView, { HeaderViewProps } from './Header'
+import WrapContent from './WrapContent'
 
 export const BasicLayoutProps = {
   ...SiderMenuProps,
@@ -120,11 +121,9 @@ const BasicLayout = {
                 ...cdProps,
                 mode: 'horizontal',
               })}
-              <Layout.Content style={{ margin: '24px 16px', padding: '24px', minHeight: '280px' }}>
-                <GridContent contentWidth={contentWidth}>
-                  {children}
-                </GridContent>
-              </Layout.Content>
+              <WrapContent class="ant-pro-basicLayout-content">
+                {children}
+              </WrapContent>
               <Layout.Footer>
                 { footerRender && (
                   isFun(footerRender) && footerRender(h) || footerRender

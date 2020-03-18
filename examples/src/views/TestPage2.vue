@@ -1,5 +1,5 @@
 <template>
-  <document-title :title="$t($route.meta.title)">
+  <page-header-wrapper :i18n-render="i18nRender">
     <div class="page-test-wrapper">
       <h1>Test Page2 keepAlive: {{ $route.meta.keepAlive }}</h1>
       <div class="box">
@@ -11,10 +11,13 @@
         <p>{{ newVal }}</p>
       </div>
     </div>
-  </document-title>
+  </page-header-wrapper>
 </template>
 
 <script>
+import ProLayout, { PageHeaderWrapper } from '@ant-design-vue/pro-layout'
+import { i18nRender } from '@/locales'
+
 export default {
   data () {
     return {
@@ -22,9 +25,14 @@ export default {
     }
   },
   methods: {
+    i18nRender,
     handleClick (e) {
       this.$router.push({ path: '/dashboard/analysis' })
     }
+  },
+  components: {
+    ProLayout,
+    PageHeaderWrapper
   }
 }
 </script>
