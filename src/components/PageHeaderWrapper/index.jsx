@@ -9,9 +9,10 @@ const { PageHeaderProps } = PageHeader
 const prefixedClassName = 'ant-pro-page-header-wrap'
 
 const PageHeaderTabConfig = {
-  tabList: PropTypes.object,
+  tabList: PropTypes.array,
   tabActiveKey: PropTypes.string,
-  tabProps: PropTypes.object
+  tabProps: PropTypes.object,
+  tabChange: PropTypes.func
 }
 
 const PageHeaderWrapperProps = {
@@ -21,6 +22,7 @@ const PageHeaderWrapperProps = {
   content: PropTypes.any,
   extraContent: PropTypes.any,
   pageHeaderRender: PropTypes.func,
+  breadcrumb: PropTypes.oneOf([PropTypes.object, false]),
 
   // 包装 pro-layout 才能使用
   i18nRender: PropTypes.any
@@ -38,7 +40,7 @@ const renderFooter = (h, tabConfigProps) => {
   const {
     tabList,
     tabActiveKey,
-    onTabChange,
+    tabChange: onTabChange,
     tabBarExtraContent,
     tabProps,
   } = tabConfigProps
@@ -50,7 +52,6 @@ const renderFooter = (h, tabConfigProps) => {
         if (onTabChange) {
           onTabChange(key)
         }
-        this.$emit('tab-change', key)
       }}
       tabBarExtraContent={tabBarExtraContent}
       {...tabProps}
@@ -90,9 +91,9 @@ const defaultPageHeaderRender = (h, props, value, i18nRender) => {
     content,
     pageHeaderRender,
     extraContent,
+    breadcrumb,
     ...restProps
   } = props
-
   if (pageHeaderRender) {
     return pageHeaderRender({ ...props })
   }
@@ -102,9 +103,10 @@ const defaultPageHeaderRender = (h, props, value, i18nRender) => {
   }
   return (
     <PageHeader
-      {...value}
       title={i18nRender(pageHeaderTitle)}
+      breadcrumb={breadcrumb}
       {...props}
+      onBack={() => null}
       footer={renderFooter(h, restProps)}
       >
       {renderPageHeader(h, content, extraContent)}
@@ -116,14 +118,38 @@ const defaultPageHeaderRender = (h, props, value, i18nRender) => {
 const PageHeaderWrapper = {
   name: 'PageHeaderWrapper',
   props: PageHeaderWrapperProps,
+  inject: ['locale'],
   render (h) {
     const children = this.$slots.default
+    const content = this.$slots.content
+    const extraContent = this.$slots.extraContent
+
     const value = useContext(this.$props.route || this.$route)
-    const i18n = this.$props.i18nRender || defaultI18nRender
+    const i18n = this.$props.i18nRender || this.locale || defaultI18nRender
+
+    const propsBreadcrumb = this.$props.breadcrumb
+    let breadcrumb = {}
+    if (propsBreadcrumb === undefined) {
+      const routes = this.$route.matched.concat().map(route => {
+        return {
+          path: route.path,
+          breadcrumbName: i18n(route.meta.title)
+        }
+      })
+      breadcrumb = { props: { routes }}
+    }
+
+    const props = {
+      ...this.$props,
+      content,
+      extraContent,
+      breadcrumb
+    }
+
     return (
       <div class="ant-pro-page-header-wrap">
         <div class={`${prefixedClassName}-page-header-warp`}>
-          <GridContent>{defaultPageHeaderRender(h, this.$props, value, i18n)}</GridContent>
+          <GridContent>{defaultPageHeaderRender(h, props, value, i18n)}</GridContent>
         </div>
         { children ? (
           <GridContent>

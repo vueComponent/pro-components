@@ -9,10 +9,13 @@ import i18n from './locales'
 
 import './router/router-guards'
 import './core/library'
+import { PageHeaderWrapper } from '@ant-design-vue/pro-layout'
 import initializer from './core/bootstrap'
 import './global.less'
 
 Vue.config.productionTip = false
+
+Vue.component('page-header-wrapper', PageHeaderWrapper)
 
 window._vue = new Vue({
   router,

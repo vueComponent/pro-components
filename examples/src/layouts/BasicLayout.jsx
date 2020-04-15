@@ -3,7 +3,7 @@ import './BasicLayout.less'
 import { Avatar, Dropdown, Menu, Icon } from 'ant-design-vue'
 import { asyncRouterMap } from '../config/router.config.js'
 import { i18nRender } from '../locales'
-import ProLayout from '@ant-design-vue/pro-layout'
+import ProLayout, { GlobalFooter } from '@ant-design-vue/pro-layout'
 import SelectLang from '../components/SelectLang'
 import LogoSvg from '../assets/logo.svg?inline'
 // import defaultSettings from '@config/defaultSettings'
@@ -61,9 +61,15 @@ const rightContentRender = (h, props) => {
 
 const footerRender = (h, props) => {
   return (
-    <div class={'footer custom-render'}>
-      <span>footer</span>
-    </div>
+    <GlobalFooter class={'footer custom-render'}>
+      <template slot="links">
+        <a href="https://www.github.com/vueComponent/" target="_self">Github</a>
+        <a href="https://www.github.com/sendya/" target="_self">@Sendya</a>
+      </template>
+      <template slot="copyright">
+        <a href="https://github.com/vueComponent">vueComponent</a>
+      </template>
+    </GlobalFooter>
   )
 }
 

@@ -1,10 +1,16 @@
 import triggerEvent from 'ant-design-vue/es/_util/triggerEvent'
 import { inBrowser } from 'ant-design-vue/es/_util/env'
 
-const getComponentFormProp = (instance, prop) => {
+const getComponentFromProp = (instance, prop) => {
   const slots = instance.slots && instance.slots()
   return slots[prop] || instance.props[prop]
 }
+
+/*const getComponentFromProp = (instance, prop) => {
+  const slots = instance.$slots
+  return slots[prop] || instance.$props[prop]
+}*/
+
 
 const isFun = (func) => {
   return typeof func === 'function'
@@ -16,6 +22,6 @@ const isFun = (func) => {
 export {
   triggerEvent,
   inBrowser,
-  getComponentFormProp,
+  getComponentFromProp,
   isFun
 }

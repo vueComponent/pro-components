@@ -2,12 +2,12 @@ import './BasicLayout.less'
 
 import { Layout } from 'ant-design-vue'
 import { ContainerQuery } from 'vue-container-query'
-import GridContent from './components/GridContent'
 import { SiderMenuWrapper, GlobalFooter } from './components'
-import { getComponentFormProp, isFun } from './utils/util'
+import { getComponentFromProp, isFun } from './utils/util'
 import { SiderMenuProps } from './components/SiderMenu/SiderMenu'
 import HeaderView, { HeaderViewProps } from './Header'
 import WrapContent from './WrapContent'
+import ConfigProvider from '@ant-design-vue/pro-layout/components/ConfigProvider'
 
 export const BasicLayoutProps = {
   ...SiderMenuProps,
@@ -75,25 +75,26 @@ const BasicLayout = {
   functional: true,
   props: BasicLayoutProps,
   render (h, content) {
-    const { props, data, children, slots } = content
+    const { props, children } = content
     const {
       menus,
       layout,
       logo,
-      contentWidth,
-      theme,
+      // contentWidth,
+      // theme,
       collapsed,
       // eslint-disable-next-line
-      autoHideHeader,
+      // autoHideHeader,
       mediaQuery,
       handleMediaQuery,
-      handleCollapse
+      handleCollapse,
+      i18nRender
     } = props
 
-    const footerRender = getComponentFormProp(content, 'footerRender')
-    const rightContentRender = getComponentFormProp(content, 'rightContentRender')
-    const collapsedButtonRender = getComponentFormProp(content, 'collapsedButtonRender')
-    const menuHeaderRender = getComponentFormProp(content, 'menuHeaderRender')
+    const footerRender = getComponentFromProp(content, 'footerRender')
+    const rightContentRender = getComponentFromProp(content, 'rightContentRender')
+    const collapsedButtonRender = getComponentFromProp(content, 'collapsedButtonRender')
+    const menuHeaderRender = getComponentFromProp(content, 'menuHeaderRender')
 
     const cdProps = {
       ...props,
@@ -104,7 +105,7 @@ const BasicLayout = {
     }
 
     return (
-      <div>
+      <ConfigProvider i18nRender={i18nRender}>
         <ContainerQuery query={MediaQueryEnum} onChange={handleMediaQuery}>
           <Layout class={{ 'basicLayout': true, ...mediaQuery }}>
             <SiderMenuWrapper
@@ -142,7 +143,7 @@ const BasicLayout = {
             </Layout>
           </Layout>
         </ContainerQuery>
-      </div>
+      </ConfigProvider>
     )
   }
 }

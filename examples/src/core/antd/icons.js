@@ -31,6 +31,12 @@ export {
   default as RightOutline
 } from '@ant-design/icons/lib/outline/RightOutline'
 export {
+  default as ArrowLeftOutline
+} from '@ant-design/icons/lib/outline/ArrowLeftOutline'
+export {
+  default as ArrowRightOutline
+} from '@ant-design/icons/lib/outline/ArrowRightOutline'
+export {
   default as MenuFoldOutline
 } from '@ant-design/icons/lib/outline/MenuFoldOutline'
 export {
@@ -54,4 +60,7 @@ export {
 export {
   default as LogoutOutline
 } from '@ant-design/icons/lib/outline/LogoutOutline'
+export {
+  default as SmileOutline
+} from '@ant-design/icons/lib/outline/SmileOutline'
 /* Layout end */

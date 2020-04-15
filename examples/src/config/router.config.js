@@ -1,6 +1,10 @@
 // eslint-disable-next-line
 import BasicLayout from '../layouts/BasicLayout'
 
+const renderRouterView = {
+  render: (h) => h('router-view')
+}
+
 const asyncRouterMap = [
   {
     path: '/',
@@ -14,13 +18,14 @@ const asyncRouterMap = [
         name: 'dashboard',
         meta: { keepAlive: true, title: 'menu.dashboard.default', icon: 'dashboard' },
         redirect: '/dashboard/analysis',
-        component: { render: (h) => h('router-view') },
+        component: renderRouterView,
         children: [
           {
             path: '/dashboard/analysis',
             name: 'analysis',
             meta: {
               keepAlive: true,
+              icon: 'smile',
               title: 'menu.dashboard.analysis'
             },
             component: () => import(/* webpackChunkName: "about" */ '../views/BlockPage')
@@ -31,11 +36,64 @@ const asyncRouterMap = [
             meta: {
               global: true,
               keepAlive: true,
+              icon: 'smile',
               title: 'menu.dashboard.workplace'
             },
             component: () => import(/* webpackChunkName: "about" */ '../views/TestPage')
           }
         ]
+      },
+      {
+        path: '/form',
+        name: 'form',
+        meta: {
+          keepAlive: true,
+          title: 'menu.form.default',
+          icon: 'video-camera'
+        },
+        component: renderRouterView,
+        children: [
+          {
+            path: '/form/basic-form',
+            name: 'basic-form',
+            meta: {
+              keepAlive: true,
+              icon: 'smile',
+              title: 'menu.form.basicform'
+            },
+            component: () => import(/* webpackChunkName: "about" */ '../views/BlockPage')
+          },
+          {
+            path: '/form/step-form',
+            name: 'step-form',
+            meta: {
+              keepAlive: true,
+              icon: 'smile',
+              title: 'menu.form.stepform'
+            },
+            component: () => import(/* webpackChunkName: "about" */ '../views/BlockPage')
+          },
+          {
+            path: '/form/advanced-form',
+            name: 'advanced-form',
+            meta: {
+              keepAlive: true,
+              icon: 'smile',
+              title: 'menu.form.advancedform'
+            },
+            component: () => import(/* webpackChunkName: "about" */ '../views/BlockPage')
+          }
+        ]
+      },
+      {
+        path: '/page1',
+        name: 'page1',
+        meta: {
+          keepAlive: true,
+          title: 'menu.nav1',
+          icon: 'video-camera'
+        },
+        component: () => import(/* webpackChunkName: "about" */ '../views/TestPage2')
       },
       {
         path: '/page2',
@@ -52,59 +110,7 @@ const asyncRouterMap = [
         name: 'page3',
         meta: {
           keepAlive: true,
-          title: 'menu.nav2',
-          icon: 'video-camera'
-        },
-        component: () => import(/* webpackChunkName: "about" */ '../views/TestPage2')
-      },
-      {
-        path: '/page4',
-        name: 'page4',
-        meta: {
-          keepAlive: true,
-          title: 'menu.nav2',
-          icon: 'video-camera'
-        },
-        component: () => import(/* webpackChunkName: "about" */ '../views/TestPage2')
-      },
-      {
-        path: '/page5',
-        name: 'page5',
-        meta: {
-          keepAlive: true,
-          title: 'menu.nav2',
-          icon: 'video-camera'
-        },
-        component: () => import(/* webpackChunkName: "about" */ '../views/TestPage2')
-      },
-      {
-        path: '/page6',
-        name: 'page6',
-        meta: {
-          keepAlive: true,
-          title: 'menu.nav2',
-          icon: 'video-camera'
-        },
-        component: () => import(/* webpackChunkName: "about" */ '../views/TestPage2')
-      },
-
-      {
-        path: '/page7',
-        name: 'page7',
-        meta: {
-          keepAlive: true,
-          title: 'menu.nav2',
-          icon: 'video-camera'
-        },
-        component: () => import(/* webpackChunkName: "about" */ '../views/TestPage2')
-      },
-
-      {
-        path: '/page8',
-        name: 'page8',
-        meta: {
-          keepAlive: true,
-          title: 'menu.nav2',
+          title: 'menu.nav3',
           icon: 'video-camera'
         },
         component: () => import(/* webpackChunkName: "about" */ '../views/TestPage2')
