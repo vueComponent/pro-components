@@ -1,6 +1,6 @@
 import './BasicLayout.less'
 
-import { Avatar, Dropdown, Menu, Icon } from 'ant-design-vue'
+import { Avatar, Dropdown, Menu, Icon, Modal } from 'ant-design-vue'
 import { asyncRouterMap } from '../config/router.config.js'
 import { i18nRender } from '../locales'
 import ProLayout, { GlobalFooter } from '@ant-design-vue/pro-layout'
@@ -20,7 +20,18 @@ const Account = {
           <Icon type={'setting'} />个人设置
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item key="logout">
+        <Menu.Item key="logout" onClick={() => {
+          Modal.confirm({
+            title: i18nRender('layouts.usermenu.dialog.title'),
+            content: i18nRender('layouts.usermenu.dialog.content'),
+            onOk: () => {
+              return new Promise((resolve, reject) => {
+                setTimeout(Math.random() > 0.5 ? resolve : reject, 1500)
+              }).catch(() => console.log('Oops errors!'))
+            },
+            onCancel () {}
+          })
+        }}>
           <Icon type={'logout'} />退出登录
         </Menu.Item>
       </Menu>

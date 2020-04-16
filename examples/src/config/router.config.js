@@ -1,7 +1,8 @@
 // eslint-disable-next-line
 import BasicLayout from '../layouts/BasicLayout'
 
-const renderRouterView = {
+const RouteView = {
+  name: 'RouteView',
   render: (h) => h('router-view')
 }
 
@@ -18,7 +19,7 @@ const asyncRouterMap = [
         name: 'dashboard',
         meta: { keepAlive: true, title: 'menu.dashboard.default', icon: 'dashboard' },
         redirect: '/dashboard/analysis',
-        component: renderRouterView,
+        component: RouteView,
         children: [
           {
             path: '/dashboard/analysis',
@@ -28,7 +29,7 @@ const asyncRouterMap = [
               icon: 'smile',
               title: 'menu.dashboard.analysis'
             },
-            component: () => import(/* webpackChunkName: "about" */ '../views/BlockPage')
+            component: () => import(/* webpackChunkName: "dashboard" */ '../views/dashboard/analysis')
           },
           {
             path: '/dashboard/workplace/:id?',
@@ -39,7 +40,7 @@ const asyncRouterMap = [
               icon: 'smile',
               title: 'menu.dashboard.workplace'
             },
-            component: () => import(/* webpackChunkName: "about" */ '../views/TestPage')
+            component: () => import(/* webpackChunkName: "dashboard" */ '../views/TestPage')
           }
         ]
       },
@@ -51,7 +52,7 @@ const asyncRouterMap = [
           title: 'menu.form.default',
           icon: 'video-camera'
         },
-        component: renderRouterView,
+        component: RouteView,
         children: [
           {
             path: '/form/basic-form',

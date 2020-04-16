@@ -3,7 +3,12 @@ export default {
     lang: 'Language'
   },
   layouts: {
-
+    usermenu: {
+      dialog: {
+        title: 'Log-out',
+        content: 'Do you want log-out?'
+      }
+    }
   },
   menu: {
     home: 'Home',
@@ -29,7 +34,12 @@ export default {
         headers: {
           btn1: 'Button1'
         },
-        content: 'Form pages are used to collect or verify information to users, and basic forms are common in scenarios where there are fewer data items.'
+        content: 'Form pages are used to collect or verify information to users, and basic forms are common in scenarios where there are fewer data items.',
+        tabs: {
+          tab1: 'Tab1',
+          tab2: 'Tab2',
+          tab3: 'Tab3'
+        }
       }
     }
   }

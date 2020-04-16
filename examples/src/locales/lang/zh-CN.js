@@ -3,7 +3,12 @@ export default {
     lang: '语言'
   },
   layouts: {
-
+    usermenu: {
+      dialog: {
+        title: '注销',
+        content: '要注销账户吗?'
+      }
+    }
   },
   menu: {
     home: '首页',
@@ -29,7 +34,12 @@ export default {
         headers: {
           btn1: '按钮1'
         },
-        content: '表单页用于向用户收集或验证信息，基础表单常见于数据项较少的表单场景。'
+        content: '表单页用于向用户收集或验证信息，基础表单常见于数据项较少的表单场景。',
+        tabs: {
+          tab1: '标签1',
+          tab2: '标签2',
+          tab3: '标签3'
+        }
       }
     }
   }

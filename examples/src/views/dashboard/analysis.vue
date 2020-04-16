@@ -15,20 +15,17 @@
     }"
   >
     <template v-slot:content>
-      <span>{{ $t('pages.form.basicform.content') }}</span>
-    </template>
-    <template v-slot:extraContent>
-      <div><a-button>{{ $t('pages.form.basicform.headers.btn1') }}</a-button></div>
+      <span>{{ $t('pages.dashboard.analysis.content') }}</span>
     </template>
     <div>
-      <strong>Block Page</strong>
+      <strong>Analysis Page</strong>
     </div>
   </page-header-wrapper>
 </template>
 
 <script>
 export default {
-  name: 'BlockPage',
+  name: 'Analysis',
   data () {
     return {
       console: window.console,
