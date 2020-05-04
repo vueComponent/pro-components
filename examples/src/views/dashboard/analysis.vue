@@ -14,6 +14,26 @@
       console.log('PageHeader::.back')
     }"
   >
+    <template v-slot:extra>
+      <a-button-group style="margin-right: 4px;">
+        <a-button>操作</a-button>
+        <a-button>操作</a-button>
+        <a-button><a-icon type="ellipsis"/></a-button>
+      </a-button-group>
+      <a-button type="primary" >主操作</a-button>
+    </template>
+    <template v-slot:extraContent>
+      <a-row class="status-list">
+        <a-col :xs="12" :sm="12">
+          <div class="text">状态</div>
+          <div class="heading">待审批</div>
+        </a-col>
+        <a-col :xs="12" :sm="12">
+          <div class="text">订单金额</div>
+          <div class="heading">¥ 568.08</div>
+        </a-col>
+      </a-row>
+    </template>
     <template v-slot:content>
       <span>{{ $t('pages.dashboard.analysis.content') }}</span>
     </template>

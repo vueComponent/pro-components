@@ -95,6 +95,7 @@ const defaultPageHeaderRender = (h, props, pageMeta, i18nRender) => {
     title,
     content,
     pageHeaderRender,
+    extra,
     extraContent,
     breadcrumb,
     back: handleBack,
@@ -109,6 +110,7 @@ const defaultPageHeaderRender = (h, props, pageMeta, i18nRender) => {
   }
   let tabProps = {
     breadcrumb,
+    extra,
     title: i18nRender(pageHeaderTitle),
     onBack: handleBack || noop,
     footer: renderFooter(h, restProps, i18nRender)
@@ -116,8 +118,6 @@ const defaultPageHeaderRender = (h, props, pageMeta, i18nRender) => {
   if (!handleBack) {
     tabProps.backIcon = false
   }
-
-  console.log('tabProps', tabProps)
 
   return (
     <PageHeader { ...{ props: tabProps } }>
@@ -134,6 +134,7 @@ const PageHeaderWrapper = {
   render (h) {
     const children = this.$slots.default
     const content = getComponentFromProp(this, 'content')
+    const extra = getComponentFromProp(this, 'extra')
     const extraContent = getComponentFromProp(this, 'extraContent')
 
     const pageMeta = useContext(this.$props.route || this.$route)
@@ -167,6 +168,7 @@ const PageHeaderWrapper = {
     const props = {
       ...this.$props,
       content,
+      extra,
       extraContent,
       breadcrumb,
       tabChange,
