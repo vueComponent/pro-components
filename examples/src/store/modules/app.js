@@ -13,11 +13,11 @@ import {
   // i18n
   APP_LANGUAGE
 } from '../mutation-types'
-import { loadLanguageAsync } from '../../locales'
+import { loadLanguageAsync } from '@/locales'
 
 const App = {
   state: {
-    sidebar: true,
+    sideCollapsed: true,
     device: 'desktop',
     theme: 'dark',
     layout: '',
@@ -31,7 +31,7 @@ const App = {
   },
   mutations: {
     [SIDEBAR_TYPE]: (state, type) => {
-      state.sidebar = type
+      state.sideCollapsed = type
       Vue.ls.set(SIDEBAR_TYPE, type)
     },
     [TOGGLE_DEVICE]: (state, device) => {

@@ -19,7 +19,7 @@ const PageHeaderTabConfig = {
 const PageHeaderWrapperProps = {
   ...PageHeaderTabConfig,
   ...PageHeaderProps,
-  title: PropTypes.oneOf([PropTypes.string, false]),
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   content: PropTypes.any,
   extraContent: PropTypes.any,
   pageHeaderRender: PropTypes.func,
@@ -38,6 +38,9 @@ const useContext = (route) => {
   } || null
 }
 
+const noop = () => {}
+
+// TODO :: tabList tab 支持图标 优化
 const renderFooter = (h, tabConfigProps, i18nRender) => {
   const {
     tabList,
@@ -101,17 +104,23 @@ const defaultPageHeaderRender = (h, props, pageMeta, i18nRender) => {
     return pageHeaderRender({ ...props })
   }
   let pageHeaderTitle = title
-  if ((!title && title !== false) || pageMeta.title !== false) {
+  if (!title && title !== false) {
     pageHeaderTitle = pageMeta.title
   }
+  let tabProps = {
+    breadcrumb,
+    title: i18nRender(pageHeaderTitle),
+    onBack: handleBack || noop,
+    footer: renderFooter(h, restProps, i18nRender)
+  }
+  if (!handleBack) {
+    tabProps.backIcon = false
+  }
+
+  console.log('tabProps', tabProps)
+
   return (
-    <PageHeader
-      title={i18nRender(pageHeaderTitle)}
-      breadcrumb={breadcrumb}
-      {...props}
-      onBack={handleBack}
-      footer={renderFooter(h, restProps, i18nRender)}
-      >
+    <PageHeader { ...{ props: tabProps } }>
       {renderPageHeader(h, content, extraContent)}
     </PageHeader>
   )
@@ -129,11 +138,18 @@ const PageHeaderWrapper = {
 
     const pageMeta = useContext(this.$props.route || this.$route)
     const i18n = this.$props.i18nRender || this.locale || defaultI18nRender
+    // 当未设置 back props 或未监听 @back，不显示 back
     const onBack = this.$props.back
-    const back = () => {
+    const back = onBack && (() => {
       this.$emit('back')
       // call props back func
       onBack && onBack()
+    }) || undefined
+
+    const onTabChange = this.$props.tabChange
+    const tabChange = (key) => {
+      this.$emit('tabChange', key)
+      onTabChange && onTabChange(key)
     }
 
     const propsBreadcrumb = this.$props.breadcrumb
@@ -148,13 +164,12 @@ const PageHeaderWrapper = {
       breadcrumb = { props: { routes }}
     }
 
-    console.log('breadcrumb', breadcrumb)
-
     const props = {
       ...this.$props,
       content,
       extraContent,
       breadcrumb,
+      tabChange,
       back
     }
 
