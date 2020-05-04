@@ -56,7 +56,9 @@ module.exports = {
       {
         'ignoreReadBeforeAssign': false
       }
-    ]
+    ],
+    'template-curly-spacing': 'off',
+    'indent': 'off'
   },
   parserOptions: {
     parser: 'babel-eslint'

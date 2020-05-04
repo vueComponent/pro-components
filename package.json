@@ -50,7 +50,7 @@
         "jest-serializer-vue": "^2.0.2",
         "np": "^5.1.1",
         "prettier": "^1.18.2",
-        "vc-tools": "^1.0.0",
+        "vc-tools": "^1.0.3",
         "vue": ">=2.5.0",
         "vue-jest": "^2.5.0",
         "vue-template-compiler": ">=2.5.0"
@@ -71,5 +71,5 @@
             ]
         }
     },
-    "description": "<h1 align=\"center\"> Ant Design Vue Pro Layout </h1>"
+    "description": "ant-design-vue-pro layout, easy to use pro scaffolding."
 }

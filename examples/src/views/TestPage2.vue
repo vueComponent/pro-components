@@ -1,5 +1,5 @@
 <template>
-  <page-header-wrapper :i18n-render="i18nRender">
+  <page-header-wrapper>
     <div class="page-test-wrapper">
       <h1>Test Page2 keepAlive: {{ $route.meta.keepAlive }}</h1>
       <div class="box">
@@ -16,7 +16,6 @@
 
 <script>
 import ProLayout, { PageHeaderWrapper } from '@ant-design-vue/pro-layout'
-import { i18nRender } from '@/locales'
 
 export default {
   data () {
@@ -25,7 +24,6 @@ export default {
     }
   },
   methods: {
-    i18nRender,
     handleClick (e) {
       this.$router.push({ path: '/dashboard/analysis' })
     }

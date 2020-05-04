@@ -1,7 +1,7 @@
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
 
 const ConfigProvider = {
-  name: 'ConfigProvider',
+  name: 'ProConfigProvider',
   props: {
     i18nRender: PropTypes.any,
   },

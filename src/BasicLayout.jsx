@@ -77,14 +77,10 @@ const BasicLayout = {
   render (h, content) {
     const { props, children } = content
     const {
-      menus,
       layout,
-      logo,
       // contentWidth,
       // theme,
       collapsed,
-      // eslint-disable-next-line
-      // autoHideHeader,
       mediaQuery,
       handleMediaQuery,
       handleCollapse,
@@ -110,12 +106,8 @@ const BasicLayout = {
           <Layout class={{ 'basicLayout': true, ...mediaQuery }}>
             <SiderMenuWrapper
               { ...{ props: cdProps } }
-              menus={menus}
-              mode={'inline'}
-              logo={logo}
               collapsed={collapsed}
               onCollapse={handleCollapse}
-              handleCollapse={handleCollapse}
             />
             <Layout class={[layout]} style={{ paddingLeft: '0', minHeight: '100vh' }}>
               {headerRender(h, {
