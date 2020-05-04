@@ -1,7 +1,5 @@
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
 import { ConfigProvider, Layout } from 'ant-design-vue'
-import { getComponentFromProp } from 'ant-design-vue/lib/_util/props-util'
-import { getComponentFormProp } from '@ant-design-vue/pro-layout/utils/util'
 
 const { Content } = Layout
 

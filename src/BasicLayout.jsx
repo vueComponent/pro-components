@@ -7,7 +7,7 @@ import { getComponentFromProp, isFun } from './utils/util'
 import { SiderMenuProps } from './components/SiderMenu/SiderMenu'
 import HeaderView, { HeaderViewProps } from './Header'
 import WrapContent from './WrapContent'
-import ConfigProvider from '@ant-design-vue/pro-layout/components/ConfigProvider'
+import ConfigProvider from './components/ConfigProvider'
 
 export const BasicLayoutProps = {
   ...SiderMenuProps,
