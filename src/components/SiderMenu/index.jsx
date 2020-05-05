@@ -1,3 +1,5 @@
+import './index.less'
+
 import { Drawer } from 'ant-design-vue'
 import SiderMenu, { SiderMenuProps } from './SiderMenu'
 

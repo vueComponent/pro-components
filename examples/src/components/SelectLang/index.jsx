@@ -25,7 +25,7 @@ const SelectLang = {
       this.setLang(key)
     }
     const langMenu = (
-      <Menu class={['menu', 'drop-down']} selectedKeys={[this.currentLang]} onClick={changeLang}>
+      <Menu class={['menu', 'ant-pro-select-lang']} selectedKeys={[this.currentLang]} onClick={changeLang}>
         {locales.map(locale => (
           <Menu.Item key={locale}>
             <span role="img" aria-label={languageLabels[locale]}>

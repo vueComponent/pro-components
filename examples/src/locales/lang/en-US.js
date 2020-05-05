@@ -44,6 +44,8 @@ export default {
     }
   },
 
+  'navBar.lang': 'Language',
+
   'app.setting.pagestyle': 'Page style setting',
   'app.setting.pagestyle.light': 'Light style',
   'app.setting.pagestyle.dark': 'Dark style',

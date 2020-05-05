@@ -1,6 +1,7 @@
+import './index.less'
+
 import { Layout } from 'ant-design-vue'
 import BaseMenu from '../RouteMenu'
-import './index.less'
 
 const { Sider } = Layout
 
