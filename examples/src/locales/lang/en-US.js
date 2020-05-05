@@ -42,5 +42,12 @@ export default {
         }
       }
     }
-  }
+  },
+
+  'app.setting.pagestyle': 'Page style setting',
+  'app.setting.pagestyle.light': 'Light style',
+  'app.setting.pagestyle.dark': 'Dark style',
+  'app.setting.pagestyle.realdark': 'RealDark style',
+  'app.setting.themecolor': 'Theme Color',
+  'app.setting.navigationmode': 'Navigation Mode'
 }

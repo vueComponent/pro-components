@@ -3,7 +3,7 @@ import './BasicLayout.less'
 import { Avatar, Dropdown, Menu, Icon, Modal } from 'ant-design-vue'
 import { asyncRouterMap } from '../config/router.config.js'
 import { i18nRender } from '../locales'
-import ProLayout, { GlobalFooter } from '@ant-design-vue/pro-layout'
+import ProLayout, { GlobalFooter, SettingDrawer } from '@ant-design-vue/pro-layout'
 import SelectLang from '../components/SelectLang'
 import LogoSvg from '../assets/logo.svg?inline'
 // import defaultSettings from '@config/defaultSettings'
@@ -100,6 +100,8 @@ export default {
       contentWidth: true,
       // 主题 'dark' | 'light'
       theme: 'dark',
+      // 主色调
+      primaryColor: 'daybreak',
       // 是否手机模式
       isMobile: false
     }
@@ -110,7 +112,8 @@ export default {
       contentWidth,
       autoHideHeader,
       layout,
-      theme
+      theme,
+      primaryColor
     } = this
 
     const handleMediaQuery = (val) => {
@@ -129,6 +132,12 @@ export default {
     }
 
     const menus = asyncRouterMap.find(item => item.path === '/').children
+    const handleThemeChange = (theme) => {
+      this.theme = theme
+    }
+    const handleColorChange = (color) => {
+      this.primaryColor = color
+    }
     const cdProps = {
       props: {
         menus,
@@ -154,6 +163,13 @@ export default {
 
     return (
       <ProLayout {...cdProps}>
+        <SettingDrawer
+          navTheme={theme}
+          layout={layout}
+          primaryColor={primaryColor}
+          onThemeChange={handleThemeChange}
+          onColorChange={handleColorChange}
+        />
         <router-view />
       </ProLayout>
     )

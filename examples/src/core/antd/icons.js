@@ -63,4 +63,11 @@ export {
 export {
   default as SmileOutline
 } from '@ant-design/icons/lib/outline/SmileOutline'
+export {
+  default as CheckOutline
+} from '@ant-design/icons/lib/outline/CheckOutline'
+export {
+  default as EllipsisOutline
+} from '@ant-design/icons/lib/outline/EllipsisOutline'
+
 /* Layout end */
