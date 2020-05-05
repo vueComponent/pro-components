@@ -42,4 +42,9 @@ SiderMenuWrapper.install = function (Vue) {
   Vue.component(SiderMenuWrapper.name, SiderMenuWrapper)
 }
 
+export {
+  SiderMenu,
+  SiderMenuProps
+}
+
 export default SiderMenuWrapper
