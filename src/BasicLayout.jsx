@@ -70,6 +70,8 @@ const headerRender = (h, props) => {
   return <HeaderView { ...{ props } } />
 }
 
+const defaultI18nRender = (key) => key
+
 const BasicLayout = {
   name: 'BasicLayout',
   functional: true,
@@ -84,7 +86,7 @@ const BasicLayout = {
       mediaQuery,
       handleMediaQuery,
       handleCollapse,
-      i18nRender
+      i18nRender = defaultI18nRender
     } = props
 
     const footerRender = getComponentFromProp(content, 'footerRender')

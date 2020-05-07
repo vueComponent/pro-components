@@ -1,7 +1,6 @@
-English | [简体中文](./README.zh-CN.md)
+[English](./README.md) | 简体中文
 
 <h1 align="center">Ant Design Pro Layout</h1>
-
 ## 使用
 
 ```bash
@@ -25,6 +24,84 @@ export default {
 }
 ```
 
+```vue
+<template>
+  <pro-layout
+    title="Ant Design Pro"
+    :menus="menus"
+    :collapsed="collapsed"
+    :theme="theme"
+    :layout="layout"
+    :contentWidth="contentWidth"
+    :auto-hide-header="autoHideHeader"
+    :mediaQuery="query"
+    :isMobile="isMobile"
+    :handleMediaQuery="handleMediaQuery"
+    :handleCollapse="handleCollapse"
+    :logo="logoRender"
+  >
+    <template v-slot:rightContentRender>
+      <div :class="['ant-pro-global-header-index-right', layout === 'topmenu' && `ant-pro-global-header-index-${theme}`]">
+        rightContentRender
+      </div>
+    </template>
+    <template v-slot:footerRender>
+      <div>footerRender</div>
+    </template>
+    <setting-drawer navTheme="dark" />
+    <router-view />
+  </pro-layout>
+</template>
+
+<script>
+import ProLayout, { SettingDrawer } from '@ant-design-vue/pro-layout'
+import { asyncRouterMap } from '../config/router.config'
+
+import LogoSvg from '../assets/logo.svg?inline'
+
+export default {
+  name: 'BasicLayout',
+  data () {
+    return {
+      menus: [],
+      collapsed: false,
+      autoHideHeader: false,
+      query: {},
+      layout: 'sidemenu',
+      contentWidth: true,
+      theme: 'dark',
+      isMobile: false
+    }
+  },
+  created () {
+    this.menus = asyncRouterMap.find(item => item.path === '/').children
+  },
+  methods: {
+    handleMediaQuery (query) {
+      this.query = query
+      if (this.isMobile && !query['screen-xs']) {
+        this.isMobile = false
+        return
+      }
+      if (!this.isMobile && query['screen-xs']) {
+        this.isMobile = true
+        this.collapsed = false
+      }
+    },
+    handleCollapse (collapsed) {
+      this.collapsed = collapsed
+    },
+    logoRender () {
+      return <LogoSvg />
+    }
+  },
+  components: {
+  	SettingDrawer
+  }
+}
+</script>
+```
+
 ## API
 
 ### ProLayout
@@ -40,7 +117,21 @@ export default {
 | theme | 导航的主题 | 'light' \| 'dark' | `'dark'` |
 | menus | Vue-router `routes` 属性 | Object | `[{}]` |
 | collapsed | 控制菜单的收起和展开 | boolean | true |
+| isMobile | 是否为手机模式 | boolean | false |
 | handleCollapse | 菜单的折叠收起事件	 | (collapsed: boolean) => void | - |
 | headerRender | 自定义头的 render 方法 | (props: BasicLayoutProps) => VNode | - |
 | rightContentRender | 自定义头右部的 render 方法 | (props: HeaderViewProps) => VNode | - |
-| collapsedButtonRender | 自定义 collapsed button 的方法 | (collapsed: boolean) => VNode | - |
+| collapsedButtonRender | 自定义 侧栏收缩按钮 的方法 | (collapsed: boolean) => VNode | - |
+| footerRender | 自定义 底部区域内容 | (props: BasicLayoutProps) => VNode | - |
+| i18nRender | 本地化渲染函数 (this.$t) | Function (key: string) => string | - |
+| handleMediaQuery | 媒体查询回调 | (querys: []) => void | - |
+| mediaQuery            | ProLayout 当前的媒体查询                        | Array                              | -                  |
+
+
+### SettingDrawer
+
+| Property | Description | Type | Default Value |
+| ---- | ---- | ---- | ---- |
+| navTheme | 主题 | `dark` `light` `realDark` | `light` |
+| layout | 布局模式 | `sidemenu` `topmenu` | `sidemenu` |
+| primaryColor | 主色调 (*仅开发环境生效) | `#1890ff` |      |
