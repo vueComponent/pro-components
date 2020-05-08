@@ -54,6 +54,10 @@ export const SiderMenuProps = {
     type: String,
     default: 'inline'
   },
+  fixSiderbar: {
+    type: Boolean,
+    default: false
+  },
   logo: {
     type: null,
     default: ''
@@ -125,7 +129,7 @@ const SiderMenu = {
       i18nRender,
       menuHeaderRender
     } = this
-
+    console.log('fixSiderbar', fixSiderbar)
     const siderCls = ['ant-pro-sider-menu-sider']
     if (fixSiderbar) siderCls.push('fix-sider-bar')
     if (theme === 'light') siderCls.push('light')

@@ -60,6 +60,7 @@ const menuHeaderRender = (h, logo, title) => {
 const rightContentRender = (h, props) => {
   const cls = {
     'ant-pro-global-header-index-right': true,
+    'ant-pro-global-header-topmenu': props.isTop,
     [`ant-pro-global-header-index-${props.theme}`]: true
   }
   return (
@@ -95,13 +96,15 @@ export default {
       // 媒体查询
       query: {},
       // 布局类型
-      layout: 'sidemenu', // 'sidemenu', 'topmenu'
+      layout: 'topmenu', // 'sidemenu', 'topmenu'
       // 定宽: true / 流式: false
       contentWidth: true,
+      fixedHeader: false,
+      fixSiderbar: false,
       // 主题 'dark' | 'light'
       theme: 'dark',
       // 主色调
-      primaryColor: 'daybreak',
+      primaryColor: '#1890ff',
       // 是否手机模式
       isMobile: false
     }
@@ -109,7 +112,6 @@ export default {
   render (h) {
     const {
       collapsed,
-      contentWidth,
       autoHideHeader,
       layout,
       theme,
@@ -138,6 +140,25 @@ export default {
     const handleColorChange = (color) => {
       this.primaryColor = color
     }
+    const handleLayoutChange = (value) => {
+      this.layout = value
+      if (value === 'sidemenu') {
+        this.contentWidth = false
+      }
+    }
+    const handleLayoutSttingChange = ({ type, value }) => {
+      console.log('type', type, 'value', value)
+      if (type === 'contentWidth') {
+        this.contentWidth = value === 'Fixed'
+      }
+      if (type === 'fixedHeader') {
+        this.fixedHeader = value
+      }
+      if (type === 'fixSiderbar') {
+        this.fixSiderbar = value
+      }
+    }
+
     const cdProps = {
       props: {
         menus,
@@ -147,28 +168,36 @@ export default {
         handleMediaQuery,
         handleCollapse,
         layout,
-        contentWidth,
+        contentWidth: this.contentWidth,
+        fixedHeader: this.fixedHeader,
+        fixSiderbar: this.fixSiderbar,
         theme,
         isMobile: this.isMobile,
         // custom render
         rightContentRender,
         footerRender,
         i18nRender,
-        menuHeaderRender
+        menuHeaderRender,
 
         // logo: LogoSvg,
-        // title: defaultSettings.title
+        title: 'Ant Design Pro'
       }
     }
 
     return (
       <ProLayout {...cdProps}>
         <SettingDrawer
+          settings={{}}
           navTheme={theme}
           layout={layout}
           primaryColor={primaryColor}
+          contentWidth={this.contentWidth}
+          fixedHeader={this.fixedHeader}
+          fixSiderbar={this.fixSiderbar}
           onThemeChange={handleThemeChange}
           onColorChange={handleColorChange}
+          onLayoutChange={handleLayoutChange}
+          onLayoutSettingChange={handleLayoutSttingChange}
         />
         <router-view />
       </ProLayout>

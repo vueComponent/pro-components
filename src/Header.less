@@ -1,6 +1,7 @@
 @import "~ant-design-vue/es/style/themes/default";
 
 @top-nav-header-prefix-cls: ~'@{ant-prefix}-pro-top-nav-header';
+@pro-layout-fixed-header-prefix-cls: ~'@{ant-prefix}-pro-fixed-header';
 
 .@{top-nav-header-prefix-cls} {
   position: relative;
@@ -70,6 +71,12 @@
       border: none;
     }
   }
+}
+
+.@{pro-layout-fixed-header-prefix-cls} {
+  z-index: 9;
+  width: 100%;
+  transition: width 0.2s;
 }
 
 .drop-down {

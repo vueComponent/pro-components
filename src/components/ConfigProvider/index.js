@@ -4,11 +4,13 @@ const ConfigProvider = {
   name: 'ProConfigProvider',
   props: {
     i18nRender: PropTypes.any,
+    contentWidth: PropTypes.bool,
   },
   provide () {
     const _self = this
     return {
-      locale: _self.$props.i18nRender
+      locale: _self.$props.i18nRender,
+      contentWidth: _self.$props.contentWidth
     }
   },
   render () {

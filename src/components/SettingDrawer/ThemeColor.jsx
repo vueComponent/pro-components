@@ -9,16 +9,16 @@ const baseClassName = 'theme-color'
 
 export const TagProps = {
   color: PropTypes.string,
-  check: PropTypes.bool,
-  handleClick: PropTypes.func,
+  check: PropTypes.bool
 }
 
 const Tag = {
   props: TagProps,
-  render (h) {
-    const { color, check, handleClick } = this
+  functional: true,
+  render (h, content) {
+    const { props: { color, check }, data, ...rest } = content
     return (
-      <div onClick={handleClick} style={{ backgroundColor: color }} ref="colorRef">
+      <div {...data} style={{ backgroundColor: color }}>
         { check ? <Icon type="check" /> : null }
       </div>
     )
@@ -34,15 +34,10 @@ export const ThemeColorProps = {
 
 const ThemeColor = {
   props: ThemeColorProps,
+  inject: ['locale'],
   render (h) {
-    const { title, value, colors } = this
+    const { title, value, colors = [] } = this
     const i18n = this.$props.i18nRender || this.locale || defaultI18nRender
-
-    const colorList = colors || []
-
-    if (colorList.length < 1) {
-      return null
-    }
     const handleChange = (key) => {
       this.$emit('change', key)
     }
@@ -51,20 +46,19 @@ const ThemeColor = {
       <div class={baseClassName} ref={'ref'}>
         <h3 class={`${baseClassName}-title`}>{title}</h3>
         <div class={`${baseClassName}-content`}>
-          {colorList.map(item => {
+          {colors.map(item => {
             const themeKey = genThemeToString(item.key)
+            const check = value === item.key || genThemeToString(value) === item.key
             return (
               <Tooltip
                 key={item.color}
-                title={
-                  themeKey ? i18n(`app.setting.themecolor.${themeKey}`) : item.key
-                }
+                title={themeKey ? i18n(`app.setting.themecolor.${themeKey}`) : item.key}
               >
                 <Tag
                   class={`${baseClassName}-block`}
                   color={item.color}
-                  check={value === item.key || genThemeToString(value) === item.key}
-                  handleClick={() => handleChange(item.key)}
+                  check={check}
+                  onClick={() => handleChange(item.key)}
                 />
               </Tooltip>
             )

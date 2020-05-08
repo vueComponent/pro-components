@@ -1,9 +1,10 @@
 import './index.less'
 
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
-import { Divider, Drawer, Icon } from 'ant-design-vue'
+import { Divider, Drawer, List, Switch, Icon } from 'ant-design-vue'
 import BlockCheckbox from './BlockCheckbox'
 import ThemeColor from './ThemeColor'
+import LayoutSetting, { renderLayoutSettingItem } from './LayoutChange'
 import { updateTheme } from '../../utils/dynamicTheme'
 
 const baseClassName = 'ant-pro-setting-drawer'
@@ -50,7 +51,7 @@ const getThemeList = (i18nRender) => {
 
   const darkColorList = [
     {
-      key: 'daybreak',
+      key: '#1890ff',
       color: '#1890ff',
       theme: 'dark',
     }
@@ -58,7 +59,7 @@ const getThemeList = (i18nRender) => {
 
   const lightColorList = [
     {
-      key: 'daybreak',
+      key: '#1890ff',
       color: '#1890ff',
       theme: 'dark',
     }
@@ -66,6 +67,8 @@ const getThemeList = (i18nRender) => {
 
   if (list.find((item) => item.theme === 'dark')) {
     themeList.push({
+      // disable click
+      disable: true,
       key: 'realDark',
       url: 'https://gw.alipayobjects.com/zos/antfincdn/hmKaLQvmY2/LCkqqYNmvBEbokSDscrm.svg',
       title: i18nRender('app.setting.pagestyle.realdark'),
@@ -98,7 +101,6 @@ const getThemeList = (i18nRender) => {
 }
 
 const changeSetting = (key, value, hideMessageLoading) => {
-  console.log('handleColorChange', key, value)
   if (key === 'navTheme') {
     // 更新主题
   }
@@ -119,6 +121,9 @@ export const SettingDrawerProps = {
   primaryColor: PropTypes.string,
   layout: PropTypes.oneOf(['sidemenu', 'topmenu']),
   colorWeak: PropTypes.bool,
+  contentWidth: PropTypes.bool,
+  fixedHeader: PropTypes.bool,
+  fixSiderbar: PropTypes.bool,
 }
 
 const SettingDrawer = {
@@ -137,6 +142,9 @@ const SettingDrawer = {
       navTheme = 'dark',
       primaryColor = 'daybreak',
       layout = 'sidemenu',
+      fixedHeader = false,
+      fixSiderbar = false,
+      contentWidth = false,
       colorWeak
     } = this
     const i18n = this.$props.i18nRender || this.locale || defaultI18nRender
@@ -149,6 +157,10 @@ const SettingDrawer = {
 
     const handleThemeChange = (key) => {
       this.$emit('themeChange', key)
+    }
+
+    const handleLayoutSettingChange = (val) => {
+      this.$emit('layoutSettingChange', val)
     }
 
     return (
@@ -200,6 +212,34 @@ const SettingDrawer = {
               this.$emit('layoutChange', value)
               changeSetting('layout', value, null)
             }} />
+          </Body>
+
+          <LayoutSetting
+            contentWidth={contentWidth}
+            fixedHeader={fixedHeader}
+            fixSiderbar={fixSiderbar}
+            layout={layout}
+            onChange={handleLayoutSettingChange}
+          />
+          <Divider />
+
+          <Body title={i18n('app.setting.othersettings')}>
+            <List
+              split={false}
+              renderItem={(item) => renderLayoutSettingItem(h, item)}
+              dataSource={[
+                {
+                  title: i18n('app.setting.weakmode'),
+                  action: (
+                    <Switch
+                      size="small"
+                      checked={!!colorWeak}
+                      onChange={(checked) => changeSetting('colorWeak', checked)}
+                    />
+                  ),
+                },
+              ]}
+            />
           </Body>
 
         </div>

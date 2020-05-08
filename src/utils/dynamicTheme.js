@@ -14,7 +14,7 @@ export const themeColor = {
     return lightens.concat(colorPalettes).concat(rgb)
   },
   changeColor (newColor) {
-    let options = {
+    const options = {
       newColors: this.getAntdSerials(newColor), // new colors array, one-to-one corresponde with `matchColors`
       changeUrl (cssUrl) {
         return `/${cssUrl}` // while router is not `hash` mode, it needs absolute path
@@ -26,9 +26,7 @@ export const themeColor = {
 
 export const updateTheme = newPrimaryColor => {
   const hideMessage = message.loading('正在切换主题', 0)
-  themeColor.changeColor(newPrimaryColor).finally(t => {
-    setTimeout(() => {
-      hideMessage()
-    }, 1500)
+  themeColor.changeColor(newPrimaryColor).then(r => {
+    hideMessage()
   })
 }

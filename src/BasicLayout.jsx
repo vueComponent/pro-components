@@ -67,6 +67,7 @@ const headerRender = (h, props) => {
   if (props.headerRender === false) {
     return null
   }
+  console.log('headerRender', props)
   return <HeaderView { ...{ props } } />
 }
 
@@ -80,12 +81,15 @@ const BasicLayout = {
     const { props, children } = content
     const {
       layout,
-      // contentWidth,
       // theme,
+      isMobile,
       collapsed,
       mediaQuery,
       handleMediaQuery,
       handleCollapse,
+      contentWidth,
+      siderWidth,
+      fixSiderbar,
       i18nRender = defaultI18nRender
     } = props
 
@@ -93,30 +97,40 @@ const BasicLayout = {
     const rightContentRender = getComponentFromProp(content, 'rightContentRender')
     const collapsedButtonRender = getComponentFromProp(content, 'collapsedButtonRender')
     const menuHeaderRender = getComponentFromProp(content, 'menuHeaderRender')
+    const isTopMenu = layout === 'topmenu'
 
     const cdProps = {
       ...props,
+      hasSiderMenu: !isTopMenu,
       footerRender,
       menuHeaderRender,
       rightContentRender,
       collapsedButtonRender
     }
+    console.log('cdProps', cdProps)
 
     return (
-      <ConfigProvider i18nRender={i18nRender}>
+      <ConfigProvider i18nRender={i18nRender} contentWidth={contentWidth}>
         <ContainerQuery query={MediaQueryEnum} onChange={handleMediaQuery}>
-          <Layout class={{ 'basicLayout': true, ...mediaQuery }}>
+          <Layout class={{
+            'ant-pro-basicLayout': true,
+            'ant-pro-topmenu': isTopMenu,
+            ...mediaQuery
+          }}>
             <SiderMenuWrapper
               { ...{ props: cdProps } }
               collapsed={collapsed}
               onCollapse={handleCollapse}
             />
-            <Layout class={[layout]} style={{ paddingLeft: '0', minHeight: '100vh' }}>
+            <Layout class={[layout]} style={{
+              paddingLeft:  fixSiderbar ? `${siderWidth}px` : '0',
+              minHeight: '100vh'
+            }}>
               {headerRender(h, {
                 ...cdProps,
                 mode: 'horizontal',
               })}
-              <WrapContent class="ant-pro-basicLayout-content">
+              <WrapContent class="ant-pro-basicLayout-content" contentWidth={contentWidth}>
                 {children}
               </WrapContent>
               <Layout.Footer>

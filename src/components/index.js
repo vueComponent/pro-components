@@ -2,6 +2,7 @@ import RouteMenu from './RouteMenu'
 import SiderMenuWrapper, { SiderMenu, SiderMenuProps } from './SiderMenu'
 import PageHeaderWrapper from './PageHeaderWrapper'
 import GlobalFooter from './GlobalFooter'
+import VueFragment from './Fragment'
 
 export {
   RouteMenu,
@@ -9,5 +10,6 @@ export {
   SiderMenuProps,
   SiderMenuWrapper,
   PageHeaderWrapper,
-  GlobalFooter
+  GlobalFooter,
+  VueFragment
 }

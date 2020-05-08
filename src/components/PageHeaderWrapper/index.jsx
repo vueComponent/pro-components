@@ -130,7 +130,7 @@ const defaultPageHeaderRender = (h, props, pageMeta, i18nRender) => {
 const PageHeaderWrapper = {
   name: 'PageHeaderWrapper',
   props: PageHeaderWrapperProps,
-  inject: ['locale'],
+  inject: ['locale', 'contentWidth'],
   render (h) {
     const children = this.$slots.default
     const content = getComponentFromProp(this, 'content')
@@ -139,6 +139,7 @@ const PageHeaderWrapper = {
 
     const pageMeta = useContext(this.$props.route || this.$route)
     const i18n = this.$props.i18nRender || this.locale || defaultI18nRender
+    const contentWidth = this.$props.contentWidth || this.contentWidth || false
     // 当未设置 back props 或未监听 @back，不显示 back
     const onBack = this.$props.back
     const back = onBack && (() => {
@@ -181,7 +182,7 @@ const PageHeaderWrapper = {
           <GridContent>{defaultPageHeaderRender(h, props, pageMeta, i18n)}</GridContent>
         </div>
         { children ? (
-          <GridContent>
+          <GridContent contentWidth={contentWidth}>
             <div class={`${prefixedClassName}-children-content`}>
               {children}
             </div>

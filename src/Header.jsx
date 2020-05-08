@@ -1,10 +1,10 @@
-/* eslint-disable */
 import './Header.less'
 
 import { Layout } from 'ant-design-vue'
 import BaseMenu from './components/RouteMenu/BaseMenu'
 import { defaultRenderLogoAntTitle, SiderMenuProps } from './components/SiderMenu/SiderMenu'
 import GlobalHeader, { GlobalHeaderProps } from './components/GlobalHeader'
+import { VueFragment } from './components'
 import { isFun } from './utils/util'
 
 const { Header } = Layout
@@ -24,6 +24,10 @@ export const HeaderViewProps = {
     type: [Function, Object],
     required: false
   },
+  hasSiderMenu: {
+    type: Boolean,
+    default: false
+  },
   autoHideHeader: {
     type: Boolean,
     required: true
@@ -40,9 +44,6 @@ export const HeaderViewProps = {
     type: null,
     required: false
   },
-  siderWidth: {
-    type: Number
-  },
   visible: {
     type: Boolean,
     default: true
@@ -55,7 +56,7 @@ const renderContent = (h, props) => {
   const contentWidth = props.contentWidth
   const baseCls = 'ant-pro-top-nav-header'
   const { logo, title, theme, isMobile, headerRender, rightContentRender } = props
-  const rightContentProps = { theme }
+  const rightContentProps = { theme, isTop, isMobile }
   let defaultDom = <GlobalHeader {...{ props: props }} />
   if (isTop && !isMobile) {
     defaultDom = (
@@ -63,7 +64,7 @@ const renderContent = (h, props) => {
         <div class={[`${baseCls}-main`, contentWidth ? 'wide' : '']}>
           <div class={`${baseCls}-left`}>
             <div class={`${baseCls}-logo`} key="logo" id="logo">
-              {defaultRenderLogoAntTitle(h, logo, title, null)}
+              {defaultRenderLogoAntTitle(h, { logo, title, menuHeaderRender: null })}
             </div>
           </div>
           <div class={`${baseCls}-menu`} style={{ maxWidth: `${maxWidth}px`, flex: 1 }}>
@@ -86,18 +87,43 @@ const HeaderView = {
   render (h) {
     const {
       visible,
-      siderWidth: width,
+      isMobile,
+      layout,
+      collapsed,
+      siderWidth,
+      fixedHeader,
       autoHideHeader,
+      hasSiderMenu,
     } = this.$props
     const props = this.$props
+    const isTop = layout === 'topmenu'
+
+    const needSettingWidth = fixedHeader && hasSiderMenu && !isTop && !isMobile
+
+    const className = {
+      'ant-pro-fixed-header': fixedHeader,
+      'ant-pro-top-menu': isTop,
+    }
+
+    // 没有 <></> 暂时代替写法
     return (
       visible ? (
-        <Header
-          style={{ padding: 0, width, zIndex: 2 }}
-          class={autoHideHeader ? 'ant-pro-fixed-header' : ''}
-        >
-          {renderContent(h, props)}
-        </Header>
+        <VueFragment>
+          { fixedHeader && <Header />}
+          <Header
+            style={{
+              padding: 0,
+              width: needSettingWidth
+                ? `calc(100% - ${collapsed ? 80 : siderWidth}px)`
+                : '100%',
+              zIndex: 9,
+              right: fixedHeader ? 0 : undefined
+            }}
+            class={className}
+          >
+            {renderContent(h, props)}
+          </Header>
+        </VueFragment>
       ) : null
     )
   }

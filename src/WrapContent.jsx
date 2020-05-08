@@ -1,12 +1,14 @@
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
 import { ConfigProvider, Layout } from 'ant-design-vue'
+import GridContent from './components/GridContent'
 
 const { Content } = Layout
 
 const WrapContentProps = {
   isChildrenLayout: PropTypes.bool,
   location: PropTypes.any,
-  contentHeight: PropTypes.number
+  contentHeight: PropTypes.number,
+  contentWidth: PropTypes.bool
 }
 
 const WrapContent = {
@@ -14,7 +16,8 @@ const WrapContent = {
   props: WrapContentProps,
   render (h) {
     const {
-      isChildrenLayout
+      isChildrenLayout,
+      contentWidth
     } = this.$props
     return (
       <Content>
@@ -27,7 +30,7 @@ const WrapContent = {
           }}
         >
           <div class="ant-pro-basicLayout-children-content-wrap">
-            {this.$slots.default}
+            <GridContent contentWidth={contentWidth}>{this.$slots.default}</GridContent>
           </div>
         </ConfigProvider>
       </Content>

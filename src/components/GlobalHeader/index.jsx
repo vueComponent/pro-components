@@ -18,6 +18,10 @@ export const GlobalHeaderProps = {
     type: Boolean,
     default: () => false
   },
+  fixedHeader: {
+    type: Boolean,
+    default: false
+  },
   logo: {
     type: null,
     default: () => null
