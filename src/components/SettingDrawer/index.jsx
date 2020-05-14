@@ -155,7 +155,7 @@ const SettingDrawer = {
   inject: ['locale'],
   data () {
     return {
-      show: true,
+      show: false,
     }
   },
   render (h) {

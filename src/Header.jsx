@@ -30,7 +30,7 @@ export const HeaderViewProps = {
   },
   autoHideHeader: {
     type: Boolean,
-    required: true
+    default: false
   },
   menuRender: {
     type: null,

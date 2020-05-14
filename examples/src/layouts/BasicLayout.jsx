@@ -91,32 +91,29 @@ export default {
     return {
       // 侧栏收起状态
       collapsed: false,
-      // 自动隐藏头部栏
-      autoHideHeader: false,
       // 媒体查询
       query: {},
-      // 布局类型
-      layout: 'sidemenu', // 'sidemenu', 'topmenu'
-      // 定宽: true / 流式: false
-      contentWidth: false,
-      fixedHeader: false,
-      fixSiderbar: false,
-      // 主题 'dark' | 'light'
-      theme: 'dark',
-      // 主色调
-      primaryColor: '#1890ff',
+
+      settings: {
+        // 布局类型
+        layout: 'sidemenu', // 'sidemenu', 'topmenu'
+        // 定宽: true / 流式: false
+        contentWidth: false,
+        fixedHeader: false,
+        fixSiderbar: false,
+        // 主题 'dark' | 'light'
+        theme: 'dark',
+        // 主色调
+        primaryColor: '#1890ff',
+
+        hideHintAlert: false,
+        hideCopyButton: false
+      },
       // 是否手机模式
       isMobile: false
     }
   },
   render (h) {
-    const {
-      collapsed,
-      autoHideHeader,
-      layout,
-      theme
-    } = this
-
     const handleMediaQuery = (val) => {
       this.query = val
       if (this.isMobile && !val['screen-xs']) {
@@ -136,57 +133,29 @@ export default {
 
     const handleSettingChange = ({ type, value, ...args }) => {
       console.log('type', type, 'value', value, 'args:', args)
+      this.settings[type] = value
+
       if (type === 'contentWidth') {
-        this.contentWidth = value === 'Fixed'
-      }
-      if (type === 'fixedHeader') {
-        this.fixedHeader = value
-      }
-      if (type === 'fixSiderbar') {
-        this.fixSiderbar = value
+        this.settings.contentWidth = value === 'Fixed'
       }
       if (type === 'layout') {
-        this.layout = value
         if (value === 'sidemenu') {
-          this.contentWidth = false
-          // this.fixSiderbar = false
+          this.settings.contentWidth = false
         } else {
-          this.fixSiderbar = false
+          this.settings.fixSiderbar = false
+          this.settings.contentWidth = true
         }
       }
-      if (type === 'theme') {
-        this.theme = value
-      }
-      if (type === 'primaryColor') {
-        this.primaryColor = value
-      }
-    }
-
-    const settings = {
-      navTheme: this.theme,
-      primaryColor: this.primaryColor,
-      layout: this.layout,
-      colorWeak: this.colorWeak,
-      contentWidth: this.contentWidth,
-      fixedHeader: this.fixedHeader,
-      fixSiderbar: this.fixSiderbar,
-      hideHintAlert: false,
-      hideCopyButton: false
     }
 
     const cdProps = {
       props: {
+        ...this.settings,
         menus,
-        collapsed,
-        autoHideHeader,
+        collapsed: this.collapsed,
         mediaQuery: this.query,
         handleMediaQuery,
         handleCollapse,
-        layout,
-        contentWidth: this.contentWidth,
-        fixedHeader: this.fixedHeader,
-        fixSiderbar: this.fixSiderbar,
-        theme,
         isMobile: this.isMobile,
         // custom render
         rightContentRender,
@@ -202,7 +171,7 @@ export default {
     return (
       <ProLayout {...cdProps}>
         <SettingDrawer
-          settings={settings}
+          settings={this.settings}
           onChange={handleSettingChange}
         />
         <router-view />

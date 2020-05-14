@@ -71,9 +71,10 @@ export default {
           disabledReason: i18n('app.setting.fixedsidebar.hint'),
           action: (
           <Switch
-          size="small"
-          checked={!!fixSiderbar}
-          onChange={(checked) => handleChange('fixSiderbar', checked)}
+            size="small"
+            disabled={layout === 'topmenu'}
+            checked={!!fixSiderbar}
+            onChange={(checked) => handleChange('fixSiderbar', checked)}
           />
           ),
         },
