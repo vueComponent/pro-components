@@ -22,10 +22,28 @@ const themeConfig = {
   '#722ED1': 'purple',
 }
 
+const invertKeyValues = (obj) =>
+  Object.keys(obj).reduce((acc, key) => {
+    acc[obj[key]] = key
+    return acc
+  }, {})
+
+/**
+ * #1890ff -> daybreak
+ * @param val
+ */
 export function genThemeToString (val) {
   return val && themeConfig[val] ? themeConfig[val] : val
 }
 
+/**
+ * daybreak-> #1890ff
+ * @param val
+ */
+export function genStringToTheme(val) {
+  const stringConfig = invertKeyValues(themeConfig)
+  return val && stringConfig[val] ? stringConfig[val] : val
+}
 
 
 export {

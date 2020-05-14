@@ -96,9 +96,9 @@ export default {
       // 媒体查询
       query: {},
       // 布局类型
-      layout: 'topmenu', // 'sidemenu', 'topmenu'
+      layout: 'sidemenu', // 'sidemenu', 'topmenu'
       // 定宽: true / 流式: false
-      contentWidth: true,
+      contentWidth: false,
       fixedHeader: false,
       fixSiderbar: false,
       // 主题 'dark' | 'light'
@@ -114,8 +114,7 @@ export default {
       collapsed,
       autoHideHeader,
       layout,
-      theme,
-      primaryColor
+      theme
     } = this
 
     const handleMediaQuery = (val) => {
@@ -134,20 +133,9 @@ export default {
     }
 
     const menus = asyncRouterMap.find(item => item.path === '/').children
-    const handleThemeChange = (theme) => {
-      this.theme = theme
-    }
-    const handleColorChange = (color) => {
-      this.primaryColor = color
-    }
-    const handleLayoutChange = (value) => {
-      this.layout = value
-      if (value === 'sidemenu') {
-        this.contentWidth = false
-      }
-    }
-    const handleLayoutSttingChange = ({ type, value }) => {
-      console.log('type', type, 'value', value)
+
+    const handleSettingChange = ({ type, value, ...args }) => {
+      console.log('type', type, 'value', value, 'args:', args)
       if (type === 'contentWidth') {
         this.contentWidth = value === 'Fixed'
       }
@@ -157,6 +145,33 @@ export default {
       if (type === 'fixSiderbar') {
         this.fixSiderbar = value
       }
+      if (type === 'layout') {
+        this.layout = value
+        if (value === 'sidemenu') {
+          this.contentWidth = false
+          // this.fixSiderbar = false
+        } else {
+          this.fixSiderbar = false
+        }
+      }
+      if (type === 'theme') {
+        this.theme = value
+      }
+      if (type === 'primaryColor') {
+        this.primaryColor = value
+      }
+    }
+
+    const settings = {
+      navTheme: this.theme,
+      primaryColor: this.primaryColor,
+      layout: this.layout,
+      colorWeak: this.colorWeak,
+      contentWidth: this.contentWidth,
+      fixedHeader: this.fixedHeader,
+      fixSiderbar: this.fixSiderbar,
+      hideHintAlert: false,
+      hideCopyButton: false
     }
 
     const cdProps = {
@@ -187,17 +202,8 @@ export default {
     return (
       <ProLayout {...cdProps}>
         <SettingDrawer
-          settings={{}}
-          navTheme={theme}
-          layout={layout}
-          primaryColor={primaryColor}
-          contentWidth={this.contentWidth}
-          fixedHeader={this.fixedHeader}
-          fixSiderbar={this.fixSiderbar}
-          onThemeChange={handleThemeChange}
-          onColorChange={handleColorChange}
-          onLayoutChange={handleLayoutChange}
-          onLayoutSettingChange={handleLayoutSttingChange}
+          settings={settings}
+          onChange={handleSettingChange}
         />
         <router-view />
       </ProLayout>

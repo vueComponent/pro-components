@@ -69,5 +69,7 @@ export {
 export {
   default as EllipsisOutline
 } from '@ant-design/icons/lib/outline/EllipsisOutline'
-
+export {
+  default as NotificationOutline
+} from '@ant-design/icons/lib/outline/NotificationOutline'
 /* Layout end */

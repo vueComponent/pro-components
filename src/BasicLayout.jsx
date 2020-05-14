@@ -67,7 +67,6 @@ const headerRender = (h, props) => {
   if (props.headerRender === false) {
     return null
   }
-  console.log('headerRender', props)
   return <HeaderView { ...{ props } } />
 }
 
@@ -107,7 +106,6 @@ const BasicLayout = {
       rightContentRender,
       collapsedButtonRender
     }
-    console.log('cdProps', cdProps)
 
     return (
       <ConfigProvider i18nRender={i18nRender} contentWidth={contentWidth}>

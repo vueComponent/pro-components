@@ -1,11 +1,15 @@
 import './index.less'
 
+import omit from 'omit.js'
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
-import { Divider, Drawer, List, Switch, Icon } from 'ant-design-vue'
+import { Divider, Drawer, List, Switch, Button, Icon, Alert, message } from 'ant-design-vue'
 import BlockCheckbox from './BlockCheckbox'
 import ThemeColor from './ThemeColor'
 import LayoutSetting, { renderLayoutSettingItem } from './LayoutChange'
 import { updateTheme } from '../../utils/dynamicTheme'
+import { genStringToTheme } from '../../utils/util'
+import CopyToClipboard from 'vue-copy-to-clipboard'
+
 
 const baseClassName = 'ant-pro-setting-drawer'
 
@@ -100,7 +104,7 @@ const getThemeList = (i18nRender) => {
   }
 }
 
-const changeSetting = (key, value, hideMessageLoading) => {
+const handleChangeSetting = (key, value, hideMessageLoading) => {
   if (key === 'navTheme') {
     // 更新主题
   }
@@ -115,8 +119,20 @@ const changeSetting = (key, value, hideMessageLoading) => {
   }
 }
 
+const genCopySettingJson = (settings) =>
+  JSON.stringify(
+    omit(
+      {
+        ...settings,
+        primaryColor: genStringToTheme(settings.primaryColor),
+      },
+      ['colorWeak'],
+    ),
+    null,
+    2,
+  )
 
-export const SettingDrawerProps = {
+export const settings = {
   navTheme: PropTypes.oneOf(['dark', 'light', 'realDark']),
   primaryColor: PropTypes.string,
   layout: PropTypes.oneOf(['sidemenu', 'topmenu']),
@@ -124,6 +140,13 @@ export const SettingDrawerProps = {
   contentWidth: PropTypes.bool,
   fixedHeader: PropTypes.bool,
   fixSiderbar: PropTypes.bool,
+  hideHintAlert: PropTypes.bool.def(false),
+  hideCopyButton: PropTypes.bool.def(false)
+}
+
+export const SettingDrawerProps = {
+  getContainer: PropTypes.func,
+  settings: PropTypes.objectOf(settings)
 }
 
 const SettingDrawer = {
@@ -139,28 +162,33 @@ const SettingDrawer = {
     const {
       setShow,
       getContainer,
+      settings
+    } = this
+
+    const {
       navTheme = 'dark',
       primaryColor = 'daybreak',
       layout = 'sidemenu',
       fixedHeader = false,
       fixSiderbar = false,
       contentWidth = false,
+      hideHintAlert,
+      hideCopyButton,
       colorWeak
-    } = this
-    const i18n = this.$props.i18nRender || this.locale || defaultI18nRender
+    } = settings
+
+    const i18n = this.$props.i18nRender || this.locale
     const themeList = getThemeList(i18n)
+    const isTopMenu = layout === 'topmenu'
 
     const iconStyle = {
       color: '#fff',
       fontSize: 20
     }
 
-    const handleThemeChange = (key) => {
-      this.$emit('themeChange', key)
-    }
-
-    const handleLayoutSettingChange = (val) => {
-      this.$emit('layoutSettingChange', val)
+    const changeSetting = (type, value) => {
+      this.$emit('change', { type, value })
+      handleChangeSetting(type, value, false)
     }
 
     return (
@@ -192,7 +220,9 @@ const SettingDrawer = {
         </template>
         <div class={`${baseClassName}-content`}>
           <Body title={i18n('app.setting.pagestyle')}>
-            <BlockCheckbox list={themeList.themeList} value={navTheme} onChange={handleThemeChange} />
+            <BlockCheckbox list={themeList.themeList} value={navTheme} onChange={(val) => {
+              changeSetting('theme', val)
+            }} />
           </Body>
 
           <ThemeColor
@@ -200,7 +230,6 @@ const SettingDrawer = {
             value={primaryColor}
             colors={themeList.colorList[navTheme === 'realDark' ? 'dark' : 'light']}
             onChange={(color) => {
-              this.$emit('colorChange', color)
               changeSetting('primaryColor', color, null)
             }}
           />
@@ -209,7 +238,6 @@ const SettingDrawer = {
 
           <Body title={i18n('app.setting.navigationmode')}>
             <BlockCheckbox value={layout} onChange={(value) => {
-              this.$emit('layoutChange', value)
               changeSetting('layout', value, null)
             }} />
           </Body>
@@ -217,9 +245,11 @@ const SettingDrawer = {
           <LayoutSetting
             contentWidth={contentWidth}
             fixedHeader={fixedHeader}
-            fixSiderbar={fixSiderbar}
+            fixSiderbar={isTopMenu ? false : fixSiderbar}
             layout={layout}
-            onChange={handleLayoutSettingChange}
+            onChange={({ type, value }) => {
+              changeSetting(type, value)
+            }}
           />
           <Divider />
 
@@ -241,6 +271,31 @@ const SettingDrawer = {
               ]}
             />
           </Body>
+
+          {hideHintAlert && hideCopyButton ? null : <Divider />}
+
+          {hideHintAlert ? null : (
+            <Alert
+              type="warning"
+              message={i18n('app.setting.production.hint')}
+              icon={(<Icon type={'notification'} />)}
+              showIcon
+              style={{ marginBottom: '16px' }}
+            />
+          )}
+
+          {hideCopyButton ? null : (
+            <CopyToClipboard
+              text={genCopySettingJson(settings)}
+              onCopy={() =>
+                message.success(i18n('app.setting.copyinfo'))
+              }
+            >
+              <Button block>
+                <Icon type={'copy'}  />{i18n('app.setting.copy')}
+              </Button>
+            </CopyToClipboard>
+          )}
 
         </div>
       </Drawer>
