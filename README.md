@@ -138,7 +138,7 @@ export default {
 
 | Property | Description | Type | Default Value |
 | ---- | ---- | ---- | ---- |
-| navTheme | Theme | `dark` `light` `realDark` | `light` |
+| theme | Theme | `dark` `light` `realDark` | `light` |
 | layout | Sider Layout | `sidemenu` `topmenu` | `sidemenu` |
 | primaryColor | Primary color (*development only) | `#1890ff` |      |
 

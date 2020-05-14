@@ -132,6 +132,6 @@ export default {
 
 | Property | Description | Type | Default Value |
 | ---- | ---- | ---- | ---- |
-| navTheme | 主题 | `dark` `light` `realDark` | `light` |
+| theme | 主题 | `dark` `light` `realDark` | `light` |
 | layout | 布局模式 | `sidemenu` `topmenu` | `sidemenu` |
 | primaryColor | 主色调 (*仅开发环境生效) | `#1890ff` |      |

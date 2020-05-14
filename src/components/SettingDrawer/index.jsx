@@ -133,7 +133,7 @@ const genCopySettingJson = (settings) =>
   )
 
 export const settings = {
-  navTheme: PropTypes.oneOf(['dark', 'light', 'realDark']),
+  theme: PropTypes.oneOf(['dark', 'light', 'realDark']),
   primaryColor: PropTypes.string,
   layout: PropTypes.oneOf(['sidemenu', 'topmenu']),
   colorWeak: PropTypes.bool,
@@ -166,7 +166,7 @@ const SettingDrawer = {
     } = this
 
     const {
-      navTheme = 'dark',
+      theme = 'dark',
       primaryColor = 'daybreak',
       layout = 'sidemenu',
       fixedHeader = false,
@@ -220,7 +220,7 @@ const SettingDrawer = {
         </template>
         <div class={`${baseClassName}-content`}>
           <Body title={i18n('app.setting.pagestyle')}>
-            <BlockCheckbox list={themeList.themeList} value={navTheme} onChange={(val) => {
+            <BlockCheckbox list={themeList.themeList} value={theme} onChange={(val) => {
               changeSetting('theme', val)
             }} />
           </Body>
@@ -228,7 +228,7 @@ const SettingDrawer = {
           <ThemeColor
             title={i18n('app.setting.themecolor')}
             value={primaryColor}
-            colors={themeList.colorList[navTheme === 'realDark' ? 'dark' : 'light']}
+            colors={themeList.colorList[theme === 'realDark' ? 'dark' : 'light']}
             onChange={(color) => {
               changeSetting('primaryColor', color, null)
             }}
