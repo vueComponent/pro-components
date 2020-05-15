@@ -63,6 +63,17 @@ const MediaQueryEnum = {
   }
 }
 
+const getPaddingLeft = (
+  hasLeftPadding,
+  collapsed = undefined,
+  siderWidth
+) => {
+  if (hasLeftPadding) {
+    return collapsed ? 80 : siderWidth
+  }
+  return undefined
+}
+
 const headerRender = (h, props) => {
   if (props.headerRender === false) {
     return null
@@ -97,10 +108,14 @@ const BasicLayout = {
     const collapsedButtonRender = getComponentFromProp(content, 'collapsedButtonRender')
     const menuHeaderRender = getComponentFromProp(content, 'menuHeaderRender')
     const isTopMenu = layout === 'topmenu'
+    const hasSiderMenu = !isTopMenu
+    // If it is a fix menu, calculate padding
+    // don't need padding in phone mode
+    const hasLeftPadding = fixSiderbar && !isTopMenu && !isMobile
 
     const cdProps = {
       ...props,
-      hasSiderMenu: !isTopMenu,
+      hasSiderMenu,
       footerRender,
       menuHeaderRender,
       rightContentRender,
@@ -121,7 +136,9 @@ const BasicLayout = {
               onCollapse={handleCollapse}
             />
             <Layout class={[layout]} style={{
-              paddingLeft:  fixSiderbar ? `${siderWidth}px` : '0',
+              paddingLeft: hasSiderMenu
+                ? `${getPaddingLeft(!!hasLeftPadding, collapsed, siderWidth)}px`
+                : undefined,
               minHeight: '100vh'
             }}>
               {headerRender(h, {
