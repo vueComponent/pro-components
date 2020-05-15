@@ -6,7 +6,7 @@ import { Divider, Drawer, List, Switch, Button, Icon, Alert, message } from 'ant
 import BlockCheckbox from './BlockCheckbox'
 import ThemeColor from './ThemeColor'
 import LayoutSetting, { renderLayoutSettingItem } from './LayoutChange'
-import { updateTheme } from '../../utils/dynamicTheme'
+import { updateTheme, updateColorWeak } from '../../utils/dynamicTheme'
 import { genStringToTheme } from '../../utils/util'
 import CopyToClipboard from 'vue-copy-to-clipboard'
 
@@ -105,17 +105,12 @@ const getThemeList = (i18nRender) => {
 }
 
 const handleChangeSetting = (key, value, hideMessageLoading) => {
-  if (key === 'navTheme') {
-    // 更新主题
-  }
   if (key === 'primaryColor') {
     // 更新主色调
     updateTheme(value)
   }
-
-  if (key === 'layout') {
-    // 更新布局模式
-    // value === 'topmenu' ? 'Fixed' : 'Fluid'
+  if (key === 'colorWeak') {
+    updateColorWeak(value)
   }
 }
 
