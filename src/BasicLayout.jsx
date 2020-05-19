@@ -71,7 +71,7 @@ const getPaddingLeft = (
   if (hasLeftPadding) {
     return collapsed ? 80 : siderWidth
   }
-  return undefined
+  return 0
 }
 
 const headerRender = (h, props) => {
@@ -112,7 +112,6 @@ const BasicLayout = {
     // If it is a fix menu, calculate padding
     // don't need padding in phone mode
     const hasLeftPadding = fixSiderbar && !isTopMenu && !isMobile
-
     const cdProps = {
       ...props,
       hasSiderMenu,
