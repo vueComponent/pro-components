@@ -13,7 +13,7 @@ const PageHeaderTabConfig = {
   tabList: PropTypes.array,
   tabActiveKey: PropTypes.string,
   tabProps: PropTypes.object,
-  tabChange: PropTypes.func
+  tabChange: PropTypes.func,
 }
 
 const PageHeaderWrapperProps = {
@@ -27,18 +27,19 @@ const PageHeaderWrapperProps = {
   back: PropTypes.func,
 
   // 包装 pro-layout 才能使用
-  i18nRender: PropTypes.any
+  i18nRender: PropTypes.any,
 }
 
 const defaultI18nRender = (t) => t
 
 const useContext = (route) => {
   return route && {
-    ...route.meta
+    ...route.meta,
   } || null
 }
 
-const noop = () => {}
+const noop = () => {
+}
 
 // TODO :: tabList tab 支持图标 优化
 const renderFooter = (h, tabConfigProps, i18nRender) => {
@@ -62,7 +63,7 @@ const renderFooter = (h, tabConfigProps, i18nRender) => {
       {...tabProps}
     >
       {tabList.map(item => (
-        <Tabs.TabPane {...item} tab={i18nRender(item.tab)} key={item.key} />
+        <Tabs.TabPane {...item} tab={i18nRender(item.tab)} key={item.key}/>
       ))}
     </Tabs>
   )
@@ -76,10 +77,10 @@ const renderPageHeader = (h, content, extraContent) => {
     <div class={`${prefixedClassName}-detail`}>
       <div class={`${prefixedClassName}-main`}>
         <div class={`${prefixedClassName}-row`}>
-          { content && (
+          {content && (
             <div class={`${prefixedClassName}-content`}>{content}</div>
           )}
-          { extraContent && (
+          {extraContent && (
             <div class={`${prefixedClassName}-extraContent`}>
               {extraContent}
             </div>
@@ -113,14 +114,14 @@ const defaultPageHeaderRender = (h, props, pageMeta, i18nRender) => {
     extra,
     title: i18nRender(pageHeaderTitle),
     onBack: handleBack || noop,
-    footer: renderFooter(h, restProps, i18nRender)
+    footer: renderFooter(h, restProps, i18nRender),
   }
   if (!handleBack) {
     tabProps.backIcon = false
   }
 
   return (
-    <PageHeader { ...{ props: tabProps } }>
+    <PageHeader {...{ props: tabProps }}>
       {renderPageHeader(h, content, extraContent)}
     </PageHeader>
   )
@@ -131,7 +132,7 @@ const PageHeaderWrapper = {
   name: 'PageHeaderWrapper',
   props: PageHeaderWrapperProps,
   inject: ['locale', 'contentWidth'],
-  render (h) {
+  render(h) {
     const children = this.$slots.default
     const content = getComponentFromProp(this, 'content')
     const extra = getComponentFromProp(this, 'extra')
@@ -160,10 +161,20 @@ const PageHeaderWrapper = {
       const routes = this.$route.matched.concat().map(route => {
         return {
           path: route.path,
-          breadcrumbName: i18n(route.meta.title)
+          breadcrumbName: i18n(route.meta.title),
         }
       })
-      breadcrumb = { props: { routes }}
+      // TODO:: warn -> abs path
+      const itemRender = ({ route, params, routes, paths, h }) => {
+        return routes.indexOf(route) === routes.length - 1 && (
+          <span>{route.breadcrumbName}</span>
+        ) || (
+          <router-link to={{ path: route.path }}>{route.breadcrumbName}</router-link>
+        )
+      }
+      breadcrumb = { props: { routes, itemRender } }
+    } else {
+      breadcrumb = propsBreadcrumb
     }
 
     const props = {
@@ -173,7 +184,7 @@ const PageHeaderWrapper = {
       extraContent,
       breadcrumb,
       tabChange,
-      back
+      back,
     }
 
     return (
@@ -181,16 +192,16 @@ const PageHeaderWrapper = {
         <div class={`${prefixedClassName}-page-header-warp`}>
           <GridContent>{defaultPageHeaderRender(h, props, pageMeta, i18n)}</GridContent>
         </div>
-        { children ? (
+        {children ? (
           <GridContent contentWidth={contentWidth}>
             <div class={`${prefixedClassName}-children-content`}>
               {children}
             </div>
           </GridContent>
-        ) : null }
+        ) : null}
       </div>
     )
-  }
+  },
 }
 
 export default PageHeaderWrapper
