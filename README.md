@@ -1,6 +1,7 @@
 English | [简体中文](./README.zh-CN.md)
 
 <h1 align="center">Ant Design Pro Layout</h1>
+
 ## Usage
 
 ```bash
@@ -106,7 +107,11 @@ export default {
 </script>
 ```
 
+
+
 ## API
+
+
 
 ### ProLayout
 
@@ -127,15 +132,30 @@ export default {
 | rightContentRender | header right content render method | (props: HeaderViewProps) => VNode | - |
 | collapsedButtonRender | custom collapsed button method | (collapsed: boolean) => VNode | - |
 | footerRender | custom footer render method | (props: BasicLayoutProps) => VNode | - |
+| breadcrumbRender | custom breadcrumb render method | ({ route, params, routes, paths, h }) => VNode[] | - |
 | i18nRender | i18n | Function (key: string) => string | - |
 | handleMediaQuery | media matchs callback | (querys: []) => void | - |
 | mediaQuery            | media matchs                                                 | Array                              | -                  |
 
 
 
+### PageHeaderWrapper
+
+| Property | Description | Type | Default Value |
+| --- | --- | --- | --- |
+| content | Content area | VNode \| v-slot | - |
+| extra | Extra content area, on the right side of content | VNode \| v-slot | - |
+| extraContent | Extra content area, on the right side of content | VNode \| v-slot | - |
+| tabList | Tabs title list | `Array<{key: string, tab: sting}>` | - |
+| tab-change | Switch panel callback | (key) => void | - |
+| tab-active-key | The currently highlighted tab item | string | - |
+
+
+
 
 ### SettingDrawer
 
+#### {settings}
 | Property | Description | Type | Default Value |
 | ---- | ---- | ---- | ---- |
 | theme | Theme | `dark` `light` `realDark` | `light` |

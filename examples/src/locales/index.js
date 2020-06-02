@@ -15,13 +15,13 @@ const messages = {
 }
 
 const i18n = new VueI18n({
+  silentTranslationWarn: true,
   locale: defaultLang,
   fallbackLocale: defaultLang,
   messages
 })
 
 const loadedLanguages = [defaultLang]
-// eslint-disable-next-line
 
 function setI18nLanguage (lang) {
   i18n.locale = lang

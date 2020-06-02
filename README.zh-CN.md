@@ -102,7 +102,11 @@ export default {
 </script>
 ```
 
+
+
 ## API
+
+
 
 ### ProLayout
 
@@ -123,12 +127,29 @@ export default {
 | rightContentRender | 自定义头右部的 render 方法 | (props: HeaderViewProps) => VNode | - |
 | collapsedButtonRender | 自定义 侧栏收缩按钮 的方法 | (collapsed: boolean) => VNode | - |
 | footerRender | 自定义 底部区域内容 | (props: BasicLayoutProps) => VNode | - |
+| breadcrumbRender | 自定义面包屑渲染方法 | ({ route, params, routes, paths, h }) => VNode[] | - |
 | i18nRender | 本地化渲染函数 (this.$t) | Function (key: string) => string | - |
 | handleMediaQuery | 媒体查询回调 | (querys: []) => void | - |
 | mediaQuery            | ProLayout 当前的媒体查询                        | Array                              | -                  |
 
 
+
+### PageHeaderWrapper
+
+| Property | Description | Type | Default Value |
+| --- | --- | --- | --- |
+| content | 内容区          | VNode \| v-slot | - |
+| extra | 扩展区域 | VNode \| v-slot | - |
+| extraContent | 扩展内容区      | VNode \| v-slot | - |
+| tabList | Tabs 导航 | `Array<{key: string, tab: sting}>` | - |
+| tab-change | Tab 改变事件 | (key) => void | - |
+| tab-active-key | 当前 Tab 选中项 | string | - |
+
+
+
 ### SettingDrawer
+
+#### {settings}
 
 | Property | Description | Type | Default Value |
 | ---- | ---- | ---- | ---- |

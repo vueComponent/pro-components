@@ -105,6 +105,7 @@ export default {
         theme: 'dark',
         // 主色调
         primaryColor: '#1890ff',
+        colorWeak: false,
 
         hideHintAlert: false,
         hideCopyButton: false
@@ -132,7 +133,6 @@ export default {
     const menus = asyncRouterMap.find(item => item.path === '/').children
 
     const handleSettingChange = ({ type, value, ...args }) => {
-      console.log('type', type, 'value', value, 'args:', args)
       this.settings[type] = value
 
       if (type === 'contentWidth') {
@@ -146,6 +146,15 @@ export default {
           this.settings.contentWidth = true
         }
       }
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    const breadcrumbRender = ({ route, params, routes, paths, h }) => {
+      return routes.indexOf(route) === routes.length - 1 && (
+        <span>{route.breadcrumbName}</span>
+      ) || (
+        <router-link to={{ path: route.path || '/' }}>{route.breadcrumbName}</router-link>
+      )
     }
 
     const cdProps = {
@@ -162,6 +171,7 @@ export default {
         footerRender,
         i18nRender,
         menuHeaderRender,
+        breadcrumbRender,
 
         // logo: LogoSvg,
         title: 'Ant Design Pro'

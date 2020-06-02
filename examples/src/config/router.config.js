@@ -62,7 +62,7 @@ const asyncRouterMap = [
               icon: 'smile',
               title: 'menu.form.basicform'
             },
-            component: () => import(/* webpackChunkName: "about" */ '../views/BlockPage')
+            component: () => import(/* webpackChunkName: "about" */ '../views/form/basic-form')
           },
           {
             path: '/form/step-form',
@@ -72,7 +72,7 @@ const asyncRouterMap = [
               icon: 'smile',
               title: 'menu.form.stepform'
             },
-            component: () => import(/* webpackChunkName: "about" */ '../views/BlockPage')
+            component: () => import(/* webpackChunkName: "about" */ '../views/form/step-form')
           },
           {
             path: '/form/advanced-form',
@@ -82,7 +82,7 @@ const asyncRouterMap = [
               icon: 'smile',
               title: 'menu.form.advancedform'
             },
-            component: () => import(/* webpackChunkName: "about" */ '../views/BlockPage')
+            component: () => import(/* webpackChunkName: "about" */ '../views/form/advanced-form')
           }
         ]
       },

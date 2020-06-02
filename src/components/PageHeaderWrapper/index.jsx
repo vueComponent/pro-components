@@ -23,7 +23,7 @@ const PageHeaderWrapperProps = {
   content: PropTypes.any,
   extraContent: PropTypes.any,
   pageHeaderRender: PropTypes.func,
-  breadcrumb: PropTypes.oneOf([PropTypes.object, PropTypes.bool]).def(true),
+  breadcrumb: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).def(true),
   back: PropTypes.func,
 
   // 包装 pro-layout 才能使用
@@ -131,14 +131,15 @@ const defaultPageHeaderRender = (h, props, pageMeta, i18nRender) => {
 const PageHeaderWrapper = {
   name: 'PageHeaderWrapper',
   props: PageHeaderWrapperProps,
-  inject: ['locale', 'contentWidth'],
+  inject: ['locale', 'contentWidth', 'breadcrumbRender'],
   render(h) {
+    const { $route } = this
     const children = this.$slots.default
     const content = getComponentFromProp(this, 'content')
     const extra = getComponentFromProp(this, 'extra')
     const extraContent = getComponentFromProp(this, 'extraContent')
 
-    const pageMeta = useContext(this.$props.route || this.$route)
+    const pageMeta = useContext(this.$props.route || $route)
     const i18n = this.$props.i18nRender || this.locale || defaultI18nRender
     const contentWidth = this.$props.contentWidth || this.contentWidth || false
     // 当未设置 back props 或未监听 @back，不显示 back
@@ -155,26 +156,31 @@ const PageHeaderWrapper = {
       onTabChange && onTabChange(key)
     }
 
-    const propsBreadcrumb = this.$props.breadcrumb
     let breadcrumb = {}
-    if (propsBreadcrumb === undefined) {
-      const routes = this.$route.matched.concat().map(route => {
+    const propsBreadcrumb = this.$props.breadcrumb
+    if (propsBreadcrumb === true) {
+      const routes = $route.matched.concat().map(route => {
         return {
           path: route.path,
           breadcrumbName: i18n(route.meta.title),
         }
       })
-      // TODO:: warn -> abs path
-      const itemRender = ({ route, params, routes, paths, h }) => {
+
+      const defaultItemRender = ({ route, params, routes, paths, h }) => {
         return routes.indexOf(route) === routes.length - 1 && (
           <span>{route.breadcrumbName}</span>
         ) || (
-          <router-link to={{ path: route.path }}>{route.breadcrumbName}</router-link>
+          <router-link to={{ path: route.path || '/', params }}>{route.breadcrumbName}</router-link>
         )
       }
+
+      // If custom breadcrumb render undefined
+      // use default breadcrumb..
+      const itemRender = this.breadcrumbRender || defaultItemRender
+
       breadcrumb = { props: { routes, itemRender } }
     } else {
-      breadcrumb = propsBreadcrumb
+      breadcrumb = propsBreadcrumb || null
     }
 
     const props = {

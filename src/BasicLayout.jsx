@@ -1,5 +1,7 @@
 import './BasicLayout.less'
 
+import PropTypes from 'ant-design-vue/es/_util/vue-types'
+
 import { Layout } from 'ant-design-vue'
 import { ContainerQuery } from 'vue-container-query'
 import { SiderMenuWrapper, GlobalFooter } from './components'
@@ -9,33 +11,17 @@ import HeaderView, { HeaderViewProps } from './Header'
 import WrapContent from './WrapContent'
 import ConfigProvider from './components/ConfigProvider'
 
+const noop = () => {}
+
 export const BasicLayoutProps = {
   ...SiderMenuProps,
   ...HeaderViewProps,
-  locale: {
-    type: String,
-    default: 'en-US'
-  },
-  breadcrumbRender: {
-    type: Function,
-    default: () => undefined
-  },
-  disableMobile: {
-    type: Boolean,
-    default: false
-  },
-  mediaQuery: {
-    type: Object,
-    default: () => {}
-  },
-  handleMediaQuery: {
-    type: Function,
-    default: () => undefined
-  },
-  footerRender: {
-    type: Function,
-    default: () => undefined
-  }
+  locale: PropTypes.string.def('en-US'),
+  breadcrumbRender: PropTypes.func,
+  disableMobile: PropTypes.bool.def(false),
+  mediaQuery: PropTypes.object.def({}),
+  handleMediaQuery: PropTypes.func,
+  footerRender: PropTypes.func,
 }
 
 const MediaQueryEnum = {
@@ -107,6 +93,8 @@ const BasicLayout = {
     const rightContentRender = getComponentFromProp(content, 'rightContentRender')
     const collapsedButtonRender = getComponentFromProp(content, 'collapsedButtonRender')
     const menuHeaderRender = getComponentFromProp(content, 'menuHeaderRender')
+    const breadcrumbRender = getComponentFromProp(content, 'breadcrumbRender')
+
     const isTopMenu = layout === 'topmenu'
     const hasSiderMenu = !isTopMenu
     // If it is a fix menu, calculate padding
@@ -118,11 +106,12 @@ const BasicLayout = {
       footerRender,
       menuHeaderRender,
       rightContentRender,
-      collapsedButtonRender
+      collapsedButtonRender,
+      breadcrumbRender
     }
 
     return (
-      <ConfigProvider i18nRender={i18nRender} contentWidth={contentWidth}>
+      <ConfigProvider i18nRender={i18nRender} contentWidth={contentWidth} breadcrumbRender={breadcrumbRender}>
         <ContainerQuery query={MediaQueryEnum} onChange={handleMediaQuery}>
           <Layout class={{
             'ant-pro-basicLayout': true,
