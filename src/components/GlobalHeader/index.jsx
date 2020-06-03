@@ -23,7 +23,7 @@ export const GlobalHeaderProps = {
     default: false
   },
   logo: {
-    type: null,
+    type: [Function, Object, String],
     default: () => null
   },
   menuRender: {
@@ -48,6 +48,7 @@ const GlobalHeader = {
   name: 'GlobalHeader',
   props: GlobalHeaderProps,
   render (h) {
+    const { isMobile, logo, rightContentRender } = this.$props
     const toggle = () => {
       const { collapsed, handleCollapse } = this.$props
       if (handleCollapse) handleCollapse(!collapsed)
@@ -68,8 +69,6 @@ const GlobalHeader = {
       }
       return null
     }
-
-    const { isMobile, logo, rightContentRender } = this.$props
 
     const headerCls = 'ant-pro-global-header'
 
