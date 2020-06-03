@@ -173,7 +173,7 @@ export default {
         menuHeaderRender,
         breadcrumbRender,
 
-        // logo: LogoSvg,
+        logo: LogoSvg,
         title: 'Ant Design Pro'
       }
     }
