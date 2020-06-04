@@ -1,6 +1,7 @@
 import './Header.less'
 
 import { Layout } from 'ant-design-vue'
+import PropTypes from 'ant-design-vue/es/_util/vue-types'
 import BaseMenu from './components/RouteMenu/BaseMenu'
 import { defaultRenderLogoAntTitle, SiderMenuProps } from './components/SiderMenu/SiderMenu'
 import GlobalHeader, { GlobalHeaderProps } from './components/GlobalHeader'
@@ -12,43 +13,17 @@ const { Header } = Layout
 export const HeaderViewProps = {
   ...GlobalHeaderProps,
   ...SiderMenuProps,
-  isMobile: {
-    type: Boolean,
-    default: () => false
-  },
-  collapsed: {
-    type: Boolean,
-    required: true
-  },
-  logo: {
-    type: [Function, Object],
-    required: false
-  },
-  hasSiderMenu: {
-    type: Boolean,
-    default: false
-  },
-  autoHideHeader: {
-    type: Boolean,
-    default: false
-  },
-  menuRender: {
-    type: null,
-    required: false
-  },
-  headerRender: {
-    type: null,
-    required: false
-  },
-  rightContentRender: {
-    type: null,
-    required: false
-  },
-  visible: {
-    type: Boolean,
-    default: true
-  }
+  isMobile: PropTypes.bool.def(false),
+  collapsed: PropTypes.bool,
+  logo: PropTypes.any,
+  hasSiderMenu: PropTypes.bool,
+  autoHideHeader: PropTypes.bool,
+  menuRender: PropTypes.any,
+  headerRender: PropTypes.any,
+  rightContentRender: PropTypes.any,
+  visible: PropTypes.bool.def(true),
 }
+
 
 const renderContent = (h, props) => {
   const isTop = props.layout === 'topmenu'

@@ -1,43 +1,20 @@
 import './index.less'
 
 import debounce from 'lodash/debounce'
+import PropTypes from 'ant-design-vue/es/_util/vue-types'
 import { triggerEvent, inBrowser, isFun } from '../../utils/util'
 import { Icon } from 'ant-design-vue'
 import { defaultRenderLogo } from '../SiderMenu/SiderMenu'
 
 export const GlobalHeaderProps = {
-  collapsed: {
-    type: Boolean,
-    required: true
-  },
-  handleCollapse: {
-    type: Function,
-    default: () => undefined
-  },
-  isMobile: {
-    type: Boolean,
-    default: () => false
-  },
-  fixedHeader: {
-    type: Boolean,
-    default: false
-  },
-  logo: {
-    type: [Function, Object, String],
-    default: () => null
-  },
-  menuRender: {
-    type: null,
-    required: false
-  },
-  collapsedButtonRender: {
-    type: null,
-    required: false
-  },
-  rightContentRender: {
-    type: null,
-    required: false
-  }
+  collapsed: PropTypes.bool,
+  handleCollapse: PropTypes.func,
+  isMobile: PropTypes.bool.def(false),
+  fixedHeader: PropTypes.bool.def(false),
+  logo: PropTypes.any,
+  menuRender: PropTypes.any,
+  collapsedButtonRender: PropTypes.any,
+  rightContentRender: PropTypes.any,
 }
 
 const defaultRenderCollapsedButton = (h, collapsed) => (

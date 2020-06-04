@@ -1,17 +1,13 @@
 import './index.less'
 
+import PropTypes from 'ant-design-vue/es/_util/vue-types'
+
 const GridContent = {
   name: 'GridContent',
   functional: true,
   props: {
-    children: {
-      type: null,
-      default: null
-    },
-    contentWidth: {
-      type: Boolean,
-      default: false
-    }
+    children: PropTypes.any,
+    contentWidth: PropTypes.bool,
   },
   render (h, content) {
     const { contentWidth: propsContentWidth } = content.props

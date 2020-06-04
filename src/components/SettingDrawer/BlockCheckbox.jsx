@@ -1,16 +1,11 @@
+import PropTypes from 'ant-design-vue/es/_util/vue-types'
 import { Tooltip, Icon } from 'ant-design-vue'
 import { defaultI18nRender } from './index'
 
 const BlockCheckboxProps = {
-  value: {
-    type: String,
-    default: null
-  },
+  value: PropTypes.string,
   // Item: { key, url, title }
-  list: {
-    type: Array,
-    default: null
-  }
+  list: PropTypes.array,
 }
 
 const baseClassName = 'ant-pro-setting-drawer-block-checbox'

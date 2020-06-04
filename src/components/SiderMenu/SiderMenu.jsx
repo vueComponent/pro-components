@@ -1,5 +1,6 @@
 import './index.less'
 
+import PropTypes from 'ant-design-vue/es/_util/vue-types'
 import { Layout } from 'ant-design-vue'
 import BaseMenu from '../RouteMenu'
 
@@ -10,66 +11,20 @@ export const SiderMenuProps = {
     type: Function,
     default: () => undefined
   },
-  mode: {
-    type: String,
-    required: false,
-    default: 'inline'
-  },
-  theme: {
-    type: String,
-    required: false,
-    default: 'dark'
-  },
-  contentWidth: {
-    type: Boolean,
-    default: false
-  },
-  collapsible: {
-    type: Boolean,
-    required: false,
-    default: false
-  },
-  collapsed: {
-    type: Boolean,
-    required: false,
-    default: false
-  },
-  handleCollapse: {
-    type: Function,
-    default: () => undefined
-  },
-  menus: {
-    type: Array,
-    required: true
-  },
-  siderWidth: {
-    type: Number,
-    default: 256
-  },
-  isMobile: {
-    type: Boolean,
-    default: false
-  },
-  layout: {
-    type: String,
-    default: 'inline'
-  },
-  fixSiderbar: {
-    type: Boolean,
-    default: false
-  },
-  logo: {
-    type: null,
-    default: ''
-  },
-  title: {
-    type: String,
-    default: ''
-  },
-  menuHeaderRender: {
-    type: Function,
-    default: null
-  }
+  mode: PropTypes.string.def('inline'),
+  theme: PropTypes.string.def('dark'),
+  contentWidth: PropTypes.bool,
+  collapsible: PropTypes.bool,
+  collapsed: PropTypes.bool,
+  handleCollapse: PropTypes.func,
+  menus: PropTypes.array,
+  siderWidth: PropTypes.number.def(256),
+  isMobile: PropTypes.bool,
+  layout: PropTypes.string.def('inline'),
+  fixSiderbar: PropTypes.bool,
+  logo: PropTypes.any,
+  title: PropTypes.string.def(''),
+  menuHeaderRender: PropTypes.func,
 }
 
 export const defaultRenderLogo = (h, logo) => {

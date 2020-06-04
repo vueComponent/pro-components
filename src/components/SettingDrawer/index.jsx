@@ -14,10 +14,7 @@ import CopyToClipboard from 'vue-copy-to-clipboard'
 const baseClassName = 'ant-pro-setting-drawer'
 
 const BodyProps = {
-  title: {
-    type: String,
-    default: ''
-  }
+  title: PropTypes.string.def('')
 }
 
 const Body = {

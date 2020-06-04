@@ -1,21 +1,17 @@
-import { getComponentFromProp, hasProp } from 'ant-design-vue/lib/_util/props-util'
 import './index.less'
 
+import PropTypes from 'ant-design-vue/es/_util/vue-types'
+import { getComponentFromProp, hasProp } from 'ant-design-vue/lib/_util/props-util'
+
 const GlobalFooterProps = {
-  links: {
-    type: Array,
-    required: false
-  },
-  copyright: {
-    type: null,
-    required: false
-  }
+  links: PropTypes.array,
+  copyright: PropTypes.any,
 }
 
 const GlobalFooter = {
   name: 'GlobalFooter',
   props: GlobalFooterProps,
-  render () {
+  render() {
     const copyright = getComponentFromProp(this, 'copyright')
     const links = getComponentFromProp(this, 'links')
     const linksType = hasProp(links)
@@ -41,7 +37,7 @@ const GlobalFooter = {
         )}
       </footer>
     )
-  }
+  },
 }
 
 export default GlobalFooter

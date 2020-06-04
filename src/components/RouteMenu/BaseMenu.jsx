@@ -1,33 +1,17 @@
+import PropTypes from 'ant-design-vue/es/_util/vue-types'
 import { Menu, Icon } from 'ant-design-vue'
+
 const {
   Item: MenuItem,
   SubMenu
 } = Menu
 
 export const RouteMenuProps = {
-  menus: {
-    type: Array,
-    required: true
-  },
-  theme: {
-    type: String,
-    required: false,
-    default: 'dark'
-  },
-  mode: {
-    type: String,
-    required: false,
-    default: 'inline'
-  },
-  collapsed: {
-    type: Boolean,
-    required: false,
-    default: false
-  },
-  i18nRender: {
-    type: Function,
-    default: () => undefined
-  }
+  menus: PropTypes.array,
+  theme: PropTypes.string.def('dark'),
+  mode: PropTypes.string.def('inline'),
+  collapsed: PropTypes.bool.def(false),
+  i18nRender: PropTypes.func,
 }
 
 const defaultI18nRender = (context) => context
