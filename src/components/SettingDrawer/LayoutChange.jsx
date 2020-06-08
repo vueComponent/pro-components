@@ -1,6 +1,5 @@
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
 import { List, Tooltip, Select, Switch } from 'ant-design-vue'
-import { defaultI18nRender } from './index'
 
 export const renderLayoutSettingItem = (h, item) => {
   const action = {...item.action}
@@ -17,14 +16,16 @@ export const LayoutSettingProps = {
   contentWidth: PropTypes.bool,
   fixedHeader: PropTypes.bool,
   fixSiderbar: PropTypes.bool,
-  layout: PropTypes.oneOf(['sidemenu', 'topmenu'])
+  layout: PropTypes.oneOf(['sidemenu', 'topmenu']),
+
+  i18nRender: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]).def(false),
 }
 
 export default {
   props: LayoutSettingProps,
   inject: ['locale'],
   render (h) {
-    const i18n = this.$props.i18nRender || this.locale || defaultI18nRender
+    const i18n = this.$props.i18nRender || this.locale
     const { contentWidth, fixedHeader, layout, fixSiderbar } = this
 
     const handleChange = (type, value) => {

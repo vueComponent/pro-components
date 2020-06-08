@@ -128,7 +128,7 @@ export default {
 | collapsedButtonRender | 自定义 侧栏收缩按钮 的方法 | (collapsed: boolean) => VNode | - |
 | footerRender | 自定义 底部区域内容 | (props: BasicLayoutProps) => VNode | - |
 | breadcrumbRender | 自定义面包屑渲染方法 | ({ route, params, routes, paths, h }) => VNode[] | - |
-| i18nRender | 本地化渲染函数 (this.$t) | Function (key: string) => string | - |
+| i18nRender | 本地化渲染函数 (this.$t) | Function (key: string) => string  \| `false` | `false` |
 | handleMediaQuery | 媒体查询回调 | (querys: []) => void | - |
 | mediaQuery            | ProLayout 当前的媒体查询                        | Array                              | -                  |
 

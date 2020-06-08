@@ -1,11 +1,12 @@
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
 import { Tooltip, Icon } from 'ant-design-vue'
-import { defaultI18nRender } from './index'
 
 const BlockCheckboxProps = {
   value: PropTypes.string,
   // Item: { key, url, title }
   list: PropTypes.array,
+
+  i18nRender: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]).def(false),
 }
 
 const baseClassName = 'ant-pro-setting-drawer-block-checbox'
@@ -16,7 +17,7 @@ const BlockCheckbox = {
   inject: ['locale'],
   render (h) {
     const { value, list } = this
-    const i18n = this.$props.i18nRender || this.locale || defaultI18nRender
+    const i18n = this.$props.i18nRender || this.locale
 
     const items = list || [
       {

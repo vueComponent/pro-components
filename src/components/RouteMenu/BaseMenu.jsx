@@ -11,10 +11,8 @@ export const RouteMenuProps = {
   theme: PropTypes.string.def('dark'),
   mode: PropTypes.string.def('inline'),
   collapsed: PropTypes.bool.def(false),
-  i18nRender: PropTypes.func,
+  i18nRender: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]).def(false),
 }
-
-const defaultI18nRender = (context) => context
 
 const renderMenu = (h, item, i18nRender) => {
   if (item && !item.hidden) {
@@ -71,7 +69,7 @@ const renderIcon = (h, icon) => {
 }
 
 const renderTitle = (h, title, i18nRender) => {
-  return <span>{ i18nRender(title) }</span>
+  return <span>{ i18nRender && i18nRender(title) || title }</span>
 }
 
 const RouteMenu = {
@@ -85,7 +83,7 @@ const RouteMenu = {
     }
   },
   render (h) {
-    const { mode, theme, menus, i18nRender = defaultI18nRender } = this
+    const { mode, theme, menus, i18nRender } = this
     const handleOpenChange = (openKeys) => {
       // 在水平模式下时，不再执行后续
       if (mode === 'horizontal') {

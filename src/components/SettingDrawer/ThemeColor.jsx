@@ -2,7 +2,6 @@ import './ThemeColor.less'
 
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
 import { Tooltip, Icon } from 'ant-design-vue'
-import { defaultI18nRender } from './index'
 import { genThemeToString } from '../../utils/util'
 
 const baseClassName = 'theme-color'
@@ -29,7 +28,8 @@ export const ThemeColorProps = {
   colors: PropTypes.array,
   title: PropTypes.string,
   value: PropTypes.string,
-  i18nRender: PropTypes.func
+
+  i18nRender: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]).def(false),
 }
 
 const ThemeColor = {
@@ -37,7 +37,7 @@ const ThemeColor = {
   inject: ['locale'],
   render (h) {
     const { title, value, colors = [] } = this
-    const i18n = this.$props.i18nRender || this.locale || defaultI18nRender
+    const i18n = this.$props.i18nRender || this.locale
     const handleChange = (key) => {
       this.$emit('change', key)
     }

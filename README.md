@@ -133,7 +133,7 @@ export default {
 | collapsedButtonRender | custom collapsed button method | (collapsed: boolean) => VNode | - |
 | footerRender | custom footer render method | (props: BasicLayoutProps) => VNode | - |
 | breadcrumbRender | custom breadcrumb render method | ({ route, params, routes, paths, h }) => VNode[] | - |
-| i18nRender | i18n | Function (key: string) => string | - |
+| i18nRender | i18n | Function (key: string) => string \| `false` | `false` |
 | handleMediaQuery | media matchs callback | (querys: []) => void | - |
 | mediaQuery            | media matchs                                                 | Array                              | -                  |
 

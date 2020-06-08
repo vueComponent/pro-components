@@ -169,6 +169,7 @@ export default {
         // custom render
         rightContentRender,
         footerRender,
+        // i18nRender: false,
         i18nRender,
         menuHeaderRender,
         breadcrumbRender,

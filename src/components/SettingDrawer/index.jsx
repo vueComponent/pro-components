@@ -10,7 +10,6 @@ import { updateTheme, updateColorWeak } from '../../utils/dynamicTheme'
 import { genStringToTheme } from '../../utils/util'
 import CopyToClipboard from 'vue-copy-to-clipboard'
 
-
 const baseClassName = 'ant-pro-setting-drawer'
 
 const BodyProps = {
@@ -31,7 +30,7 @@ const Body = {
   }
 }
 
-export const defaultI18nRender = (t) => t
+const defaultI18nRender = (t) => t
 
 const getThemeList = (i18nRender) => {
 
@@ -138,7 +137,9 @@ export const settings = {
 
 export const SettingDrawerProps = {
   getContainer: PropTypes.func,
-  settings: PropTypes.objectOf(settings)
+  settings: PropTypes.objectOf(settings),
+
+  i18nRender: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]).def(false),
 }
 
 const SettingDrawer = {
@@ -169,7 +170,7 @@ const SettingDrawer = {
       colorWeak
     } = settings
 
-    const i18n = this.$props.i18nRender || this.locale
+    const i18n = this.$props.i18nRender || this.locale || defaultI18nRender
     const themeList = getThemeList(i18n)
     const isTopMenu = layout === 'topmenu'
 
@@ -212,12 +213,13 @@ const SettingDrawer = {
         </template>
         <div class={`${baseClassName}-content`}>
           <Body title={i18n('app.setting.pagestyle')}>
-            <BlockCheckbox list={themeList.themeList} value={theme} onChange={(val) => {
+            <BlockCheckbox i18nRender={i18n} list={themeList.themeList} value={theme} onChange={(val) => {
               changeSetting('theme', val)
             }} />
           </Body>
 
           <ThemeColor
+            i18nRender={i18n}
             title={i18n('app.setting.themecolor')}
             value={primaryColor}
             colors={themeList.colorList[theme === 'realDark' ? 'dark' : 'light']}
@@ -229,12 +231,13 @@ const SettingDrawer = {
           <Divider />
 
           <Body title={i18n('app.setting.navigationmode')}>
-            <BlockCheckbox value={layout} onChange={(value) => {
+            <BlockCheckbox i18nRender={i18n} value={layout} onChange={(value) => {
               changeSetting('layout', value, null)
             }} />
           </Body>
 
           <LayoutSetting
+            i18nRender={i18n}
             contentWidth={contentWidth}
             fixedHeader={fixedHeader}
             fixSiderbar={isTopMenu ? false : fixSiderbar}

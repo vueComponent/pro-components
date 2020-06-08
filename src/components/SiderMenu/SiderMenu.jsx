@@ -7,10 +7,7 @@ import BaseMenu from '../RouteMenu'
 const { Sider } = Layout
 
 export const SiderMenuProps = {
-  i18nRender: {
-    type: Function,
-    default: () => undefined
-  },
+  i18nRender: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]).def(false),
   mode: PropTypes.string.def('inline'),
   theme: PropTypes.string.def('dark'),
   contentWidth: PropTypes.bool,

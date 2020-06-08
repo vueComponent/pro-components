@@ -6,17 +6,15 @@ import { Layout } from 'ant-design-vue'
 import { ContainerQuery } from 'vue-container-query'
 import { SiderMenuWrapper, GlobalFooter } from './components'
 import { getComponentFromProp, isFun } from './utils/util'
-import { SiderMenuProps } from './components/SiderMenu/SiderMenu'
+import { SiderMenuProps } from './components/SiderMenu'
 import HeaderView, { HeaderViewProps } from './Header'
 import WrapContent from './WrapContent'
 import ConfigProvider from './components/ConfigProvider'
 
-const noop = () => {}
-
 export const BasicLayoutProps = {
   ...SiderMenuProps,
   ...HeaderViewProps,
-  locale: PropTypes.string.def('en-US'),
+  locale: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).def('en-US'),
   breadcrumbRender: PropTypes.func,
   disableMobile: PropTypes.bool.def(false),
   mediaQuery: PropTypes.object.def({}),

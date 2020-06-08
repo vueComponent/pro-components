@@ -26,8 +26,8 @@ const PageHeaderWrapperProps = {
   breadcrumb: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).def(true),
   back: PropTypes.func,
 
-  // 包装 pro-layout 才能使用
-  i18nRender: PropTypes.any,
+  // only use `pro-layout` in children
+  i18nRender: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]).def(false),
 }
 
 const defaultI18nRender = (t) => t
