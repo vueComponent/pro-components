@@ -121,7 +121,7 @@ const defaultPageHeaderRender = (h, props, pageMeta, i18nRender) => {
   }
 
   return (
-    <PageHeader {...{ props: tabProps }}>
+    <PageHeader {...{ props: tabProps, on: { back: tabProps.onBack }  }}>
       {renderPageHeader(h, content, extraContent)}
     </PageHeader>
   )
