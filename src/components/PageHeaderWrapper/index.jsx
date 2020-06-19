@@ -113,7 +113,6 @@ const defaultPageHeaderRender = (h, props, pageMeta, i18nRender) => {
     breadcrumb,
     extra,
     title: i18nRender(pageHeaderTitle),
-    onBack: handleBack || noop,
     footer: renderFooter(h, restProps, i18nRender),
   }
   if (!handleBack) {
@@ -121,7 +120,7 @@ const defaultPageHeaderRender = (h, props, pageMeta, i18nRender) => {
   }
 
   return (
-    <PageHeader {...{ props: tabProps }}>
+    <PageHeader {...{ props: tabProps }} onBack={handleBack || noop}>
       {renderPageHeader(h, content, extraContent)}
     </PageHeader>
   )
@@ -133,7 +132,7 @@ const PageHeaderWrapper = {
   props: PageHeaderWrapperProps,
   inject: ['locale', 'contentWidth', 'breadcrumbRender'],
   render(h) {
-    const { $route } = this
+    const { $route, $listeners } = this
     const children = this.$slots.default
     const content = getComponentFromProp(this, 'content')
     const extra = getComponentFromProp(this, 'extra')
@@ -143,9 +142,10 @@ const PageHeaderWrapper = {
     const i18n = this.$props.i18nRender || this.locale || defaultI18nRender
     const contentWidth = this.$props.contentWidth || this.contentWidth || false
     // 当未设置 back props 或未监听 @back，不显示 back
-    const onBack = this.$props.back
+    // props 的 back 事件优先级高于 @back，需要注意
+    const onBack = this.$props.back || $listeners.back
     const back = onBack && (() => {
-      this.$emit('back')
+      // this.$emit('back')
       // call props back func
       onBack && onBack()
     }) || undefined
