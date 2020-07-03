@@ -25,11 +25,11 @@
         "lib"
     ],
     "peerDependencies": {
-        "ant-design-vue": "^1.5.4",
+        "ant-design-vue": "^1.6.2",
         "umi-request": "^1.2.11",
-        "vue": ">=2.5.0",
+        "vue": ">=2.6.0",
         "vue-container-query": "^0.1.0",
-        "vue-template-compiler": ">=2.5.0"
+        "vue-template-compiler": ">=2.6.0"
     },
     "devDependencies": {
         "@types/jest": "^24.0.17",
@@ -55,14 +55,14 @@
         "vue-template-compiler": ">=2.5.0"
     },
     "dependencies": {
-        "ant-design-vue": "^1.5.3",
+        "ant-design-vue": "^1.6.3",
         "classnames": "^2.2.6",
         "insert-css": "^2.0.0",
         "lodash": "^4.17.15",
         "omit.js": "^1.0.2",
         "umi-request": "^1.2.11",
         "vue-container-query": "^0.1.0",
-        "vue-copy-to-clipboard": "^1.0.1"
+        "vue-copy-to-clipboard": "^1.0.2"
     },
     "config": {
         "port": 9528,
