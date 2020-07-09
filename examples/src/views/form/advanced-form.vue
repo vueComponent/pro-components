@@ -2,6 +2,7 @@
   <page-header-wrapper
     :tab-list="tabList"
     :tab-active-key="tabActiveKey"
+    :title="false"
     :tab-change="(key) => {
       this.tabActiveKey = key
       console.log('PageHeader::tabChange', key)

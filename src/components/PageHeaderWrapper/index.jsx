@@ -112,7 +112,7 @@ const defaultPageHeaderRender = (h, props, pageMeta, i18nRender) => {
   let tabProps = {
     breadcrumb,
     extra,
-    title: i18nRender(pageHeaderTitle),
+    title: pageHeaderTitle && i18nRender(pageHeaderTitle),
     footer: renderFooter(h, restProps, i18nRender),
   }
   if (!handleBack) {

@@ -62,7 +62,7 @@
         "omit.js": "^1.0.2",
         "umi-request": "^1.2.11",
         "vue-container-query": "^0.1.0",
-        "vue-copy-to-clipboard": "^1.0.2"
+        "vue-copy-to-clipboard": "^1.0.3"
     },
     "config": {
         "port": 9528,
