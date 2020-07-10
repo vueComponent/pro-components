@@ -59,7 +59,7 @@
         "classnames": "^2.2.6",
         "insert-css": "^2.0.0",
         "lodash": "^4.17.15",
-        "omit.js": "^1.0.2",
+        "omit.js": "^2.0.0",
         "umi-request": "^1.2.11",
         "vue-container-query": "^0.1.0",
         "vue-copy-to-clipboard": "^1.0.3"
