@@ -2,6 +2,7 @@ import './index.less'
 
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
 import { Layout } from 'ant-design-vue'
+import { isFun } from '../../utils/util'
 import BaseMenu from '../RouteMenu'
 
 const { Sider } = Layout
@@ -21,7 +22,8 @@ export const SiderMenuProps = {
   fixSiderbar: PropTypes.bool,
   logo: PropTypes.any,
   title: PropTypes.string.def(''),
-  menuHeaderRender: PropTypes.func,
+  // render function or vnode
+  menuHeaderRender: PropTypes.oneOfType([PropTypes.func, PropTypes.array, PropTypes.object, PropTypes.bool]),
 }
 
 export const defaultRenderLogo = (h, logo) => {
@@ -48,7 +50,9 @@ export const defaultRenderLogoAntTitle = (h, props) => {
   const titleDom = <h1>{title}</h1>
 
   if (menuHeaderRender) {
-    return menuHeaderRender(h, logoDom, props.collapsed ? null : titleDom, props)
+    return isFun(menuHeaderRender)
+      && menuHeaderRender(h, logoDom, props.collapsed ? null : titleDom, props)
+      || menuHeaderRender
   }
   return (
     <span>

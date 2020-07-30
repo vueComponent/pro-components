@@ -27,7 +27,6 @@ export default {
 ```vue
 <template>
   <pro-layout
-    title="Ant Design Pro"
     :menus="menus"
     :collapsed="collapsed"
     :theme="theme"
@@ -38,8 +37,13 @@ export default {
     :isMobile="isMobile"
     :handleMediaQuery="handleMediaQuery"
     :handleCollapse="handleCollapse"
-    :logo="logoRender"
   >
+    <template v-slot:menuHeaderRender>
+      <div>
+        <img src="../assets/logo.svg" />
+        <h1>Pro Layout</h1>
+      </div>
+    </template>
     <template v-slot:rightContentRender>
       <div :class="['ant-pro-global-header-index-right', layout === 'topmenu' && `ant-pro-global-header-index-${theme}`]">
         rightContentRender
@@ -57,8 +61,6 @@ export default {
 import ProLayout, { SettingDrawer } from '@ant-design-vue/pro-layout'
 import { asyncRouterMap } from '../config/router.config'
 
-import LogoSvg from '../assets/logo.svg?inline'
-
 export default {
   name: 'BasicLayout',
   data () {
@@ -68,7 +70,7 @@ export default {
       autoHideHeader: false,
       query: {},
       layout: 'sidemenu',
-      contentWidth: true,
+      contentWidth: false,
       theme: 'dark',
       isMobile: false
     }
@@ -90,9 +92,6 @@ export default {
     },
     handleCollapse (collapsed) {
       this.collapsed = collapsed
-    },
-    logoRender () {
-      return <LogoSvg />
     }
   },
   components: {
@@ -115,7 +114,7 @@ export default {
 | title | layout 的 左上角 的 title | VNode \| String | `'Ant Design Pro'` |
 | logo | layout 的 左上角 logo 的 url | VNode \| render | - |
 | loading`*` | layout 的加载态 | boolean | - |
-| menuHeaderRender | 渲染 logo 和 title | VNode \| (logo,title)=>VNode | - |
+| menuHeaderRender | 渲染 logo 和 title | v-slot \| VNode \| (logo,title)=>VNode \| false | - |
 | layout | layout 的菜单模式, sidemenu: 右侧导航, topmenu: 顶部导航 | 'sidemenu' \| 'topmenu' | `'sidemenu'` |
 | contentWidth | layout 的内容模式,Fluid：定宽 1200px，Fixed：自适应 | true \| false | `false` |
 | theme | 导航的主题 | 'light' \| 'dark' | `'dark'` |

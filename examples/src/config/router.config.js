@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import BasicLayout from '../layouts/BasicLayout'
+import BasicLayout from '../layouts/BasicLayout.vue'
 
 const RouteView = {
   name: 'RouteView',
@@ -40,7 +40,7 @@ const asyncRouterMap = [
               icon: 'smile',
               title: 'menu.dashboard.workplace'
             },
-            component: () => import(/* webpackChunkName: "dashboard" */ '../views/TestPage')
+            component: () => import(/* webpackChunkName: "dashboard" */ '../views/dashboard/workplace')
           }
         ]
       },
@@ -92,9 +92,9 @@ const asyncRouterMap = [
         meta: {
           keepAlive: true,
           title: 'menu.nav1',
-          icon: 'video-camera'
+          icon: 'smile'
         },
-        component: () => import(/* webpackChunkName: "about" */ '../views/TestPage2')
+        component: () => import(/* webpackChunkName: "about" */ '../views/TestPage1')
       },
       {
         path: '/page2',
@@ -102,7 +102,7 @@ const asyncRouterMap = [
         meta: {
           keepAlive: true,
           title: 'menu.nav2',
-          icon: 'video-camera'
+          icon: 'smile'
         },
         component: () => import(/* webpackChunkName: "about" */ '../views/TestPage2')
       },
@@ -112,9 +112,9 @@ const asyncRouterMap = [
         meta: {
           keepAlive: true,
           title: 'menu.nav3',
-          icon: 'video-camera'
+          icon: 'smile'
         },
-        component: () => import(/* webpackChunkName: "about" */ '../views/TestPage2')
+        component: () => import(/* webpackChunkName: "about" */ '../views/TestPage3')
       }
     ]
   }

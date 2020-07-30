@@ -13,7 +13,7 @@ export default {
   menu: {
     home: '首页',
     dashboard: {
-      default: 'Dashboard',
+      default: '仪表盘',
       analysis: '分析页',
       workplace: '工作台'
     },
@@ -29,6 +29,11 @@ export default {
   },
 
   pages: {
+    dashboard: {
+      analysis: {
+        content: '分析页描述'
+      }
+    },
     form: {
       basicform: {
         headers: {

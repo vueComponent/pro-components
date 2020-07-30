@@ -6,9 +6,6 @@
       this.tabActiveKey = key
       console.log('PageHeader::tabChange', key)
     }"
-    @back="(e) => {
-      console.log('PageHeader::back', e)
-    }"
     :breadcrumb="customBreadcrumb"
   >
     <template v-slot:content>

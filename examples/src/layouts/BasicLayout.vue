@@ -1,6 +1,5 @@
 <template>
   <pro-layout
-    title="Ant Design Pro"
     :menus="menus"
     :collapsed="collapsed"
     :theme="theme"
@@ -11,9 +10,14 @@
     :isMobile="isMobile"
     :handleMediaQuery="handleMediaQuery"
     :handleCollapse="handleCollapse"
-    :logo="logoRender"
     :i18nRender="i18nRender"
   >
+    <template v-slot:menuHeaderRender>
+      <div>
+        <img src="../assets/logo.svg" />
+        <h1>Pro Layout</h1>
+      </div>
+    </template>
     <template v-slot:rightContentRender>
       <div :class="['ant-pro-global-header-index-right', layout === 'topmenu' && `ant-pro-global-header-index-${theme}`]">
         rightContentRender
@@ -47,7 +51,7 @@ export default {
       // 布局类型
       layout: 'sidemenu', // 'sidemenu', 'topmenu'
       // 定宽: true / 流式: false
-      contentWidth: true,
+      contentWidth: false,
       // 主题 'dark' | 'light'
       theme: 'dark',
       // 是否手机模式

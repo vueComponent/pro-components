@@ -14,6 +14,7 @@ export const GlobalHeaderProps = {
   logo: PropTypes.any,
   menuRender: PropTypes.any,
   collapsedButtonRender: PropTypes.any,
+  headerContentRender: PropTypes.any,
   rightContentRender: PropTypes.any,
 }
 
@@ -25,7 +26,7 @@ const GlobalHeader = {
   name: 'GlobalHeader',
   props: GlobalHeaderProps,
   render (h) {
-    const { isMobile, logo, rightContentRender } = this.$props
+    const { isMobile, logo, rightContentRender, headerContentRender } = this.$props
     const toggle = () => {
       const { collapsed, handleCollapse } = this.$props
       if (handleCollapse) handleCollapse(!collapsed)
@@ -57,6 +58,9 @@ const GlobalHeader = {
           </a>
         )}
         {renderCollapsedButton()}
+        <div class={`${headerCls}-content`}>
+          {isFun(headerContentRender) && headerContentRender(h, this.$props) || headerContentRender}
+        </div>
         {isFun(rightContentRender) && rightContentRender(h, this.$props) || rightContentRender}
       </div>
     )

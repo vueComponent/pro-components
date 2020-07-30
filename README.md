@@ -29,7 +29,6 @@ export default {
 ```vue
 <template>
   <pro-layout
-    title="Ant Design Pro"
     :menus="menus"
     :collapsed="collapsed"
     :theme="theme"
@@ -40,8 +39,13 @@ export default {
     :isMobile="isMobile"
     :handleMediaQuery="handleMediaQuery"
     :handleCollapse="handleCollapse"
-    :logo="logoRender"
   >
+    <template v-slot:menuHeaderRender>
+      <div>
+        <img src="../assets/logo.svg" />
+        <h1>Pro Layout</h1>
+      </div>
+    </template>
     <template v-slot:rightContentRender>
       <div :class="['ant-pro-global-header-index-right', layout === 'topmenu' && `ant-pro-global-header-index-${theme}`]">
         rightContentRender
@@ -61,9 +65,6 @@ export default {
 import ProLayout, { SettingDrawer } from '@ant-design-vue/pro-layout'
 import { asyncRouterMap } from '../config/router.config'
 
-// import svg file
-import LogoSvg from '../assets/logo.svg?inline'
-
 export default {
   name: 'BasicLayout',
   data () {
@@ -73,7 +74,7 @@ export default {
       autoHideHeader: false,
       query: {},
       layout: 'sidemenu',
-      contentWidth: true,
+      contentWidth: false,
       theme: 'dark',
       isMobile: false
     }
@@ -95,9 +96,6 @@ export default {
     },
     handleCollapse (collapsed) {
       this.collapsed = collapsed
-    },
-    logoRender () {
-      return <LogoSvg />
     }
   },
   components: {
@@ -127,7 +125,7 @@ export default {
 | collapsed | control menu's collapse and expansion | boolean | true |
 | isMobile | is mobile | boolean | false |
 | handleCollapse | folding collapse event of menu | (collapsed: boolean) => void | - |
-| menuHeaderRender | render logo and title | VNode \| (logo,title)=>VNode | - |
+| menuHeaderRender | render logo and title | v-slot \| VNode \| (logo,title)=>VNode \| false | - |
 | headerRender | custom header render method | (props: BasicLayoutProps) => VNode | - |
 | rightContentRender | header right content render method | (props: HeaderViewProps) => VNode | - |
 | collapsedButtonRender | custom collapsed button method | (collapsed: boolean) => VNode | - |
