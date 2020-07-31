@@ -93,6 +93,7 @@ const BasicLayout = {
     const menuHeaderRender = getComponentFromProp(content, 'menuHeaderRender')
     const breadcrumbRender = getComponentFromProp(content, 'breadcrumbRender')
     const headerContentRender = getComponentFromProp(content, 'headerContentRender')
+    const menuRender = getComponentFromProp(content, 'menuRender')
 
     const isTopMenu = layout === 'topmenu'
     const hasSiderMenu = !isTopMenu
@@ -107,7 +108,8 @@ const BasicLayout = {
       rightContentRender,
       collapsedButtonRender,
       breadcrumbRender,
-      headerContentRender
+      headerContentRender,
+      menuRender
     }
 
     return (

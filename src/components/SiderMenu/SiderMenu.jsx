@@ -24,6 +24,7 @@ export const SiderMenuProps = {
   title: PropTypes.string.def(''),
   // render function or vnode
   menuHeaderRender: PropTypes.oneOfType([PropTypes.func, PropTypes.array, PropTypes.object, PropTypes.bool]),
+  menuRender: PropTypes.oneOfType([PropTypes.func, PropTypes.array, PropTypes.object, PropTypes.bool]),
 }
 
 export const defaultRenderLogo = (h, logo) => {
@@ -83,7 +84,8 @@ const SiderMenu = {
       handleCollapse,
       onMenuHeaderClick = () => null,
       i18nRender,
-      menuHeaderRender
+      menuHeaderRender,
+      menuRender
     } = this
     const siderCls = ['ant-pro-sider-menu-sider']
     if (fixSiderbar) siderCls.push('fix-sider-bar')
@@ -118,7 +120,13 @@ const SiderMenu = {
           </router-link>
         </div>
       )}
-      <BaseMenu collapsed={collapsed} menus={menus} mode={mode} theme={theme} i18nRender={i18nRender} />
+      {menuRender && (
+        isFun(menuRender)
+          && menuRender(h, this.$props)
+          || menuRender
+      ) || (
+        <BaseMenu collapsed={collapsed} menus={menus} mode={mode} theme={theme} i18nRender={i18nRender} />
+      )}
     </Sider>)
   }
 }
