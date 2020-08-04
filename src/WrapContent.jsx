@@ -1,5 +1,8 @@
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
-import { ConfigProvider, Layout } from 'ant-design-vue'
+
+import 'ant-design-vue/es/layout/style'
+import Layout from 'ant-design-vue/es/layout'
+import ConfigProvider from 'ant-design-vue/es/config-provider'
 import GridContent from './components/GridContent'
 
 const { Content } = Layout

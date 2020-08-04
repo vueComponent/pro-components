@@ -1,8 +1,11 @@
 import './ThemeColor.less'
 
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
-import { Tooltip, Icon } from 'ant-design-vue'
 import { genThemeToString } from '../../utils/util'
+import 'ant-design-vue/es/tooltip/style'
+import Tooltip from 'ant-design-vue/es/tooltip'
+import 'ant-design-vue/es/icon/style'
+import Icon from 'ant-design-vue/es/icon'
 
 const baseClassName = 'theme-color'
 

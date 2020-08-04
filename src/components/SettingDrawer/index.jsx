@@ -2,7 +2,31 @@ import './index.less'
 
 import omit from 'omit.js'
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
-import { Divider, Drawer, List, Switch, Button, Icon, Alert, message } from 'ant-design-vue'
+
+import 'ant-design-vue/es/divider/style'
+import Divider from 'ant-design-vue/es/divider'
+
+import 'ant-design-vue/es/drawer/style'
+import Drawer from 'ant-design-vue/es/drawer'
+
+import 'ant-design-vue/es/list/style'
+import List from 'ant-design-vue/es/list'
+
+import 'ant-design-vue/es/switch/style'
+import Switch from 'ant-design-vue/es/switch'
+
+import 'ant-design-vue/es/button/style'
+import Button from 'ant-design-vue/es/button'
+
+import 'ant-design-vue/es/icon/style'
+import Icon from 'ant-design-vue/es/icon'
+
+import 'ant-design-vue/es/alert/style'
+import Alert from 'ant-design-vue/es/alert'
+
+import 'ant-design-vue/es/message/style'
+import message from 'ant-design-vue/es/message'
+
 import BlockCheckbox from './BlockCheckbox'
 import ThemeColor from './ThemeColor'
 import LayoutSetting, { renderLayoutSettingItem } from './LayoutChange'

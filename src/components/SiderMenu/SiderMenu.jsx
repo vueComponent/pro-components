@@ -1,7 +1,8 @@
 import './index.less'
 
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
-import { Layout } from 'ant-design-vue'
+import 'ant-design-vue/es/layout/style'
+import Layout from 'ant-design-vue/es/layout'
 import { isFun } from '../../utils/util'
 import BaseMenu from '../RouteMenu'
 

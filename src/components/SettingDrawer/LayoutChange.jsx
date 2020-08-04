@@ -1,5 +1,13 @@
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
-import { List, Tooltip, Select, Switch } from 'ant-design-vue'
+
+import 'ant-design-vue/es/tooltip/style'
+import Tooltip from 'ant-design-vue/es/tooltip'
+import 'ant-design-vue/es/list/style'
+import List from 'ant-design-vue/es/list'
+import 'ant-design-vue/es/select/style'
+import Select from 'ant-design-vue/es/select'
+import 'ant-design-vue/es/switch/style'
+import Switch from 'ant-design-vue/es/switch'
 
 export const renderLayoutSettingItem = (h, item) => {
   const action = {...item.action}

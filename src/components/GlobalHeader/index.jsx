@@ -3,7 +3,8 @@ import './index.less'
 import debounce from 'lodash/debounce'
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
 import { triggerEvent, inBrowser, isFun } from '../../utils/util'
-import { Icon } from 'ant-design-vue'
+import 'ant-design-vue/es/icon/style'
+import Icon from 'ant-design-vue/es/icon'
 import { defaultRenderLogo } from '../SiderMenu/SiderMenu'
 
 export const GlobalHeaderProps = {

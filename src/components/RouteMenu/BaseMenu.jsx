@@ -1,5 +1,9 @@
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
-import { Menu, Icon } from 'ant-design-vue'
+
+import 'ant-design-vue/es/menu/style'
+import Menu from 'ant-design-vue/es/menu'
+import 'ant-design-vue/es/icon/style'
+import Icon from 'ant-design-vue/es/icon'
 
 const {
   Item: MenuItem,

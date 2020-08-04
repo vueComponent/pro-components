@@ -2,10 +2,11 @@ import './index.less'
 
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
 import GridContent from '../GridContent'
-import { PageHeader, Tabs } from 'ant-design-vue'
+import 'ant-design-vue/es/page-header/style'
+import PageHeader, { PageHeaderProps } from 'ant-design-vue/es/page-header'
+import 'ant-design-vue/es/tabs/style'
+import Tabs from 'ant-design-vue/es/tabs'
 import { getComponentFromProp } from 'ant-design-vue/lib/_util/props-util'
-
-const { PageHeaderProps } = PageHeader
 
 const prefixedClassName = 'ant-pro-page-header-wrap'
 

@@ -12,6 +12,11 @@
     :handleCollapse="handleCollapse"
     :i18nRender="i18nRender"
   >
+    <!--    <template v-slot:menuRender>
+      <div v-for="(menu, key) in menus" :key="key">
+        {{  menu }}
+      </div>
+    </template>-->
     <template v-slot:menuHeaderRender>
       <div>
         <img src="../assets/logo.svg" />

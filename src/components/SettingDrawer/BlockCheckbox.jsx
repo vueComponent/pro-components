@@ -1,5 +1,9 @@
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
-import { Tooltip, Icon } from 'ant-design-vue'
+
+import 'ant-design-vue/es/tooltip/style'
+import Tooltip from 'ant-design-vue/es/tooltip'
+import 'ant-design-vue/es/icon/style'
+import Icon from 'ant-design-vue/es/icon'
 
 const BlockCheckboxProps = {
   value: PropTypes.string,

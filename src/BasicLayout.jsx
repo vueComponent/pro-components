@@ -2,7 +2,9 @@ import './BasicLayout.less'
 
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
 
-import { Layout } from 'ant-design-vue'
+import 'ant-design-vue/es/layout/style'
+import Layout from 'ant-design-vue/es/layout'
+
 import { ContainerQuery } from 'vue-container-query'
 import { SiderMenuWrapper, GlobalFooter } from './components'
 import { getComponentFromProp, isFun } from './utils/util'
