@@ -1,12 +1,14 @@
 import './index.less'
 
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
+import { isArray } from 'ant-design-vue/lib/_util/vue-types/utils'
 import GridContent from '../GridContent'
 import 'ant-design-vue/es/page-header/style'
 import PageHeader, { PageHeaderProps } from 'ant-design-vue/es/page-header'
 import 'ant-design-vue/es/tabs/style'
 import Tabs from 'ant-design-vue/es/tabs'
 import { getComponentFromProp } from 'ant-design-vue/lib/_util/props-util'
+
 
 const prefixedClassName = 'ant-pro-page-header-wrap'
 
@@ -94,7 +96,8 @@ const renderPageHeader = (h, content, extraContent) => {
 
 const defaultPageHeaderRender = (h, props, pageMeta, i18nRender) => {
   const {
-    title,
+    title: propTitle,
+    tags,
     content,
     pageHeaderRender,
     extra,
@@ -106,14 +109,20 @@ const defaultPageHeaderRender = (h, props, pageMeta, i18nRender) => {
   if (pageHeaderRender) {
     return pageHeaderRender({ ...props })
   }
-  let pageHeaderTitle = title
-  if (!title && title !== false) {
+  let pageHeaderTitle = propTitle
+  if (!propTitle && propTitle !== false) {
     pageHeaderTitle = pageMeta.title
   }
+  // title props 不是 false 且不是 array 则直接渲染 title
+  // 反之认为是 VNode, 作为 render 参数直接传入到 PageHeader
+  const title = isArray(pageHeaderTitle)
+    ? pageHeaderTitle
+    : pageHeaderTitle && i18nRender(pageHeaderTitle)
   let tabProps = {
     breadcrumb,
     extra,
-    title: pageHeaderTitle && i18nRender(pageHeaderTitle),
+    tags,
+    title,
     footer: renderFooter(h, restProps, i18nRender),
   }
   if (!handleBack) {
@@ -135,6 +144,8 @@ const PageHeaderWrapper = {
   render(h) {
     const { $route, $listeners } = this
     const children = this.$slots.default
+    const title = getComponentFromProp(this, 'title')
+    const tags = getComponentFromProp(this, 'tags')
     const content = getComponentFromProp(this, 'content')
     const extra = getComponentFromProp(this, 'extra')
     const extraContent = getComponentFromProp(this, 'extraContent')
@@ -186,6 +197,8 @@ const PageHeaderWrapper = {
 
     const props = {
       ...this.$props,
+      title,
+      tags,
       content,
       extra,
       extraContent,

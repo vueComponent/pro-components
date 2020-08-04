@@ -14,6 +14,13 @@
       console.log('PageHeader::.back')
     }"
   >
+    <template v-slot:title>
+      自定义标题
+    </template>
+    <template v-slot:tags>
+      <a-tag color="pink">tag1</a-tag>
+      <a-tag>tag2</a-tag>
+    </template>
     <template v-slot:content>
       <span>{{ $t('pages.form.basicform.content') }}</span>
     </template>
