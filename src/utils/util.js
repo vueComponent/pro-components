@@ -10,6 +10,10 @@ const isFun = (func) => {
   return typeof func === 'function'
 }
 
+export const layoutContentWidth = (contentType) => {
+  return contentType !== 'Fluid'
+}
+
 const themeConfig = {
   daybreak: 'daybreak',
   '#1890ff': 'daybreak',

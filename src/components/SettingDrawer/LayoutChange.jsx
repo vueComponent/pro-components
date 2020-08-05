@@ -48,7 +48,7 @@ export default {
             title: i18n('app.setting.content-width'),
             action: (
               <Select
-                value={contentWidth && 'Fixed' || 'Fluid'}
+                value={contentWidth}
                 size="small"
                 onSelect={(value) => handleChange('contentWidth', value)}
                 style={{ width: '80px' }}

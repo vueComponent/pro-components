@@ -60,7 +60,7 @@ const GlobalHeader = {
         )}
         {renderCollapsedButton()}
         {headerContentRender && (
-          <div className={`${headerCls}-content`}>
+          <div class={`${headerCls}-content`}>
             {isFun(headerContentRender) && headerContentRender(h, this.$props) || headerContentRender}
           </div>
         )}

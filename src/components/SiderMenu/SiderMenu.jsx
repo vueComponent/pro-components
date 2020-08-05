@@ -12,7 +12,7 @@ export const SiderMenuProps = {
   i18nRender: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]).def(false),
   mode: PropTypes.string.def('inline'),
   theme: PropTypes.string.def('dark'),
-  contentWidth: PropTypes.bool,
+  contentWidth: PropTypes.oneOf(['Fluid', 'Fixed']).def('Fluid'),
   collapsible: PropTypes.bool,
   collapsed: PropTypes.bool,
   handleCollapse: PropTypes.func,

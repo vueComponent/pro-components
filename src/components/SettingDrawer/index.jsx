@@ -152,7 +152,7 @@ export const settings = {
   primaryColor: PropTypes.string,
   layout: PropTypes.oneOf(['sidemenu', 'topmenu']),
   colorWeak: PropTypes.bool,
-  contentWidth: PropTypes.bool,
+  contentWidth: PropTypes.oneOf(['Fluid', 'Fixed']).def('Fluid'),
   fixedHeader: PropTypes.bool,
   fixSiderbar: PropTypes.bool,
   hideHintAlert: PropTypes.bool.def(false),
@@ -188,7 +188,7 @@ const SettingDrawer = {
       layout = 'sidemenu',
       fixedHeader = false,
       fixSiderbar = false,
-      contentWidth = false,
+      contentWidth,
       hideHintAlert,
       hideCopyButton,
       colorWeak

@@ -56,7 +56,7 @@ export default {
       // 布局类型
       layout: 'sidemenu', // 'sidemenu', 'topmenu'
       // 定宽: true / 流式: false
-      contentWidth: false,
+      contentWidth: 'Fluid', // layout of content: `Fluid` or `Fixed`, only works when layout is topmenu
       // 主题 'dark' | 'light'
       theme: 'dark',
       // 是否手机模式

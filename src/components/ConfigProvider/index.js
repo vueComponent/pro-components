@@ -2,7 +2,7 @@ import PropTypes from 'ant-design-vue/es/_util/vue-types'
 
 const ProConfigProviderProps = {
   i18nRender: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]).def(false),
-  contentWidth: PropTypes.bool,
+  contentWidth: PropTypes.oneOf(['Fluid', 'Fixed']).def('Fluid'),
   breadcrumbRender: PropTypes.func,
 }
 

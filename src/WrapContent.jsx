@@ -11,7 +11,7 @@ const WrapContentProps = {
   isChildrenLayout: PropTypes.bool,
   location: PropTypes.any,
   contentHeight: PropTypes.number,
-  contentWidth: PropTypes.bool
+  contentWidth: PropTypes.oneOf(['Fluid', 'Fixed']).def('Fluid'),
 }
 
 const WrapContent = {
