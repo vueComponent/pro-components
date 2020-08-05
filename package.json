@@ -1,6 +1,6 @@
 {
     "name": "@ant-design-vue/pro-layout",
-    "version": "0.3.11",
+    "version": "0.3.12",
     "main": "./lib/index.js",
     "module": "./es/index.js",
     "repository": {
