@@ -21,7 +21,7 @@ export const renderLayoutSettingItem = (h, item) => {
 }
 
 export const LayoutSettingProps = {
-  contentWidth: PropTypes.bool,
+  contentWidth: PropTypes.oneOf(['Fluid', 'Fixed']).def('Fluid'),
   fixedHeader: PropTypes.bool,
   fixSiderbar: PropTypes.bool,
   layout: PropTypes.oneOf(['sidemenu', 'topmenu']),
