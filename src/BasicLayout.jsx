@@ -7,15 +7,18 @@ import Layout from 'ant-design-vue/es/layout'
 
 import { ContainerQuery } from 'vue-container-query'
 import { SiderMenuWrapper, GlobalFooter } from './components'
-import { getComponentFromProp, isFun } from './utils/util'
+import { contentWidthCheck, getComponentFromProp, isFun } from './utils/util'
 import { SiderMenuProps } from './components/SiderMenu'
 import HeaderView, { HeaderViewProps } from './Header'
 import WrapContent from './WrapContent'
 import ConfigProvider from './components/ConfigProvider'
+import PageHeaderWrapper from './components/PageHeaderWrapper'
 
 export const BasicLayoutProps = {
   ...SiderMenuProps,
   ...HeaderViewProps,
+  // 替换兼容 PropTypes.oneOf(['Fluid', 'Fixed']).def('Fluid')
+  contentWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).def('Fluid'),
   locale: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).def('en-US'),
   breadcrumbRender: PropTypes.func,
   disableMobile: PropTypes.bool.def(false),
@@ -83,7 +86,6 @@ const BasicLayout = {
       mediaQuery,
       handleMediaQuery,
       handleCollapse,
-      contentWidth,
       siderWidth,
       fixSiderbar,
       i18nRender = defaultI18nRender
@@ -97,6 +99,9 @@ const BasicLayout = {
     const headerContentRender = getComponentFromProp(content, 'headerContentRender')
     const menuRender = getComponentFromProp(content, 'menuRender')
 
+    // 兼容 0.3.4~0.3.8
+    const contentWidth = contentWidthCheck(props.contentWidth)
+
     const isTopMenu = layout === 'topmenu'
     const hasSiderMenu = !isTopMenu
     // If it is a fix menu, calculate padding
@@ -104,6 +109,7 @@ const BasicLayout = {
     const hasLeftPadding = fixSiderbar && !isTopMenu && !isMobile
     const cdProps = {
       ...props,
+      contentWidth,
       hasSiderMenu,
       footerRender,
       menuHeaderRender,
@@ -161,6 +167,12 @@ const BasicLayout = {
       </ConfigProvider>
     )
   }
+}
+
+BasicLayout.install = function (Vue) {
+  Vue.component(PageHeaderWrapper.name, PageHeaderWrapper)
+  Vue.component('page-container', PageHeaderWrapper)
+  Vue.component('pro-layout', BasicLayout)
 }
 
 export default BasicLayout

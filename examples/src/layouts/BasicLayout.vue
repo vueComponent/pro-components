@@ -1,16 +1,14 @@
 <template>
   <pro-layout
+    title="Pro Layout"
     :menus="menus"
     :collapsed="collapsed"
-    :theme="theme"
-    :layout="layout"
-    :contentWidth="contentWidth"
-    :auto-hide-header="autoHideHeader"
     :mediaQuery="query"
     :isMobile="isMobile"
     :handleMediaQuery="handleMediaQuery"
     :handleCollapse="handleCollapse"
     :i18nRender="i18nRender"
+    v-bind="settings"
   >
     <!--    <template v-slot:menuRender>
       <div v-for="(menu, key) in menus" :key="key">
@@ -24,22 +22,28 @@
       </div>
     </template>
     <template v-slot:rightContentRender>
-      <div :class="['ant-pro-global-header-index-right', layout === 'topmenu' && `ant-pro-global-header-index-${theme}`]">
+      <div :class="['ant-pro-global-header-index-right', settings.layout === 'topmenu' && `ant-pro-global-header-index-${settings.theme}`]">
         rightContentRender
       </div>
     </template>
     <template v-slot:footerRender>
       <div>footerRender</div>
     </template>
+    <setting-drawer
+      :settings="settings"
+      @change="handleSettingChange"
+    />
     <router-view />
   </pro-layout>
 </template>
 
 <script>
-import ProLayout from '@ant-design-vue/pro-layout'
 import { asyncRouterMap } from '../config/router.config'
 import { i18nRender } from '../locales'
+
+import defaultSettings from '@/config/defaultSettings'
 import LogoSvg from '../assets/logo.svg?inline'
+import { CONTENT_WIDTH_TYPE } from '@/store/mutation-types'
 
 export default {
   name: 'BasicLayout',
@@ -56,11 +60,27 @@ export default {
       // 布局类型
       layout: 'sidemenu', // 'sidemenu', 'topmenu'
       // 定宽: true / 流式: false
-      contentWidth: 'Fluid', // layout of content: `Fluid` or `Fixed`, only works when layout is topmenu
+      contentWidth: false, // layout of content: `Fluid` or `Fixed`, only works when layout is topmenu
       // 主题 'dark' | 'light'
       theme: 'dark',
       // 是否手机模式
-      isMobile: false
+      isMobile: false,
+      settings: {
+        // 布局类型
+        layout: defaultSettings.layout, // 'sidemenu', 'topmenu'
+        // CONTENT_WIDTH_TYPE
+        contentWidth: defaultSettings.contentWidth,
+        // 主题 'dark' | 'light'
+        theme: defaultSettings.navTheme,
+        // 主色调
+        primaryColor: defaultSettings.primaryColor,
+        fixedHeader: defaultSettings.fixedHeader,
+        fixSiderbar: defaultSettings.fixSiderbar,
+        colorWeak: defaultSettings.colorWeak,
+
+        hideHintAlert: false,
+        hideCopyButton: false
+      }
     }
   },
   created () {
@@ -82,15 +102,29 @@ export default {
     handleCollapse (val) {
       this.collapsed = val
     },
+    handleSettingChange ({ type, value }) {
+      console.log('type', type, value)
+      type && (this.settings[type] = value)
+      switch (type) {
+        case 'contentWidth':
+          this.settings[type] = value
+          break
+        case 'layout':
+          if (value === 'sidemenu') {
+            this.settings.contentWidth = CONTENT_WIDTH_TYPE.Fluid
+          } else {
+            this.settings.fixSiderbar = false
+            this.settings.contentWidth = CONTENT_WIDTH_TYPE.Fixed
+          }
+          break
+      }
+    },
     logoRender () {
       return <LogoSvg />
     },
     footerRender () {
       return <div>custom footer</div>
     }
-  },
-  components: {
-    ProLayout
   }
 }
 </script>

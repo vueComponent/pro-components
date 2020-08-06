@@ -10,6 +10,13 @@ const isFun = (func) => {
   return typeof func === 'function'
 }
 
+// 兼容 0.3.4~0.3.8
+export const contentWidthCheck = (contentWidth) => {
+  return Object.prototype.toString.call(contentWidth) === '[object Boolean]'
+    ? contentWidth === true && 'Fixed' || 'Fluid'
+    : contentWidth
+}
+
 export const layoutContentWidth = (contentType) => {
   return contentType !== 'Fluid'
 }

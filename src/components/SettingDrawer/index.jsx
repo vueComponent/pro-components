@@ -24,6 +24,8 @@ import Icon from 'ant-design-vue/es/icon'
 import 'ant-design-vue/es/alert/style'
 import Alert from 'ant-design-vue/es/alert'
 
+import antPortal from 'ant-design-vue/es/_util/portalDirective'
+
 import 'ant-design-vue/es/message/style'
 import message from 'ant-design-vue/es/message'
 
@@ -31,7 +33,7 @@ import BlockCheckbox from './BlockCheckbox'
 import ThemeColor from './ThemeColor'
 import LayoutSetting, { renderLayoutSettingItem } from './LayoutChange'
 import { updateTheme, updateColorWeak } from '../../utils/dynamicTheme'
-import { genStringToTheme } from '../../utils/util'
+import { contentWidthCheck, genStringToTheme } from '../../utils/util'
 import CopyToClipboard from 'vue-copy-to-clipboard'
 
 const baseClassName = 'ant-pro-setting-drawer'
@@ -152,7 +154,9 @@ export const settings = {
   primaryColor: PropTypes.string,
   layout: PropTypes.oneOf(['sidemenu', 'topmenu']),
   colorWeak: PropTypes.bool,
-  contentWidth: PropTypes.oneOf(['Fluid', 'Fixed']).def('Fluid'),
+  // contentWidth: PropTypes.oneOf(['Fluid', 'Fixed']).def('Fluid'),
+  // 替换兼容 PropTypes.oneOf(['Fluid', 'Fixed']).def('Fluid')
+  contentWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).def('Fluid'),
   fixedHeader: PropTypes.bool,
   fixSiderbar: PropTypes.bool,
   hideHintAlert: PropTypes.bool.def(false),
@@ -188,7 +192,6 @@ const SettingDrawer = {
       layout = 'sidemenu',
       fixedHeader = false,
       fixSiderbar = false,
-      contentWidth,
       hideHintAlert,
       hideCopyButton,
       colorWeak
@@ -197,6 +200,9 @@ const SettingDrawer = {
     const i18n = this.$props.i18nRender || this.locale || defaultI18nRender
     const themeList = getThemeList(i18n)
     const isTopMenu = layout === 'topmenu'
+
+    // 兼容 0.3.4~0.3.8
+    const contentWidth = contentWidthCheck(settings.contentWidth)
 
     const iconStyle = {
       color: '#fff',
@@ -325,6 +331,11 @@ const SettingDrawer = {
       this.show = flag
     }
   }
+}
+
+SettingDrawer.install = function (Vue) {
+  Vue.use(antPortal)
+  Vue.component(SettingDrawer.name, SettingDrawer)
 }
 
 export default SettingDrawer

@@ -9,14 +9,16 @@ import i18n from './locales'
 
 import './router/router-guards'
 import './core/library'
-import { PageHeaderWrapper } from '@ant-design-vue/pro-layout'
+import ProLayout, { PageHeaderWrapper, SettingDrawer } from '@ant-design-vue/pro-layout'
 import initializer from './core/bootstrap'
 import './global.less'
 import themePluginConfig from '@config/themePluginConfig'
 
 Vue.config.productionTip = false
 
-Vue.component('page-header-wrapper', PageHeaderWrapper)
+Vue.use(ProLayout)
+Vue.use(PageHeaderWrapper)
+Vue.use(SettingDrawer)
 
 window.umi_plugin_ant_themeVar = themePluginConfig.theme
 

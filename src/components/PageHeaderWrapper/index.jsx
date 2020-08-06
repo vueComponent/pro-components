@@ -224,4 +224,9 @@ const PageHeaderWrapper = {
   },
 }
 
+PageHeaderWrapper.install = function (Vue) {
+  Vue.component(PageHeaderWrapper.name, PageHeaderWrapper)
+  Vue.component('page-container', PageHeaderWrapper)
+}
+
 export default PageHeaderWrapper
