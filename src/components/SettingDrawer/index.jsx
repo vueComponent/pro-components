@@ -154,9 +154,9 @@ export const settings = {
   primaryColor: PropTypes.string,
   layout: PropTypes.oneOf(['sidemenu', 'topmenu']),
   colorWeak: PropTypes.bool,
-  // contentWidth: PropTypes.oneOf(['Fluid', 'Fixed']).def('Fluid'),
+  contentWidth: PropTypes.oneOf(['Fluid', 'Fixed']).def('Fluid'),
   // 替换兼容 PropTypes.oneOf(['Fluid', 'Fixed']).def('Fluid')
-  contentWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).def('Fluid'),
+  // contentWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).def('Fluid'),
   fixedHeader: PropTypes.bool,
   fixSiderbar: PropTypes.bool,
   hideHintAlert: PropTypes.bool.def(false),
@@ -192,6 +192,7 @@ const SettingDrawer = {
       layout = 'sidemenu',
       fixedHeader = false,
       fixSiderbar = false,
+      contentWidth,
       hideHintAlert,
       hideCopyButton,
       colorWeak
@@ -200,9 +201,6 @@ const SettingDrawer = {
     const i18n = this.$props.i18nRender || this.locale || defaultI18nRender
     const themeList = getThemeList(i18n)
     const isTopMenu = layout === 'topmenu'
-
-    // 兼容 0.3.4~0.3.8
-    const contentWidth = contentWidthCheck(settings.contentWidth)
 
     const iconStyle = {
       color: '#fff',

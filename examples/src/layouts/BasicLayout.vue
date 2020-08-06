@@ -21,6 +21,9 @@
         <h1>Pro Layout</h1>
       </div>
     </template>
+    <template v-slot:headerContentRender>
+      <div>headerContentRender</div>
+    </template>
     <template v-slot:rightContentRender>
       <div :class="['ant-pro-global-header-index-right', settings.layout === 'topmenu' && `ant-pro-global-header-index-${settings.theme}`]">
         rightContentRender

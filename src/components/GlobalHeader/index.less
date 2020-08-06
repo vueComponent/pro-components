@@ -60,13 +60,25 @@
 
     &-trigger {
         height: @layout-header-height;
-        padding: ~'calc((@{layout-header-height} - 26px) / 2)' 24px;
-        font-size: 20px;
+        line-height: @layout-header-height;
+        // vertical-align: middle;
+        padding: 0 22px;
+        display: inline-block;
         cursor: pointer;
         transition: all 0.3s, padding 0s;
+        .anticon {
+            font-size: 20px;
+            vertical-align: -0.225em;
+        }
         &:hover {
             background: @pro-header-hover-trigger-action-bg;
         }
+    }
+
+    &-content {
+        height: @layout-header-height;
+        line-height: @layout-header-height;
+        display: inline-block;
     }
 
     .dark {

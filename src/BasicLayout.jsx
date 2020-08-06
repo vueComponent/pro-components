@@ -17,8 +17,8 @@ import PageHeaderWrapper from './components/PageHeaderWrapper'
 export const BasicLayoutProps = {
   ...SiderMenuProps,
   ...HeaderViewProps,
-  // 替换兼容 PropTypes.oneOf(['Fluid', 'Fixed']).def('Fluid')
-  contentWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).def('Fluid'),
+  contentWidth: PropTypes.oneOf(['Fluid', 'Fixed']).def('Fluid'),
+  // contentWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).def('Fluid'),
   locale: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).def('en-US'),
   breadcrumbRender: PropTypes.func,
   disableMobile: PropTypes.bool.def(false),
@@ -99,9 +99,6 @@ const BasicLayout = {
     const headerContentRender = getComponentFromProp(content, 'headerContentRender')
     const menuRender = getComponentFromProp(content, 'menuRender')
 
-    // 兼容 0.3.4~0.3.8
-    const contentWidth = contentWidthCheck(props.contentWidth)
-
     const isTopMenu = layout === 'topmenu'
     const hasSiderMenu = !isTopMenu
     // If it is a fix menu, calculate padding
@@ -109,7 +106,6 @@ const BasicLayout = {
     const hasLeftPadding = fixSiderbar && !isTopMenu && !isMobile
     const cdProps = {
       ...props,
-      contentWidth,
       hasSiderMenu,
       footerRender,
       menuHeaderRender,
@@ -121,7 +117,7 @@ const BasicLayout = {
     }
 
     return (
-      <ConfigProvider i18nRender={i18nRender} contentWidth={contentWidth} breadcrumbRender={breadcrumbRender}>
+      <ConfigProvider i18nRender={i18nRender} contentWidth={props.contentWidth} breadcrumbRender={breadcrumbRender}>
         <ContainerQuery query={MediaQueryEnum} onChange={handleMediaQuery}>
           <Layout class={{
             'ant-pro-basicLayout': true,
@@ -143,7 +139,7 @@ const BasicLayout = {
                 ...cdProps,
                 mode: 'horizontal',
               })}
-              <WrapContent class="ant-pro-basicLayout-content" contentWidth={contentWidth}>
+              <WrapContent class="ant-pro-basicLayout-content" contentWidth={props.contentWidth}>
                 {children}
               </WrapContent>
               <Layout.Footer>
