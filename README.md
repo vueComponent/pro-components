@@ -74,7 +74,7 @@ export default {
       autoHideHeader: false,
       query: {},
       layout: 'sidemenu',
-      contentWidth: false,
+      contentWidth: 'Fluid',
       theme: 'dark',
       isMobile: false
     }
@@ -119,7 +119,7 @@ export default {
 | logo | layout top left logo url | VNode \| render | - |
 | loading`*` | layout loading status | boolean | - |
 | layout | layout menu mode, sidemenu: right navigation, topmenu: top navigation | 'sidemenu' \| 'topmenu' | `'sidemenu'` |
-| contentWidth | content mode of layout, Fluid: fixed width 1200px, Fixed: adaptive | true \| false | `false` |
+| contentWidth | content mode of layout, Fluid: adaptive, Fixed:  fixed width 1200px | 'Fixed' \| 'Fluid' | `Fluid` |
 | theme | Navigation menu theme | 'light' \| 'dark' | `'dark'` |
 | menus | Vue-router `routes` prop | Object | `[{}]` |
 | collapsed | control menu's collapse and expansion | boolean | true |
@@ -159,4 +159,4 @@ export default {
 | theme | Theme | `dark` `light` `realDark` | `light` |
 | layout | Sider Layout | `sidemenu` `topmenu` | `sidemenu` |
 | primaryColor | Primary color (*development only) | `#1890ff` |      |
-
+| contentWidth | content mode of layout, Fluid: adaptive, Fixed:  fixed width 1200px | 'Fixed' \| 'Fluid' | `Fluid` |

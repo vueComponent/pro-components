@@ -70,7 +70,7 @@ export default {
       autoHideHeader: false,
       query: {},
       layout: 'sidemenu',
-      contentWidth: false,
+      contentWidth: 'Fluid',
       theme: 'dark',
       isMobile: false
     }
@@ -116,7 +116,7 @@ export default {
 | loading`*` | layout 的加载态 | boolean | - |
 | menuHeaderRender | 渲染 logo 和 title | v-slot \| VNode \| (logo,title)=>VNode \| false | - |
 | layout | layout 的菜单模式, sidemenu: 右侧导航, topmenu: 顶部导航 | 'sidemenu' \| 'topmenu' | `'sidemenu'` |
-| contentWidth | layout 的内容模式,Fluid：定宽 1200px，Fixed：自适应 | true \| false | `false` |
+| contentWidth | layout 的内容模式,Fluid：自适应，Fixed：定宽 1200px | 'Fixed' \| 'Fluid' | `Fluid` |
 | theme | 导航的主题 | 'light' \| 'dark' | `'dark'` |
 | menus | Vue-router `routes` 属性 | Object | `[{}]` |
 | collapsed | 控制菜单的收起和展开 | boolean | true |
