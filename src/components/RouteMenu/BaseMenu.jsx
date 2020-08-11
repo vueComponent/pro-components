@@ -50,7 +50,7 @@ const renderMenuItem = (h, item, i18nRender) => {
     // 都给子菜单增加一个 hidden 属性
     // 用来给刷新页面时， selectedKeys 做控制用
     item.children.forEach(cd => {
-      cd.meta = Object.assign(cd.meta, { hidden: true })
+      cd.meta = Object.assign(cd.meta || {}, { hidden: true })
     })
   }
   return (
