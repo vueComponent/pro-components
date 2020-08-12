@@ -2,7 +2,7 @@
   "name": "ant-design-pro-example",
   "version": "0.1.1",
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
