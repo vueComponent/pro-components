@@ -1,84 +1,81 @@
 {
-    "name": "@ant-design-vue/pro-layout",
-    "version": "1.0.1",
-    "main": "./lib/index.js",
-    "module": "./es/index.js",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/vueComponent/pro-layout"
+  "name": "@ant-design-vue/pro-layout",
+  "version": "3.0.0-alpha.1",
+  "main": "./lib/index.js",
+  "module": "./es/index.js",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ant-design/pro-layout"
+  },
+  "contributors": [
+    "tangjinzhou <415800467@qq.com>",
+    "Sendya <yladmxa@gmail.com>"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "clean": "./scripts/cleanup.sh",
+    "start": "vc-tools run server",
+    "lint": "eslint src/ --ext .tsx,.ts",
+    "compile": "vc-tools run compile",
+    "test": "cross-env NODE_ENV=test jest --config .jest.js",
+    "prepublishOnly": "npm run lint && npm run generate && npm run compile && npm run test",
+    "generate": "rimraf src/icons && TS_NODE_PROJECT=scripts/tsconfig.json node -r ts-node/register scripts/generate.ts --target=icon",
+    "postcompile": "npm run clean && TS_NODE_PROJECT=scripts/tsconfig.json node -r ts-node/register scripts/generate.ts --target=entry"
+  },
+  "peerDependencies": {
+    "vue": ">=3.0.0",
+    "ant-design-vue": ">=2.0.0"
+  },
+  "devDependencies": {
+    "@vue/babel-plugin-jsx": "^1.0.0-rc.3",
+    "@babel/runtime": "^7.11.2",
+    "@types/jest": "^24.0.17",
+    "@types/node": "^13.13.15",
+    "@typescript-eslint/eslint-plugin": "^2.33.0",
+    "@typescript-eslint/parser": "^2.33.0",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-typescript": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0-0",
+    "@vue/eslint-config-prettier": "^6.0.0",
+    "@vue/eslint-config-typescript": "^5.0.2",
+    "@vue/test-utils": "^2.0.0-beta.2",
+    "cross-env": "^5.2.0",
+    "eslint": "^6.7.2",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-vue": "^7.0.0-0",
+    "jest": "^25.4.0",
+    "jest-serializer-vue": "^2.0.2",
+    "prettier": "^1.19.1",
+    "ts-node": "^8.10.2",
+    "typescript": "~3.9.3",
+    "vc-tools": "^3.0.0",
+    "vue": "^3.0.0-0",
+    "vue-jest": "^5.0.0-alpha.3"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.10.4",
+    "ant-design-vue": "^2.0.0-beta.10",
+    "lodash": "^4.17.15"
+  },
+  "config": {
+    "port": 9528,
+    "entry": {
+      "@ant-design-vue/pro-layout": [
+        "./src/index.jsx"
+      ]
     },
-    "contributors": [
-        "tangjinzhou <415800467@qq.com>",
-        "Sendya <yladmxa@gmail.com>"
-    ],
-    "license": "MIT",
-    "scripts": {
-        "start": "vc-tools run server",
-        "lint": "eslint -c ./.eslintrc --fix --ext .jsx,.js,.vue ./src",
-        "compile": "vc-tools run compile --babel-runtime",
-        "test": "cross-env NODE_ENV=test jest --config .jest.js",
-        "prepublishOnly": "npm run lint && npm run test && npm run compile && np --no-cleanup --yolo --no-publish"
-    },
-    "files": [
-        "es",
-        "lib"
-    ],
-    "peerDependencies": {
-        "ant-design-vue": "^1.6.2",
-        "umi-request": "^1.2.11",
-        "vue": ">=2.6.0",
-        "vue-container-query": "^0.1.0",
-        "vue-template-compiler": ">=2.6.0"
-    },
-    "devDependencies": {
-        "@ant-design-vue/tools": "^1.0.2-beta.2",
-        "@babel/core": "^7.11.1",
-        "@babel/plugin-transform-runtime": "^7.5.5",
-        "@babel/preset-env": "^7.5.5",
-        "@types/jest": "^24.0.17",
-        "@types/node": "^10.5.5",
-        "@types/vue": "^2.0.0",
-        "@vue/server-test-utils": "1.0.0-beta.16",
-        "@vue/test-utils": "1.0.0-beta.16",
-        "babel-core": "^7.0.0-bridge.0",
-        "babel-eslint": "^10.1.0",
-        "babel-helper-vue-jsx-merge-props": "^2.0.3",
-        "babel-plugin-transform-class-properties": "^6.24.1",
-        "babel-plugin-transform-object-assign": "^6.22.0",
-        "babel-plugin-transform-object-rest-spread": "^6.26.0",
-        "babel-plugin-transform-runtime": "^6.23.0",
-        "babel-plugin-transform-vue-jsx": "^4.0.1",
-        "babel-runtime": "^6.26.0",
-        "cross-env": "^5.2.0",
-        "eslint": "^6.5.1",
-        "eslint-config-prettier": "^6.4.0",
-        "eslint-plugin-vue": "^5.2.3",
-        "jest": "^26.3.0",
-        "jest-serializer-vue": "^2.0.2",
-        "np": "^5.1.1",
-        "prettier": "^1.18.2",
-        "regenerator-runtime": "^0.13.7",
-        "vue": ">=2.5.0",
-        "vue-jest": "^2.5.0",
-        "vue-template-compiler": ">=2.5.0"
-    },
-    "dependencies": {
-        "ant-design-vue": "^1.6.2",
-        "classnames": "^2.2.6",
-        "insert-css": "^2.0.0",
-        "lodash": "^4.17.15",
-        "omit.js": "^1.0.2",
-        "umi-request": "^1.2.11",
-        "vue-container-query": "^0.1.0",
-        "vue-copy-to-clipboard": "^1.0.3"
-    },
-    "config": {
-        "port": 9528,
-        "entry": {
-            "@ant-design-vue/pro-layout": [
-                "./src/index.js"
-            ]
+    "loaders": [
+      {
+        "loader": "less-loader",
+        "options": {
+          "javascriptEnabled": true
         }
-    },
-    "description": "ant-design-vue-pro layout, easy to use pro scaffolding."
+      }
+    ]
+  },
+  "description": "Ant Design Pro Layout of Vue, easy to use pro scaffolding."
 }
