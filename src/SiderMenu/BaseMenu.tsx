@@ -68,6 +68,7 @@ export interface BaseMenuProps extends Partial<PureSettings> {
   mode?: MenuMode;
   onCollapse?: (collapsed: boolean) => void;
   openKeys?: WithFalse<string[]> | undefined;
+  selectedKeys?: WithFalse<string[]> | undefined;
   handleOpenChange?: (openKeys: string[]) => void;
   theme?: MenuTheme | 'realDark';
   i18n?: (t: string) => string | VNodeChild;
@@ -91,15 +92,11 @@ export const VueBaseMenuProps = {
     default: false,
   },
   openKeys: {
-    type: Array as PropType<string[]>,
+    type: Array as PropType<WithFalse<string[]>>,
     required: true,
   },
-  handleOpenChange: {
-    type: Function as PropType<(openKeys: WithFalse<string[]>) => void>,
-    default: () => undefined,
-  },
   selectedKeys: {
-    type: Array as PropType<string[]>,
+    type: Array as PropType<WithFalse<string[]>>,
     required: true,
   },
 }
@@ -217,8 +214,8 @@ export default defineComponent({
   }, VueBaseMenuProps),
   emits: ['update:openKeys', 'update:selectedKeys'],
   setup (props, { emit } ) {
-    console.log('props.mode', props.mode)
-    const isInline = computed(() => props.mode === 'inline')
+    const { mode } = toRefs(props);
+    const isInline = computed(() => mode.value === 'inline')
     const handleOpenChange: OpenEventHandler = (openKeys): void => {
       emit('update:openKeys', openKeys)
     }

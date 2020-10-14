@@ -53,12 +53,13 @@ const ProProviderDemo = defineComponent({
 
 const TestChildComponent = defineComponent({
   setup () {
-    const config = inject(injectProConfigKey, defaultProProviderProps)
+    const config = inject(injectProConfigKey, defaultProProviderProps);
+    const prefixCls = config.getPrefixCls('child-component');
 
     return () => {
       const { i18n, contentWidth } = config
       return (
-        <div class="test-child-component">
+        <div class={prefixCls}>
           <p>TestChildComponent:</p>
           <div>
             i18n: {i18n.toString()}

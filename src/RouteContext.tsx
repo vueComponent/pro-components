@@ -1,5 +1,4 @@
 import { defineComponent, h, reactive, provide, inject, toRefs, UnwrapRef, PropType, SetupContext, InjectionKey, VNode, RendererNode, RendererElement } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
 
 import { RouteProps } from './typings';
 import { PureSettings } from './defaultSettings';

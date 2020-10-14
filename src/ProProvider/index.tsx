@@ -2,13 +2,13 @@ import { defineComponent, reactive, toRefs, Ref, InjectionKey, provide, SetupCon
 import { ContentWidth } from '../typings';
 
 export interface ProProviderData {
-  getPrefixCls?: (suffixCls: string, customizePrefixCls: string) => string;
+  getPrefixCls?: (suffixCls?: string, customizePrefixCls?: string) => string;
   i18n?: (t: string) => string;
   contentWidth?: ContentWidth;
 }
 
 export const defaultProProviderProps: ProProviderData = {
-  getPrefixCls: (suffixCls: string, customizePrefixCls: string) => {
+  getPrefixCls: (suffixCls?: string, customizePrefixCls?: string) => {
     if (customizePrefixCls) return customizePrefixCls;
     return `ant-pro-${suffixCls}`;
   },
@@ -36,7 +36,7 @@ const ProProvider = defineComponent({
   },
   setup (props, { slots }: SetupContext) {
     const { prefixCls, i18n, contentWidth } = toRefs(props)
-    const getPrefixCls = (suffixCls: string, customizePrefixCls: string): string => {
+    const getPrefixCls = (suffixCls?: string, customizePrefixCls?: string): string => {
       if (customizePrefixCls) return customizePrefixCls;
       return suffixCls ? `${prefixCls.value}-${suffixCls}` : prefixCls.value;
     }

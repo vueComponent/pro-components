@@ -60,13 +60,14 @@
   "dependencies": {
     "@babel/runtime": "^7.10.4",
     "ant-design-vue": "^2.0.0-beta.10",
-    "lodash": "^4.17.15"
+    "lodash-es": "^4.17.15",
+    "vue-types": "^3.0.1"
   },
   "config": {
     "port": 9528,
     "entry": {
       "@ant-design-vue/pro-layout": [
-        "./src/index.jsx"
+        "./index.tsx"
       ]
     },
     "loaders": [

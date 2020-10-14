@@ -1,6 +1,6 @@
 import './index.less';
 
-import { VNodeChild, SetupContext } from 'vue';
+import { VNodeChild, SetupContext, inject } from 'vue';
 
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
@@ -8,6 +8,8 @@ import BaseMenu, { BaseMenuProps } from './BaseMenu';
 import { WithFalse } from '../typings';
 import { SiderProps } from './typings';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
+import { menus } from '../../examples/menus';
+import { defaultProProviderProps, injectProConfigKey } from '../ProProvider';
 
 const { Sider } = Layout;
 
@@ -25,6 +27,7 @@ export interface SiderMenuProps extends Pick<BaseMenuProps, Exclude<keyof BaseMe
   onMenuHeaderClick?: (e: MouseEvent) => void;
   hide?: boolean;
   onOpenChange?: (openKeys: WithFalse<string[]>) => void;
+  onSelect?: (selectedKeys: WithFalse<string[]>) => void;
 }
 
 export const defaultRenderLogo = (logo: VNodeChild | JSX.Element): VNodeChild | JSX.Element => {
@@ -87,9 +90,13 @@ const SiderMenu = (props: SiderMenuProps, context: SetupContext) => {
     menuContentRender,
     prefixCls,
     onOpenChange,
+    onSelect,
     headerHeight,
   } = props;
-  const baseClassName = `${props.prefixCls}-sider`;
+  console.log('props', props)
+  const config = inject(injectProConfigKey, defaultProProviderProps)
+  const baseClassName = config.getPrefixCls('sider');
+
   const siderClassName = {
     [baseClassName]: true,
     [`${baseClassName}-fixed`]: fixSiderbar,
@@ -101,15 +108,26 @@ const SiderMenu = (props: SiderMenuProps, context: SetupContext) => {
 
   const extraDom = menuExtraRender && menuExtraRender(props);
 
-  const menuDom = menuContentRender !== false && (
-    <BaseMenu
-      {...props}
-      mode="inline"
-      handleOpenChange={onOpenChange}
-      style={{
-        width: '100%',
-      }}
-      class={`${baseClassName}-menu`}
-    />
+  return (
+    <Sider
+      class={siderClassName}
+      collapsed={collapsed}
+    >
+      <BaseMenu
+        {...props}
+        menus={menus}
+        theme={props.theme}
+        mode={props.mode}
+        collapsed={props.collapsed}
+        openKeys={props.openKeys}
+        selectedKeys={props.selectedKeys}
+        style={{
+          width: '100%',
+        }}
+        class={`${baseClassName}-menu`}
+      />
+    </Sider>
   );
 };
+
+export default SiderMenu;
