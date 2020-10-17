@@ -37,7 +37,7 @@ async function generateIcons() {
 
 import { SetupContext } from 'vue';
 import <%= svgIdentifier %>Svg from '@ant-design/icons-svg/lib/asn/<%= svgIdentifier %>';
-import AntdIcon, { AntdIconProps } from '../components/AntdIcon';
+import AntdIcon, { AntdIconProps } from '@ant-design/icons-vue/lib/components/AntdIcon';
 
 const <%= svgIdentifier %> = (props: AntdIconProps, context: SetupContext) => {
   const p = { ...props, ...context.attrs };
@@ -84,11 +84,11 @@ async function generateEntries() {
     value: true
   });
   exports.default = void 0;
-  
+
   var _<%= svgIdentifier %> = _interopRequireDefault(require('./lib/icons/<%= svgIdentifier %>'));
-  
+
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-  
+
   var _default = _<%= svgIdentifier %>.default || _<%= svgIdentifier %>;
   exports.default = _default;
   module.exports = _default;
