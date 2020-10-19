@@ -1,20 +1,28 @@
-import { createApp, defineComponent, inject, reactive, watchEffect } from 'vue';
+import { createApp, defineComponent, ref, reactive, toRaw, onMounted } from 'vue';
 import { Card, Space, Button, Tag } from 'ant-design-vue';
-import { useContext, createContext } from '../src/RouteContext';
+import { createRouteContext, useRouteContext } from '../src/RouteContext';
 
 import 'ant-design-vue/dist/antd.less';
 
 const DemoComponent = {
   setup() {
+    const jsonEditorRef = ref(null);
     const state = reactive({
       name: 'value',
     });
 
-    const { state: routeContext, provider: RouteContextProvider } = createContext({
-      hasSiderMenu: true,
+    const {
+      state: routeContext,
+      provider: RouteContextProvider
+    } = createRouteContext({
+      hasSideMenu: true,
       collapsed: true,
       isMobile: false,
       menuData: []
+    });
+
+    onMounted(() => {
+      console.log('jsonEditorRef', jsonEditorRef)
     })
 
     return () => (
@@ -38,10 +46,11 @@ const DemoComponent = {
             >
               Change Value
             </Button>
-
           </Space>
           <div style={{ margin: '12px 0' }}>
             <p>state.name: { JSON.stringify(state.name) }</p>
+            routeContext:
+            <pre>{  JSON.stringify(routeContext, null, 4) }</pre>
           </div>
         </Card>
         <div class="demo" style="background: rgb(244,244,244);">
@@ -56,14 +65,17 @@ const DemoComponent = {
 
 const TestChildComponent = defineComponent({
   setup () {
-    const routeContext = useContext();
+    const routeContext = useRouteContext();
     console.log('TestChildComponent.routeContext', routeContext)
 
     return () => {
       const { menuData, collapsed } = routeContext
       return (
         <div class="test-child-component">
-          menuData: {JSON.stringify(menuData)}
+          menuData:
+          <pre>
+            {JSON.stringify(menuData, null, 4)}
+          </pre>
           <p>
             collapsed: {collapsed.toString()}
           </p>
