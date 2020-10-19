@@ -1,21 +1,21 @@
 import './BasicLayoutTest.less';
 
-import { h, App } from 'vue';
+import { App } from 'vue';
 
-import { Layout, Menu } from 'ant-design-vue';
+import { Layout } from 'ant-design-vue';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
 import { default as ProProvider } from './ProProvider';
-import { default as SiderMenu } from './SiderMenu/SiderMenu';
-import { createContext } from './RouteContext';
+import { createRouteContext } from './RouteContext';
+import SiderMenuWrapper from './SiderMenu';
 
 const defaultI18nRender = (key: string) => key
 
-const { state, provider: RouteContextProvider } = createContext({
+const { state, provider: RouteContextProvider } = createRouteContext({
   isMobile: false,
   menuData: [],
-  hasSiderMenu: true,
+  sideWidth: 208,
+  hasSideMenu: true,
   hasHeader: true,
-  siderWidth: 208,
 })
 
 const BasicLayout = (props, { emit, slots }) => {
@@ -32,9 +32,9 @@ const BasicLayout = (props, { emit, slots }) => {
     <ProProvider {...props} i18n={defaultI18nRender}>
       <RouteContextProvider>
         <Layout class="ant-pro-basicLayout">
-          <SiderMenu {...props} />
+          <SiderMenuWrapper {...props} />
           <Layout>
-            <Layout.Header style="background: #fff; padding: 0">
+            <Layout.Header style="background: #fff; padding: 0; height: 48px; line-height: 48px;">
               {
                 props.collapsed
                   ? <MenuUnfoldOutlined class="trigger" onClick={handleClick} />

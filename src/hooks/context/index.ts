@@ -17,15 +17,6 @@ import {
 
 export type ContextType<T> = any;
 
-// VNode<RendererNode, RendererElement, {
-//     [key: string]: any;
-//   }>
-
-/**
- (props: any, ctx: SetupContext) => DefineComponent<{}, () => VNode<RendererNode, RendererElement, {
-    [key: string]: any;
-  }>>;
- */
 export interface CreateContext<T> {
   provider: DefineComponent<{}, () => VNode | VNode[]>;
   state: UnwrapRef<T> | T;

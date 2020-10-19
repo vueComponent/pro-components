@@ -31,17 +31,17 @@ export const menus: RouteProps[] = [
       {
         path: '/form/basic-form',
         name: 'basic-form',
-        meta: { title: 'Basic Form' },
+        meta: { icon: 'SmileOutlined', title: 'Basic Form' },
       },
       {
         path: '/form/step-form',
         name: 'step-form',
-        meta: { title: 'Step Form' },
+        meta: { icon: 'SmileOutlined', title: 'Step Form' },
       },
       {
         path: '/form/advanced-form',
         name: 'advance-form',
-        meta: { title: 'Advanced Form' },
+        meta: { icon: 'SmileOutlined', title: 'Advanced Form' },
       },
     ],
   },

@@ -1,21 +1,25 @@
 import './index.less';
+import { computed, ref, VNodeChild, SetupContext, inject } from 'vue';
 
-import { VNodeChild, SetupContext, inject } from 'vue';
-
-import 'ant-design-vue/es/layout/style';
-import Layout from 'ant-design-vue/es/layout';
+// import 'ant-design-vue/es/layout/style';
+// import Layout from 'ant-design-vue/es/layout';
+import { Layout } from 'ant-design-vue';
 import BaseMenu, { BaseMenuProps } from './BaseMenu';
 import { WithFalse } from '../typings';
 import { SiderProps } from './typings';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
-import { menus } from '../../examples/menus';
 import { defaultProProviderProps, injectProConfigKey } from '../ProProvider';
 
 const { Sider } = Layout;
 
+export type PrivateSiderMenuProps = {
+  matchMenuKeys: string[];
+};
+
 export interface SiderMenuProps extends Pick<BaseMenuProps, Exclude<keyof BaseMenuProps, ['onCollapse']>> {
   logo?: VNodeChild | JSX.Element;
   siderWidth?: number;
+  collapsedWidth?: number;
   menuHeaderRender?: WithFalse<
     (logo: VNodeChild | JSX.Element, title: VNodeChild | JSX.Element, props?: SiderMenuProps) => VNodeChild
     >;
@@ -25,6 +29,7 @@ export interface SiderMenuProps extends Pick<BaseMenuProps, Exclude<keyof BaseMe
   collapsedButtonRender?: WithFalse<(collapsed?: boolean) => VNodeChild>;
   breakpoint?: SiderProps['breakpoint'] | false;
   onMenuHeaderClick?: (e: MouseEvent) => void;
+  fixed?: boolean;
   hide?: boolean;
   onOpenChange?: (openKeys: WithFalse<string[]>) => void;
   onSelect?: (selectedKeys: WithFalse<string[]>) => void;
@@ -75,6 +80,7 @@ export const defaultRenderCollapsedButton = (collapsed?: boolean) =>
 
 const SiderMenu = (props: SiderMenuProps, context: SetupContext) => {
   const {
+    menuData,
     collapsed,
     fixSiderbar,
     menuFooterRender,
@@ -92,41 +98,72 @@ const SiderMenu = (props: SiderMenuProps, context: SetupContext) => {
     onOpenChange,
     onSelect,
     headerHeight,
+    collapsedWidth = 48,
   } = props;
   console.log('props', props)
-  const config = inject(injectProConfigKey, defaultProProviderProps)
-  const baseClassName = config.getPrefixCls('sider');
+  const { getPrefixCls } = inject(injectProConfigKey, defaultProProviderProps)
+  const baseClassName = getPrefixCls('sider');
 
-  const siderClassName = {
+  const isMix = computed(() => props.layout === 'mix');
+  const fixed = computed(() => props.fixed);
+  const runtimeTheme = computed(() => props.layout === 'mix' && 'light' || 'dark');
+  const runtimeSideWidth = computed(() => props.collapsed ? props.collapsedWidth : props.siderWidth);
+
+  const classNames = ref({
     [baseClassName]: true,
-    [`${baseClassName}-fixed`]: fixSiderbar,
-    [`${baseClassName}-layout-${layout}`]: layout && !isMobile,
-    [`${baseClassName}-light`]: theme === 'light',
-  };
+    [`${baseClassName}-${runtimeTheme.value}`]: true,
+    [`${baseClassName}-${props.layout}`]: true,
+    [`${baseClassName}-fixed`]: fixed,
+  });
 
   const headerDom = defaultRenderLogoAndTitle(props);
 
   const extraDom = menuExtraRender && menuExtraRender(props);
 
   return (
-    <Sider
-      class={siderClassName}
-      collapsed={collapsed}
-    >
-      <BaseMenu
-        {...props}
-        menus={menus}
-        theme={props.theme}
-        mode={props.mode}
-        collapsed={props.collapsed}
-        openKeys={props.openKeys}
-        selectedKeys={props.selectedKeys}
-        style={{
-          width: '100%',
-        }}
-        class={`${baseClassName}-menu`}
-      />
-    </Sider>
+    <>
+      { fixed.value && (<div style={{
+        width: `${runtimeSideWidth.value}px`,
+        overflow: 'hidden',
+        flex: `0 0 ${runtimeSideWidth.value}px`,
+        maxWidth: `${runtimeSideWidth.value}px`,
+        minWidth: `${runtimeSideWidth.value}px`,
+      }}
+      />)}
+      <Sider
+        class={classNames.value}
+        width={siderWidth}
+        collapsed={collapsed}
+        collapsible={false}
+        collapsedWidth={collapsedWidth}
+      >
+        <div class="ant-pro-sider-logo">
+          {headerDom}
+        </div>
+        <div style="flex: 1 1 0%; overflow: hidden auto;">
+          <BaseMenu
+            menus={menuData}
+            theme={props.theme}
+            mode="inline"
+            collapsed={props.collapsed}
+            openKeys={props.openKeys}
+            selectedKeys={props.selectedKeys}
+            style={{
+              width: '100%',
+            }}
+            class={`${baseClassName}-menu`}
+            {...{
+              'onUpdate:openKeys': $event => {
+                onOpenChange($event);
+              },
+              'onUpdate:selectedKeys': $event => {
+                onSelect($event);
+              }
+            }}
+          />
+        </div>
+      </Sider>
+    </>
   );
 };
 

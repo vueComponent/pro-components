@@ -1,10 +1,9 @@
 import { createApp, reactive } from 'vue';
+import 'ant-design-vue/dist/antd.less';
 import { Button, message } from 'ant-design-vue';
 import { default as BasicLayout } from '../src/BasicLayout';
-import 'ant-design-vue/dist/antd.less';
-
 import { menus } from './menus';
-import BaseMenu, { useMenuState } from '../src/SiderMenu/BaseMenu';
+import { useMenuState } from '../src/SiderMenu/BaseMenu';
 import * as Icon from '@ant-design/icons-vue';
 
 const SimpleDemo = {
@@ -19,21 +18,25 @@ const SimpleDemo = {
       <div class="components">
         <h2># BasicLayout</h2>
         <BasicLayout
-          menus={menus}
-          collapsed={menuState.collapsed}
+          v-model={[menuState.collapsed, 'collapsed']}
+          title={'Pro Layout'}
+          layout={'side'}
+          theme={'dark'}
+          isMobile={false}
+          menuData={menus}
+          matchMenuKeys={[]}
+          contentWidth={'Fixed'}
+          primaryColor={'#1890ff'}
+          siderWidth={208}
           openKeys={menuState.openKeys}
           selectedKeys={menuState.selectedKeys}
-          {...{
-            'onUpdate:collapsed': $event => {
-              menuState.collapsed = $event;
-            },
-            'onUpdate:openKeys': $event => {
-              menuState.openKeys = $event
-            },
-            'onUpdate:selectedKeys': $event => {
-              menuState.selectedKeys = $event
-            }
+          onOpenChange={$event => {
+            menuState.openKeys = $event
           }}
+          onSelect={$event => {
+            menuState.selectedKeys = $event
+          }}
+
         >
           <Button
             onClick={() => {

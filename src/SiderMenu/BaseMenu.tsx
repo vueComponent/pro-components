@@ -4,8 +4,10 @@ import { defineComponent, h, resolveDynamicComponent, resolveComponent, VNode, r
 // import * as Icon from '@ant-design/icons-vue';
 import { createFromIconfontCN } from '@ant-design/icons-vue';
 
-import 'ant-design-vue/es/menu/style'
-import Menu from 'ant-design-vue/es/menu'
+// import 'ant-design-vue/es/menu/style'
+// import Menu from 'ant-design-vue/es/menu'
+
+import { Menu } from 'ant-design-vue';
 
 import defaultSettings, { PureSettings } from '../defaultSettings';
 import { isImg, isUrl } from '../utils'
