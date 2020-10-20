@@ -79,14 +79,7 @@
           "javascriptEnabled": true
         }
       }
-    ],
-    "css": {
-      "loaderOptions": {
-        "less": {
-          "javascriptEnabled": true
-        }
-      }
-    }
+    ]
   },
   "description": "Ant Design Pro Layout of Vue, easy to use pro scaffolding."
 }
