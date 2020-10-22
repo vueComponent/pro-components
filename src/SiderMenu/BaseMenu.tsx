@@ -1,6 +1,21 @@
 import './index.less';
 
-import { defineComponent, h, resolveDynamicComponent, resolveComponent, VNode, ref, reactive, computed, Ref, watch, ComputedRef, VNodeChild, WatchStopHandle, PropType, isVNode, toRefs, defineAsyncComponent, Component } from 'vue';
+import {
+  defineComponent,
+  h,
+  ref,
+  reactive,
+  computed,
+  Ref,
+  watch,
+  ComputedRef,
+  VNodeChild,
+  VNode,
+  WatchStopHandle,
+  PropType,
+  isVNode,
+  toRefs,
+} from 'vue';
 // import * as Icon from '@ant-design/icons-vue';
 import { createFromIconfontCN } from '@ant-design/icons-vue';
 
@@ -10,11 +25,11 @@ import { createFromIconfontCN } from '@ant-design/icons-vue';
 import { Menu } from 'ant-design-vue';
 
 import defaultSettings, { PureSettings } from '../defaultSettings';
-import { isImg, isUrl } from '../utils'
+import { isImg, isUrl } from '../utils';
 import { MenuMode, SelectInfo, OpenEventHandler } from './typings';
 import { RouteProps, MenuTheme, WithFalse } from '../typings';
 
-export { MenuMode, SelectInfo, OpenEventHandler }
+export { MenuMode, SelectInfo, OpenEventHandler };
 
 export interface MenuState {
   collapsed?: boolean | false;
@@ -33,31 +48,38 @@ export interface MenuStateWatched {
   watchRef: WatchStopHandle;
 }
 
-export function useMenuState ({ collapsed = false, openKeys = [] as string[], selectedKeys = [] as string[], }: MenuState): MenuStateWatched {
+export function useMenuState({
+  collapsed = false,
+  openKeys = [] as string[],
+  selectedKeys = [] as string[],
+}: MenuState): MenuStateWatched {
   const state = reactive<MenuStated>({
     collapsed,
     selectedKeys,
     openKeys,
-  })
-  const cachedOpenKeys: Ref<string[]> = ref([] as string[])
+  });
+  const cachedOpenKeys: Ref<string[]> = ref([] as string[]);
 
-  const watchRef = watch(() => state.collapsed, (collapsed) => {
-    if (collapsed) {
-      cachedOpenKeys.value = state.openKeys.concat()
-      state.openKeys = []
-    } else {
-      state.openKeys = cachedOpenKeys.value.concat()
-    }
-  })
+  const watchRef = watch(
+    () => state.collapsed,
+    collapsed => {
+      if (collapsed) {
+        cachedOpenKeys.value = state.openKeys.concat();
+        state.openKeys = [];
+      } else {
+        state.openKeys = cachedOpenKeys.value.concat();
+      }
+    },
+  );
 
   return {
     state,
     watchRef,
-  }
+  };
 }
 
-export function useRootSubmenuKeys (menus: RouteProps[]): ComputedRef<string[]> {
-  return computed(() => menus.map(it => it.path))
+export function useRootSubmenuKeys(menus: RouteProps[]): ComputedRef<string[]> {
+  return computed(() => menus.map(it => it.path));
 }
 
 // ts typo
@@ -86,7 +108,7 @@ export const VueBaseMenuProps = {
     default: 'inline',
   },
   theme: {
-    type: String as PropType<MenuTheme | 'realDark'>,
+    type: String as PropType<MenuTheme>,
     default: 'dark',
   },
   collapsed: {
@@ -101,46 +123,24 @@ export const VueBaseMenuProps = {
     type: Array as PropType<WithFalse<string[]>>,
     required: true,
   },
-}
+};
 
-const renderMenu = (item, i18nRender) => {
-  if (item && !item.hidden) {
-    const hasChild = item.children && !item.hideChildrenInMenu
-    return hasChild ? renderSubMenu(item, i18nRender) : renderMenuItem(item, i18nRender)
-  }
-  return null
-}
-
-const renderSubMenu = (item, i18nRender) => {
-  const renderMenuContent = (
-    <span>
-      <LazyIcon icon={item.meta.icon} />
-      <span>{renderTitle(item.meta.title, i18nRender)}</span>
-    </span>
-  )
-  return (
-    <Menu.SubMenu
-      key={item.path}
-      // @ts-ignore
-      title={renderMenuContent}
-    >
-      {!item.hideChildrenInMenu && item.children.map(cd => renderMenu(cd, i18nRender))}
-    </Menu.SubMenu>
-  )
-}
+const renderTitle = (title, i18nRender) => {
+  return <span>{(i18nRender && i18nRender(title)) || title}</span>;
+};
 
 const renderMenuItem = (item, i18nRender) => {
-  const meta = Object.assign({}, item.meta)
-  const target = meta.target || null
-  const CustomTag = target && 'a' || 'router-link'
-  const props = { to: { name: item.name }, href: item.path, target: target }
+  const meta = Object.assign({}, item.meta);
+  const target = meta.target || null;
+  const CustomTag = (target && 'a') || 'router-link';
+  const props = { to: { name: item.name }, href: item.path, target: target };
   if (item.children && item.hideChildrenInMenu) {
     // 把有子菜单的 并且 父菜单是要隐藏子菜单的
     // 都给子菜单增加一个 hidden 属性
     // 用来给刷新页面时， selectedKeys 做控制用
     item.children.forEach(cd => {
-      cd.meta = Object.assign(cd.meta || {}, { hidden: true })
-    })
+      cd.meta = Object.assign(cd.meta || {}, { hidden: true });
+    });
   }
   return (
     <Menu.Item key={item.path}>
@@ -149,13 +149,35 @@ const renderMenuItem = (item, i18nRender) => {
         {renderTitle(meta.title, i18nRender)}
       </CustomTag>
     </Menu.Item>
-  )
-}
+  );
+};
 
-let IconFont = createFromIconfontCN({
+const renderSubMenu = (item, i18nRender) => {
+  const renderMenuContent = (
+    <span>
+      <LazyIcon icon={item.meta.icon} />
+      <span>{renderTitle(item.meta.title, i18nRender)}</span>
+    </span>
+  ) as string & VNode;
+  return (
+    <Menu.SubMenu key={item.path} title={renderMenuContent}>
+      {/* eslint-disable-next-line @typescript-eslint/no-use-before-define */}
+      {!item.hideChildrenInMenu && item.children.map(cd => renderMenu(cd, i18nRender))}
+    </Menu.SubMenu>
+  );
+};
+
+const renderMenu = (item, i18nRender) => {
+  if (item && !item.hidden) {
+    const hasChild = item.children && !item.hideChildrenInMenu;
+    return hasChild ? renderSubMenu(item, i18nRender) : renderMenuItem(item, i18nRender);
+  }
+  return null;
+};
+
+const IconFont = createFromIconfontCN({
   scriptUrl: defaultSettings.iconfontUrl,
 });
-
 
 // const LazyIcon = (props, _) => {
 //   const { icon } = toRefs(props)
@@ -173,61 +195,54 @@ let IconFont = createFromIconfontCN({
 //   const IconComponent = resolveComponent(`${icon.value}`)
 //   return h(IconComponent)
 // }
-const LazyIcon = defineComponent({
-  props: {
-    icon: {
-      type: [String, Function, Object] as PropType<string|Function|VNodeChild|JSX.Element>,
+const LazyIcon = props => {
+  const { icon } = toRefs(props);
+  if (typeof icon.value === 'string' && icon.value !== '') {
+    if (isUrl(icon.value) || isImg(icon.value)) {
+      return <img src={icon.value} alt="icon" class="ant-pro-sider-menu-icon" />;
     }
-  },
-  setup(props, _) {
-    const { icon } = toRefs(props)
-    if (typeof icon.value === 'string' && icon.value !== '') {
-      if (isUrl(icon.value) || isImg(icon.value)) {
-        return <img src={icon.value} alt="icon" class="ant-pro-sider-menu-icon" />
-      }
-      if (icon.value.startsWith('icon-')) {
-        return <IconFont type={icon.value}  />
-      }
+    if (icon.value.startsWith('icon-')) {
+      return <IconFont type={icon.value} />;
     }
-    if (isVNode(icon.value)) {
-      return icon.value
-    }
-    const ALazyIcon = resolveComponent(`${icon.value}`)
-    // return ALazyIcon && ALazyIcon
-    return ALazyIcon && (() => (
-      // @ts-ignore
-      <ALazyIcon />
-    )) || null
   }
-})
+  if (isVNode(icon.value)) {
+    return icon.value;
+  }
+  // const ALazyIcon = resolveComponent(`${icon.value}`);
+  // return ALazyIcon && ALazyIcon
+  return h(icon.value);
+};
 
-const renderTitle = (title, i18nRender) => {
-  return <span>{ i18nRender && i18nRender(title) || title }</span>
-}
-
+LazyIcon.icon = {
+  type: [String, Function, Object] as PropType<string | Function | VNodeChild | JSX.Element>,
+};
 
 export default defineComponent({
   name: 'BaseMenu',
-  props: Object.assign({}, {
-    i18n: {
-      type: Function,
-      default: (t: string): string => t,
+  props: Object.assign(
+    {},
+    {
+      i18n: {
+        type: Function,
+        default: (t: string): string => t,
+      },
     },
-  }, VueBaseMenuProps),
+    VueBaseMenuProps,
+  ),
   emits: ['update:openKeys', 'update:selectedKeys'],
-  setup (props, { emit } ) {
+  setup(props, { emit }) {
     const { mode } = toRefs(props);
-    const isInline = computed(() => mode.value === 'inline')
+    const isInline = computed(() => mode.value === 'inline');
     const handleOpenChange: OpenEventHandler = (openKeys): void => {
-      emit('update:openKeys', openKeys)
-    }
+      emit('update:openKeys', openKeys);
+    };
     const handleSelect = ({ selectedKeys }: SelectInfo): void => {
-      emit('update:selectedKeys', selectedKeys)
-    }
+      emit('update:selectedKeys', selectedKeys);
+    };
 
     return () => (
       <Menu
-        inlineCollapsed={isInline.value && props.collapsed || undefined}
+        inlineCollapsed={(isInline.value && props.collapsed) || undefined}
         mode={props.mode}
         theme={props.theme}
         openKeys={props.openKeys}
@@ -235,13 +250,14 @@ export default defineComponent({
         onOpenChange={handleOpenChange}
         onSelect={handleSelect}
       >
-        {props.menus && props.menus.map(menu => {
-          if (menu.hidden) {
-            return null
-          }
-          return renderMenu(menu, props.i18n)
-        })}
+        {props.menus &&
+          props.menus.map(menu => {
+            if (menu.hidden) {
+              return null;
+            }
+            return renderMenu(menu, props.i18n);
+          })}
       </Menu>
-    )
-  }
-})
+    );
+  },
+});

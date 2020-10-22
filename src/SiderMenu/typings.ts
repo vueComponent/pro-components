@@ -6,12 +6,12 @@ export interface MenuInfo {
   key: string;
   keyPath: string[];
   item: VNodeChild;
-  domEvent?: MouseEvent,
-};
+  domEvent?: MouseEvent;
+}
 
 export interface SelectInfo extends MenuInfo {
   selectedKeys?: string[];
-};
+}
 
 export type OpenEventHandler = (
   keys:
@@ -23,7 +23,6 @@ export type OpenEventHandler = (
         open: boolean;
       },
 ) => void;
-
 
 export type CollapseType = 'clickTrigger' | 'responsive';
 

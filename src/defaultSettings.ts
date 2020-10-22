@@ -1,5 +1,4 @@
-import { MenuTheme, ContentWidth } from './typings'
-
+import { MenuTheme, ContentWidth } from './typings';
 
 export interface RenderSetting {
   headerRender?: false;

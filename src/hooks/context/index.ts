@@ -18,10 +18,10 @@ export interface CreateContext<T> {
   state: UnwrapRef<T> | T;
 }
 
-export const createContext = <T>(context: ContextType<T>,
-                                 contextInjectKey: InjectionKey<ContextType<T>> = Symbol(),
+export const createContext = <T>(
+  context: ContextType<T>,
+  contextInjectKey: InjectionKey<ContextType<T>> = Symbol(),
 ): CreateContext<T> => {
-
   const state = reactive<ContextType<T>>({
     ...context,
   });
@@ -41,8 +41,11 @@ export const createContext = <T>(context: ContextType<T>,
   };
 };
 
-export const useContext = <T>(contextInjectKey: InjectionKey<ContextType<T>> = Symbol(), defaultValue?: ContextType<T>): T => {
-  return readonly(inject(contextInjectKey, defaultValue || {} as T));
+export const useContext = <T>(
+  contextInjectKey: InjectionKey<ContextType<T>> = Symbol(),
+  defaultValue?: ContextType<T>,
+): T => {
+  return readonly(inject(contextInjectKey, defaultValue || ({} as T)));
 };
 
 // :: examples ::

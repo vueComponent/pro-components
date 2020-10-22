@@ -12,4 +12,4 @@ export interface FooterToolbarProps {
 
 const FooterToolbar = (props, context) => {
   const baseClassName = `${props.prefixCls}-footer-bar`;
-}
+};
