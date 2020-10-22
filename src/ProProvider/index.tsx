@@ -1,4 +1,4 @@
-import { defineComponent, reactive, toRefs, Ref, InjectionKey, provide, SetupContext, App, PropType } from 'vue';
+import { App, defineComponent, InjectionKey, PropType, provide, reactive, SetupContext, toRefs } from 'vue';
 import { ContentWidth } from '../typings';
 
 export const defaultPrefixCls = 'ant-pro';
@@ -12,7 +12,7 @@ export interface ProProviderData {
 export const defaultProProviderProps: ProProviderData = {
   getPrefixCls: (suffixCls?: string, customizePrefixCls?: string) => {
     if (customizePrefixCls) return customizePrefixCls;
-    return `${defaultPrefixCls}-${suffixCls}`;
+    return suffixCls ? `${defaultPrefixCls}-${suffixCls}` : defaultPrefixCls;
   },
   i18n: (t: string): string => t,
   contentWidth: 'Fluid',

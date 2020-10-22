@@ -1,15 +1,83 @@
-import { VNodeChild } from 'vue';
+import {
+  computed,
+  defineComponent,
+  inject,
+  onBeforeUnmount,
+  onMounted,
+  PropType,
+  VNodeChild,
+} from 'vue';
+import { defaultProProviderProps, injectProConfigKey } from '../ProProvider';
+import { RouteContextProps, useRouteContext } from '../RouteContext';
 import './index.less';
 
-export interface FooterToolbarProps {
-  extra?: VNodeChild;
+export interface IFooterToolbarProps {
+  extra?: VNodeChild | JSX.Element;
   renderContent?: (
-    props: FooterToolbarProps & { leftWidth?: string },
+    props: this & RouteContextProps & { leftWidth?: string },
     dom: JSX.Element,
   ) => VNodeChild | JSX.Element;
   prefixCls?: string;
 }
 
-const FooterToolbar = (props, context) => {
-  const baseClassName = `${props.prefixCls}-footer-bar`;
-}
+const FooterToolbarProps = {
+  extra: { type: Object as PropType<VNodeChild> },
+  renderContent: {
+    type: Function as PropType<IFooterToolbarProps['renderContent']>,
+  },
+  prefixCls: { type: String as PropType<string> },
+};
+
+const FooterToolbar = defineComponent({
+  name: 'FooterToolbar',
+  props: FooterToolbarProps,
+  setup(props, { slots }) {
+    const { getPrefixCls } = inject(injectProConfigKey, defaultProProviderProps);
+
+    const prefixCls = props.prefixCls || getPrefixCls();
+    const baseClassName = `${prefixCls}-footer-bar`;
+    const routeContext = useRouteContext();
+    const width = computed(() => {
+      const { hasSideMenu, isMobile, sideWidth } = routeContext;
+      if (!hasSideMenu) {
+        return undefined;
+      }
+      if (!sideWidth) {
+        return '100%';
+      }
+      return isMobile ? '100%' : `calc(100% - ${sideWidth}px)`;
+    });
+
+    const dom = () => {
+      return (
+        <>
+          <div class={`${baseClassName}-left`}>{props.extra}</div>
+          <div class={`${baseClassName}-right`}>{slots.default()}</div>
+        </>
+      );
+    };
+    onMounted(() => {
+      routeContext.setHasFooterToolbar && routeContext.setHasFooterToolbar(true);
+    });
+    onBeforeUnmount(() => {
+      routeContext.setHasFooterToolbar && routeContext.setHasFooterToolbar(false);
+    });
+
+    return () => (
+      <div class={baseClassName} style={{ width: width.value }}>
+        {props.renderContent
+          ? props.renderContent(
+              {
+                ...props,
+                ...routeContext,
+                leftWidth: width.value,
+              },
+              dom(),
+            )
+          : dom()}
+      </div>
+    );
+  },
+});
+
+export default FooterToolbar;
