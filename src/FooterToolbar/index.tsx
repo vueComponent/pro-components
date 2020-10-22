@@ -34,8 +34,10 @@ const FooterToolbar = defineComponent({
   setup(props, { slots }) {
     const { getPrefixCls } = inject(injectProConfigKey, defaultProProviderProps);
 
-    const prefixCls = props.prefixCls || getPrefixCls();
-    const baseClassName = `${prefixCls}-footer-bar`;
+    const baseClassName = computed(() => {
+      const prefixCls = props.prefixCls || getPrefixCls();
+      return `${prefixCls}-footer-bar`;
+    });
     const routeContext = useRouteContext();
     const width = computed(() => {
       const { hasSideMenu, isMobile, sideWidth } = routeContext;
@@ -51,8 +53,8 @@ const FooterToolbar = defineComponent({
     const dom = () => {
       return (
         <>
-          <div class={`${baseClassName}-left`}>{props.extra}</div>
-          <div class={`${baseClassName}-right`}>{slots.default()}</div>
+          <div class={`${baseClassName.value}-left`}>{props.extra}</div>
+          <div class={`${baseClassName.value}-right`}>{slots.default()}</div>
         </>
       );
     };
@@ -64,7 +66,7 @@ const FooterToolbar = defineComponent({
     });
 
     return () => (
-      <div class={baseClassName} style={{ width: width.value }}>
+      <div class={baseClassName.value} style={{ width: width.value }}>
         {props.renderContent
           ? props.renderContent(
               {
