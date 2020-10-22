@@ -1,7 +1,7 @@
 import { Button, Card, Space, Switch } from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.less';
 import { createApp, reactive } from 'vue';
-import FooterToolbar, { IFooterToolbarProps } from '../src/FooterToolbar';
+import FooterToolbar, { FooterToolbarProps } from '../src/FooterToolbar';
 import { createRouteContext } from '../src/RouteContext';
 
 const DemoComponent = {
@@ -9,7 +9,7 @@ const DemoComponent = {
     const state = reactive({
       name: 'value',
       hasFooterToolbar: 'unset' as string | boolean,
-      toolbarProps: {} as IFooterToolbarProps,
+      toolbarProps: {} as FooterToolbarProps,
     });
     const setToolbarProps = tProps => {
       state.toolbarProps = { ...state.toolbarProps, ...tProps };
