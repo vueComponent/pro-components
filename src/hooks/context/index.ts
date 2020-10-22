@@ -1,73 +1,49 @@
 import {
   defineComponent,
-  h,
   InjectionKey,
   provide,
   inject,
   reactive,
-  RendererElement,
-  RendererNode,
+  readonly,
   SetupContext,
-  toRefs,
   UnwrapRef,
   VNode,
-  PropType,
   DefineComponent,
 } from 'vue';
 
 export type ContextType<T> = any;
 
 export interface CreateContext<T> {
-  provider: DefineComponent<{}, () => VNode | VNode[]>;
+  Provider: DefineComponent<{}, () => VNode | VNode[] | undefined, any>;
   state: UnwrapRef<T> | T;
 }
 
-const RouteContextProvider = defineComponent({
-  name: 'RouteContextProvider',
-  inheritAttrs: false,
-  props: {
-    contextInjectKey: {
-      type: [Object, String, Symbol] as PropType<InjectionKey<any>>,
-      required: true,
-    },
-  },
-  setup(props, { slots, attrs }: SetupContext) {
-    console.log('props', props, attrs);
-    const context = reactive({
-      ...attrs,
-    });
-    provide(props.contextInjectKey, context);
-
-    return () => slots.default();
-  },
-});
-
 export const createContext = <T>(context: ContextType<T>,
-                                 contextInjectKey: InjectionKey<ContextType<T>> = Symbol()
-                                ): CreateContext<T> => {
+                                 contextInjectKey: InjectionKey<ContextType<T>> = Symbol(),
+): CreateContext<T> => {
 
   const state = reactive<ContextType<T>>({
     ...context,
   });
 
-  const ContextProvider = defineComponent( {
+  const ContextProvider = defineComponent({
     name: 'ContextProvider',
     inheritAttrs: false,
     setup(props, { slots }: SetupContext) {
-      provide(contextInjectKey, state);
+      provide(contextInjectKey, readonly(state));
       return () => slots.default();
     },
-  })
+  });
 
   return {
     state,
-    provider: ContextProvider,
+    Provider: ContextProvider,
   };
 };
 
 export const useContext = <T>(contextInjectKey: InjectionKey<ContextType<T>> = Symbol(), defaultValue?: ContextType<T>): T => {
-  return inject(contextInjectKey, defaultValue || {} as T)
-}
+  return readonly(inject(contextInjectKey, defaultValue || {} as T));
+};
 
 // :: examples ::
 //
