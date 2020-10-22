@@ -11,10 +11,10 @@ import { defaultProProviderProps, injectProConfigKey } from '../ProProvider';
 import { RouteContextProps, useRouteContext } from '../RouteContext';
 import './index.less';
 
-export interface IFooterToolbarProps {
+export interface FooterToolbarProps {
   extra?: VNodeChild | JSX.Element;
   renderContent?: (
-    props: this & RouteContextProps & { leftWidth?: string },
+    props: FooterToolbarProps & RouteContextProps & { leftWidth?: string },
     dom: JSX.Element,
   ) => VNodeChild | JSX.Element;
   prefixCls?: string;
@@ -23,7 +23,7 @@ export interface IFooterToolbarProps {
 const FooterToolbarProps = {
   extra: { type: Object as PropType<VNodeChild> },
   renderContent: {
-    type: Function as PropType<IFooterToolbarProps['renderContent']>,
+    type: Function as PropType<FooterToolbarProps['renderContent']>,
   },
   prefixCls: { type: String as PropType<string> },
 };
