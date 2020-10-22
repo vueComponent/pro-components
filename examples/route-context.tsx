@@ -6,24 +6,19 @@ import 'ant-design-vue/dist/antd.less';
 
 const DemoComponent = {
   setup() {
-    const jsonEditorRef = ref(null);
     const state = reactive({
       name: 'value',
     });
 
     const {
       state: routeContext,
-      provider: RouteContextProvider
+      Provider: RouteContextProvider
     } = createRouteContext({
       hasSideMenu: true,
       collapsed: true,
       isMobile: false,
       menuData: []
     });
-
-    onMounted(() => {
-      console.log('jsonEditorRef', jsonEditorRef)
-    })
 
     return () => (
       <div class="components">
@@ -66,7 +61,7 @@ const DemoComponent = {
 const TestChildComponent = defineComponent({
   setup () {
     const routeContext = useRouteContext();
-    console.log('TestChildComponent.routeContext', routeContext)
+    console.log('TestChildComponent.routeContext', routeContext);
 
     return () => {
       const { menuData, collapsed } = routeContext
