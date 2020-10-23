@@ -1,5 +1,4 @@
 import { VNodeChild } from 'vue';
-import a from 'ant-design-vue/types/menu/menu';
 
 export type MenuTheme = 'dark' | 'light';
 
