@@ -1,34 +1,30 @@
-import { createApp, reactive } from 'vue';
+import { createApp } from 'vue';
 import 'ant-design-vue/dist/antd.less';
 
 import './side-menu.less';
-import { Card, Space, Button, Layout } from 'ant-design-vue';
+import { Layout } from 'ant-design-vue';
 import { menus } from './menus';
-import SiderMenuWrapper from '../src/SiderMenu';
-import * as Icon from '@ant-design/icons-vue';
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue';
+import { default as SiderMenuWrapper } from '../src/SiderMenu';
 import { useMenuState } from '../src/SiderMenu/BaseMenu';
+import * as Icon from '@ant-design/icons-vue';
 
 const DemoComponent = {
   setup() {
-    const {
-      state: menuState,
-    } = useMenuState({
+    const { state: menuState } = useMenuState({
       collapsed: false,
-      openKeys: ['/dashboard'] as string[],
-      selectedKeys: ['/dashboard/monitor'] as string[],
+      openKeys: [''],
+      selectedKeys: ['/welcome'],
     });
 
-    const handleClick = () => {
-      menuState.collapsed = !menuState.collapsed;
-      console.log('handleClick', menuState.collapsed);
+    const handleCollapse = (collapsed: boolean) => {
+      menuState.collapsed = collapsed;
     };
     const handleOpenChange = (openKeys: string[]) => {
       menuState.openKeys = openKeys;
-    }
+    };
     const handleSelect = (selectedKeys: string[]) => {
       menuState.selectedKeys = selectedKeys;
-    }
+    };
 
     return () => (
       <div class="components">
@@ -47,25 +43,26 @@ const DemoComponent = {
                 selectedKeys={menuState.selectedKeys}
                 onOpenChange={handleOpenChange}
                 onSelect={handleSelect}
+                onCollapse={handleCollapse}
                 matchMenuKeys={[]}
                 contentWidth={'Fixed'}
                 primaryColor={'#1890ff'}
                 siderWidth={208}
               />
               <Layout>
-                <Layout.Header style="background: #fff; padding: 0; height: 48px; line-height: 48px;">
-                  {
-                    menuState.collapsed
-                      ? <MenuUnfoldOutlined class="trigger" onClick={handleClick} />
-                      : <MenuFoldOutlined  class="trigger" onClick={handleClick} />
-                  }
-                </Layout.Header>
-                <Layout.Content style={{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }}>
+                <Layout.Header style="background: #fff; padding: 0; height: 48px; line-height: 48px;"></Layout.Header>
+                <Layout.Content
+                  style={{
+                    margin: '24px 16px',
+                    padding: '24px',
+                    background: '#fff',
+                    minHeight: '280px',
+                  }}
+                >
                   <div>Context</div>
                 </Layout.Content>
               </Layout>
             </Layout>
-
           </div>
         </div>
       </div>
@@ -75,11 +72,11 @@ const DemoComponent = {
 
 const app = createApp(DemoComponent);
 
-const filterIcons = ['default', 'createFromIconfontCN', 'getTwoToneColor', 'setTwoToneColor']
+const filterIcons = ['default', 'createFromIconfontCN', 'getTwoToneColor', 'setTwoToneColor'];
 Object.keys(Icon)
   .filter(k => !filterIcons.includes(k))
   .forEach(k => {
-    app.component(Icon[k].displayName, Icon[k])
-  })
+    app.component(Icon[k].displayName, Icon[k]);
+  });
 
 app.mount('#__vue-content>div');

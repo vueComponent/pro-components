@@ -1,14 +1,14 @@
 import './index.less';
-import { computed, ref, VNodeChild, inject } from 'vue';
+import { FunctionalComponent, computed, ref, VNodeChild } from 'vue';
 
 // import 'ant-design-vue/es/layout/style';
 // import Layout from 'ant-design-vue/es/layout';
-import { Layout } from 'ant-design-vue';
+import { Layout, Menu } from 'ant-design-vue';
 import BaseMenu, { BaseMenuProps } from './BaseMenu';
 import { WithFalse } from '../typings';
 import { SiderProps } from './typings';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
-import { defaultProProviderProps, injectProConfigKey } from '../ProProvider';
+import { useProProvider } from '../ProProvider';
 
 const { Sider } = Layout;
 
@@ -85,7 +85,7 @@ export const defaultRenderLogoAndTitle = (
 export const defaultRenderCollapsedButton = (collapsed?: boolean) =>
   collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />;
 
-const SiderMenu = (props: SiderMenuProps) => {
+const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) => {
   const {
     menuData,
     collapsed,
@@ -94,8 +94,11 @@ const SiderMenu = (props: SiderMenuProps) => {
     onOpenChange,
     onSelect,
     collapsedWidth = 48,
+    onCollapse,
+    menuFooterRender = false,
+    collapsedButtonRender = defaultRenderCollapsedButton,
   } = props;
-  const { getPrefixCls } = inject(injectProConfigKey, defaultProProviderProps);
+  const { getPrefixCls } = useProProvider();
   const baseClassName = getPrefixCls('sider');
 
   const isMix = computed(() => props.layout === 'mix');
@@ -136,8 +139,13 @@ const SiderMenu = (props: SiderMenuProps) => {
         collapsible={false}
         collapsedWidth={collapsedWidth}
       >
-        <div class="ant-pro-sider-logo">{headerDom}</div>
-        <div style="flex: 1 1 0%; overflow: hidden auto;">
+        <div class={`${baseClassName}-logo`}>{headerDom}</div>
+        {extraDom && (
+          <div class={`${baseClassName}-extra ${!headerDom && `${baseClassName}-extra-no-logo`}`}>
+            {extraDom}
+          </div>
+        )}
+        <div style="flex: 1; overflow: hidden auto;">
           <BaseMenu
             menus={menuData}
             theme={props.theme}
@@ -159,6 +167,29 @@ const SiderMenu = (props: SiderMenuProps) => {
             }}
           />
         </div>
+        <div class={`${baseClassName}-links`}>
+          <Menu
+            class={`${baseClassName}-link-menu`}
+            inlineIndent={16}
+            theme={runtimeTheme.value}
+            selectedKeys={[]}
+            openKeys={[]}
+            mode="inline"
+          >
+            <Menu.Item
+              class={`${baseClassName}-collapsed-button`}
+              title={false}
+              onClick={() => {
+                if (onCollapse) {
+                  onCollapse(!props.collapsed);
+                }
+              }}
+            >
+              {collapsedButtonRender(collapsed)}
+            </Menu.Item>
+          </Menu>
+        </div>
+        {menuFooterRender && <div class={`${baseClassName}-footer`}>{menuFooterRender(props)}</div>}
       </Sider>
     </>
   );

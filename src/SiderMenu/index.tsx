@@ -7,6 +7,7 @@ import SiderMenu, { SiderMenuProps, PrivateSiderMenuProps } from './SiderMenu';
 
 const SiderMenuWrapper: FunctionalComponent<SiderMenuProps & PrivateSiderMenuProps> = (
   props,
+  { emit },
 ) => {
   return props.isMobile ? (
     <Drawer>

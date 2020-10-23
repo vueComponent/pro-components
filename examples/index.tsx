@@ -12,7 +12,7 @@ const SimpleDemo = {
       collapsed: false,
       openKeys: [],
       selectedKeys: [],
-    })
+    });
 
     return () => (
       <div class="components">
@@ -31,12 +31,11 @@ const SimpleDemo = {
           openKeys={menuState.openKeys}
           selectedKeys={menuState.selectedKeys}
           onOpenChange={$event => {
-            menuState.openKeys = $event
+            menuState.openKeys = $event;
           }}
           onSelect={$event => {
-            menuState.selectedKeys = $event
+            menuState.selectedKeys = $event;
           }}
-
         >
           <Button
             onClick={() => {
@@ -53,11 +52,11 @@ const SimpleDemo = {
 
 const app = createApp(SimpleDemo);
 
-const filterIcons = ['default', 'createFromIconfontCN', 'getTwoToneColor', 'setTwoToneColor']
+const filterIcons = ['default', 'createFromIconfontCN', 'getTwoToneColor', 'setTwoToneColor'];
 Object.keys(Icon)
   .filter(k => !filterIcons.includes(k))
   .forEach(k => {
-    app.component(Icon[k].displayName, Icon[k])
-  })
+    app.component(Icon[k].displayName, Icon[k]);
+  });
 
 app.use(BasicLayout).mount('#__vue-content>div');

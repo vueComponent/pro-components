@@ -6,11 +6,13 @@ import { Layout } from 'ant-design-vue';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
 import { default as ProProvider } from './ProProvider';
 import { createRouteContext } from './RouteContext';
+import { WrapContent } from './WrapContent';
+import { default as GlobalFooter } from './GlobalFooter';
 import SiderMenuWrapper from './SiderMenu';
 
 const defaultI18nRender = (key: string) => key;
 
-const { state, provider: RouteContextProvider } = createRouteContext({
+const { state: routeContext, Provider: RouteContextProvider } = createRouteContext({
   isMobile: false,
   menuData: [],
   sideWidth: 208,
@@ -32,7 +34,10 @@ const BasicLayout = (props, { emit, slots }) => {
     <ProProvider {...props} i18n={defaultI18nRender}>
       <RouteContextProvider>
         <Layout class="ant-pro-basicLayout">
-          <SiderMenuWrapper {...props} />
+          <SiderMenuWrapper
+            {...props}
+            onCollapse={(collapsed: boolean) => emit('update:collapsed', collapsed)}
+          />
           <Layout>
             <Layout.Header style="background: #fff; padding: 0; height: 48px; line-height: 48px;">
               {props.collapsed ? (
@@ -41,7 +46,7 @@ const BasicLayout = (props, { emit, slots }) => {
                 <MenuFoldOutlined class="trigger" onClick={handleClick} />
               )}
             </Layout.Header>
-            <Layout.Content
+            <WrapContent
               style={{
                 margin: '24px 16px',
                 padding: '24px',
@@ -49,8 +54,31 @@ const BasicLayout = (props, { emit, slots }) => {
                 minHeight: '280px',
               }}
             >
-              {slots.default?.()}
-            </Layout.Content>
+              <div>Context</div>
+            </WrapContent>
+            <GlobalFooter
+              links={[
+                {
+                  key: '1',
+                  title: 'Pro Layout',
+                  href: 'https://www.github.com/vueComponent/pro-layout',
+                  blankTarget: true,
+                },
+                {
+                  key: '2',
+                  title: 'Github',
+                  href: 'https://www.github.com/vueComponent/ant-design-vue-pro',
+                  blankTarget: true,
+                },
+                {
+                  key: '3',
+                  title: '@Sendya',
+                  href: 'https://www.github.com/sendya/',
+                  blankTarget: true,
+                }
+              ]}
+              copyright={(<a href="https://github.com/vueComponent" target="_blank">vueComponent</a>)}
+            />
           </Layout>
         </Layout>
       </RouteContextProvider>

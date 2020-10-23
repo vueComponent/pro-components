@@ -2,6 +2,11 @@ import { RouteProps } from '../src/typings';
 
 export const menus: RouteProps[] = [
   {
+    path: '/welcome',
+    name: 'welcome',
+    meta: { icon: 'SmileOutlined', title: 'Welcome' },
+  },
+  {
     path: '/dashboard',
     name: 'Dashboard',
     meta: { icon: 'dashboard-outlined', title: 'Dashboard' },
