@@ -1,4 +1,4 @@
-import { VNodeChild } from 'vue'
+import { VNodeChild } from 'vue';
 
 export type MenuTheme = 'dark' | 'light';
 

@@ -1,11 +1,11 @@
-import isUrl from './isUrl';
-import isImg from './isImg';
-import isNil from './isNil';
-
 import { nextTick, h } from 'vue';
 import { AbstractNode, IconDefinition } from '@ant-design/icons-svg/lib/types';
 import { generate as generateColor } from '@ant-design/colors';
 import insertCss from '../insert-css';
+
+export { default as isUrl } from './isUrl';
+export { default as isImg } from './isImg';
+export { default as isNil } from './isNil';
 
 export function warn(valid: boolean, message: string) {
   // Support uglify
@@ -164,9 +164,3 @@ export const useInsertStyles = (styleStr: string = iconStyles) => {
     }
   });
 };
-
-export {
-  isUrl,
-  isImg,
-  isNil,
-}

@@ -4,13 +4,13 @@ import { WithFalse } from '../typings';
 import { defineComponent, PropType, SetupContext, VNodeChild } from 'vue';
 
 export type Links = WithFalse<
-{
-  key?: string;
-  title: VNodeChild | JSX.Element;
-  href: string;
-  blankTarget?: boolean;
-}[]
->
+  {
+    key?: string;
+    title: VNodeChild | JSX.Element;
+    href: string;
+    blankTarget?: boolean;
+  }[]
+>;
 
 export interface GlobalFooterProps {
   links?: Links;
@@ -25,12 +25,14 @@ export default defineComponent({
     copyright: [Object, Function] as PropType<VNodeChild | JSX.Element>,
     prefixCls: {
       type: String,
-      default: 'ant-pro'
-    }
+      default: 'ant-pro',
+    },
   },
-  setup (props: GlobalFooterProps, { slots }: SetupContext) {
+  setup(props: GlobalFooterProps, { slots }: SetupContext) {
     if (
-      (props.links == null || props.links === false || (Array.isArray(props.links) && props.links.length === 0)) &&
+      (props.links == null ||
+        props.links === false ||
+        (Array.isArray(props.links) && props.links.length === 0)) &&
       (props.copyright == null || props.copyright === false)
     ) {
       return null;
@@ -58,5 +60,5 @@ export default defineComponent({
         {props.copyright && <div class={`${baseClassName}-copyright`}>{copyright}</div>}
       </footer>
     );
-  }
+  },
 });

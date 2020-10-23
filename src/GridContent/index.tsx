@@ -1,6 +1,6 @@
 import './GridContent.less';
 
-import { SetupContext, CSSProperties } from 'vue'
+import { SetupContext, CSSProperties } from 'vue';
 import { PureSettings } from '../defaultSettings';
 
 interface GridContentProps {
@@ -9,7 +9,10 @@ interface GridContentProps {
   style?: CSSProperties;
 }
 
-const GridContent = ({ prefixCls = 'ant-pro', contentWidth }: GridContentProps, { slots }: SetupContext) => {
+const GridContent = (
+  { prefixCls = 'ant-pro', contentWidth }: GridContentProps,
+  { slots }: SetupContext,
+) => {
   return (
     <div
       class={{

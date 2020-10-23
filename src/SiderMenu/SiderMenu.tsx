@@ -1,5 +1,5 @@
 import './index.less';
-import { computed, ref, VNodeChild, SetupContext, inject } from 'vue';
+import { computed, ref, VNodeChild, inject } from 'vue';
 
 // import 'ant-design-vue/es/layout/style';
 // import Layout from 'ant-design-vue/es/layout';
@@ -16,15 +16,22 @@ export type PrivateSiderMenuProps = {
   matchMenuKeys: string[];
 };
 
-export interface SiderMenuProps extends Pick<BaseMenuProps, Exclude<keyof BaseMenuProps, ['onCollapse']>> {
+export interface SiderMenuProps
+  extends Pick<BaseMenuProps, Exclude<keyof BaseMenuProps, ['onCollapse']>> {
   logo?: VNodeChild | JSX.Element;
   siderWidth?: number;
   collapsedWidth?: number;
   menuHeaderRender?: WithFalse<
-    (logo: VNodeChild | JSX.Element, title: VNodeChild | JSX.Element, props?: SiderMenuProps) => VNodeChild
-    >;
+    (
+      logo: VNodeChild | JSX.Element,
+      title: VNodeChild | JSX.Element,
+      props?: SiderMenuProps,
+    ) => VNodeChild
+  >;
   menuFooterRender?: WithFalse<(props?: SiderMenuProps) => VNodeChild>;
-  menuContentRender?: WithFalse<(props: SiderMenuProps, defaultDom: VNodeChild | JSX.Element) => VNodeChild>;
+  menuContentRender?: WithFalse<
+    (props: SiderMenuProps, defaultDom: VNodeChild | JSX.Element) => VNodeChild
+  >;
   menuExtraRender?: WithFalse<(props: SiderMenuProps) => VNodeChild>;
   collapsedButtonRender?: WithFalse<(collapsed?: boolean) => VNodeChild>;
   breakpoint?: SiderProps['breakpoint'] | false;
@@ -43,7 +50,7 @@ export const defaultRenderLogo = (logo: VNodeChild | JSX.Element): VNodeChild | 
     return logo();
   }
   return logo;
-}
+};
 
 export const defaultRenderLogoAndTitle = (
   props: SiderMenuProps,
@@ -53,7 +60,7 @@ export const defaultRenderLogoAndTitle = (
     logo = 'https://gw.alipayobjects.com/zos/antfincdn/PmY%24TNNDBI/logo.svg',
     title,
     layout,
-  } = props
+  } = props;
   const renderFunction = props[renderKey || ''];
   if (renderFunction === false) {
     return null;
@@ -73,41 +80,31 @@ export const defaultRenderLogoAndTitle = (
       {props.collapsed ? null : titleDom}
     </a>
   );
-}
+};
 
 export const defaultRenderCollapsedButton = (collapsed?: boolean) =>
   collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />;
 
-const SiderMenu = (props: SiderMenuProps, context: SetupContext) => {
+const SiderMenu = (props: SiderMenuProps) => {
   const {
     menuData,
     collapsed,
-    fixSiderbar,
-    menuFooterRender,
-    onCollapse,
-    theme,
     siderWidth,
-    isMobile,
-    onMenuHeaderClick,
-    breakpoint = 'lg',
-    layout,
     menuExtraRender = false,
-    collapsedButtonRender = defaultRenderCollapsedButton,
-    menuContentRender,
-    prefixCls,
     onOpenChange,
     onSelect,
-    headerHeight,
     collapsedWidth = 48,
   } = props;
-  console.log('props', props)
-  const { getPrefixCls } = inject(injectProConfigKey, defaultProProviderProps)
+  console.log('props', props);
+  const { getPrefixCls } = inject(injectProConfigKey, defaultProProviderProps);
   const baseClassName = getPrefixCls('sider');
 
   const isMix = computed(() => props.layout === 'mix');
   const fixed = computed(() => props.fixed);
-  const runtimeTheme = computed(() => props.layout === 'mix' && 'light' || 'dark');
-  const runtimeSideWidth = computed(() => props.collapsed ? props.collapsedWidth : props.siderWidth);
+  const runtimeTheme = computed(() => (props.layout === 'mix' && 'light') || 'dark');
+  const runtimeSideWidth = computed(() =>
+    props.collapsed ? props.collapsedWidth : props.siderWidth,
+  );
 
   const classNames = ref({
     [baseClassName]: true,
@@ -122,14 +119,17 @@ const SiderMenu = (props: SiderMenuProps, context: SetupContext) => {
 
   return (
     <>
-      { fixed.value && (<div style={{
-        width: `${runtimeSideWidth.value}px`,
-        overflow: 'hidden',
-        flex: `0 0 ${runtimeSideWidth.value}px`,
-        maxWidth: `${runtimeSideWidth.value}px`,
-        minWidth: `${runtimeSideWidth.value}px`,
-      }}
-      />)}
+      {fixed.value && (
+        <div
+          style={{
+            width: `${runtimeSideWidth.value}px`,
+            overflow: 'hidden',
+            flex: `0 0 ${runtimeSideWidth.value}px`,
+            maxWidth: `${runtimeSideWidth.value}px`,
+            minWidth: `${runtimeSideWidth.value}px`,
+          }}
+        />
+      )}
       <Sider
         class={classNames.value}
         width={siderWidth}
@@ -137,9 +137,7 @@ const SiderMenu = (props: SiderMenuProps, context: SetupContext) => {
         collapsible={false}
         collapsedWidth={collapsedWidth}
       >
-        <div class="ant-pro-sider-logo">
-          {headerDom}
-        </div>
+        <div class="ant-pro-sider-logo">{headerDom}</div>
         <div style="flex: 1 1 0%; overflow: hidden auto;">
           <BaseMenu
             menus={menuData}
@@ -158,7 +156,7 @@ const SiderMenu = (props: SiderMenuProps, context: SetupContext) => {
               },
               'onUpdate:selectedKeys': $event => {
                 onSelect($event);
-              }
+              },
             }}
           />
         </div>
