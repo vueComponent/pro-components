@@ -3,14 +3,14 @@ import { VNodeChild, CSSProperties, HTMLAttributes } from 'vue';
 export type MenuMode = 'vertical' | 'vertical-left' | 'vertical-right' | 'horizontal' | 'inline';
 
 export interface MenuInfo {
-  key: string;
-  keyPath: string[];
-  item: VNodeChild;
-  domEvent?: MouseEvent;
+  key: string | number;
+  keyPath: string[] | number[];
+  item: VNodeChild | any;
+  domEvent: MouseEvent;
 }
 
-export interface SelectInfo extends MenuInfo {
-  selectedKeys?: string[];
+export interface SelectInfo {
+  selectedKeys: string[];
 }
 
 export type OpenEventHandler = (

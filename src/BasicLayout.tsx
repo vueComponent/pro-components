@@ -49,7 +49,7 @@ const BasicLayout = (props, { emit, slots }) => {
                 minHeight: '280px',
               }}
             >
-              {slots.default && slots.default()}
+              {slots.default?.()}
             </Layout.Content>
           </Layout>
         </Layout>

@@ -1,6 +1,6 @@
 import './GridContent.less';
 
-import { SetupContext, CSSProperties } from 'vue';
+import { FunctionalComponent, SetupContext, CSSProperties } from 'vue';
 import { PureSettings } from '../defaultSettings';
 
 interface GridContentProps {
@@ -9,8 +9,8 @@ interface GridContentProps {
   style?: CSSProperties;
 }
 
-const GridContent = (
-  { prefixCls = 'ant-pro', contentWidth }: GridContentProps,
+const GridContent: FunctionalComponent<GridContentProps> = (
+  { prefixCls = 'ant-pro', contentWidth },
   { slots }: SetupContext,
 ) => {
   return (
@@ -20,7 +20,7 @@ const GridContent = (
         wide: contentWidth === 'Fixed',
       }}
     >
-      <div class={`${prefixCls}-grid-content-children`}>{slots.default && slots.default()}</div>
+      <div class={`${prefixCls}-grid-content-children`}>{slots.default?.()}</div>
     </div>
   );
 };

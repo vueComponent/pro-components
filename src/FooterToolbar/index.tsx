@@ -54,7 +54,7 @@ const FooterToolbar = defineComponent({
       return (
         <>
           <div class={`${baseClassName.value}-left`}>{props.extra}</div>
-          <div class={`${baseClassName.value}-right`}>{slots.default()}</div>
+          <div class={`${baseClassName.value}-right`}>{slots.default?.()}</div>
         </>
       );
     };

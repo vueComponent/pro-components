@@ -1,4 +1,15 @@
-import { App, defineComponent, InjectionKey, PropType, provide, reactive, SetupContext, toRefs } from 'vue';
+import {
+  App,
+  defineComponent,
+  InjectionKey,
+  PropType,
+  provide,
+  inject,
+  reactive,
+  readonly,
+  SetupContext,
+  toRefs,
+} from 'vue';
 import { ContentWidth } from '../typings';
 
 export const defaultPrefixCls = 'ant-pro';
@@ -43,19 +54,23 @@ const ProProvider = defineComponent({
       return suffixCls ? `${prefixCls.value}-${suffixCls}` : prefixCls.value;
     };
 
-    const proConfigProvider = reactive({
+    const context = reactive({
       i18n,
       contentWidth,
       getPrefixCls,
     });
-    provide(injectProConfigKey, proConfigProvider);
+    provide(injectProConfigKey, readonly(context));
 
-    return () => slots.default && slots.default();
+    return () => slots.default?.();
   },
 });
 
 ProProvider.install = function(app: App) {
   app.component(ProProvider.name, ProProvider);
+};
+
+export const useProProvider = (): ProProviderData => {
+  return inject(injectProConfigKey, defaultProProviderProps);
 };
 
 export default ProProvider;

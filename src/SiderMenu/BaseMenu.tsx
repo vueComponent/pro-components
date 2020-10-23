@@ -2,7 +2,7 @@ import './index.less';
 
 import {
   defineComponent,
-  h,
+  resolveComponent,
   ref,
   reactive,
   computed,
@@ -16,7 +16,6 @@ import {
   isVNode,
   toRefs,
 } from 'vue';
-// import * as Icon from '@ant-design/icons-vue';
 import { createFromIconfontCN } from '@ant-design/icons-vue';
 
 // import 'ant-design-vue/es/menu/style'
@@ -26,7 +25,7 @@ import { Menu } from 'ant-design-vue';
 
 import defaultSettings, { PureSettings } from '../defaultSettings';
 import { isImg, isUrl } from '../utils';
-import { MenuMode, SelectInfo, OpenEventHandler } from './typings';
+import { MenuMode, SelectInfo, OpenEventHandler, MenuInfo } from './typings';
 import { RouteProps, MenuTheme, WithFalse } from '../typings';
 
 export { MenuMode, SelectInfo, OpenEventHandler };
@@ -179,38 +178,21 @@ const IconFont = createFromIconfontCN({
   scriptUrl: defaultSettings.iconfontUrl,
 });
 
-// const LazyIcon = (props, _) => {
-//   const { icon } = toRefs(props)
-//   if (typeof icon.value === 'string' && icon.value !== '') {
-//     if (isUrl(icon.value) || isImg(icon.value)) {
-//       return <img src={icon.value} alt="icon" class="ant-pro-sider-menu-icon" />
-//     }
-//     if (icon.value.startsWith('icon-')) {
-//       return <IconFont type={icon.value}  />
-//     }
-//   }
-//   if (isVNode(icon.value)) {
-//     return icon.value
-//   }
-//   const IconComponent = resolveComponent(`${icon.value}`)
-//   return h(IconComponent)
-// }
 const LazyIcon = props => {
-  const { icon } = toRefs(props);
-  if (typeof icon.value === 'string' && icon.value !== '') {
-    if (isUrl(icon.value) || isImg(icon.value)) {
-      return <img src={icon.value} alt="icon" class="ant-pro-sider-menu-icon" />;
+  const { icon, prefixCls } = props;
+  if (typeof icon === 'string' && icon !== '') {
+    if (isUrl(icon) || isImg(icon)) {
+      return <img src={icon} alt="icon" class={`${prefixCls}-sider-menu-icon`} />;
     }
-    if (icon.value.startsWith('icon-')) {
-      return <IconFont type={icon.value} />;
+    if (icon.startsWith('icon-')) {
+      return <IconFont type={icon} />;
     }
   }
-  if (isVNode(icon.value)) {
-    return icon.value;
+  if (isVNode(icon)) {
+    return icon;
   }
-  // const ALazyIcon = resolveComponent(`${icon.value}`);
-  // return ALazyIcon && ALazyIcon
-  return h(icon.value);
+  const LazyIcon = resolveComponent(icon);
+  return (typeof LazyIcon === 'function' && <LazyIcon />) || null;
 };
 
 LazyIcon.icon = {
@@ -236,7 +218,7 @@ export default defineComponent({
     const handleOpenChange: OpenEventHandler = (openKeys): void => {
       emit('update:openKeys', openKeys);
     };
-    const handleSelect = ({ selectedKeys }: SelectInfo): void => {
+    const handleSelect = ({ selectedKeys }: SelectInfo & MenuInfo) => {
       emit('update:selectedKeys', selectedKeys);
     };
 
@@ -245,8 +227,8 @@ export default defineComponent({
         inlineCollapsed={(isInline.value && props.collapsed) || undefined}
         mode={props.mode}
         theme={props.theme}
-        openKeys={props.openKeys}
-        selectedKeys={props.selectedKeys}
+        openKeys={props.openKeys || []}
+        selectedKeys={props.selectedKeys || []}
         onOpenChange={handleOpenChange}
         onSelect={handleSelect}
       >

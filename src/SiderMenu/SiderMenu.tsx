@@ -95,7 +95,6 @@ const SiderMenu = (props: SiderMenuProps) => {
     onSelect,
     collapsedWidth = 48,
   } = props;
-  console.log('props', props);
   const { getPrefixCls } = inject(injectProConfigKey, defaultProProviderProps);
   const baseClassName = getPrefixCls('sider');
 

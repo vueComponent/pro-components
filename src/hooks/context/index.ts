@@ -31,7 +31,7 @@ export const createContext = <T>(
     inheritAttrs: false,
     setup(props, { slots }: SetupContext) {
       provide(contextInjectKey, readonly(state));
-      return () => slots.default();
+      return () => slots.default?.();
     },
   });
 
