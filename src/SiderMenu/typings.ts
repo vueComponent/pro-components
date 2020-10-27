@@ -9,7 +9,7 @@ export interface MenuInfo {
   domEvent: MouseEvent;
 }
 
-export interface SelectInfo {
+export interface SelectInfo extends MenuInfo {
   selectedKeys: string[];
 }
 

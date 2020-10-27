@@ -1,14 +1,14 @@
 import './BasicLayoutTest.less';
 
-import { App } from 'vue';
+import { App, FunctionalComponent } from 'vue';
 
 import { Layout } from 'ant-design-vue';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
 import { default as ProProvider } from './ProProvider';
+import { default as GlobalFooter } from './GlobalFooter';
+import { default as SiderMenuWrapper, SiderMenuWrapperProps } from './SiderMenu';
 import { createRouteContext } from './RouteContext';
 import { WrapContent } from './WrapContent';
-import { default as GlobalFooter } from './GlobalFooter';
-import SiderMenuWrapper from './SiderMenu';
 
 const defaultI18nRender = (key: string) => key;
 
@@ -20,7 +20,9 @@ const { state: routeContext, Provider: RouteContextProvider } = createRouteConte
   hasHeader: true,
 });
 
-const BasicLayout = (props, { emit, slots }) => {
+export type ProLayoutProps = SiderMenuWrapperProps;
+
+const ProLayout: FunctionalComponent<ProLayoutProps> = (props, { emit, slots }) => {
   const handleClick = () => {
     emit('update:collapsed', !props.collapsed);
   };
@@ -32,62 +34,64 @@ const BasicLayout = (props, { emit, slots }) => {
   };
   return (
     <ProProvider {...props} i18n={defaultI18nRender}>
-      <RouteContextProvider>
-        <Layout class="ant-pro-basicLayout">
-          <SiderMenuWrapper
-            {...props}
-            onCollapse={(collapsed: boolean) => emit('update:collapsed', collapsed)}
+      <Layout class="ant-pro-basicLayout">
+        <SiderMenuWrapper
+          {...props}
+          onCollapse={(collapsed: boolean) => emit('update:collapsed', collapsed)}
+        />
+        <Layout>
+          <Layout.Header style="background: #fff; padding: 0; height: 48px; line-height: 48px;">
+            {props.collapsed ? (
+              <MenuUnfoldOutlined class="trigger" onClick={handleClick} />
+            ) : (
+              <MenuFoldOutlined class="trigger" onClick={handleClick} />
+            )}
+          </Layout.Header>
+          <WrapContent
+            style={{
+              margin: '24px 16px',
+              padding: '24px',
+              background: '#fff',
+              minHeight: '280px',
+            }}
+          >
+            {slots.default?.()}
+          </WrapContent>
+          <GlobalFooter
+            links={[
+              {
+                key: '1',
+                title: 'Pro Layout',
+                href: 'https://www.github.com/vueComponent/pro-layout',
+                blankTarget: true,
+              },
+              {
+                key: '2',
+                title: 'Github',
+                href: 'https://www.github.com/vueComponent/ant-design-vue-pro',
+                blankTarget: true,
+              },
+              {
+                key: '3',
+                title: '@Sendya',
+                href: 'https://www.github.com/sendya/',
+                blankTarget: true,
+              },
+            ]}
+            copyright={
+              <a href="https://github.com/vueComponent" target="_blank">
+                vueComponent
+              </a>
+            }
           />
-          <Layout>
-            <Layout.Header style="background: #fff; padding: 0; height: 48px; line-height: 48px;">
-              {props.collapsed ? (
-                <MenuUnfoldOutlined class="trigger" onClick={handleClick} />
-              ) : (
-                <MenuFoldOutlined class="trigger" onClick={handleClick} />
-              )}
-            </Layout.Header>
-            <WrapContent
-              style={{
-                margin: '24px 16px',
-                padding: '24px',
-                background: '#fff',
-                minHeight: '280px',
-              }}
-            >
-              <div>Context</div>
-            </WrapContent>
-            <GlobalFooter
-              links={[
-                {
-                  key: '1',
-                  title: 'Pro Layout',
-                  href: 'https://www.github.com/vueComponent/pro-layout',
-                  blankTarget: true,
-                },
-                {
-                  key: '2',
-                  title: 'Github',
-                  href: 'https://www.github.com/vueComponent/ant-design-vue-pro',
-                  blankTarget: true,
-                },
-                {
-                  key: '3',
-                  title: '@Sendya',
-                  href: 'https://www.github.com/sendya/',
-                  blankTarget: true,
-                }
-              ]}
-              copyright={(<a href="https://github.com/vueComponent" target="_blank">vueComponent</a>)}
-            />
-          </Layout>
         </Layout>
-      </RouteContextProvider>
+      </Layout>
     </ProProvider>
   );
 };
 
-BasicLayout.install = function(app: App) {
-  app.component('pro-layout', BasicLayout);
+ProLayout.install = function(app: App) {
+  app.component('pro-layout', ProLayout);
 };
 
-export default BasicLayout;
+export default ProLayout;

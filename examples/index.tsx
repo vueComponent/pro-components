@@ -1,23 +1,36 @@
-import { createApp, reactive } from 'vue';
+import { createApp, defineComponent, reactive } from 'vue';
 import 'ant-design-vue/dist/antd.less';
 import { Button, message } from 'ant-design-vue';
-import { default as BasicLayout } from '../src/BasicLayout';
+import { default as ProLayout } from '../src/BasicLayout';
 import { menus } from './menus';
 import { useMenuState } from '../src/SiderMenu/BaseMenu';
 import * as Icon from '@ant-design/icons-vue';
+import { createRouteContext } from '../src/RouteContext';
 
-const SimpleDemo = {
-  setup() {
+const BasicLayout = defineComponent({
+  name: 'BasicLayout',
+  inheritAttrs: false,
+  setup(_, { slots, attrs }) {
     const { state: menuState } = useMenuState({
       collapsed: false,
       openKeys: [],
-      selectedKeys: [],
+      selectedKeys: ['/welcome'],
+    });
+
+    const { state: routeContext, Provider: RouteContextProvider } = createRouteContext({
+      isMobile: false,
+      menuData: [],
+      sideWidth: 208,
+      hasSideMenu: true,
+      hasHeader: true,
+      hasFooterToolbar: false,
+      setHasFooterToolbar: (has: boolean) => (routeContext.hasFooterToolbar = has),
     });
 
     return () => (
-      <div class="components">
-        <h2># BasicLayout</h2>
-        <BasicLayout
+      <RouteContextProvider>
+        <ProLayout
+          {...attrs}
           v-model={[menuState.collapsed, 'collapsed']}
           title={'Pro Layout'}
           layout={'side'}
@@ -31,10 +44,10 @@ const SimpleDemo = {
           openKeys={menuState.openKeys}
           selectedKeys={menuState.selectedKeys}
           onOpenChange={$event => {
-            menuState.openKeys = $event;
+            $event && (menuState.openKeys = $event);
           }}
           onSelect={$event => {
-            menuState.selectedKeys = $event;
+            $event && (menuState.selectedKeys = $event);
           }}
         >
           <Button
@@ -44,7 +57,18 @@ const SimpleDemo = {
           >
             Click Me!!
           </Button>
-        </BasicLayout>
+        </ProLayout>
+      </RouteContextProvider>
+    );
+  },
+});
+
+const SimpleDemo = {
+  setup() {
+    return () => (
+      <div class="components">
+        <h2># BasicLayout</h2>
+        <BasicLayout />
       </div>
     );
   },

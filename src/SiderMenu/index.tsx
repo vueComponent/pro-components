@@ -5,10 +5,9 @@ import Drawer from 'ant-design-vue/es/drawer';
 
 import SiderMenu, { SiderMenuProps, PrivateSiderMenuProps } from './SiderMenu';
 
-const SiderMenuWrapper: FunctionalComponent<SiderMenuProps & PrivateSiderMenuProps> = (
-  props,
-  { emit },
-) => {
+export type SiderMenuWrapperProps = SiderMenuProps & PrivateSiderMenuProps;
+
+const SiderMenuWrapper: FunctionalComponent<SiderMenuWrapperProps> = (props, { emit }) => {
   return props.isMobile ? (
     <Drawer>
       <SiderMenu {...props} />

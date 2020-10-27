@@ -17,6 +17,7 @@ export interface FooterToolbarProps {
     props: FooterToolbarProps & RouteContextProps & { leftWidth?: string },
     dom: JSX.Element,
   ) => VNodeChild | JSX.Element;
+  getContainer?: (triggerNode: HTMLElement) => HTMLElement | null;
   prefixCls?: string;
 }
 
@@ -24,6 +25,9 @@ const FooterToolbarProps = {
   extra: { type: Object as PropType<VNodeChild> },
   renderContent: {
     type: Function as PropType<FooterToolbarProps['renderContent']>,
+  },
+  getContainer: {
+    type: Function as PropType<FooterToolbarProps['getContainer']>,
   },
   prefixCls: { type: String as PropType<string> },
 };
@@ -33,11 +37,13 @@ const FooterToolbar = defineComponent({
   props: FooterToolbarProps,
   setup(props, { slots }) {
     const { getPrefixCls } = inject(injectProConfigKey, defaultProProviderProps);
+    const baseClassName = props.prefixCls || getPrefixCls('footer-bar');
+    // const container = typeof props.getContainer === 'function' ? props.getContainer()
 
-    const baseClassName = computed(() => {
-      const prefixCls = props.prefixCls || getPrefixCls();
-      return `${prefixCls}-footer-bar`;
-    });
+    // const baseClassName = computed(() => {
+    //   const prefixCls = props.prefixCls || getPrefixCls();
+    //   return `${prefixCls}-footer-bar`;
+    // });
     const routeContext = useRouteContext();
     const width = computed(() => {
       const { hasSideMenu, isMobile, sideWidth } = routeContext;

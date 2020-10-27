@@ -218,8 +218,8 @@ export default defineComponent({
     const handleOpenChange: OpenEventHandler = (openKeys): void => {
       emit('update:openKeys', openKeys);
     };
-    const handleSelect = ({ selectedKeys }: SelectInfo & MenuInfo) => {
-      emit('update:selectedKeys', selectedKeys);
+    const handleSelect = (params: SelectInfo): void => {
+      emit('update:selectedKeys', params.selectedKeys);
     };
 
     return () => (
@@ -230,7 +230,9 @@ export default defineComponent({
         openKeys={props.openKeys || []}
         selectedKeys={props.selectedKeys || []}
         onOpenChange={handleOpenChange}
-        onSelect={handleSelect}
+        onSelect={({ selectedKeys }) => {
+          emit('update:selectedKeys', selectedKeys);
+        }}
       >
         {props.menus &&
           props.menus.map(menu => {

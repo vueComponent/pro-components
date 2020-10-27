@@ -33,7 +33,7 @@ export interface SiderMenuProps
     (props: SiderMenuProps, defaultDom: VNodeChild | JSX.Element) => VNodeChild
   >;
   menuExtraRender?: WithFalse<(props: SiderMenuProps) => VNodeChild>;
-  collapsedButtonRender?: WithFalse<(collapsed?: boolean) => VNodeChild>;
+  collapsedButtonRender?: WithFalse<(collapsed?: boolean) => JSX.Element | VNodeChild>;
   breakpoint?: SiderProps['breakpoint'] | false;
   onMenuHeaderClick?: (e: MouseEvent) => void;
   fixed?: boolean;
@@ -82,7 +82,7 @@ export const defaultRenderLogoAndTitle = (
   );
 };
 
-export const defaultRenderCollapsedButton = (collapsed?: boolean) =>
+export const defaultRenderCollapsedButton = (collapsed?: boolean): JSX.Element | VNodeChild =>
   collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />;
 
 const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) => {
@@ -148,7 +148,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
         <div style="flex: 1; overflow: hidden auto;">
           <BaseMenu
             menus={menuData}
-            theme={props.theme}
+            theme={props.theme === 'realDark' ? 'dark' : props.theme}
             mode="inline"
             collapsed={props.collapsed}
             openKeys={props.openKeys}
@@ -177,6 +177,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
             mode="inline"
           >
             <Menu.Item
+              key={'collapsed-button'}
               class={`${baseClassName}-collapsed-button`}
               title={false}
               onClick={() => {
@@ -185,7 +186,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
                 }
               }}
             >
-              {collapsedButtonRender(collapsed)}
+              {collapsedButtonRender && collapsedButtonRender(collapsed)}
             </Menu.Item>
           </Menu>
         </div>
