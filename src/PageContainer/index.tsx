@@ -5,7 +5,10 @@ import { PageHeaderProps } from './interfaces/PageHeader';
 import { AffixProps } from './interfaces/Affix';
 import { useRouteContext, RouteContextProps } from '../RouteContext';
 import { useProProvider } from '../ProProvider';
-import { PageHeader } from 'ant-design-vue';
+import { Affix, PageHeader, Tabs } from 'ant-design-vue';
+import GridContent from '../GridContent';
+import FooterToolbar from '../FooterToolbar';
+import './index.less';
 
 export interface Tab {
   key: string;
@@ -16,7 +19,7 @@ export interface PageHeaderTabConfig {
   /**
    * @name tabs 的列表
    */
-  tabList?: TabPaneProps & Tab & { key?: string | VNodeChild };
+  tabList?: (Omit<TabPaneProps, 'id'> & { key?: string })[];
   /**
    * @name 当前选中 tab 的 key
    */
@@ -24,7 +27,7 @@ export interface PageHeaderTabConfig {
   /**
    * @name tab 修改时触发
    */
-  onTabChange?: () => void;
+  onTabChange?: (key: string | number | any) => void;
   /**
    * @name tab 上多余的区域
    */
@@ -57,21 +60,71 @@ export interface PageContainerProps extends PageHeaderTabConfig, Omit<PageHeader
   loading?: boolean;
 }
 
+const renderFooter = (
+  props: Omit<
+    PageContainerProps & {
+      prefixedClassName: string;
+    },
+    'title'
+  >,
+) => {
+  const {
+    tabList,
+    tabActiveKey,
+    onTabChange,
+    tabBarExtraContent,
+    tabProps,
+    prefixedClassName,
+  } = props;
+  if (tabList && tabList.length) {
+    return (
+      <Tabs
+        class={`${prefixedClassName}-tabs`}
+        activeKey={tabActiveKey}
+        onChange={key => {
+          if (onTabChange) {
+            onTabChange(key);
+          }
+        }}
+        tabBarExtraContent={tabBarExtraContent}
+        {...tabProps}
+      >
+        {tabList.map((item, index) => (
+          <Tabs.TabPane {...item} tab={item.tab} key={item.key} />
+        ))}
+      </Tabs>
+    );
+  }
+  return null;
+};
+
+const renderPageHeader = (
+  content: VNodeChild | JSX.Element,
+  extraContent: VNodeChild | JSX.Element,
+  prefixedClassName: string,
+): VNodeChild | JSX.Element => {
+  if (!content && !extraContent) {
+    return null;
+  }
+  return (
+    <div class={`${prefixedClassName}-detail`}>
+      <div class={`${prefixedClassName}-main`}>
+        <div class={`${prefixedClassName}-row`}>
+          {content && <div class={`${prefixedClassName}-content`}>{content}</div>}
+          {extraContent && <div class={`${prefixedClassName}-extraContent`}>{extraContent}</div>}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const defaultPageHeaderRender = (
   props: PageContainerProps,
   value: RouteContextProps & { prefixedClassName: string },
 ): VNodeChild | JSX.Element => {
-  const {
-    title,
-    content,
-    pageHeaderRender,
-    header,
-    extraContent,
-    style,
-    prefixCls,
-    ...restProps
-  } = props;
-
+  const { title, content, pageHeaderRender, header, extraContent, prefixCls, ...restProps } = props;
+  console.log('restProps', restProps);
+  console.log('routeContext.value', value);
   if (pageHeaderRender) {
     return pageHeaderRender({ ...props, ...value });
   }
@@ -79,10 +132,9 @@ const defaultPageHeaderRender = (
   if (!title && title !== false) {
     pageHeaderTitle = value.title;
   }
-  if
+  // inject value
   return (
     <PageHeader
-      {...value}
       title={pageHeaderTitle}
       {...restProps}
       footer={renderFooter({
@@ -92,13 +144,13 @@ const defaultPageHeaderRender = (
       {...header}
       preifxCls={prefixCls}
     >
-      {header ||}
+      {header || renderPageHeader(content, extraContent, value.prefixedClassName)}
     </PageHeader>
   );
 };
 
 export const PageContainer: FunctionalComponent<PageContainerProps> = (props, { slots }) => {
-  const { loading, style, footer, affixProps, ghost, fixedHeader } = toRefs(props);
+  const { loading, footer, affixProps, ghost, fixedHeader } = props; // toRefs(props);
   const { getPrefixCls } = useProProvider();
   const value = useRouteContext();
 
@@ -124,5 +176,30 @@ export const PageContainer: FunctionalComponent<PageContainerProps> = (props, { 
     </div>
   ) : null;
 
-  const headerDom = <div class={`${prefixedClassName}-warp`}></div>;
+  const headerDom = (
+    <div class={`${prefixedClassName}-warp`}>
+      {defaultPageHeaderRender(props, {
+        ...value,
+        prefixCls: undefined,
+        prefixedClassName,
+      })}
+    </div>
+  );
+
+  return (
+    <div class={classNames}>
+      {fixedHeader ? (
+        <Affix
+          offsetTop={value.hasHeader && value.fixedHeader ? value.headerHeight : 0}
+          {...affixProps}
+        >
+          {headerDom}
+        </Affix>
+      ) : (
+        headerDom
+      )}
+      <GridContent>{loading ? <Spin /> : content}</GridContent>
+      {footer && <FooterToolbar>{footer}</FooterToolbar>}
+    </div>
+  );
 };

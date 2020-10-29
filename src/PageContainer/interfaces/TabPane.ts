@@ -1,7 +1,7 @@
 import { VNodeChild, CSSProperties } from 'vue';
 
 export interface TabPaneProps {
-  tab?: VNodeChild | JSX.Element;
+  tab?: string | VNodeChild | JSX.Element;
   class?: string | string[];
   style?: CSSProperties;
   disabled?: boolean;
