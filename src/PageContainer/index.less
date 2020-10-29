@@ -12,6 +12,15 @@
     .@{ant-prefix}-tabs-nav {
       margin: 0;
     }
+    // fix antd@4 upgrade PageHeader style.
+    .ant-page-header-heading {
+      .ant-page-header-heading-title,.ant-page-header-heading-extra {
+        margin: 4px 0;
+      }
+      .ant-page-header-heading-sub-title {
+        margin: 9px 0;
+      }
+    }
   }
   &-ghost {
     .@{pro-layout-page-container}-warp {
