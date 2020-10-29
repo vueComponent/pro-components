@@ -1,13 +1,5 @@
-import {
-  computed,
-  defineComponent,
-  inject,
-  onBeforeUnmount,
-  onMounted,
-  PropType,
-  VNodeChild,
-} from 'vue';
-import { defaultProProviderProps, injectProConfigKey } from '../ProProvider';
+import { computed, defineComponent, onBeforeUnmount, onMounted, PropType, VNodeChild } from 'vue';
+import { useProProvider } from '../ProProvider';
 import { RouteContextProps, useRouteContext } from '../RouteContext';
 import './index.less';
 
@@ -36,7 +28,7 @@ const FooterToolbar = defineComponent({
   name: 'FooterToolbar',
   props: FooterToolbarProps,
   setup(props, { slots }) {
-    const { getPrefixCls } = inject(injectProConfigKey, defaultProProviderProps);
+    const { getPrefixCls } = useProProvider();
     const baseClassName = props.prefixCls || getPrefixCls('footer-bar');
     // const container = typeof props.getContainer === 'function' ? props.getContainer()
 
@@ -59,8 +51,8 @@ const FooterToolbar = defineComponent({
     const dom = () => {
       return (
         <>
-          <div class={`${baseClassName.value}-left`}>{props.extra}</div>
-          <div class={`${baseClassName.value}-right`}>{slots.default?.()}</div>
+          <div class={`${baseClassName}-left`}>{props.extra}</div>
+          <div class={`${baseClassName}-right`}>{slots.default?.()}</div>
         </>
       );
     };
@@ -72,7 +64,7 @@ const FooterToolbar = defineComponent({
     });
 
     return () => (
-      <div class={baseClassName.value} style={{ width: width.value }}>
+      <div class={baseClassName} style={{ width: width.value }}>
         {props.renderContent
           ? props.renderContent(
               {

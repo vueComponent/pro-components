@@ -101,7 +101,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
   const { getPrefixCls } = useProProvider();
   const baseClassName = getPrefixCls('sider');
 
-  const isMix = computed(() => props.layout === 'mix');
+  // const isMix = computed(() => props.layout === 'mix');
   const fixed = computed(() => props.fixed);
   const runtimeTheme = computed(() => (props.layout === 'mix' && 'light') || 'dark');
   const runtimeSideWidth = computed(() =>

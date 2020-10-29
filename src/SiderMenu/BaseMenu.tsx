@@ -25,7 +25,7 @@ import { Menu } from 'ant-design-vue';
 
 import defaultSettings, { PureSettings } from '../defaultSettings';
 import { isImg, isUrl } from '../utils';
-import { MenuMode, SelectInfo, OpenEventHandler, MenuInfo } from './typings';
+import { MenuMode, SelectInfo, OpenEventHandler } from './typings';
 import { RouteProps, MenuTheme, WithFalse } from '../typings';
 
 export { MenuMode, SelectInfo, OpenEventHandler };
@@ -218,7 +218,13 @@ export default defineComponent({
     const handleOpenChange: OpenEventHandler = (openKeys): void => {
       emit('update:openKeys', openKeys);
     };
-    const handleSelect = (params: SelectInfo): void => {
+    const handleSelect = (params: {
+      key: string | number;
+      keyPath: string[] | number[];
+      item: VNodeChild | any;
+      domEvent: MouseEvent;
+      selectedKeys: string[];
+    }): void => {
       emit('update:selectedKeys', params.selectedKeys);
     };
 
@@ -230,9 +236,7 @@ export default defineComponent({
         openKeys={props.openKeys || []}
         selectedKeys={props.selectedKeys || []}
         onOpenChange={handleOpenChange}
-        onSelect={({ selectedKeys }) => {
-          emit('update:selectedKeys', selectedKeys);
-        }}
+        onSelect={handleSelect}
       >
         {props.menus &&
           props.menus.map(menu => {

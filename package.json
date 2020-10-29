@@ -17,6 +17,7 @@
     "clean": "cross-env TS_NODE_PROJECT=scripts/tsconfig.json node -r ts-node/register ./scripts/cleanup.ts",
     "start": "vc-tools run server",
     "lint": "eslint src/ -c .eslintrc.js --ext .tsx,.ts",
+    "lint-fix": "eslint --fix src/ -c .eslintrc.js --ext .tsx,.ts",
     "compile": "vc-tools run compile",
     "test": "cross-env NODE_ENV=test jest --config .jest.js",
     "prepublishOnly": "npm run lint && npm run generate && npm run compile && npm run test",

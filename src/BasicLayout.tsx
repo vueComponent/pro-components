@@ -1,4 +1,5 @@
 import './BasicLayoutTest.less';
+import './BasicLayout.less';
 
 import { App, FunctionalComponent } from 'vue';
 
@@ -7,18 +8,9 @@ import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
 import { default as ProProvider } from './ProProvider';
 import { default as GlobalFooter } from './GlobalFooter';
 import { default as SiderMenuWrapper, SiderMenuWrapperProps } from './SiderMenu';
-import { createRouteContext } from './RouteContext';
 import { WrapContent } from './WrapContent';
 
 const defaultI18nRender = (key: string) => key;
-
-const { state: routeContext, Provider: RouteContextProvider } = createRouteContext({
-  isMobile: false,
-  menuData: [],
-  sideWidth: 208,
-  hasSideMenu: true,
-  hasHeader: true,
-});
 
 export type ProLayoutProps = SiderMenuWrapperProps;
 

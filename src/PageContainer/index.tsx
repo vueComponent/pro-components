@@ -1,8 +1,10 @@
-import { FunctionalComponent, VNodeChild, ref, computed, toRefs } from 'vue';
+import { FunctionalComponent, VNodeChild, ref } from 'vue';
+/* replace antd ts define */
 import { TabPaneProps } from './interfaces/TabPane';
 import { TabBarExtraContent, TabsProps } from './interfaces/Tabs';
 import { PageHeaderProps } from './interfaces/PageHeader';
 import { AffixProps } from './interfaces/Affix';
+/* replace antd ts define end */
 import { useRouteContext, RouteContextProps } from '../RouteContext';
 import { useProProvider } from '../ProProvider';
 import { Affix, PageHeader, Tabs } from 'ant-design-vue';
@@ -89,7 +91,7 @@ const renderFooter = (
         tabBarExtraContent={tabBarExtraContent}
         {...tabProps}
       >
-        {tabList.map((item, index) => (
+        {tabList.map(item => (
           <Tabs.TabPane {...item} tab={item.tab} key={item.key} />
         ))}
       </Tabs>

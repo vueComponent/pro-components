@@ -1,7 +1,6 @@
 import { InjectionKey } from 'vue';
 import { createContext, useContext } from './hooks/context';
 import { PureSettings } from './defaultSettings';
-import { useProProvider } from './ProProvider';
 
 export interface RouteContextProps extends Partial<PureSettings> {
   breadcrumb?: any;
