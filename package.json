@@ -60,7 +60,8 @@
         "regenerator-runtime": "^0.13.7",
         "vue": ">=2.5.0",
         "vue-jest": "^2.5.0",
-        "vue-template-compiler": ">=2.5.0"
+        "vue-template-compiler": ">=2.5.0",
+        "webpack": "^5.4.0"
     },
     "dependencies": {
         "ant-design-vue": "^1.6.2",
