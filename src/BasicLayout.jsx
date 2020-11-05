@@ -142,12 +142,12 @@ const BasicLayout = {
               <WrapContent class="ant-pro-basicLayout-content" contentWidth={props.contentWidth}>
                 {children}
               </WrapContent>
-              <Layout.Footer>
-                { footerRender !== false && (
-                    isFun(footerRender) && footerRender(h) || footerRender
-                  ) || null
-                }
-              </Layout.Footer>
+              { footerRender !== false && (
+                <Layout.Footer>
+                  { isFun(footerRender) && footerRender(h) || footerRender }
+                </Layout.Footer>
+                ) || null
+              }
             </Layout>
           </Layout>
         </ContainerQuery>
@@ -158,8 +158,8 @@ const BasicLayout = {
 
 BasicLayout.install = function (Vue) {
   Vue.component(PageHeaderWrapper.name, PageHeaderWrapper)
-  Vue.component('page-container', PageHeaderWrapper)
-  Vue.component('pro-layout', BasicLayout)
+  Vue.component('PageContainer', PageHeaderWrapper)
+  Vue.component('ProLayout', BasicLayout)
 }
 
 export default BasicLayout
