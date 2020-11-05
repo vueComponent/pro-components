@@ -17,7 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "@ant-design/icons": "^4.0.0-alpha.11",
-    "ant-design-vue": "^1.5.4",
+    "ant-design-vue": "^1.6.2",
     "core-js": "^3.1.2",
     "vue-i18n": "^8.15.0",
     "vue-ls": "^3.2.1",

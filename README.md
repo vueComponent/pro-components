@@ -129,7 +129,7 @@ export default {
 | headerRender | custom header render method | (props: BasicLayoutProps) => VNode | - |
 | rightContentRender | header right content render method | (props: HeaderViewProps) => VNode | - |
 | collapsedButtonRender | custom collapsed button method | (collapsed: boolean) => VNode | - |
-| footerRender | custom footer render method | (props: BasicLayoutProps) => VNode | - |
+| footerRender | custom footer render method | (props: BasicLayoutProps) => VNode | `false` | - |
 | breadcrumbRender | custom breadcrumb render method | ({ route, params, routes, paths, h }) => VNode[] | - |
 | i18nRender | i18n | Function (key: string) => string \| `false` | `false` |
 | handleMediaQuery | media matchs callback | (querys: []) => void | - |

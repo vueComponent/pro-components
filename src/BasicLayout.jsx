@@ -24,7 +24,7 @@ export const BasicLayoutProps = {
   disableMobile: PropTypes.bool.def(false),
   mediaQuery: PropTypes.object.def({}),
   handleMediaQuery: PropTypes.func,
-  footerRender: PropTypes.func,
+  footerRender: PropTypes.func.def(undefined),
 }
 
 const MediaQueryEnum = {
@@ -143,19 +143,10 @@ const BasicLayout = {
                 {children}
               </WrapContent>
               <Layout.Footer>
-                { footerRender && (
-                  isFun(footerRender) && footerRender(h) || footerRender
-                ) || (
-                  <GlobalFooter>
-                    <template slot="links">
-                      <a href="https://www.github.com/vueComponent/" target="_self">Github</a>
-                      <a href="https://www.github.com/sendya/" target="_self">@Sendya</a>
-                    </template>
-                    <template slot="copyright">
-                      <a href="https://github.com/vueComponent">vueComponent</a>
-                    </template>
-                  </GlobalFooter>
-                )}
+                { footerRender !== false && (
+                    isFun(footerRender) && footerRender(h) || footerRender
+                  ) || null
+                }
               </Layout.Footer>
             </Layout>
           </Layout>

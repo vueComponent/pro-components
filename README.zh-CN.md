@@ -125,7 +125,7 @@ export default {
 | headerRender | 自定义头的 render 方法 | (props: BasicLayoutProps) => VNode | - |
 | rightContentRender | 自定义头右部的 render 方法 | (props: HeaderViewProps) => VNode | - |
 | collapsedButtonRender | 自定义 侧栏收缩按钮 的方法 | (collapsed: boolean) => VNode | - |
-| footerRender | 自定义 底部区域内容 | (props: BasicLayoutProps) => VNode | - |
+| footerRender | 自定义 底部区域内容 | (props: BasicLayoutProps) => VNode | `false` | - |
 | breadcrumbRender | 自定义面包屑渲染方法 | ({ route, params, routes, paths, h }) => VNode[] | - |
 | i18nRender | 本地化渲染函数 (this.$t) | Function (key: string) => string  \| `false` | `false` |
 | handleMediaQuery | 媒体查询回调 | (querys: []) => void | - |
