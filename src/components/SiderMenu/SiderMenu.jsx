@@ -82,7 +82,6 @@ const SiderMenu = {
       menus,
       logo,
       title,
-      handleCollapse,
       onMenuHeaderClick = () => null,
       i18nRender,
       menuHeaderRender,
@@ -108,7 +107,6 @@ const SiderMenu = {
       theme={theme}
       collapsible={collapsible}
       collapsed={collapsed}
-      onCollapse={handleCollapse}
     >
       {headerDom && (
         <div
