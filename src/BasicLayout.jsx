@@ -24,7 +24,7 @@ export const BasicLayoutProps = {
   disableMobile: PropTypes.bool.def(false),
   mediaQuery: PropTypes.object.def({}),
   handleMediaQuery: PropTypes.func,
-  footerRender: PropTypes.func.def(undefined),
+  footerRender: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]).def(undefined),
 }
 
 const MediaQueryEnum = {
