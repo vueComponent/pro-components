@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import 'ant-design-vue/dist/antd.less';
 
 import './side-menu.less';
-import { Layout } from 'ant-design-vue';
+import { Layout, Input, message } from 'ant-design-vue';
 import { menus } from './menus';
 import { default as SiderMenuWrapper } from '../src/SiderMenu';
 import { useMenuState } from '../src/SiderMenu/BaseMenu';
@@ -48,6 +48,18 @@ const DemoComponent = {
                 contentWidth={'Fixed'}
                 primaryColor={'#1890ff'}
                 siderWidth={208}
+                menuExtraRender={(props) => !props.collapsed ? (
+                  <div>
+                    <Input.Search placeholder="Search.." style={{ width: '100%' }} onSearch={(value: string) => {
+                      message.info(`Search click: ${value}`)
+                    }} />
+                  </div>
+                ) : null}
+                menuFooterRender={(props) => (
+                  <div style="color: #fff; padding: 8px 16px; overflow: hidden;">
+                    <span>状态：{JSON.stringify(props.collapsed)}</span>
+                  </div>
+                )}
               />
               <Layout>
                 <Layout.Header style="background: #fff; padding: 0; height: 48px; line-height: 48px;"></Layout.Header>

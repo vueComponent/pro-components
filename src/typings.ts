@@ -1,5 +1,8 @@
 import { VNodeChild } from 'vue';
 
+// define global types
+export type RenderVNodeType = VNodeChild | Element | JSX.Element;
+
 export type MenuTheme = 'dark' | 'light';
 
 export type LayoutType = 'side' | 'top' | 'mix';
