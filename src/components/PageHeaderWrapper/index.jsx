@@ -97,6 +97,7 @@ const renderPageHeader = (h, content, extraContent) => {
 const defaultPageHeaderRender = (h, props, pageMeta, i18nRender) => {
   const {
     title: propTitle,
+    subTitle,
     tags,
     content,
     pageHeaderRender,
@@ -123,6 +124,7 @@ const defaultPageHeaderRender = (h, props, pageMeta, i18nRender) => {
     extra,
     tags,
     title,
+    subTitle,
     footer: renderFooter(h, restProps, i18nRender),
   }
   if (!handleBack) {
@@ -145,6 +147,7 @@ const PageHeaderWrapper = {
     const { $route, $listeners } = this
     const children = this.$slots.default
     const title = getComponentFromProp(this, 'title')
+    const subTitle = getComponentFromProp(this, 'subTitle')
     const tags = getComponentFromProp(this, 'tags')
     const content = getComponentFromProp(this, 'content')
     const extra = getComponentFromProp(this, 'extra')
@@ -198,6 +201,7 @@ const PageHeaderWrapper = {
     const props = {
       ...this.$props,
       title,
+      subTitle,
       tags,
       content,
       extra,
