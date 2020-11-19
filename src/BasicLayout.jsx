@@ -97,6 +97,7 @@ const BasicLayout = {
     const menuHeaderRender = getComponentFromProp(content, 'menuHeaderRender')
     const breadcrumbRender = getComponentFromProp(content, 'breadcrumbRender')
     const headerContentRender = getComponentFromProp(content, 'headerContentRender')
+    const subHeaderRender = getComponentFromProp(content, 'subHeaderRender')
     const menuRender = getComponentFromProp(content, 'menuRender')
 
     const isTopMenu = layout === 'topmenu'
@@ -139,6 +140,9 @@ const BasicLayout = {
                 ...cdProps,
                 mode: 'horizontal',
               })}
+              {
+                subHeaderRender || null
+              }
               <WrapContent class="ant-pro-basicLayout-content" contentWidth={props.contentWidth}>
                 {children}
               </WrapContent>
