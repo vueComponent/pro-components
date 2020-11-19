@@ -1,18 +1,51 @@
 import './BasicLayoutTest.less';
 import './BasicLayout.less';
 
-import { App, FunctionalComponent } from 'vue';
+import { App, FunctionalComponent, CSSProperties } from 'vue';
 
 import { Layout } from 'ant-design-vue';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
-import { default as ProProvider } from './ProProvider';
+import { default as ProProvider, ProProviderData } from './ProProvider';
 import { default as GlobalFooter } from './GlobalFooter';
 import { default as SiderMenuWrapper, SiderMenuWrapperProps } from './SiderMenu';
 import { WrapContent } from './WrapContent';
+import { RenderVNodeType, WithFalse } from './typings';
 
 const defaultI18nRender = (key: string) => key;
 
-export type ProLayoutProps = SiderMenuWrapperProps;
+export interface BasicLayoutProps {
+  pure?: boolean;
+  /**
+ *@name logo url
+  */
+  logo?: string | RenderVNodeType | WithFalse<string | RenderVNodeType>;
+
+  loading?: boolean;
+
+  i18n: ProProviderData['i18n'];
+
+  onCollapse?: (collapsed: boolean) => void;
+
+  footerRender?: WithFalse<
+    (props: any/* FooterProps */, defaultDom: RenderVNodeType) => RenderVNodeType
+  >;
+
+  headerRender?: WithFalse<
+    (props: any/* HeaderProps */) => RenderVNodeType
+  >;
+  /**
+   * 是否禁用移动端模式，有的管理系统不需要移动端模式，此属性设置为true即可
+   */
+  disableMobile?: boolean;
+
+  contentStyle?: CSSProperties;
+  /**
+   * 兼用 content的 margin
+   */
+  disableContentMargin?: boolean;
+}
+
+export type ProLayoutProps = BasicLayoutProps & SiderMenuWrapperProps /* & HeaderProps & FooterProps */;
 
 const ProLayout: FunctionalComponent<ProLayoutProps> = (props, { emit, slots }) => {
   const handleClick = () => {
