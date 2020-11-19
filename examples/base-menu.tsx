@@ -15,7 +15,7 @@ const BaseMenuDemo = {
       themeChecked: true,
       modeChecked: true,
     })
-    const { state: menuState } = useMenuState({
+    const [menuState] = useMenuState({
       collapsed: false,
       openKeys: ['/dashboard'] as string[],
       selectedKeys: ['/dashboard/monitor'] as string[],

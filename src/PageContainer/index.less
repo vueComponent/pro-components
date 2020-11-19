@@ -2,6 +2,7 @@
 
 @pro-layout-page-container: ~'@{ant-prefix}-pro-page-container';
 
+
 .@{pro-layout-page-container}-children-content {
   margin: 24px 24px 0;
 }
@@ -13,11 +14,19 @@
       margin: 0;
     }
     // fix antd@4 upgrade PageHeader style.
-    .ant-page-header-heading {
-      .ant-page-header-heading-title,.ant-page-header-heading-extra {
+    .@{ant-prefix}-page-header-heading {
+      .@{ant-prefix}-page-header-back {
+        margin: 12px 0;
+        margin-right: 16px;
+      }
+      .@{ant-prefix}-page-header-heading-title,
+      .@{ant-prefix}-page-header-heading-extra {
         margin: 4px 0;
       }
-      .ant-page-header-heading-sub-title {
+      .@{ant-prefix}-page-header-heading-sub-title {
+        margin: 9px 12px 9px 0;
+      }
+      .@{ant-prefix}-page-header-heading-tags {
         margin: 9px 0;
       }
     }

@@ -10,7 +10,7 @@ import * as Icon from '@ant-design/icons-vue';
 
 const DemoComponent = {
   setup() {
-    const { state: menuState } = useMenuState({
+    const [menuState] = useMenuState({
       collapsed: false,
       openKeys: [''],
       selectedKeys: ['/welcome'],

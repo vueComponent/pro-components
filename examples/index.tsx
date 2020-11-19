@@ -11,7 +11,7 @@ const BasicLayout = defineComponent({
   name: 'BasicLayout',
   inheritAttrs: false,
   setup(_, { slots, attrs }) {
-    const { state: menuState } = useMenuState({
+    const [menuState] = useMenuState({
       collapsed: false,
       openKeys: [],
       selectedKeys: ['/welcome'],

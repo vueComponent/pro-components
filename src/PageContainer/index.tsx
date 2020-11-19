@@ -78,6 +78,7 @@ const renderFooter = (
     tabProps,
     prefixedClassName,
   } = props;
+  console.log('tabProps', tabProps);
   if (tabList && tabList.length) {
     return (
       <Tabs
