@@ -42,7 +42,7 @@ interface MenuStated {
   openKeys: string[];
 }
 
-export type MenuStateWatched = [state: MenuStated, watchRef: WatchStopHandle]
+export type MenuStateWatched = [MenuStated, WatchStopHandle];
 
 export function useMenuState({
   collapsed = false,
@@ -68,7 +68,7 @@ export function useMenuState({
     },
   );
 
-  return [state, watchRef]
+  return [state, watchRef];
 }
 
 export function useRootSubmenuKeys(menus: RouteProps[]): ComputedRef<string[]> {

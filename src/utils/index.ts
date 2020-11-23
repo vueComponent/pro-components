@@ -1,7 +1,8 @@
 import { nextTick, h } from 'vue';
 import { AbstractNode, IconDefinition } from '@ant-design/icons-svg/lib/types';
 import { generate as generateColor } from '@ant-design/colors';
-import insertCss from '../insert-css';
+import { default as insertCss } from '../insert-css';
+export { getComponent } from 'ant-design-vue/es/_util/props-util';
 
 export { default as isUrl } from './isUrl';
 export { default as isImg } from './isImg';

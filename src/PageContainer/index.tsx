@@ -125,7 +125,17 @@ const defaultPageHeaderRender = (
   props: PageContainerProps,
   value: RouteContextProps & { prefixedClassName: string },
 ): VNodeChild | JSX.Element => {
-  const { title, tabList, tabActiveKey, content, pageHeaderRender, header, extraContent, prefixCls, ...restProps } = props;
+  const {
+    title,
+    tabList,
+    tabActiveKey,
+    content,
+    pageHeaderRender,
+    header,
+    extraContent,
+    prefixCls,
+    ...restProps
+  } = props;
   console.log('restProps', restProps);
   console.log('routeContext.value', value);
   if (pageHeaderRender) {

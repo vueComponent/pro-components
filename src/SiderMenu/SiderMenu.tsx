@@ -1,5 +1,5 @@
 import './index.less';
-import { FunctionalComponent, computed, ref, VNodeChild } from 'vue';
+import { FunctionalComponent, computed, ref } from 'vue';
 
 // import 'ant-design-vue/es/layout/style';
 // import Layout from 'ant-design-vue/es/layout';
@@ -22,11 +22,7 @@ export interface SiderMenuProps
   siderWidth?: number;
   collapsedWidth?: number;
   menuHeaderRender?: WithFalse<
-    (
-      logo: RenderVNodeType,
-      title: RenderVNodeType,
-      props?: SiderMenuProps,
-    ) => RenderVNodeType
+    (logo: RenderVNodeType, title: RenderVNodeType, props?: SiderMenuProps) => RenderVNodeType
   >;
   menuFooterRender?: WithFalse<(props?: SiderMenuProps) => RenderVNodeType>;
   menuContentRender?: WithFalse<
@@ -120,27 +116,28 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
   // call menuHeaderRender
   const headerDom = defaultRenderLogoAndTitle(props);
   const extraDom = menuExtraRender && menuExtraRender(props);
-  const defaultMenuDom = (<BaseMenu
-    menus={menuData}
-    theme={props.theme === 'realDark' ? 'dark' : props.theme}
-    mode="inline"
-    collapsed={props.collapsed}
-    openKeys={props.openKeys}
-    selectedKeys={props.selectedKeys}
-    style={{
-      width: '100%',
-    }}
-    class={`${baseClassName}-menu`}
-    {...{
-      'onUpdate:openKeys': $event => {
-        onOpenChange($event);
-      },
-      'onUpdate:selectedKeys': $event => {
-        onSelect($event);
-      },
-    }}
-  />);
-
+  const defaultMenuDom = (
+    <BaseMenu
+      menus={menuData}
+      theme={props.theme === 'realDark' ? 'dark' : props.theme}
+      mode="inline"
+      collapsed={props.collapsed}
+      openKeys={props.openKeys}
+      selectedKeys={props.selectedKeys}
+      style={{
+        width: '100%',
+      }}
+      class={`${baseClassName}-menu`}
+      {...{
+        'onUpdate:openKeys': $event => {
+          onOpenChange($event);
+        },
+        'onUpdate:selectedKeys': $event => {
+          onSelect($event);
+        },
+      }}
+    />
+  );
 
   return (
     <>
@@ -170,7 +167,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
           </div>
         )}
         <div style="flex: 1; overflow: hidden auto;">
-          {menuContentRender && menuContentRender(props, defaultMenuDom) || defaultMenuDom}
+          {(menuContentRender && menuContentRender(props, defaultMenuDom)) || defaultMenuDom}
         </div>
         <div class={`${baseClassName}-links`}>
           <Menu
@@ -180,16 +177,16 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
             selectedKeys={[]}
             openKeys={[]}
             mode="inline"
+            onClick={() => {
+              if (onCollapse) {
+                onCollapse(!props.collapsed);
+              }
+            }}
           >
             <Menu.Item
               key={'collapsed-button'}
               class={`${baseClassName}-collapsed-button`}
-              title={false}
-              onClick={() => {
-                if (onCollapse) {
-                  onCollapse(!props.collapsed);
-                }
-              }}
+              title={null}
             >
               {collapsedButtonRender && collapsedButtonRender(collapsed)}
             </Menu.Item>

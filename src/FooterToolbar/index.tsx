@@ -1,6 +1,7 @@
 import { computed, defineComponent, onBeforeUnmount, onMounted, PropType, VNodeChild } from 'vue';
 import { useProProvider } from '../ProProvider';
 import { RouteContextProps, useRouteContext } from '../RouteContext';
+import { getComponent } from '../utils';
 import './index.less';
 
 export interface FooterToolbarProps {
@@ -27,15 +28,11 @@ const FooterToolbarProps = {
 const FooterToolbar = defineComponent({
   name: 'FooterToolbar',
   props: FooterToolbarProps,
-  setup(props, { slots }) {
+  setup(props, ctx) {
+    const { slots } = ctx;
     const { getPrefixCls } = useProProvider();
     const baseClassName = props.prefixCls || getPrefixCls('footer-bar');
-    // const container = typeof props.getContainer === 'function' ? props.getContainer()
 
-    // const baseClassName = computed(() => {
-    //   const prefixCls = props.prefixCls || getPrefixCls();
-    //   return `${prefixCls}-footer-bar`;
-    // });
     const routeContext = useRouteContext();
     const width = computed(() => {
       const { hasSideMenu, isMobile, sideWidth } = routeContext;

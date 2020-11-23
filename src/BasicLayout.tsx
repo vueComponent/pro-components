@@ -1,7 +1,7 @@
 import './BasicLayoutTest.less';
 import './BasicLayout.less';
 
-import { App, FunctionalComponent, CSSProperties } from 'vue';
+import { App, FunctionalComponent, Plugin, CSSProperties } from 'vue';
 
 import { Layout } from 'ant-design-vue';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
@@ -16,23 +16,21 @@ const defaultI18nRender = (key: string) => key;
 export interface BasicLayoutProps {
   pure?: boolean;
   /**
- *@name logo url
-  */
+   *@name logo url
+   */
   logo?: string | RenderVNodeType | WithFalse<string | RenderVNodeType>;
 
   loading?: boolean;
 
-  i18n: ProProviderData['i18n'];
+  i18n?: ProProviderData['i18n'];
 
   onCollapse?: (collapsed: boolean) => void;
 
   footerRender?: WithFalse<
-    (props: any/* FooterProps */, defaultDom: RenderVNodeType) => RenderVNodeType
+    (props: any /* FooterProps */, defaultDom: RenderVNodeType) => RenderVNodeType
   >;
 
-  headerRender?: WithFalse<
-    (props: any/* HeaderProps */) => RenderVNodeType
-  >;
+  headerRender?: WithFalse<(props: any /* HeaderProps */) => RenderVNodeType>;
   /**
    * 是否禁用移动端模式，有的管理系统不需要移动端模式，此属性设置为true即可
    */
@@ -45,7 +43,8 @@ export interface BasicLayoutProps {
   disableContentMargin?: boolean;
 }
 
-export type ProLayoutProps = BasicLayoutProps & SiderMenuWrapperProps /* & HeaderProps & FooterProps */;
+export type ProLayoutProps = BasicLayoutProps &
+  SiderMenuWrapperProps /* & HeaderProps & FooterProps */;
 
 const ProLayout: FunctionalComponent<ProLayoutProps> = (props, { emit, slots }) => {
   const handleClick = () => {
@@ -115,8 +114,12 @@ const ProLayout: FunctionalComponent<ProLayoutProps> = (props, { emit, slots }) 
   );
 };
 
-ProLayout.install = function(app: App) {
-  app.component('pro-layout', ProLayout);
-};
+ProLayout.displayName = 'ProLayout';
+ProLayout.emits = ['update:collapsed', 'update:openKeys', 'update:selectedKeys'];
 
-export default ProLayout;
+// @ts-ignore
+ProLayout.install = function (app: App) {
+  app.component('pro-layout', ProLayout);
+}
+
+export default ProLayout as typeof ProLayout & Plugin;

@@ -1,5 +1,4 @@
-import { WrapContent } from './WrapContent';
-
+import { App, Plugin } from 'vue';
 export { createContext, useContext, ContextType, CreateContext } from './hooks/context';
 export { default as FooterToolbar } from './FooterToolbar';
 export { default as GlobalFooter } from './GlobalFooter';

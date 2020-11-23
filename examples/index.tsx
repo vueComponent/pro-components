@@ -1,7 +1,7 @@
 import { createApp, defineComponent, reactive } from 'vue';
 import 'ant-design-vue/dist/antd.less';
 import { Button, message } from 'ant-design-vue';
-import { default as ProLayout } from '../src/BasicLayout';
+import { default as ProLayout } from '../src/';
 import { menus } from './menus';
 import { useMenuState } from '../src/SiderMenu/BaseMenu';
 import * as Icon from '@ant-design/icons-vue';
@@ -10,14 +10,14 @@ import { createRouteContext } from '../src/RouteContext';
 const BasicLayout = defineComponent({
   name: 'BasicLayout',
   inheritAttrs: false,
-  setup(_, { slots, attrs }) {
+  setup(_, { attrs }) {
     const [menuState] = useMenuState({
       collapsed: false,
       openKeys: [],
       selectedKeys: ['/welcome'],
     });
 
-    const { state: routeContext, Provider: RouteContextProvider } = createRouteContext({
+    const [ routeContext, RouteContextProvider ] = createRouteContext({
       isMobile: false,
       menuData: [],
       sideWidth: 208,
@@ -35,6 +35,7 @@ const BasicLayout = defineComponent({
           title={'Pro Layout'}
           layout={'side'}
           theme={'dark'}
+          i18n={(key: string) => key}
           isMobile={false}
           menuData={menus}
           matchMenuKeys={[]}
@@ -83,4 +84,4 @@ Object.keys(Icon)
     app.component(Icon[k].displayName, Icon[k]);
   });
 
-app.use(BasicLayout).mount('#__vue-content>div');
+app.use(ProLayout).mount('#__vue-content>div');

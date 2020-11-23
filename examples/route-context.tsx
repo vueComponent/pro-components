@@ -1,5 +1,5 @@
 import { createApp, defineComponent, ref, reactive, toRaw, onMounted } from 'vue';
-import { Card, Space, Button, Tag } from 'ant-design-vue';
+import { Card, Space, Button } from 'ant-design-vue';
 import { createRouteContext, useRouteContext } from '../src/RouteContext';
 
 import 'ant-design-vue/dist/antd.less';
@@ -10,10 +10,7 @@ const DemoComponent = {
       name: 'value',
     });
 
-    const {
-      state: routeContext,
-      Provider: RouteContextProvider
-    } = createRouteContext({
+    const [ routeContext, RouteContextProvider ] = createRouteContext({
       hasSideMenu: true,
       collapsed: true,
       isMobile: false,

@@ -10,7 +10,7 @@ import './index.less';
 const App = defineComponent({
   name: 'App',
   setup: function() {
-    const { state: routeContext, Provider: RouteContextProvider } = createRouteContext({
+    const [ routeContext, RouteContextProvider ] = createRouteContext({
       hasSideMenu: true,
       collapsed: true,
       isMobile: false,

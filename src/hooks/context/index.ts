@@ -9,21 +9,22 @@ import {
   UnwrapRef,
   VNode,
   DefineComponent,
+  toRaw,
 } from 'vue';
 
 export type ContextType<T> = any;
 
-export interface CreateContext<T> {
-  Provider: DefineComponent<{}, () => VNode | VNode[] | undefined, any>;
-  state: UnwrapRef<T> | T;
-}
+export type CreateContext<T> = [
+  UnwrapRef<T> | T,
+  DefineComponent<{}, () => VNode | VNode[] | undefined, any>,
+];
 
 export const createContext = <T>(
   context: ContextType<T>,
   contextInjectKey: InjectionKey<ContextType<T>> = Symbol(),
 ): CreateContext<T> => {
   const state = reactive<ContextType<T>>({
-    ...context,
+    ...toRaw(context),
   });
 
   const ContextProvider = defineComponent({
@@ -35,10 +36,7 @@ export const createContext = <T>(
     },
   });
 
-  return {
-    state,
-    Provider: ContextProvider,
-  };
+  return [state, ContextProvider];
 };
 
 export const useContext = <T>(
@@ -56,7 +54,7 @@ export const useContext = <T>(
 //   someData?: string[];
 // }
 //
-// const { state, provider } = createContext<MyContextProps>({
+// const [ state, ContextProvider ] = createContext<MyContextProps>({
 //   param1: 'abc',
 //   param2: false,
 //   someData: ['a', 'b', 'c', 'd']

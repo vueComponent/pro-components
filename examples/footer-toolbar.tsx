@@ -15,7 +15,7 @@ const DemoComponent = {
       state.toolbarProps = { ...state.toolbarProps, ...tProps };
     };
 
-    const { state: routeContext, provider: RouteContextProvider } = createRouteContext({
+    const [ routeContext, RouteContextProvider ] = createRouteContext({
       hasFooterToolbar: false,
       setHasFooterToolbar: v => {
         state.hasFooterToolbar = v;
@@ -91,9 +91,9 @@ const DemoComponent = {
           <RouteContextProvider>
             {routeContext.hasFooterToolbar && (
               <FooterToolbar {...state.toolbarProps}>
-                <button key="button" type="button">
+                <Button type="primary">
                   right
-                </button>
+                </Button>
               </FooterToolbar>
             )}
           </RouteContextProvider>
