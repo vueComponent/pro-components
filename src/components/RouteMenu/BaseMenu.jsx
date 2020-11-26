@@ -18,6 +18,8 @@ export const RouteMenuProps = {
   i18nRender: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]).def(false),
 }
 
+const httpReg = /(http|https|ftp):\/\/([\w.]+\/?)\S*/
+
 const renderMenu = (h, item, i18nRender) => {
   if (item && !item.hidden) {
     const bool = item.children && !item.hideChildrenInMenu
@@ -42,9 +44,10 @@ const renderSubMenu = (h, item, i18nRender) => {
 const renderMenuItem = (h, item, i18nRender) => {
   const meta = Object.assign({}, item.meta)
   const target = meta.target || null
+  const hasRemoteUrl = httpReg.test(item.path)
   const CustomTag = target && 'a' || 'router-link'
   const props = { to: { name: item.name } }
-  const attrs = { href: item.path, target: target }
+  const attrs = (hasRemoteUrl || target) ? { href: item.path, target: target } : {}
   if (item.children && item.hideChildrenInMenu) {
     // 把有子菜单的 并且 父菜单是要隐藏子菜单的
     // 都给子菜单增加一个 hidden 属性
@@ -83,7 +86,8 @@ const RouteMenu = {
     return {
       openKeys: [],
       selectedKeys: [],
-      cachedOpenKeys: []
+      cachedOpenKeys: [],
+      cachedSelectedKeys: [],
     }
   },
   render (h) {
@@ -111,8 +115,10 @@ const RouteMenu = {
       },
       on: {
         select: menu => {
-          this.selectedKeys = menu.selectedKeys
           this.$emit('select', menu)
+          if (!httpReg.test(menu.key)) {
+            this.selectedKeys = menu.selectedKeys
+          }
         },
         openChange: handleOpenChange
       }

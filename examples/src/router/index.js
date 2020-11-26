@@ -20,7 +20,7 @@ Vue.use(VueRouter)
 const routes = asyncRouterMap
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   routes
 })
 

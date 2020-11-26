@@ -115,6 +115,15 @@ const asyncRouterMap = [
           icon: 'smile'
         },
         component: () => import(/* webpackChunkName: "about" */ '../views/TestPage3')
+      },
+      {
+        path: 'http://www.baidu.com/',
+        name: 'remote-baidu',
+        meta: {
+          title: '百度',
+          icon: 'smile',
+          target: '_blank'
+        }
       }
     ]
   }
