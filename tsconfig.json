@@ -3,7 +3,7 @@
     "allowSyntheticDefaultImports": true,
     "declaration": true,
     "module": "esnext",
-    "target": "es2018",
+    "target": "esnext",
     "moduleResolution": "node",
     "jsx": "preserve",
     "esModuleInterop": true

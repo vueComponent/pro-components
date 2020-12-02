@@ -7,7 +7,7 @@ import { AffixProps } from './interfaces/Affix';
 /* replace antd ts define end */
 import { useRouteContext, RouteContextProps } from '../RouteContext';
 import { useProProvider } from '../ProProvider';
-import { Affix, PageHeader, Tabs } from 'ant-design-vue';
+import { Affix, PageHeader, Tabs, Spin } from 'ant-design-vue';
 import GridContent from '../GridContent';
 import FooterToolbar from '../FooterToolbar';
 import './index.less';
@@ -156,8 +156,6 @@ const defaultPageHeaderRender = (
         tabActiveKey,
         prefixedClassName: value.prefixedClassName,
       })}
-      {...header}
-      preifxCls={prefixCls}
     >
       {header || renderPageHeader(content, extraContent, value.prefixedClassName)}
     </PageHeader>
