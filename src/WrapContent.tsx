@@ -1,5 +1,6 @@
 import { FunctionalComponent, reactive, toRefs, CSSProperties } from 'vue';
-import { Layout } from 'ant-design-vue';
+import 'ant-design-vue/es/layout/style';
+import Layout from 'ant-design-vue/es/layout';
 import { useProProvider } from './ProProvider';
 import { ContentWidth } from './typings';
 

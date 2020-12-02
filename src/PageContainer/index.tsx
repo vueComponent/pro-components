@@ -7,7 +7,14 @@ import { AffixProps } from './interfaces/Affix';
 /* replace antd ts define end */
 import { useRouteContext, RouteContextProps } from '../RouteContext';
 import { useProProvider } from '../ProProvider';
-import { Affix, PageHeader, Tabs, Spin } from 'ant-design-vue';
+import 'ant-design-vue/es/affix/style';
+import Affix from 'ant-design-vue/es/affix';
+import 'ant-design-vue/es/page-header/style';
+import PageHeader from 'ant-design-vue/es/page-header';
+import 'ant-design-vue/es/tabs/style';
+import Tabs from 'ant-design-vue/es/tabs';
+import 'ant-design-vue/es/spin/style';
+import Spin from 'ant-design-vue/es/spin';
 import GridContent from '../GridContent';
 import FooterToolbar from '../FooterToolbar';
 import './index.less';

@@ -1,14 +1,14 @@
-import './index.less';
 import { FunctionalComponent, computed, ref } from 'vue';
-
-// import 'ant-design-vue/es/layout/style';
-// import Layout from 'ant-design-vue/es/layout';
-import { Layout, Menu } from 'ant-design-vue';
+import 'ant-design-vue/es/layout/style';
+import Layout from 'ant-design-vue/es/layout';
+import 'ant-design-vue/es/menu/style';
+import Menu from 'ant-design-vue/es/menu';
 import BaseMenu, { BaseMenuProps } from './BaseMenu';
 import { WithFalse, RenderVNodeType } from '../typings';
 import { SiderProps } from './typings';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
 import { useProProvider } from '../ProProvider';
+import './index.less';
 
 const { Sider } = Layout;
 
@@ -50,14 +50,14 @@ export const defaultRenderLogo = (logo: RenderVNodeType): RenderVNodeType => {
 
 export const defaultRenderLogoAndTitle = (
   props: SiderMenuProps,
-  renderKey: string = 'menuHeaderRender',
+  renderKey = 'menuHeaderRender',
 ): RenderVNodeType => {
   const {
     logo = 'https://gw.alipayobjects.com/zos/antfincdn/PmY%24TNNDBI/logo.svg',
     title,
     layout,
   } = props;
-  const renderFunction = props[renderKey || ''];
+  const renderFunction = (props as any)[renderKey || ''];
   if (renderFunction === false) {
     return null;
   }
@@ -129,11 +129,11 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
       }}
       class={`${baseClassName}-menu`}
       {...{
-        'onUpdate:openKeys': $event => {
-          onOpenChange($event);
+        'onUpdate:openKeys': ($event: any) => {
+          onOpenChange && onOpenChange($event);
         },
-        'onUpdate:selectedKeys': $event => {
-          onSelect($event);
+        'onUpdate:selectedKeys': ($event: any) => {
+          onSelect && onSelect($event);
         },
       }}
     />

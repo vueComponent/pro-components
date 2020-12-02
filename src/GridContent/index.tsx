@@ -1,7 +1,7 @@
-import './GridContent.less';
-
-import { FunctionalComponent, SetupContext, CSSProperties } from 'vue';
+import { FunctionalComponent, CSSProperties, toRefs } from 'vue';
+import { useProProvider } from '../ProProvider';
 import { PureSettings } from '../defaultSettings';
+import './GridContent.less';
 
 interface GridContentProps {
   contentWidth?: PureSettings['contentWidth'];
@@ -10,17 +10,21 @@ interface GridContentProps {
 }
 
 const GridContent: FunctionalComponent<GridContentProps> = (
-  { prefixCls = 'ant-pro', contentWidth },
-  { slots }: SetupContext,
+  props,
+  { slots },
 ) => {
+  const proConfig = useProProvider();
+  const { contentWidth, getPrefixCls } = toRefs(proConfig);
+  const customPrefixCls = props.prefixCls || getPrefixCls.value();
+  const customContentWidth = props.contentWidth || contentWidth.value;
   return (
     <div
       class={{
-        [`${prefixCls}-grid-content`]: true,
-        wide: contentWidth === 'Fixed',
+        [`${customPrefixCls}-grid-content`]: true,
+        wide: customContentWidth === 'Fixed',
       }}
     >
-      <div class={`${prefixCls}-grid-content-children`}>{slots.default?.()}</div>
+      <div class={`${customPrefixCls}-grid-content-children`}>{slots.default?.()}</div>
     </div>
   );
 };

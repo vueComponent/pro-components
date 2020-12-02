@@ -1,5 +1,3 @@
-import './index.less';
-
 import {
   defineComponent,
   resolveComponent,
@@ -17,16 +15,13 @@ import {
   toRefs,
 } from 'vue';
 import { createFromIconfontCN } from '@ant-design/icons-vue';
-
-// import 'ant-design-vue/es/menu/style'
-// import Menu from 'ant-design-vue/es/menu'
-
-import { Menu } from 'ant-design-vue';
-
+import 'ant-design-vue/es/menu/style';
+import Menu from 'ant-design-vue/es/menu';
 import defaultSettings, { PureSettings } from '../defaultSettings';
 import { isImg, isUrl } from '../utils';
 import { MenuMode, SelectInfo, OpenEventHandler } from './typings';
-import { RouteProps, MenuTheme, WithFalse } from '../typings';
+import { RouteProps, MenuTheme, FormatMessage, WithFalse } from '../typings';
+import './index.less';
 
 export { MenuMode, SelectInfo, OpenEventHandler };
 
@@ -88,7 +83,7 @@ export interface BaseMenuProps extends Partial<PureSettings> {
   selectedKeys?: WithFalse<string[]> | undefined;
   handleOpenChange?: (openKeys: string[]) => void;
   theme?: MenuTheme | 'realDark';
-  i18n?: (t: string) => string | VNodeChild;
+  i18n?: FormatMessage;
 }
 
 // vue props
@@ -118,16 +113,16 @@ export const VueBaseMenuProps = {
   },
 };
 
-const renderTitle = (title, i18nRender) => {
-  return <span>{(i18nRender && i18nRender(title)) || title}</span>;
+const renderTitle = (title: string | undefined, i18nRender: FormatMessage) => {
+  return <span>{(i18nRender && title && i18nRender(title)) || title}</span>;
 };
 
-const renderMenuItem = (item, i18nRender) => {
+const renderMenuItem = (item: RouteProps, i18nRender: FormatMessage) => {
   const meta = Object.assign({}, item.meta);
   const target = meta.target || null;
-  const CustomTag = (target && 'a') || 'router-link';
+  const CustomTag: any = (target && 'a') || 'router-link';
   const props = { to: { name: item.name }, href: item.path, target: target };
-  if (item.children && item.hideChildrenInMenu) {
+  if (item.children && item.meta?.hideChildInMenu) {
     // 把有子菜单的 并且 父菜单是要隐藏子菜单的
     // 都给子菜单增加一个 hidden 属性
     // 用来给刷新页面时， selectedKeys 做控制用
@@ -135,34 +130,35 @@ const renderMenuItem = (item, i18nRender) => {
       cd.meta = Object.assign(cd.meta || {}, { hidden: true });
     });
   }
+  // @ts-nocheck
   return (
     <Menu.Item key={item.path}>
       <CustomTag {...props}>
         <LazyIcon icon={meta.icon} />
-        {renderTitle(meta.title, i18nRender)}
+        {renderTitle(meta.title!, i18nRender)}
       </CustomTag>
     </Menu.Item>
   );
 };
 
-const renderSubMenu = (item, i18nRender) => {
+const renderSubMenu = (item: RouteProps, i18nRender: FormatMessage) => {
   const renderMenuContent = (
     <span>
-      <LazyIcon icon={item.meta.icon} />
-      <span>{renderTitle(item.meta.title, i18nRender)}</span>
+      <LazyIcon icon={item.meta?.icon} />
+      <span>{renderTitle(item.meta?.title, i18nRender)}</span>
     </span>
   ) as string & VNode;
   return (
     <Menu.SubMenu key={item.path} title={renderMenuContent}>
       {/* eslint-disable-next-line @typescript-eslint/no-use-before-define */}
-      {!item.hideChildrenInMenu && item.children.map(cd => renderMenu(cd, i18nRender))}
+      {!item.meta?.hideChildInMenu && item.children!.map(cd => renderMenu(cd, i18nRender))}
     </Menu.SubMenu>
   );
 };
 
-const renderMenu = (item, i18nRender) => {
+const renderMenu = (item: RouteProps, i18nRender: FormatMessage) => {
   if (item && !item.hidden) {
-    const hasChild = item.children && !item.hideChildrenInMenu;
+    const hasChild = item.children && !item.meta?.hideChildInMenu;
     return hasChild ? renderSubMenu(item, i18nRender) : renderMenuItem(item, i18nRender);
   }
   return null;
@@ -172,8 +168,11 @@ const IconFont = createFromIconfontCN({
   scriptUrl: defaultSettings.iconfontUrl,
 });
 
-const LazyIcon = props => {
+const LazyIcon = (props: any) => {
   const { icon, prefixCls } = props;
+  if (!icon) {
+    return null;
+  }
   if (typeof icon === 'string' && icon !== '') {
     if (isUrl(icon) || isImg(icon)) {
       return <img src={icon} alt="icon" class={`${prefixCls}-sider-menu-icon`} />;
@@ -199,7 +198,7 @@ export default defineComponent({
     {},
     {
       i18n: {
-        type: Function,
+        type: Function as PropType<FormatMessage>,
         default: (t: string): string => t,
       },
     },
@@ -207,7 +206,7 @@ export default defineComponent({
   ),
   emits: ['update:openKeys', 'update:selectedKeys'],
   setup(props, { emit }) {
-    const { mode } = toRefs(props);
+    const { mode, i18n } = toRefs(props);
     const isInline = computed(() => mode.value === 'inline');
     const handleOpenChange: OpenEventHandler = (openKeys): void => {
       emit('update:openKeys', openKeys);
@@ -237,7 +236,7 @@ export default defineComponent({
             if (menu.hidden) {
               return null;
             }
-            return renderMenu(menu, props.i18n);
+            return renderMenu(menu, i18n.value);
           })}
       </Menu>
     );

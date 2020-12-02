@@ -15,9 +15,9 @@ import { ContentWidth } from '../typings';
 export const defaultPrefixCls = 'ant-pro';
 
 export interface ProProviderData {
-  getPrefixCls?: (suffixCls?: string, customizePrefixCls?: string) => string;
-  i18n?: (t: string) => string;
-  contentWidth?: ContentWidth;
+  getPrefixCls: (suffixCls?: string, customizePrefixCls?: string) => string;
+  i18n: (t: string) => string;
+  contentWidth: ContentWidth;
 }
 
 export const defaultProProviderProps: ProProviderData = {
