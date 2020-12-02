@@ -113,6 +113,8 @@ export const VueBaseMenuProps = {
   },
 };
 
+const httpReg = /(http|https|ftp):\/\/([\w.]+\/?)\S*/;
+
 const renderTitle = (title: string | undefined, i18nRender: FormatMessage) => {
   return <span>{(i18nRender && title && i18nRender(title)) || title}</span>;
 };
@@ -120,8 +122,10 @@ const renderTitle = (title: string | undefined, i18nRender: FormatMessage) => {
 const renderMenuItem = (item: RouteProps, i18nRender: FormatMessage) => {
   const meta = Object.assign({}, item.meta);
   const target = meta.target || null;
-  const CustomTag: any = (target && 'a') || 'router-link';
-  const props = { to: { name: item.name }, href: item.path, target: target };
+  const hasRemoteUrl = httpReg.test(item.path)
+  const CustomTag: any = resolveComponent((target && 'a') || 'router-link');
+  const props = { to: { name: item.name } };
+  const attrs = (hasRemoteUrl || target) ? { href: item.path, target: target } : {};
   if (item.children && item.meta?.hideChildInMenu) {
     // 把有子菜单的 并且 父菜单是要隐藏子菜单的
     // 都给子菜单增加一个 hidden 属性
@@ -133,9 +137,9 @@ const renderMenuItem = (item: RouteProps, i18nRender: FormatMessage) => {
   // @ts-nocheck
   return (
     <Menu.Item key={item.path}>
-      <CustomTag {...props}>
+      <CustomTag {...attrs} {...props}>
         <LazyIcon icon={meta.icon} />
-        {renderTitle(meta.title!, i18nRender)}
+        {renderTitle(meta.title, i18nRender)}
       </CustomTag>
     </Menu.Item>
   );
@@ -151,7 +155,7 @@ const renderSubMenu = (item: RouteProps, i18nRender: FormatMessage) => {
   return (
     <Menu.SubMenu key={item.path} title={renderMenuContent}>
       {/* eslint-disable-next-line @typescript-eslint/no-use-before-define */}
-      {!item.meta?.hideChildInMenu && item.children!.map(cd => renderMenu(cd, i18nRender))}
+      {!item.meta?.hideChildInMenu && item.children.map(cd => renderMenu(cd, i18nRender))}
     </Menu.SubMenu>
   );
 };

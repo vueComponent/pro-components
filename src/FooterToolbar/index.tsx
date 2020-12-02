@@ -1,7 +1,6 @@
 import { computed, defineComponent, onBeforeUnmount, onMounted, PropType, VNodeChild } from 'vue';
 import { useProProvider } from '../ProProvider';
 import { RouteContextProps, useRouteContext } from '../RouteContext';
-import { getComponent } from '../utils';
 import './index.less';
 
 export interface FooterToolbarProps {

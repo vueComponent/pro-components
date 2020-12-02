@@ -3,16 +3,13 @@ import { useProProvider } from '../ProProvider';
 import { PureSettings } from '../defaultSettings';
 import './GridContent.less';
 
-interface GridContentProps {
+export interface GridContentProps {
   contentWidth?: PureSettings['contentWidth'];
   prefixCls?: string;
   style?: CSSProperties;
 }
 
-const GridContent: FunctionalComponent<GridContentProps> = (
-  props,
-  { slots },
-) => {
+const GridContent: FunctionalComponent<GridContentProps> = (props, { slots }) => {
   const proConfig = useProProvider();
   const { contentWidth, getPrefixCls } = toRefs(proConfig);
   const customPrefixCls = props.prefixCls || getPrefixCls.value();

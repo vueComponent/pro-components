@@ -1,6 +1,7 @@
-import { computed, App, FunctionalComponent, Plugin, CSSProperties } from 'vue';
+import { computed, FunctionalComponent, CSSProperties } from 'vue';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
+import { withInstall } from 'ant-design-vue/es/_util/type';
 import { default as ProProvider, ProProviderData } from './ProProvider';
 import { default as GlobalFooter } from './GlobalFooter';
 import { default as SiderMenuWrapper, SiderMenuWrapperProps } from './SiderMenu';
@@ -29,7 +30,7 @@ export interface BasicLayoutProps {
 
   headerRender?: WithFalse<(props: any /* HeaderProps */) => RenderVNodeType>;
 
-  colSize?: string,
+  colSize?: string;
   /**
    * 是否禁用移动端模式，有的管理系统不需要移动端模式，此属性设置为true即可
    */
@@ -47,7 +48,7 @@ export interface BasicLayoutProps {
 export type ProLayoutProps = BasicLayoutProps &
   SiderMenuWrapperProps /* & HeaderProps & FooterProps */;
 
-const ProLayout: FunctionalComponent<ProLayoutProps> = (props, { emit, slots, attrs }) => {
+const ProLayout: FunctionalComponent<ProLayoutProps> = (props, { emit, slots }) => {
   const handleCollapse = (collapsed: boolean) => {
     emit('update:collapsed', collapsed);
   };
@@ -80,8 +81,7 @@ const ProLayout: FunctionalComponent<ProLayoutProps> = (props, { emit, slots, at
             onCollapse={handleCollapse}
           />
           <Layout>
-            <Layout.Header style="background: #fff; padding: 0; height: 48px; line-height: 48px;">
-            </Layout.Header>
+            <Layout.Header style="background: #fff; padding: 0; height: 48px; line-height: 48px;"></Layout.Header>
             <WrapContent
               style={{
                 margin: '24px 16px',
@@ -134,21 +134,15 @@ ProLayout.props = {
     type: String,
     default: 'ant-pro',
   },
-  'title': String,
-  'colSize': String,
-  'isChildrenLayout': Boolean,
-  'fixSiderbar': Boolean,
-  'layout': String,
-  'openKeys': Array,
-  'selectedKeys': Array,
-  'collapsed': Boolean,
-  'menuData': Array,
+  title: String,
+  colSize: String,
+  isChildrenLayout: Boolean,
+  fixSiderbar: Boolean,
+  layout: String,
+  openKeys: Array,
+  selectedKeys: Array,
+  collapsed: Boolean,
+  menuData: Array,
 } as any;
 
-
-// @ts-ignore
-ProLayout.install = function (app: App) {
-  app.component('pro-layout', ProLayout);
-};
-
-export default ProLayout as typeof ProLayout & Plugin;
+export default withInstall(ProLayout);

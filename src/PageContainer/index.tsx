@@ -140,7 +140,6 @@ const defaultPageHeaderRender = (
     pageHeaderRender,
     header,
     extraContent,
-    prefixCls,
     ...restProps
   } = props;
   console.log('restProps', restProps);
