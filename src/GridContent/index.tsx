@@ -10,10 +10,9 @@ export interface GridContentProps {
 }
 
 const GridContent: FunctionalComponent<GridContentProps> = (props, { slots }) => {
-  const proConfig = useProProvider();
-  const { contentWidth, getPrefixCls } = toRefs(proConfig);
-  const customPrefixCls = props.prefixCls || getPrefixCls.value();
-  const customContentWidth = props.contentWidth || contentWidth.value;
+  const { contentWidth, getPrefixCls } = useProProvider();
+  const customPrefixCls = props.prefixCls || getPrefixCls();
+  const customContentWidth = props.contentWidth || contentWidth;
   return (
     <div
       class={{

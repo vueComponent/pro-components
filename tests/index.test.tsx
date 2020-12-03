@@ -1,9 +1,12 @@
 import { mount } from '@vue/test-utils';
+// import BasicLayout from '../src/BasicLayout';
 
-describe('index', () => {
+describe('BasicLayout', () => {
 
-  it('shoul render GridContent', () => {
-    // empty
+  it('🥩 base use', () => {
+    // const wrapper = mount(BasicLayout, { });
+    // console.log(wrapper.html());
+    // expect(wrapper.html()).toMatchSnapshot();
   });
 
 });
