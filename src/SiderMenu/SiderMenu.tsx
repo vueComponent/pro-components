@@ -13,7 +13,7 @@ import './index.less';
 const { Sider } = Layout;
 
 export type PrivateSiderMenuProps = {
-  matchMenuKeys: string[];
+  matchMenuKeys?: string[];
 };
 
 export interface SiderMenuProps

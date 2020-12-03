@@ -16,11 +16,11 @@ import {
 } from 'vue';
 import { createFromIconfontCN } from '@ant-design/icons-vue';
 import 'ant-design-vue/es/menu/style';
-import Menu from 'ant-design-vue/es/menu';
+import Menu, { MenuProps } from 'ant-design-vue/es/menu';
 import defaultSettings, { PureSettings } from '../defaultSettings';
 import { isImg, isUrl } from '../utils';
 import { MenuMode, SelectInfo, OpenEventHandler } from './typings';
-import { RouteProps, MenuTheme, FormatMessage, WithFalse } from '../typings';
+import { MenuDataItem, MenuTheme, FormatMessage, WithFalse } from '../typings';
 import './index.less';
 
 export { MenuMode, SelectInfo, OpenEventHandler };
@@ -66,7 +66,7 @@ export function useMenuState({
   return [state, watchRef];
 }
 
-export function useRootSubmenuKeys(menus: RouteProps[]): ComputedRef<string[]> {
+export function useRootSubmenuKeys(menus: MenuDataItem[]): ComputedRef<string[]> {
   return computed(() => menus.map(it => it.path));
 }
 
@@ -76,7 +76,7 @@ export interface BaseMenuProps extends Partial<PureSettings> {
   collapsed?: boolean;
   splitMenus?: boolean;
   isMobile?: boolean;
-  menuData?: RouteProps[];
+  menuData?: MenuDataItem[];
   mode?: MenuMode;
   onCollapse?: (collapsed: boolean) => void;
   openKeys?: WithFalse<string[]> | undefined;
@@ -89,14 +89,14 @@ export interface BaseMenuProps extends Partial<PureSettings> {
 // vue props
 export const VueBaseMenuProps = {
   locale: Boolean,
-  menus: Array as PropType<RouteProps[]>,
+  menuData: Array as PropType<MenuDataItem[]>,
   // top-nav-header: horizontal
   mode: {
     type: String as PropType<MenuMode>,
     default: 'inline',
   },
   theme: {
-    type: String as PropType<MenuTheme>,
+    type: String as PropType<BaseMenuProps['theme']>,
     default: 'dark',
   },
   collapsed: {
@@ -119,7 +119,7 @@ const renderTitle = (title: string | undefined, i18nRender: FormatMessage) => {
   return <span>{(i18nRender && title && i18nRender(title)) || title}</span>;
 };
 
-const renderMenuItem = (item: RouteProps, i18nRender: FormatMessage) => {
+const renderMenuItem = (item: MenuDataItem, i18nRender: FormatMessage) => {
   const meta = Object.assign({}, item.meta);
   const target = meta.target || null;
   const hasRemoteUrl = httpReg.test(item.path)
@@ -145,7 +145,7 @@ const renderMenuItem = (item: RouteProps, i18nRender: FormatMessage) => {
   );
 };
 
-const renderSubMenu = (item: RouteProps, i18nRender: FormatMessage) => {
+const renderSubMenu = (item: MenuDataItem, i18nRender: FormatMessage) => {
   const renderMenuContent = (
     <span>
       <LazyIcon icon={item.meta?.icon} />
@@ -160,7 +160,7 @@ const renderSubMenu = (item: RouteProps, i18nRender: FormatMessage) => {
   );
 };
 
-const renderMenu = (item: RouteProps, i18nRender: FormatMessage) => {
+const renderMenu = (item: MenuDataItem, i18nRender: FormatMessage) => {
   if (item && !item.hidden) {
     const hasChild = item.children && !item.meta?.hideChildInMenu;
     return hasChild ? renderSubMenu(item, i18nRender) : renderMenuItem(item, i18nRender);
@@ -235,8 +235,8 @@ export default defineComponent({
         onOpenChange={handleOpenChange}
         onSelect={handleSelect}
       >
-        {props.menus &&
-          props.menus.map(menu => {
+        {props.menuData &&
+          props.menuData.map(menu => {
             if (menu.hidden) {
               return null;
             }

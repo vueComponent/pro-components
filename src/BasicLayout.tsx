@@ -7,6 +7,7 @@ import { default as GlobalFooter } from './GlobalFooter';
 import { default as SiderMenuWrapper, SiderMenuWrapperProps } from './SiderMenu';
 import { WrapContent } from './WrapContent';
 import { RenderVNodeType, WithFalse } from './typings';
+import { getComponentOrSlot } from './utils';
 import './BasicLayout.less';
 
 const defaultI18nRender = (key: string) => key;
@@ -70,6 +71,25 @@ const ProLayout: FunctionalComponent<ProLayoutProps> = (props, { emit, slots }) 
       [`${baseClassName.value}-${props.layout}`]: props.layout,
     };
   });
+
+  const headerRender = (
+    props: BasicLayoutProps & {
+      hasSiderMenu: boolean;
+    },
+    matchMenuKeys: string[]
+  ): RenderVNodeType => {
+    if (props.headerRender === false || props.pure) {
+      return null;
+    }
+    return <Header matchMenuKeys={matchMenuKeys} {...props} />;
+  }
+  const footerRender = getComponentOrSlot(props, slots, 'footerRender');
+
+  // const headerRender = getComponentOrSlot(props, slots, 'headerRender');
+  const menuRender = getComponentOrSlot(props, slots, 'menuRender');
+  const menuHeaderRender = getComponentOrSlot(props, slots, 'menuHeaderRender');
+
+
   return (
     <ProProvider i18n={defaultI18nRender}>
       <div class={className.value}>
@@ -81,44 +101,40 @@ const ProLayout: FunctionalComponent<ProLayoutProps> = (props, { emit, slots }) 
             onCollapse={handleCollapse}
           />
           <Layout>
-            <Layout.Header style="background: #fff; padding: 0; height: 48px; line-height: 48px;"></Layout.Header>
-            <WrapContent
-              style={{
-                margin: '24px 16px',
-                padding: '24px',
-                background: '#fff',
-                minHeight: '280px',
-              }}
-            >
+            <Layout.Header style="background: #fff; padding: 0; height: 48px; line-height: 48px;">
+            </Layout.Header>
+            <WrapContent style={props.contentStyle}>
               {slots.default?.()}
             </WrapContent>
-            <GlobalFooter
-              links={[
-                {
-                  key: '1',
-                  title: 'Pro Layout',
-                  href: 'https://www.github.com/vueComponent/pro-layout',
-                  blankTarget: true,
-                },
-                {
-                  key: '2',
-                  title: 'Github',
-                  href: 'https://www.github.com/vueComponent/ant-design-vue-pro',
-                  blankTarget: true,
-                },
-                {
-                  key: '3',
-                  title: '@Sendya',
-                  href: 'https://www.github.com/sendya/',
-                  blankTarget: true,
-                },
-              ]}
-              copyright={
-                <a href="https://github.com/vueComponent" target="_blank">
-                  vueComponent
-                </a>
-              }
-            />
+            { footerRender && footerRender || footerRender !== false && (
+              <GlobalFooter
+                links={[
+                  {
+                    key: '1',
+                    title: 'Pro Layout',
+                    href: 'https://www.github.com/vueComponent/pro-layout',
+                    blankTarget: true,
+                  },
+                  {
+                    key: '2',
+                    title: 'Github',
+                    href: 'https://www.github.com/vueComponent/ant-design-vue-pro',
+                    blankTarget: true,
+                  },
+                  {
+                    key: '3',
+                    title: '@Sendya',
+                    href: 'https://www.github.com/sendya/',
+                    blankTarget: true,
+                  },
+                ]}
+                copyright={
+                  <a href="https://github.com/vueComponent" target="_blank">
+                    vueComponent
+                  </a>
+                }
+              />
+            )}
           </Layout>
         </Layout>
       </div>
@@ -143,6 +159,12 @@ ProLayout.props = {
   selectedKeys: Array,
   collapsed: Boolean,
   menuData: Array,
+  contentStyle: Object,
+  headerRender: [Function, Boolean],
+  footerRender: [Function, Boolean],
+  menuRender: [Function, Boolean],
+  menuHeaderRender: [Function, Boolean],
+  rightContent: [Function, Boolean],
 } as any;
 
 export default withInstall(ProLayout);

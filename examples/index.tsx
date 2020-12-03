@@ -1,5 +1,6 @@
-import { createApp, defineComponent, reactive } from 'vue';
 import 'ant-design-vue/dist/antd.less';
+import { createApp, defineComponent, reactive } from 'vue';
+import { RouterLink } from './mock-router';
 import { Button, message } from 'ant-design-vue';
 import { default as ProLayout } from '../src/';
 import { menus } from './menus';
@@ -50,6 +51,11 @@ const BasicLayout = defineComponent({
           onSelect={$event => {
             $event && (menuState.selectedKeys = $event);
           }}
+          v-slots={{
+            footerRender: () => (
+              <div>123</div>
+            )
+          }}
         >
           <Button
             onClick={() => {
@@ -84,4 +90,4 @@ Object.keys(Icon)
     app.component(Icon[k].displayName, Icon[k]);
   });
 
-app.use(ProLayout).mount('#__vue-content>div');
+app.use(RouterLink).use(ProLayout).mount('#__vue-content>div');

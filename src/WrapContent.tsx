@@ -1,4 +1,4 @@
-import { FunctionalComponent, reactive, toRefs, CSSProperties } from 'vue';
+import { FunctionalComponent, computed, toRefs, CSSProperties } from 'vue';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 import { useProProvider } from './ProProvider';
@@ -18,13 +18,15 @@ export interface WrapContentProps {
 export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slots, attrs }) => {
   const { getPrefixCls } = toRefs(useProProvider());
   const prefixCls = getPrefixCls.value('basicLayout');
-  const classNames = reactive({
-    [`${prefixCls}-content`]: true,
-    [`${prefixCls}-has-header`]: true,
-  });
+  const classNames = computed(() => {
+    return {
+      [`${prefixCls}-content`]: true,
+      [`${prefixCls}-has-header`]: true,
+    }
+  })
 
   return (
-    <Content class={classNames} {...attrs}>
+    <Content class={classNames.value} {...attrs}>
       {slots.default?.()}
     </Content>
   );
