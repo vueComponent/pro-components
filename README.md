@@ -4,8 +4,8 @@ Ant Design Pro Layout
 
 <div align="center">
 
-[![NPM version](https://img.shields.io/npm/v/@ant-design/icons-vue.svg?style=flat)](https://npmjs.org/package/@ant-design-vue/pro-layout)
-[![NPM downloads](http://img.shields.io/npm/dm/@ant-design/icons-vue.svg?style=flat)](https://npmjs.org/package/@ant-design-vue/pro-layout)
+[![NPM version](https://img.shields.io/npm/v/@ant-design-vue/pro-layout.svg?style=flat)](https://npmjs.org/package/@ant-design-vue/pro-layout)
+[![NPM downloads](http://img.shields.io/npm/dm/@ant-design-vue/pro-layout.svg?style=flat)](https://npmjs.org/package/@ant-design-vue/pro-layout)
 
 </div>
 
