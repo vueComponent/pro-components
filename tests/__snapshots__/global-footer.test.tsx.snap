@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlobalFooter 🥩 base use 1`] = `
+<footer class="ant-pro-global-footer">
+  <div class="ant-pro-global-footer-links"><a title="1" target="_blank" href="https://www.github.com/vueComponent/pro-layout">Pro Layout</a><a title="2" target="_blank" href="https://www.github.com/vueComponent/ant-design-vue-pro">Github</a><a title="3" target="_blank" href="https://www.github.com/sendya/">@Sendya</a></div>
+  <div class="ant-pro-global-footer-copyright"><a href="https://github.com/vueComponent" target="_blank">vueComponent</a></div>
+</footer>
+`;
