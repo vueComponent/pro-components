@@ -7,14 +7,14 @@ import { AffixProps } from './interfaces/Affix';
 /* replace antd ts define end */
 import { useRouteContext, RouteContextProps } from '../RouteContext';
 import { useProProvider } from '../ProProvider';
-import 'ant-design-vue/lib/affix/style';
-import Affix from 'ant-design-vue/lib/affix';
-import 'ant-design-vue/lib/page-header/style';
-import PageHeader from 'ant-design-vue/lib/page-header';
-import 'ant-design-vue/lib/tabs/style';
-import Tabs from 'ant-design-vue/lib/tabs';
-import 'ant-design-vue/lib/spin/style';
-import Spin from 'ant-design-vue/lib/spin';
+import 'ant-design-vue/es/affix/style';
+import Affix from 'ant-design-vue/es/affix';
+import 'ant-design-vue/es/page-header/style';
+import PageHeader from 'ant-design-vue/es/page-header';
+import 'ant-design-vue/es/tabs/style';
+import Tabs from 'ant-design-vue/es/tabs';
+import 'ant-design-vue/es/spin/style';
+import Spin from 'ant-design-vue/es/spin';
 import GridContent from '../GridContent';
 import FooterToolbar from '../FooterToolbar';
 import './index.less';
@@ -85,7 +85,6 @@ const renderFooter = (
     tabProps,
     prefixedClassName,
   } = props;
-  console.log('tabProps', tabProps);
   if (tabList && tabList.length) {
     return (
       <Tabs
@@ -142,8 +141,6 @@ const defaultPageHeaderRender = (
     extraContent,
     ...restProps
   } = props;
-  console.log('restProps', restProps);
-  console.log('routeContext.value', value);
   if (pageHeaderRender) {
     return pageHeaderRender({ ...props, ...value });
   }

@@ -2,6 +2,8 @@ import { mount } from '@vue/test-utils';
 import { PageContainer } from '../src/PageContainer';
 import { Tag, Button } from 'ant-design-vue';
 
+export const sleep = (timeout = 0) => new Promise(resolve => setTimeout(resolve, timeout));
+
 describe('PageContainer', () => {
 
   const routes = [
@@ -40,12 +42,70 @@ describe('PageContainer', () => {
       render() {
         return (
           <PageContainer {...props}>
-            <div>Page Content</div>
+            <div>PageContent</div>
           </PageContainer>
         );
       },
     });
-    console.log(wrapper.html());
+    expect(wrapper.html()).toMatchSnapshot();
   });
 
+  it('😄 custom title,subTitle', () => {
+    const wrapper = mount({
+      render() {
+        return (
+          <PageContainer
+            title="Title"
+            subTitle="SubTitle"
+          />
+        );
+      },
+    });
+
+    expect(wrapper.find('.ant-page-header-heading-title').text()).toBe('Title');
+    expect(wrapper.find('.ant-page-header-heading-sub-title').text()).toBe('SubTitle');
+  });
+
+  it('😄 render footer', () => {
+    const wrapper = mount({
+      render() {
+        return (
+          <PageContainer
+            footer={[
+              <Button key="3">重置</Button>,
+              <Button key="2" type="primary">
+                提交
+              </Button>,
+            ]}
+          />
+        );
+      },
+    });
+
+    expect(wrapper.findAll('.ant-pro-footer-bar-right button.ant-btn')).toHaveLength(2);
+  });
+
+  it('😄 render tags', async () => {
+    const wrapper = mount({
+      render() {
+        return (
+          <PageContainer
+            tags={['Tag 1', 'Tag 2'].map(tag => (<Tag color="blue">{tag}</Tag>))}
+          />
+        );
+      },
+    });
+    // test render tags
+    expect(wrapper.findAll('.ant-page-header-heading-tags span')).toHaveLength(2);
+    expect(wrapper.findAll('.ant-page-header-heading-tags span')[1].text()).toBe('Tag 2');
+
+    // test update prop tags
+    wrapper.setProps({
+      tags: undefined,
+    });
+
+    await sleep(50);
+
+    expect(wrapper.find('.ant-page-header-heading-tags').exists()).toBe(false);
+  });
 });
