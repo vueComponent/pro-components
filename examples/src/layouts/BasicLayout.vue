@@ -1,6 +1,5 @@
 <template>
   <pro-layout
-    title="Pro Layout"
     :menus="menus"
     :collapsed="collapsed"
     :mediaQuery="query"
@@ -8,6 +7,7 @@
     :handleMediaQuery="handleMediaQuery"
     :handleCollapse="handleCollapse"
     :i18nRender="i18nRender"
+    :siderWidth="208"
     v-bind="settings"
   >
     <!--    <template v-slot:menuRender>
@@ -22,7 +22,11 @@
       </div>
     </template>
     <template v-slot:headerContentRender>
-      <div>headerContentRender</div>
+      <div>
+        <a-tooltip title="刷新页面">
+          <a-icon type="reload" style="font-size: 18px;cursor: pointer;" @click="() => { $message.info('假的') }" />
+        </a-tooltip>
+      </div>
     </template>
     <template v-slot:rightContentRender>
       <div :class="['ant-pro-global-header-index-right', settings.layout === 'topmenu' && `ant-pro-global-header-index-${settings.theme}`]">
@@ -35,7 +39,11 @@
     <setting-drawer
       :settings="settings"
       @change="handleSettingChange"
-    />
+    >
+      <div style="margin: 12px 0;">
+        This is SettingDrawer custom footer content.
+      </div>
+    </setting-drawer>
     <router-view />
   </pro-layout>
 </template>
@@ -45,7 +53,6 @@ import { asyncRouterMap } from '../config/router.config'
 import { i18nRender } from '../locales'
 
 import defaultSettings from '@/config/defaultSettings'
-import LogoSvg from '../assets/logo.svg?inline'
 import { CONTENT_WIDTH_TYPE } from '@/store/mutation-types'
 
 export default {
@@ -121,12 +128,6 @@ export default {
           }
           break
       }
-    },
-    logoRender () {
-      return <LogoSvg />
-    },
-    footerRender () {
-      return <div>custom footer</div>
     }
   }
 }

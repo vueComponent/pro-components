@@ -320,6 +320,9 @@ const SettingDrawer = {
             </CopyToClipboard>
           )}
 
+          <div class={`${baseClassName}-content-footer`}>
+            {this.$slots.default}
+          </div>
         </div>
       </Drawer>
     )

@@ -62,6 +62,18 @@ export {
 export {
   default as QuestionCircleOutline
 } from '@ant-design/icons/lib/outline/QuestionCircleOutline'
+export {
+  default as InfoCircleFill
+} from '@ant-design/icons/lib/fill/InfoCircleFill'
+export {
+  default as ExclamationCircleFill
+} from '@ant-design/icons/lib/fill/ExclamationCircleFill'
+export {
+  default as CloseCircleFill
+} from '@ant-design/icons/lib/fill/CloseCircleFill'
+export {
+  default as CheckCircleFill
+} from '@ant-design/icons/lib/fill/CheckCircleFill'
 /* Feedback end */
 
 /* MultiTab begin */

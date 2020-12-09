@@ -1,23 +1,10 @@
-import BasicLayout, { BasicLayoutProps } from './BasicLayout'
-import BlockLayout from './BlockLayout'
-import PageHeaderWrapper from './components/PageHeaderWrapper'
-import SiderMenuWrapper from './components/SiderMenu'
-import GlobalFooter from './components/GlobalFooter'
-import SettingDrawer from './components/SettingDrawer'
-import DocumentTitle from './components/DocumentTitle'
-import { updateTheme, updateColorWeak } from './utils/dynamicTheme'
-
-export {
-  GlobalFooter,
-  PageHeaderWrapper,
-  SiderMenuWrapper,
-  BlockLayout,
-  SettingDrawer,
-  DocumentTitle,
-  BasicLayoutProps,
-
-  updateTheme,
-  updateColorWeak
-}
-
-export default BasicLayout
+export { default, BasicLayoutProps } from './BasicLayout'
+export { default as BlockLayout } from './BlockLayout'
+export { default as PageHeaderWrapper } from './components/PageHeaderWrapper'
+export { default as SiderMenuWrapper } from './components/SiderMenu'
+export { default as GlobalFooter } from './components/GlobalFooter'
+export { default as SettingDrawer } from './components/SettingDrawer'
+export { default as DocumentTitle } from './components/DocumentTitle'
+export { default as BaseMenu } from './components/RouteMenu'
+// func
+export { updateTheme, updateColorWeak } from './utils/dynamicTheme'
