@@ -30,6 +30,7 @@
     "@ant-design-vue/tools": "^3.0.4",
     "@babel/core": "^7.12.9",
     "@babel/plugin-proposal-export-default-from": "^7.12.1",
+    "@babel/plugin-transform-modules-commonjs": "^7.12.1",
     "@babel/plugin-transform-object-assign": "^7.12.1",
     "@types/fs-extra": "^9.0.2",
     "@types/jest": "^24.0.17",

@@ -9,6 +9,7 @@
         "@babel/plugin-transform-property-literals",
         "@babel/plugin-transform-spread",
         "@babel/plugin-transform-template-literals",
+        "@babel/plugin-transform-modules-commonjs",
         "@babel/plugin-proposal-export-default-from",
         "@babel/plugin-proposal-export-namespace-from",
         "@babel/plugin-proposal-object-rest-spread",
