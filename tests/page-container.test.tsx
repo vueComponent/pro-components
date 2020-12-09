@@ -1,8 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { PageContainer } from '../src/PageContainer';
 import { Tag, Button } from 'ant-design-vue';
-
-export const sleep = (timeout = 0) => new Promise(resolve => setTimeout(resolve, timeout));
+import { sleep } from './utils';
 
 describe('PageContainer', () => {
 
