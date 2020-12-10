@@ -1,4 +1,4 @@
-import { computed, CSSProperties, FunctionalComponent, Ref } from 'vue';
+import { computed, CSSProperties, FunctionalComponent, toRefs } from 'vue';
 import { PureSettings } from '../defaultSettings';
 import { RenderVNodeType, MenuDataItem, WithFalse } from '../typings';
 import { SiderMenuProps, PrivateSiderMenuProps, defaultRenderLogo, defaultRenderLogoAndTitle, defaultRenderCollapsedButton } from '../SiderMenu/SiderMenu';
@@ -48,18 +48,17 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps & PrivateSiderM
     menuHeaderRender,
     onMenuHeaderClick,
     className: propClassName,
-    style,
     layout,
     headerTheme = 'dark',
     splitMenus,
     menuData,
     prefixCls,
   } = props;
-  const baseClassName = `${prefixCls}-global-header`;
+  const baseClassName = computed(() => `${prefixCls}-global-header`);
   const className = computed(() => {
     return {
-      [baseClassName]: true,
-      [`${baseClassName}-layout-${layout}`]: layout && headerTheme === 'dark',
+      [baseClassName.value]: true,
+      [`${baseClassName.value}-layout-${layout}`]: layout && headerTheme === 'dark',
     }
   });
   if (layout === 'mix' && !isMobile && splitMenus) {
@@ -80,17 +79,17 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps & PrivateSiderM
   }
 
   const logoDom = (
-    <span class={`${baseClassName}-logo`} key="logo">
+    <span class={`${baseClassName.value}-logo`} key="logo">
       <a>{defaultRenderLogo(logo)}</a>
     </span>
   );
 
   return (
-    <div class={className} style={{ ...style }}>
+    <div class={className.value}>
       {isMobile && renderLogo(menuHeaderRender, logoDom)}
       {isMobile && collapsedButtonRender && (
         <span
-        class={`${baseClassName}-collapsed-button`}
+        class={`${baseClassName.value}-collapsed-button`}
           onClick={() => {
             if (onCollapse) {
               onCollapse(!collapsed);
@@ -102,13 +101,16 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps & PrivateSiderM
       )}
       {layout === 'mix' && !isMobile && (
         <>
-          <div class={`${baseClassName}-logo`} onClick={onMenuHeaderClick}>
+          <div class={`${baseClassName.value}-logo`} onClick={onMenuHeaderClick}>
             {defaultRenderLogoAndTitle({ ...props, collapsed: false }, 'headerTitleRender')}
           </div>
         </>
       )}
       <div style={{ flex: 1 }}>{slots.default?.()}</div>
-      {rightContentRender && rightContentRender(props)}
+      { rightContentRender && typeof rightContentRender === 'function'
+        ? rightContentRender(props)
+        : rightContentRender
+      }
     </div>
   );
 }

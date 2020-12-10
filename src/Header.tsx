@@ -29,10 +29,41 @@ export type HeaderViewProps = GlobalHeaderProps & {
   siderWidth?: number;
   hasSiderMenu?: boolean;
 };
+export const headerProps = [
+  'prefixCls',
+  'collapsed',
+  'onCollapse',
+  'openKeys',
+  'selectedKeys',
+  'isMobile',
+  'logo',
+  'title',
+  'menuRender',
+  'rightContentRender',
+  'menuData',
+  'menuHeaderRender',
+  'splitMenus',
+  'headerRender',
+  'headerTitleRender',
+  'headerContentRender',
+  'siderWidth',
+  'hasSiderMenu',
+  'fixedHeader',
+  'headerHeight',
+  'headerTheme',
+  'layout',
+  'navTheme',
+  'onSelect',
+  'onOpenChange',
+]
 
-export const HeaderView = defineComponent<HeaderViewProps>({
-  setup(props) {
+export const HeaderView = defineComponent({
+  inheritAttrs: false,
+  name: 'HeaderView',
+  props: headerProps,
+  setup(props: HeaderViewProps) {
     const { prefixCls, headerRender, headerContentRender, isMobile, fixedHeader, hasSiderMenu, headerHeight, layout, navTheme, onCollapse } = toRefs(props);
+    console.log('HeaderView', props)
     const isTop = computed(() => props.layout === 'top');
     const needFixedHeader = computed(() => fixedHeader.value || layout.value === 'mix');
     const needSettingWidth = computed(() => needFixedHeader.value && hasSiderMenu.value && !isTop.value && !isMobile.value);
@@ -42,11 +73,11 @@ export const HeaderView = defineComponent<HeaderViewProps>({
         [`${prefixCls.value}-fixed-header`]: needFixedHeader.value,
         [`${prefixCls.value}-top-menu`]: isTop.value,
       }
-    })
+    });
     const renderContent = () => {
       let defaultDom = (
         <GlobalHeader {...props} onCollapse={onCollapse.value} menuData={clearMenuData.value}>
-          {headerContentRender.value && headerContentRender.value(props)}
+          {headerContentRender && headerContentRender.value && headerContentRender.value(props)}
         </GlobalHeader>
       );
       if (isTop.value && !isMobile.value) {
@@ -75,10 +106,9 @@ export const HeaderView = defineComponent<HeaderViewProps>({
           : '100%';
     });
     const right = computed(() => needFixedHeader.value ? 0 : undefined);
-
     return () => (
       <>
-        {needFixedHeader && (
+        {needFixedHeader.value && (
           <Header
             style={{
               height: headerHeight.value,
@@ -90,13 +120,13 @@ export const HeaderView = defineComponent<HeaderViewProps>({
         <Header
           style={{
             padding: 0,
-            height: headerHeight,
-            lineHeight: `${headerHeight}px`,
-            width,
+            height: `${headerHeight.value}px`,
+            lineHeight: `${headerHeight.value}px`,
+            width: width.value,
             zIndex: layout.value === 'mix' ? 100 : 19,
-            right,
+            right: right.value,
           }}
-          class={className}
+          class={className.value}
         >
           {renderContent()}
         </Header>

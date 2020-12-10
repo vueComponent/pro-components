@@ -16,11 +16,12 @@ import {
 } from 'vue';
 import { createFromIconfontCN } from '@ant-design/icons-vue';
 import 'ant-design-vue/es/menu/style';
-import Menu, { MenuProps } from 'ant-design-vue/es/menu';
+import Menu from 'ant-design-vue/es/menu';
 import defaultSettings, { PureSettings } from '../defaultSettings';
 import { isImg, isUrl } from '../utils';
 import { MenuMode, SelectInfo, OpenEventHandler } from './typings';
 import { MenuDataItem, MenuTheme, FormatMessage, WithFalse } from '../typings';
+import { PrivateSiderMenuProps } from './SiderMenu';
 import './index.less';
 
 export { MenuMode, SelectInfo, OpenEventHandler };
@@ -224,12 +225,13 @@ export default defineComponent({
     }): void => {
       emit('update:selectedKeys', params.selectedKeys);
     };
-
     return () => (
       <Menu
+        key="Menu"
         inlineCollapsed={(isInline.value && props.collapsed) || undefined}
+        inlineIndent={16}
         mode={props.mode}
-        theme={props.theme}
+        theme={props.theme as 'dark' | 'light'}
         openKeys={props.openKeys || []}
         selectedKeys={props.selectedKeys || []}
         onOpenChange={handleOpenChange}

@@ -79,7 +79,6 @@ const App = defineComponent({
                 }}
                 tabActiveKey={state.tabActiveKey}
                 onTabChange={(key: string) => {
-                  console.log('onTabChange', key);
                   state.tabActiveKey = key;
                 }}
                 footer={[

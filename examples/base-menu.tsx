@@ -58,7 +58,7 @@ const BaseMenuDemo = {
         <div class="demo" style="background: rgb(244,244,244);">
           <div class="container" style="width: 256px;">
             <BaseMenu
-              menus={menus}
+              menuData={menus}
               theme={state.theme}
               mode={state.mode}
               collapsed={menuState.collapsed}

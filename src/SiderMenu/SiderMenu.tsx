@@ -50,7 +50,7 @@ export const defaultRenderLogo = (logo: RenderVNodeType): RenderVNodeType => {
 
 export const defaultRenderLogoAndTitle = (
   props: SiderMenuProps,
-  renderKey = 'menuHeaderRender',
+  renderKey: string | undefined = 'menuHeaderRender',
 ): RenderVNodeType => {
   const {
     logo = 'https://gw.alipayobjects.com/zos/antfincdn/PmY%24TNNDBI/logo.svg',
@@ -84,6 +84,7 @@ export const defaultRenderCollapsedButton = (collapsed?: boolean): RenderVNodeTy
 
 const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) => {
   const {
+    theme,
     menuData,
     collapsed,
     siderWidth,
@@ -173,7 +174,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
           <Menu
             class={`${baseClassName}-link-menu`}
             inlineIndent={16}
-            theme={runtimeTheme.value}
+            theme={theme}
             selectedKeys={[]}
             openKeys={[]}
             mode="inline"

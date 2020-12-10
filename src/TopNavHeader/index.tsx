@@ -31,29 +31,32 @@ const RightContent: FunctionalComponent<TopNavHeaderProps> = ({ rightContentRend
             rightSize.value = width;
           }}
         >
-          {rightContentRender && (
+          {rightContentRender && typeof rightContentRender === 'function' ? (
             <div>
               {rightContentRender({
                 ...props,
               })}
             </div>
-          )}
+          ) : rightContentRender}
         </ResizeObserver>
       </div>
     </div>
   );
 };
 
-export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = (props) => {
+export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = (props, { emit }) => {
   const headerRef = ref();
   const {
-    theme,
+    prefixCls: propPrefixCls,
     onMenuHeaderClick,
     contentWidth,
     rightContentRender,
     layout,
+    onOpenChange,
+    onSelect,
+    ...restProps
   } = props;
-  const prefixCls = `${props.prefixCls || 'ant-pro'}-top-nav-header`;
+  const prefixCls = `${propPrefixCls || 'ant-pro'}-top-nav-header`;
   const headerDom = defaultRenderLogoAndTitle(
     { ...props, collapsed: false },
     layout === 'mix' ? 'headerTitleRender' : undefined,
@@ -61,11 +64,11 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = (props) => {
   const className = computed(() => {
     return {
       [prefixCls]: true,
-      light: theme === 'light',
+      light: props.theme === 'light',
     }
   });
   return (
-    <div class={className}>
+    <div class={className.value}>
     <div ref={headerRef} class={`${prefixCls}-main ${contentWidth === 'Fixed' ? 'wide' : ''}`}>
       {headerDom && (
         <div class={`${prefixCls}-main-left`} onClick={onMenuHeaderClick}>
@@ -75,7 +78,18 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = (props) => {
         </div>
       )}
       <div style={{ flex: 1 }} class={`${prefixCls}-menu`}>
-        <BaseMenu {...props} />
+        <BaseMenu
+          {...restProps}
+          class={{ 'top-nav-menu': props.mode === 'horizontal' }}
+          {...{
+            'onUpdate:openKeys': ($event: any) => {
+              onOpenChange && onOpenChange($event);
+            },
+            'onUpdate:selectedKeys': ($event: any) => {
+              onSelect && onSelect($event);
+            },
+          }}
+        />
       </div>
       {rightContentRender && <RightContent rightContentRender={rightContentRender} {...props} />}
     </div>

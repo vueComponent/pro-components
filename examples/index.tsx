@@ -1,7 +1,7 @@
 import 'ant-design-vue/dist/antd.less';
 import { createApp, defineComponent, reactive } from 'vue';
 import { RouterLink } from './mock-router';
-import { Button, message } from 'ant-design-vue';
+import { Button, Avatar, message } from 'ant-design-vue';
 import { default as ProLayout } from '../src/';
 import { menus } from './menus';
 import { useMenuState } from '../src/SiderMenu/BaseMenu';
@@ -34,24 +34,39 @@ const BasicLayout = defineComponent({
           {...attrs}
           v-model={[menuState.collapsed, 'collapsed']}
           title={'Pro Layout'}
-          layout={'side'}
-          theme={'dark'}
+          layout={'mix'}
+          theme={'light'}
+          navTheme={'dark'}
           i18n={(key: string) => key}
           isMobile={false}
           menuData={menus}
           matchMenuKeys={[]}
           contentWidth={'Fixed'}
           primaryColor={'#1890ff'}
+          contentStyle={{ minHeight: '500px' }}
           siderWidth={208}
           openKeys={menuState.openKeys}
           selectedKeys={menuState.selectedKeys}
-          onOpenChange={$event => {
-            $event && (menuState.openKeys = $event);
-          }}
-          onSelect={$event => {
-            $event && (menuState.selectedKeys = $event);
+          {...{
+            'onUpdate:openKeys':$event => {
+              $event && (menuState.openKeys = $event);
+            },
+            'onUpdate:selectedKeys': $event => {
+              $event && (menuState.selectedKeys = $event);
+            }
           }}
           v-slots={{
+            rightContentRender: () => (
+              <div style="color: #FFF;margin-right: 16px;">
+                <Avatar icon={(<Icon.UserOutlined />)} /> Sendya
+              </div>
+            ),
+            menuHeaderRender: () => (
+              <a>
+                <img src="https://gw.alipayobjects.com/zos/antfincdn/PmY%24TNNDBI/logo.svg" />
+                {menuState.collapsed ? null : (<h1>Pro Layout</h1>)}
+              </a>
+            ),
             footerRender: () => (
               <div>123</div>
             )

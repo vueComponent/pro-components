@@ -55,9 +55,9 @@ const DemoComponent = {
                     }} />
                   </div>
                 ) : null}
-                menuFooterRender={(props) => (
-                  <div style="color: #fff; padding: 8px 16px; overflow: hidden;">
-                    <span>状态：{JSON.stringify(props.collapsed)}</span>
+                menuFooterRender={(props) => props.collapsed ? undefined : (
+                  <div  style="color: #fff; padding: 8px 16px; overflow: hidden;">
+                    <span>自定义页脚</span>
                   </div>
                 )}
               />

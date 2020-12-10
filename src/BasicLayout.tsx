@@ -1,4 +1,4 @@
-import { computed, FunctionalComponent, CSSProperties } from 'vue';
+import { computed, FunctionalComponent, CSSProperties, VNodeChild } from 'vue';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 import { withInstall } from 'ant-design-vue/es/_util/type';
@@ -6,13 +6,15 @@ import { default as ProProvider, ProProviderData } from './ProProvider';
 import { default as GlobalFooter } from './GlobalFooter';
 import { default as SiderMenuWrapper, SiderMenuWrapperProps } from './SiderMenu';
 import { WrapContent } from './WrapContent';
+import { default as Header, HeaderViewProps } from './Header';
 import { RenderVNodeType, WithFalse } from './typings';
 import { getComponentOrSlot } from './utils';
+import useMergedState from './hooks/useMergedState';
 import './BasicLayout.less';
 
 const defaultI18nRender = (key: string) => key;
 
-export interface BasicLayoutProps {
+export type BasicLayoutProps = SiderMenuWrapperProps & HeaderViewProps & {
   pure?: boolean;
   /**
    *@name logo url
@@ -22,6 +24,8 @@ export interface BasicLayoutProps {
   loading?: boolean;
 
   i18n?: ProProviderData['i18n'];
+
+  defaultCollapsed?: boolean;
 
   onCollapse?: (collapsed: boolean) => void;
 
@@ -44,12 +48,28 @@ export interface BasicLayoutProps {
    * 兼用 content的 margin
    */
   disableContentMargin?: boolean;
-}
+};
 
-export type ProLayoutProps = BasicLayoutProps &
-  SiderMenuWrapperProps /* & HeaderProps & FooterProps */;
+const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots, attrs }) => {
+  const {
+    onCollapse: propsOnCollapse,
+    contentStyle,
+    disableContentMargin,
+    siderWidth = 208,
+    menu,
+    isChildrenLayout: propsIsChildrenLayout,
+    loading,
+    layout,
+    matchMenuKeys,
+    navTheme,
+    menuData,
+    isMobile,
+    defaultCollapsed,
+  } = props;
+  const isTop = computed(() => layout === 'top');
+  const isSide = computed(() => layout === 'side');
+  const isMix = computed(() => layout === 'mix');
 
-const ProLayout: FunctionalComponent<ProLayoutProps> = (props, { emit, slots }) => {
   const handleCollapse = (collapsed: boolean) => {
     emit('update:collapsed', collapsed);
   };
@@ -72,72 +92,97 @@ const ProLayout: FunctionalComponent<ProLayoutProps> = (props, { emit, slots }) 
     };
   });
 
+  const [collapsed, onCollapse] = useMergedState<boolean>(defaultCollapsed || false, {
+    value: props.collapsed,
+    onChange: propsOnCollapse,
+  });
   const headerRender = (
     props: BasicLayoutProps & {
       hasSiderMenu: boolean;
+      customHeaderRender: VNodeChild | false;
+      rightContentRender: VNodeChild | false;
     },
     matchMenuKeys: string[]
   ): RenderVNodeType => {
     if (props.headerRender === false || props.pure) {
       return null;
     }
-    return <Header matchMenuKeys={matchMenuKeys} {...props} />;
+    return <Header matchMenuKeys={matchMenuKeys} {...props} headerHeight={48} />;
   }
+  const rightContentRender = getComponentOrSlot(props, slots, 'rightContentRender');
+  const customHeaderRender = getComponentOrSlot(props, slots, 'headerRender');;
+  const headerDom = headerRender({
+    ...props,
+    hasSiderMenu: isTop.value,
+    menuData,
+    isMobile,
+    collapsed,
+    onCollapse,
+    onSelect: handleSelect,
+    onOpenChange: handleOpenChange,
+    customHeaderRender,
+    rightContentRender,
+    theme: (navTheme || 'dark').toLocaleLowerCase().includes('dark') ? 'dark' : 'light',
+  }, matchMenuKeys);
+
   const footerRender = getComponentOrSlot(props, slots, 'footerRender');
-
-  // const headerRender = getComponentOrSlot(props, slots, 'headerRender');
   const menuRender = getComponentOrSlot(props, slots, 'menuRender');
-  const menuHeaderRender = getComponentOrSlot(props, slots, 'menuHeaderRender');
-
+  // const menuHeaderRender = getComponentOrSlot(props, slots, 'menuHeaderRender');
+  const menuHeaderRenderFunc = props['menuHeaderRender'];
+  const menuHeaderRenderSlot = slots['menuHeaderRender'];
 
   return (
     <ProProvider i18n={defaultI18nRender}>
-      <div class={className.value}>
-        <Layout class={baseClassName.value}>
-          <SiderMenuWrapper
-            {...props}
-            onSelect={handleSelect}
-            onOpenChange={handleOpenChange}
-            onCollapse={handleCollapse}
-          />
-          <Layout>
-            <Layout.Header style="background: #fff; padding: 0; height: 48px; line-height: 48px;">
-            </Layout.Header>
-            <WrapContent style={props.contentStyle}>
-              {slots.default?.()}
-            </WrapContent>
-            { footerRender && footerRender || footerRender !== false && (
-              <GlobalFooter
-                links={[
-                  {
-                    key: '1',
-                    title: 'Pro Layout',
-                    href: 'https://www.github.com/vueComponent/pro-layout',
-                    blankTarget: true,
-                  },
-                  {
-                    key: '2',
-                    title: 'Github',
-                    href: 'https://www.github.com/vueComponent/ant-design-vue-pro',
-                    blankTarget: true,
-                  },
-                  {
-                    key: '3',
-                    title: '@Sendya',
-                    href: 'https://www.github.com/sendya/',
-                    blankTarget: true,
-                  },
-                ]}
-                copyright={
-                  <a href="https://github.com/vueComponent" target="_blank">
-                    vueComponent
-                  </a>
-                }
-              />
-            )}
-          </Layout>
-        </Layout>
-      </div>
+      { props.pure
+        ? (slots.default?.())
+        : (
+          <div class={className.value}>
+            <Layout class={baseClassName.value}>
+              { !isTop.value && (<SiderMenuWrapper
+                {...props}
+                menuHeaderRender={menuHeaderRenderFunc || (menuHeaderRenderSlot && (() => menuHeaderRenderSlot()))}
+                onSelect={handleSelect}
+                onOpenChange={handleOpenChange}
+                onCollapse={handleCollapse}
+              />)}
+              <Layout>
+                {headerDom}
+                <WrapContent style={props.contentStyle}>
+                  {slots.default?.()}
+                </WrapContent>
+                { footerRender && footerRender || footerRender !== false && (
+                  <GlobalFooter
+                    links={[
+                      {
+                        key: '1',
+                        title: 'Pro Layout',
+                        href: 'https://www.github.com/vueComponent/pro-layout',
+                        blankTarget: true,
+                      },
+                      {
+                        key: '2',
+                        title: 'Github',
+                        href: 'https://www.github.com/vueComponent/ant-design-vue-pro',
+                        blankTarget: true,
+                      },
+                      {
+                        key: '3',
+                        title: '@Sendya',
+                        href: 'https://www.github.com/sendya/',
+                        blankTarget: true,
+                      },
+                    ]}
+                    copyright={
+                      <a href="https://github.com/vueComponent" target="_blank">
+                        vueComponent
+                      </a>
+                    }
+                  />
+                )}
+              </Layout>
+            </Layout>
+          </div>
+        )}
     </ProProvider>
   );
 };
@@ -153,18 +198,54 @@ ProLayout.props = {
   title: String,
   colSize: String,
   isChildrenLayout: Boolean,
-  fixSiderbar: Boolean,
+  isMobile: Boolean,
+  fixSiderbar: {
+    type: Boolean,
+    default: () => false,
+  },
+  fixedHeader: {
+    type: Boolean,
+    default: () => false,
+  },
   layout: String,
   openKeys: Array,
   selectedKeys: Array,
   collapsed: Boolean,
   menuData: Array,
   contentStyle: Object,
-  headerRender: [Function, Boolean],
-  footerRender: [Function, Boolean],
-  menuRender: [Function, Boolean],
-  menuHeaderRender: [Function, Boolean],
-  rightContent: [Function, Boolean],
+  theme: String,
+  headerTheme: {
+    type: String,
+    defualt: 'light',
+  },
+  navTheme: {
+    type: String,
+    default: 'light',
+  },
+  headerRender: {
+    type: [Function, Boolean],
+    default: () => undefined,
+  },
+  footerRender: {
+    type: [Function, Boolean],
+    default: () => undefined,
+  },
+  menuRender: {
+    type: [Function, Boolean],
+    default: () => undefined,
+  },
+  menuHeaderRender: {
+    type: [Function, Boolean],
+    default: () => undefined,
+  },
+  rightContentRender: {
+    type: [Function, Boolean],
+    default: () => undefined,
+  },
+  rightContent: {
+    type: [Function, Boolean],
+    default: () => undefined,
+  },
 } as any;
 
 export default withInstall(ProLayout);
