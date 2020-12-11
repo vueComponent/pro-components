@@ -1,12 +1,13 @@
-import { createApp } from 'vue';
+import { createApp, reactive } from 'vue';
 import 'ant-design-vue/dist/antd.less';
 
 import './side-menu.less';
-import { Layout, Input, message } from 'ant-design-vue';
+import { Layout, Input, Space, Switch, message } from 'ant-design-vue';
 import { menus } from './menus';
 import { default as SiderMenuWrapper } from '../src/SiderMenu';
 import { useMenuState } from '../src/SiderMenu/BaseMenu';
 import * as Icon from '@ant-design/icons-vue';
+import { MenuTheme } from '../src/typings';
 
 const DemoComponent = {
   setup() {
@@ -15,6 +16,9 @@ const DemoComponent = {
       openKeys: [''],
       selectedKeys: ['/welcome'],
     });
+    const state = reactive({
+      theme: 'dark',
+    })
 
     const handleCollapse = (collapsed: boolean) => {
       menuState.collapsed = collapsed;
@@ -29,13 +33,18 @@ const DemoComponent = {
     return () => (
       <div class="components">
         <h2># SideMenu</h2>
+        <div>
+          <Space>
+            <Switch checked-children="dark" un-checked-children="light" checked={state.theme === 'dark'} onChange={() => { (state.theme = state.theme === 'dark' ? 'light' : 'dark')}} />
+          </Space>
+        </div>
         <div class="demo" style="background: rgb(244,244,244); min-height: 400px;">
           <div class="container side-menu-demo">
             <Layout class="ant-pro-basicLayout">
               <SiderMenuWrapper
                 title={'Pro Layout'}
                 layout={'side'}
-                theme={'dark'}
+                theme={state.theme as MenuTheme}
                 isMobile={false}
                 collapsed={menuState.collapsed}
                 menuData={menus}
@@ -55,11 +64,11 @@ const DemoComponent = {
                     }} />
                   </div>
                 ) : null}
-                menuFooterRender={(props) => props.collapsed ? undefined : (
-                  <div  style="color: #fff; padding: 8px 16px; overflow: hidden;">
-                    <span>自定义页脚</span>
-                  </div>
-                )}
+                // menuFooterRender={(props) => props.collapsed ? undefined : (
+                //   <div style="color: #fff; padding: 8px 16px; overflow: hidden;">
+                //     <span>自定义页脚</span>
+                //   </div>
+                // )}
               />
               <Layout>
                 <Layout.Header style="background: #fff; padding: 0; height: 48px; line-height: 48px;"></Layout.Header>

@@ -103,14 +103,14 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
 
   // const isMix = computed(() => props.layout === 'mix');
   const fixed = computed(() => props.fixed);
-  const runtimeTheme = computed(() => (props.layout === 'mix' && 'light') || 'dark');
+  // const runtimeTheme = computed(() => (props.layout === 'mix' && 'light') || 'dark');
   const runtimeSideWidth = computed(() =>
     props.collapsed ? props.collapsedWidth : props.siderWidth,
   );
 
   const classNames = ref({
     [baseClassName]: true,
-    [`${baseClassName}-${runtimeTheme.value}`]: true,
+    [`${baseClassName}-${theme}`]: true,
     [`${baseClassName}-${props.layout}`]: true,
     [`${baseClassName}-fixed`]: fixed,
   });
