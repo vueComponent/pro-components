@@ -6,6 +6,7 @@ import { TopNavHeader } from '../TopNavHeader';
 import { clearMenuItem } from '../utils';
 import type { HeaderViewProps } from '../Header';
 import './index.less';
+import { useProProvider } from '../ProProvider';
 
 export interface GlobalHeaderProps extends Partial<PureSettings> {
   collapsed?: boolean;
@@ -52,8 +53,10 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps & PrivateSiderM
     headerTheme = 'dark',
     splitMenus,
     menuData,
-    prefixCls,
+    prefixCls: customPrefixCls,
   } = props;
+  const { getPrefixCls } = useProProvider();
+  const prefixCls = customPrefixCls || getPrefixCls();
   const baseClassName = computed(() => `${prefixCls}-global-header`);
   const className = computed(() => {
     return {
@@ -89,7 +92,7 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps & PrivateSiderM
       {isMobile && renderLogo(menuHeaderRender, logoDom)}
       {isMobile && collapsedButtonRender && (
         <span
-        class={`${baseClassName.value}-collapsed-button`}
+          class={`${baseClassName.value}-collapsed-button`}
           onClick={() => {
             if (onCollapse) {
               onCollapse(!collapsed);

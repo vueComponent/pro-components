@@ -9,6 +9,7 @@ import { GlobalHeaderProps } from '../GlobalHeader';
 import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer';
 
 import './index.less';
+import { useRouteContext } from "../RouteContext";
 
 export type TopNavHeaderProps = SiderMenuProps & GlobalHeaderProps & PrivateSiderMenuProps & {};
 
@@ -52,10 +53,9 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = (props, { em
     contentWidth,
     rightContentRender,
     layout,
-    onOpenChange,
-    onSelect,
     ...restProps
   } = props;
+  const context = useRouteContext();
   const prefixCls = `${propPrefixCls || 'ant-pro'}-top-nav-header`;
   const headerDom = defaultRenderLogoAndTitle(
     { ...props, collapsed: false },
@@ -79,14 +79,19 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = (props, { em
       )}
       <div style={{ flex: 1 }} class={`${prefixCls}-menu`}>
         <BaseMenu
-          {...restProps}
+          theme={props.theme === 'realDark' ? 'dark' : props.theme}
+          mode={props.mode}
+          collapsed={props.collapsed}
+          menuData={context.menuData}
+          openKeys={context.openKeys}
+          selectedKeys={context.selectedKeys}
           class={{ 'top-nav-menu': props.mode === 'horizontal' }}
           {...{
-            'onUpdate:openKeys': ($event: any) => {
-              onOpenChange && onOpenChange($event);
+            'onUpdate:openKeys': ($event: string[]) => {
+              context.onOpenKeys($event);
             },
             'onUpdate:selectedKeys': ($event: any) => {
-              onSelect && onSelect($event);
+              context.onSelectedKeys($event);
             },
           }}
         />

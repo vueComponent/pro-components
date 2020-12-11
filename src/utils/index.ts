@@ -1,6 +1,7 @@
 import { Slots, VNodeChild } from 'vue';
 import { MenuDataItem } from '../typings';
 export { getComponent } from 'ant-design-vue/es/_util/props-util';
+export { default as PropTypes } from 'ant-design-vue/es/_util/vue-types';
 
 export { default as isUrl } from './isUrl';
 export { default as isImg } from './isImg';
@@ -47,6 +48,11 @@ export function clearMenuItem(menusData: MenuDataItem[]): MenuDataItem[] {
     })
     .filter(item => item) as MenuDataItem[];
 }
+
+export const PropRenderType = {
+  type: [Function, Boolean],
+  default: () => undefined,
+};
 
 export interface Attrs {
   [key: string]: string;

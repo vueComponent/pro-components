@@ -52,11 +52,9 @@ export interface MenuDataItem {
   /**
    * @name 用于标定选中的值，默认是 path
    */
-  key?: string | symbol;
   path: string;
   name?: string | symbol;
   meta?: MetaRecord;
-  hidden?: boolean;
   /**
    * @name 子菜单
    */

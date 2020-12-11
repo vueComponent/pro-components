@@ -9,6 +9,7 @@ import { SiderProps } from './typings';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
 import { useProProvider } from '../ProProvider';
 import './index.less';
+import { useRouteContext } from '../RouteContext';
 
 const { Sider } = Layout;
 
@@ -34,8 +35,8 @@ export interface SiderMenuProps
   onMenuHeaderClick?: (e: MouseEvent) => void;
   fixed?: boolean;
   hide?: boolean;
-  onOpenChange?: (openKeys: WithFalse<string[]>) => void;
-  onSelect?: (selectedKeys: WithFalse<string[]>) => void;
+  // onOpenChange?: (openKeys: WithFalse<string[]>) => void;
+  // onSelect?: (selectedKeys: WithFalse<string[]>) => void;
 }
 
 export const defaultRenderLogo = (logo: RenderVNodeType): RenderVNodeType => {
@@ -84,12 +85,10 @@ export const defaultRenderCollapsedButton = (collapsed?: boolean): RenderVNodeTy
 
 const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) => {
   const {
-    theme,
-    menuData,
+    navTheme,
+    // menuData,
     collapsed,
     siderWidth,
-    onOpenChange,
-    onSelect,
     onCollapse,
     breakpoint,
     collapsedWidth = 48,
@@ -99,42 +98,45 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
     collapsedButtonRender = defaultRenderCollapsedButton,
   } = props;
   const { getPrefixCls } = useProProvider();
+  const context = useRouteContext();
   const baseClassName = getPrefixCls('sider');
 
   // const isMix = computed(() => props.layout === 'mix');
-  const fixed = computed(() => props.fixed);
+  // const fixed = computed(() => context.fixSiderbar);
   // const runtimeTheme = computed(() => (props.layout === 'mix' && 'light') || 'dark');
   const runtimeSideWidth = computed(() =>
     props.collapsed ? props.collapsedWidth : props.siderWidth,
   );
 
-  const classNames = ref({
-    [baseClassName]: true,
-    [`${baseClassName}-${theme}`]: true,
-    [`${baseClassName}-${props.layout}`]: true,
-    [`${baseClassName}-fixed`]: fixed,
+  const classNames = computed(() => {
+    return {
+      [baseClassName]: true,
+      [`${baseClassName}-${navTheme}`]: true,
+      [`${baseClassName}-${props.layout}`]: true,
+      [`${baseClassName}-fixed`]: context.fixSiderbar,
+    }
   });
   // call menuHeaderRender
   const headerDom = defaultRenderLogoAndTitle(props);
   const extraDom = menuExtraRender && menuExtraRender(props);
   const defaultMenuDom = (
     <BaseMenu
-      menuData={menuData}
-      theme={props.theme === 'realDark' ? 'dark' : props.theme}
+      theme={props.navTheme === 'realDark' ? 'dark' : props.navTheme}
       mode="inline"
+      menuData={context.menuData}
       collapsed={props.collapsed}
-      openKeys={props.openKeys}
-      selectedKeys={props.selectedKeys}
+      openKeys={context.openKeys}
+      selectedKeys={context.selectedKeys}
       style={{
         width: '100%',
       }}
       class={`${baseClassName}-menu`}
       {...{
-        'onUpdate:openKeys': ($event: any) => {
-          onOpenChange && onOpenChange($event);
+        'onUpdate:openKeys': ($event: string[]) => {
+          context.onOpenKeys($event);
         },
-        'onUpdate:selectedKeys': ($event: any) => {
-          onSelect && onSelect($event);
+        'onUpdate:selectedKeys': ($event: string[]) => {
+          context.onSelectedKeys($event);
         },
       }}
     />
@@ -142,7 +144,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
 
   return (
     <>
-      {fixed.value && (
+      {context.fixSiderbar && (
         <div
           style={{
             width: `${runtimeSideWidth.value}px`,
@@ -174,7 +176,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
           <Menu
             class={`${baseClassName}-link-menu`}
             inlineIndent={16}
-            theme={theme}
+            theme={navTheme as 'light' | 'dark'}
             selectedKeys={[]}
             openKeys={[]}
             mode="inline"

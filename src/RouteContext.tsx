@@ -1,10 +1,32 @@
-import { InjectionKey } from 'vue';
+import { InjectionKey, VNodeChild } from 'vue';
 import { createContext, useContext } from './hooks/context';
+import { MenuDataItem } from './typings';
 import { PureSettings } from './defaultSettings';
+export interface Route {
+  path: string;
+  breadcrumbName: string;
+  children?: Omit<Route, 'children'>[];
+}
+export interface BreadcrumbProps {
+  prefixCls?: string;
+  routes?: Route[];
+  params?: any;
+  separator?: VNodeChild;
+  itemRender?: (route: Route, params: any, routes: Array<Route>, paths: Array<string>) => VNodeChild;
+}
 
-export interface RouteContextProps extends Partial<PureSettings> {
-  breadcrumb?: any;
-  menuData?: any[];
+export type BreadcrumbListReturn = Pick<BreadcrumbProps, Extract<keyof BreadcrumbProps, 'routes' | 'itemRender'>>;
+
+export interface MenuState {
+  selectedKeys?: string[];
+  openKeys?: string[];
+  onSelectedKeys: (key: string[]) => void;
+  onOpenKeys: (key: string[]) => void;
+}
+
+export interface RouteContextProps extends Partial<PureSettings>, MenuState {
+  breadcrumb?: BreadcrumbListReturn;
+  menuData?: MenuDataItem[];
   isMobile?: boolean;
   prefixCls?: string;
   collapsed?: boolean;
@@ -14,6 +36,8 @@ export interface RouteContextProps extends Partial<PureSettings> {
   hasFooterToolbar?: boolean;
   hasFooter?: boolean;
   setHasFooterToolbar?: (bool: boolean) => void;
+  /* 附加属性 */
+  [key: string]: any;
 }
 
 const routeContextInjectKey: InjectionKey<RouteContextProps> = Symbol();
@@ -21,4 +45,5 @@ const routeContextInjectKey: InjectionKey<RouteContextProps> = Symbol();
 export const createRouteContext = (context: RouteContextProps) =>
   createContext<RouteContextProps>(context, routeContextInjectKey);
 
-export const useRouteContext = () => useContext<RouteContextProps>(routeContextInjectKey);
+export const useRouteContext = () =>
+  useContext<RouteContextProps>(routeContextInjectKey);

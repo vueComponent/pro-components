@@ -1,5 +1,5 @@
 import 'ant-design-vue/dist/antd.less';
-import { createApp, defineComponent, reactive } from 'vue';
+import { createApp, defineComponent, watch, ref } from 'vue';
 import { RouterLink } from './mock-router';
 import { Button, Avatar, message } from 'ant-design-vue';
 import { default as ProLayout } from '../src/';
@@ -12,49 +12,54 @@ const BasicLayout = defineComponent({
   name: 'BasicLayout',
   inheritAttrs: false,
   setup(_, { attrs }) {
-    const [menuState] = useMenuState({
+    const [ state, RouteContextProvider ] = createRouteContext({
       collapsed: false,
-      openKeys: [],
-      selectedKeys: ['/welcome'],
-    });
 
-    const [ routeContext, RouteContextProvider ] = createRouteContext({
+      openKeys: ['/dashboard', '/form'],
+      onOpenKeys: (keys: string[]) => (state.openKeys = keys),
+      selectedKeys: ['/welcome'],
+      onSelectedKeys: (keys: string[]) => (state.selectedKeys = keys),
+
       isMobile: false,
-      menuData: [],
+      fixSiderbar: false,
+      fixedHeader: false,
+      menuData: menus,
       sideWidth: 208,
       hasSideMenu: true,
       hasHeader: true,
       hasFooterToolbar: false,
-      setHasFooterToolbar: (has: boolean) => (routeContext.hasFooterToolbar = has),
+      setHasFooterToolbar: (has: boolean) => (state.hasFooterToolbar = has),
     });
+
+    const cacheOpenKeys = ref<string[]>([]);
+    watch(
+      () => state.collapsed,
+      (collapsed: boolean) => {
+        if (collapsed) {
+          cacheOpenKeys.value = state.openKeys;
+          state.openKeys = [];
+        } else {
+          state.openKeys = cacheOpenKeys.value;
+        }
+      }
+    );
 
     return () => (
       <RouteContextProvider>
         <ProLayout
           {...attrs}
-          v-model={[menuState.collapsed, 'collapsed']}
+          v-model={[state.collapsed, 'collapsed']}
           title={'Pro Layout'}
-          layout={'mix'}
-          theme={'light'}
+          layout={'side'}
           navTheme={'dark'}
           i18n={(key: string) => key}
-          isMobile={false}
-          menuData={menus}
-          matchMenuKeys={[]}
+          isMobile={state.isMobile}
+          fixSiderbar={state.fixSiderbar}
+          fixedHeader={state.fixedHeader}
           contentWidth={'Fixed'}
           primaryColor={'#1890ff'}
           contentStyle={{ minHeight: '500px' }}
-          siderWidth={208}
-          openKeys={menuState.openKeys}
-          selectedKeys={menuState.selectedKeys}
-          {...{
-            'onUpdate:openKeys':$event => {
-              $event && (menuState.openKeys = $event);
-            },
-            'onUpdate:selectedKeys': $event => {
-              $event && (menuState.selectedKeys = $event);
-            }
-          }}
+          siderWidth={state.sideWidth}
           v-slots={{
             rightContentRender: () => (
               <div style="color: #FFF;margin-right: 16px;">
@@ -64,11 +69,8 @@ const BasicLayout = defineComponent({
             menuHeaderRender: () => (
               <a>
                 <img src="https://gw.alipayobjects.com/zos/antfincdn/PmY%24TNNDBI/logo.svg" />
-                {menuState.collapsed ? null : (<h1>Pro Layout</h1>)}
+                {state.collapsed ? null : (<h1>Pro Layout</h1>)}
               </a>
-            ),
-            footerRender: () => (
-              <div>123</div>
             )
           }}
         >
