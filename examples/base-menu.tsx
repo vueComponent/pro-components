@@ -2,7 +2,9 @@ import { createApp, onMounted, reactive, watch, watchEffect } from 'vue';
 import { menus } from './menus';
 import { MenuTheme } from '../src/typings';
 import { Card, Space, Button, Switch } from 'ant-design-vue';
-import BaseMenu, { useMenuState, MenuMode } from '../src/SiderMenu/BaseMenu';
+import { useMenu } from '../src/hooks/useMenu';
+import { RouterLink } from './mock-router';
+import { default as BaseMenu, MenuMode } from '../src/SiderMenu/BaseMenu';
 import * as Icon from '@ant-design/icons-vue';
 
 import 'ant-design-vue/dist/antd.less';
@@ -15,10 +17,10 @@ const BaseMenuDemo = {
       themeChecked: true,
       modeChecked: true,
     })
-    const [menuState] = useMenuState({
+    const [menuState] = useMenu({
       collapsed: false,
-      openKeys: ['/dashboard'] as string[],
-      selectedKeys: ['/dashboard/monitor'] as string[],
+      openKeys: ['/dashboard'],
+      selectedKeys: ['/dashboard/monitor'],
     })
 
     onMounted(() => {
@@ -89,4 +91,4 @@ Object.keys(Icon)
   app.component(Icon[k].displayName, Icon[k])
 })
 
-app.mount('#__vue-content>div');
+app.use(RouterLink).mount('#__vue-content>div');

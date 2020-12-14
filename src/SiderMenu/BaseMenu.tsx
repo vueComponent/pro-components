@@ -1,78 +1,33 @@
 import {
   defineComponent,
   resolveComponent,
-  ref,
-  reactive,
   computed,
-  Ref,
-  watch,
   ComputedRef,
   VNodeChild,
   VNode,
-  WatchStopHandle,
   PropType,
   isVNode,
   toRefs,
 } from 'vue';
 import { createFromIconfontCN } from '@ant-design/icons-vue';
 import 'ant-design-vue/es/menu/style';
-import Menu from 'ant-design-vue/es/menu';
+import Menu, { MenuProps } from 'ant-design-vue/es/menu';
 import defaultSettings, { PureSettings } from '../defaultSettings';
 import { isImg, isUrl } from '../utils';
 import { MenuMode, SelectInfo, OpenEventHandler } from './typings';
 import { MenuDataItem, MenuTheme, FormatMessage, WithFalse } from '../typings';
 import { PrivateSiderMenuProps } from './SiderMenu';
 import './index.less';
+import { useMenuState } from '../hooks/useMenu';
 
 export { MenuMode, SelectInfo, OpenEventHandler };
-
-export interface MenuState {
-  collapsed?: boolean | false;
-  selectedKeys?: string[];
-  openKeys?: string[];
-}
-
-interface MenuStated {
-  collapsed: boolean;
-  selectedKeys: string[];
-  openKeys: string[];
-}
-
-export type MenuStateWatched = [MenuStated, WatchStopHandle];
-
-export function useMenuState({
-  collapsed = false,
-  openKeys = [] as string[],
-  selectedKeys = [] as string[],
-}: MenuState): MenuStateWatched {
-  const state = reactive<MenuStated>({
-    collapsed,
-    selectedKeys,
-    openKeys,
-  });
-  const cachedOpenKeys: Ref<string[]> = ref([] as string[]);
-
-  const watchRef = watch(
-    () => state.collapsed,
-    collapsed => {
-      if (collapsed) {
-        cachedOpenKeys.value = state.openKeys.concat();
-        state.openKeys = [];
-      } else {
-        state.openKeys = cachedOpenKeys.value.concat();
-      }
-    },
-  );
-
-  return [state, watchRef];
-}
 
 export function useRootSubmenuKeys(menus: MenuDataItem[]): ComputedRef<string[]> {
   return computed(() => menus.map(it => it.path));
 }
 
 // ts typo
-export interface BaseMenuProps extends Partial<PureSettings> {
+export interface BaseMenuProps extends Partial<PureSettings>, PrivateSiderMenuProps {
   prefixCls?: string;
   collapsed?: boolean;
   splitMenus?: boolean;
@@ -101,16 +56,16 @@ export const VueBaseMenuProps = {
     default: 'dark',
   },
   collapsed: {
-    type: Boolean as PropType<boolean>,
+    type: Boolean as PropType<boolean | undefined>,
     default: false,
   },
   openKeys: {
     type: Array as PropType<WithFalse<string[]>>,
-    required: true,
+    default: undefined,
   },
   selectedKeys: {
     type: Array as PropType<WithFalse<string[]>>,
-    required: true,
+    default: undefined,
   },
 };
 
@@ -212,8 +167,10 @@ export default defineComponent({
   emits: ['update:openKeys', 'update:selectedKeys'],
   setup(props, { emit }) {
     const { mode, i18n } = toRefs(props);
+    const state = useMenuState();
     const isInline = computed(() => mode.value === 'inline');
-    const handleOpenChange: OpenEventHandler = (openKeys): void => {
+    const handleOpenChange: OpenEventHandler = (openKeys: string[]): void => {
+      state?.setOpenKeys(openKeys);
       emit('update:openKeys', openKeys);
     };
     const handleSelect = (params: {
@@ -223,6 +180,7 @@ export default defineComponent({
       domEvent: MouseEvent;
       selectedKeys: string[];
     }): void => {
+      state?.setSelectedKeys(params.selectedKeys);
       emit('update:selectedKeys', params.selectedKeys);
     };
     return () => (
@@ -232,8 +190,8 @@ export default defineComponent({
         inlineIndent={16}
         mode={props.mode}
         theme={props.theme as 'dark' | 'light'}
-        openKeys={props.openKeys || []}
-        selectedKeys={props.selectedKeys || []}
+        openKeys={props.openKeys || state?.openKeys.value || []}
+        selectedKeys={props.selectedKeys || state?.selectedKeys.value || []}
         onOpenChange={handleOpenChange}
         onSelect={handleSelect}
       >

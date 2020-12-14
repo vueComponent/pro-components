@@ -5,31 +5,23 @@ import './side-menu.less';
 import { Layout, Input, Space, Switch, message } from 'ant-design-vue';
 import { menus } from './menus';
 import { default as SiderMenuWrapper } from '../src/SiderMenu';
-import { useMenuState } from '../src/SiderMenu/BaseMenu';
+import { useMenu } from '../src/hooks/useMenu';
 import * as Icon from '@ant-design/icons-vue';
 import { MenuTheme } from '../src/typings';
 
 const DemoComponent = {
   setup() {
-    const [menuState] = useMenuState({
+    const [menuState] = useMenu({
       collapsed: false,
       openKeys: [''],
       selectedKeys: ['/welcome'],
     });
     const state = reactive({
-      theme: 'dark',
-    })
-
+      theme: 'light',
+    });
     const handleCollapse = (collapsed: boolean) => {
       menuState.collapsed = collapsed;
-    };
-    const handleOpenChange = (openKeys: string[]) => {
-      menuState.openKeys = openKeys;
-    };
-    const handleSelect = (selectedKeys: string[]) => {
-      menuState.selectedKeys = selectedKeys;
-    };
-
+    }
     return () => (
       <div class="components">
         <h2># SideMenu</h2>
@@ -48,10 +40,8 @@ const DemoComponent = {
                 isMobile={false}
                 collapsed={menuState.collapsed}
                 menuData={menus}
-                openKeys={menuState.openKeys}
-                selectedKeys={menuState.selectedKeys}
-                onOpenChange={handleOpenChange}
-                onSelect={handleSelect}
+                // openKeys={menuState.openKeys}
+                // selectedKeys={menuState.selectedKeys}
                 onCollapse={handleCollapse}
                 matchMenuKeys={[]}
                 contentWidth={'Fixed'}

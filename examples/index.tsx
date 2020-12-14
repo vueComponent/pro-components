@@ -4,7 +4,6 @@ import { RouterLink } from './mock-router';
 import { Button, Avatar, message } from 'ant-design-vue';
 import { default as ProLayout } from '../src/';
 import { menus } from './menus';
-import { useMenuState } from '../src/SiderMenu/BaseMenu';
 import * as Icon from '@ant-design/icons-vue';
 import { createRouteContext } from '../src/RouteContext';
 

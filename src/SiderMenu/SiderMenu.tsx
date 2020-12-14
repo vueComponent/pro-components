@@ -121,7 +121,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
   const extraDom = menuExtraRender && menuExtraRender(props);
   const defaultMenuDom = (
     <BaseMenu
-      theme={props.navTheme === 'realDark' ? 'dark' : props.navTheme}
+      theme={navTheme === 'realDark' ? 'dark' : navTheme}
       mode="inline"
       menuData={context.menuData}
       collapsed={props.collapsed}
@@ -157,6 +157,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
       )}
       <Sider
         class={classNames.value}
+        theme={navTheme === 'realDark' ? 'dark' : navTheme}
         width={siderWidth}
         breakpoint={breakpoint || undefined}
         collapsed={collapsed}
