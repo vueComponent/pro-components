@@ -28,7 +28,7 @@ export const DemoBox = defineComponent({
 
       const box = createApp({
         render() {
-          return children;
+          return h('div', children);
         },
       }).use(RouterLink);
 

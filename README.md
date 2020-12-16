@@ -37,22 +37,86 @@ After that, you can use pro-layout in your Vue components as simply as this:
 
 ```vue
 <template>
+  <route-context-provider :value="state">
     <pro-layout>
-        <router-view />
+      <router-view />
     </pro-layout>
+  </route-context-provider>
 </template>
+
+<script>
+import { defineComponent, reactive } from 'vue';
+import ProLayout, { createRouteContext } from '@ant-design-vue/pro-layout';
+
+const [ RouteContextProvider ] = createRouteContext();
+
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      collapsed: false,
+
+      openKeys: ['/dashboard'],
+      setOpenKeys: (keys) => (state.openKeys = keys),
+      selectedKeys: ['/welcome'],
+      setSelectedKeys: (keys) => (state.selectedKeys = keys),
+
+      isMobile: false,
+      fixSiderbar: false,
+      fixedHeader: false,
+      menuData: [],
+      sideWidth: 208,
+      hasSideMenu: true,
+      hasHeader: true,
+      hasFooterToolbar: false,
+      setHasFooterToolbar: (has) => (state.hasFooterToolbar = has),
+    });
+    
+    return {
+      state,
+    }
+  },
+  components: {
+    ProLayout,
+    RouteContextProvider,
+  }
+});
+</script>
 ```
 or `TSX`
-```jsx
-import ProLayout from '@ant-design-vue/pro-layout'
+```tsx
+import { defineComponent, reactive } from 'vue';
+import ProLayout, { createRouteContext, RouteContextProps } from '@ant-design-vue/pro-layout';
 
 export default defineComponent({
     setup () {
-        return (): JSX.Element => (
-            <ProLayout>
-                <RouterView />
-            </ProLayout>
-        )
+      const [ RouteContextProvider ] = createRouteContext();
+      
+      const state = reactive<RouteContextProps>({
+        collapsed: false,
+
+        openKeys: ['/dashboard'],
+        setOpenKeys: (keys: string[]) => (state.openKeys = keys),
+        selectedKeys: ['/welcome'],
+        setSelectedKeys: (keys: string[]) => (state.selectedKeys = keys),
+
+        isMobile: false,
+        fixSiderbar: false,
+        fixedHeader: false,
+        menuData: [],
+        sideWidth: 208,
+        hasSideMenu: true,
+        hasHeader: true,
+        hasFooterToolbar: false,
+        setHasFooterToolbar: (has: boolean) => (state.hasFooterToolbar = has),
+      });
+      
+      return () => (
+        <RouteContextProvider value={state}>
+          <ProLayout>
+            <RouterView />
+          </ProLayout>
+        </RouteContextProvider>
+      )
     }
 })
 ```
@@ -61,7 +125,6 @@ export default defineComponent({
 ## Build project
 
 ```bash
-npm run generate # Generate files to ./src
 npm run compile # Build library
 npm run test # Runing Test
 ```

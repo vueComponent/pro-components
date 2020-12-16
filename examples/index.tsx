@@ -58,7 +58,7 @@ const BasicLayout = defineComponent({
           fixedHeader={state.fixedHeader}
           contentWidth={'Fixed'}
           primaryColor={'#1890ff'}
-          contentStyle={{ minHeight: '200px' }}
+          contentStyle={{ minHeight: '300px' }}
           siderWidth={state.sideWidth}
           v-slots={{
             rightContentRender: () => (
@@ -92,9 +92,9 @@ const SimpleDemo = {
     return () => (
       <div class="components">
         <h2># BasicLayout</h2>
-        <DemoBox>
+        <div>
           <BasicLayout />
-        </DemoBox>
+        </div>
       </div>
     );
   },
