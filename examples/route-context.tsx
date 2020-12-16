@@ -1,6 +1,6 @@
 import { createApp, defineComponent, ref, reactive, toRaw, onMounted } from 'vue';
 import { Card, Space, Button } from 'ant-design-vue';
-import { createRouteContext, useRouteContext } from '../src/RouteContext';
+import { createRouteContext, useRouteContext, RouteContextProps } from '../src/RouteContext';
 
 import 'ant-design-vue/dist/antd.less';
 
@@ -9,13 +9,14 @@ const DemoComponent = {
     const state = reactive({
       name: 'value',
     });
-
-    const [ routeContext, RouteContextProvider ] = createRouteContext({
-      hasSideMenu: true,
-      collapsed: true,
-      isMobile: false,
-      menuData: []
+    const context = reactive<RouteContextProps>({
+      menuData: [],
+      selectedKeys: [],
+      openKeys: [],
+      collapsed: false,
     });
+
+    const [ RouteContextProvider ] = createRouteContext();
 
     return () => (
       <div class="components">
@@ -26,8 +27,8 @@ const DemoComponent = {
               type="primary"
               onClick={() => {
                 state.name = new Date().getTime().toString()
-                routeContext.collapsed = !routeContext.collapsed
-                routeContext.menuData = [
+                context.collapsed = !context.collapsed
+                context.menuData = [
                   {
                     path: `/dashboard/${state.name}`,
                     name: `${state.name}`,
@@ -42,11 +43,11 @@ const DemoComponent = {
           <div style={{ margin: '12px 0' }}>
             <p>state.name: { JSON.stringify(state.name) }</p>
             routeContext:
-            <pre>{  JSON.stringify(routeContext, null, 4) }</pre>
+            <pre>{  JSON.stringify(context, null, 4) }</pre>
           </div>
         </Card>
         <div class="demo" style="background: rgb(244,244,244);">
-          <RouteContextProvider>
+          <RouteContextProvider value={context}>
             <TestChildComponent />
           </RouteContextProvider>
         </div>

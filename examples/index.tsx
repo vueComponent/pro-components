@@ -1,23 +1,24 @@
 import 'ant-design-vue/dist/antd.less';
-import { createApp, defineComponent, watch, ref } from 'vue';
+import { createApp, defineComponent, onMounted, watch, ref, reactive } from 'vue';
 import { RouterLink } from './mock-router';
 import { Button, Avatar, message } from 'ant-design-vue';
 import { default as ProLayout } from '../src/';
 import { menus } from './menus';
 import * as Icon from '@ant-design/icons-vue';
-import { createRouteContext } from '../src/RouteContext';
+import { createRouteContext, RouteContextProps } from '../src/RouteContext';
+import { DemoBox } from './demoBox';
 
 const BasicLayout = defineComponent({
   name: 'BasicLayout',
   inheritAttrs: false,
-  setup(_, { attrs }) {
-    const [ state, RouteContextProvider ] = createRouteContext({
+  setup() {
+    const state = reactive<RouteContextProps>({
       collapsed: false,
 
-      openKeys: ['/dashboard', '/form'],
-      onOpenKeys: (keys: string[]) => (state.openKeys = keys),
+      openKeys: ['/dashboard'],
+      setOpenKeys: (keys: string[]) => (state.openKeys = keys),
       selectedKeys: ['/welcome'],
-      onSelectedKeys: (keys: string[]) => (state.selectedKeys = keys),
+      setSelectedKeys: (keys: string[]) => (state.selectedKeys = keys),
 
       isMobile: false,
       fixSiderbar: false,
@@ -28,7 +29,8 @@ const BasicLayout = defineComponent({
       hasHeader: true,
       hasFooterToolbar: false,
       setHasFooterToolbar: (has: boolean) => (state.hasFooterToolbar = has),
-    });
+    })
+    const [ RouteContextProvider ] = createRouteContext();
 
     const cacheOpenKeys = ref<string[]>([]);
     watch(
@@ -44,9 +46,8 @@ const BasicLayout = defineComponent({
     );
 
     return () => (
-      <RouteContextProvider>
+      <RouteContextProvider value={state}>
         <ProLayout
-          {...attrs}
           v-model={[state.collapsed, 'collapsed']}
           title={'Pro Layout'}
           layout={'side'}
@@ -57,7 +58,7 @@ const BasicLayout = defineComponent({
           fixedHeader={state.fixedHeader}
           contentWidth={'Fixed'}
           primaryColor={'#1890ff'}
-          contentStyle={{ minHeight: '500px' }}
+          contentStyle={{ minHeight: '200px' }}
           siderWidth={state.sideWidth}
           v-slots={{
             rightContentRender: () => (
@@ -91,7 +92,9 @@ const SimpleDemo = {
     return () => (
       <div class="components">
         <h2># BasicLayout</h2>
-        <BasicLayout />
+        <DemoBox>
+          <BasicLayout />
+        </DemoBox>
       </div>
     );
   },

@@ -133,10 +133,10 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
       class={`${baseClassName}-menu`}
       {...{
         'onUpdate:openKeys': ($event: string[]) => {
-          context.onOpenKeys($event);
+          context?.setOpenKeys($event);
         },
         'onUpdate:selectedKeys': ($event: string[]) => {
-          context.onSelectedKeys($event);
+          context?.setSelectedKeys($event);
         },
       }}
     />

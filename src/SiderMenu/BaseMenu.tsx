@@ -167,10 +167,8 @@ export default defineComponent({
   emits: ['update:openKeys', 'update:selectedKeys'],
   setup(props, { emit }) {
     const { mode, i18n } = toRefs(props);
-    const state = useMenuState();
     const isInline = computed(() => mode.value === 'inline');
     const handleOpenChange: OpenEventHandler = (openKeys: string[]): void => {
-      state?.setOpenKeys(openKeys);
       emit('update:openKeys', openKeys);
     };
     const handleSelect = (params: {
@@ -180,7 +178,6 @@ export default defineComponent({
       domEvent: MouseEvent;
       selectedKeys: string[];
     }): void => {
-      state?.setSelectedKeys(params.selectedKeys);
       emit('update:selectedKeys', params.selectedKeys);
     };
     return () => (
@@ -190,8 +187,8 @@ export default defineComponent({
         inlineIndent={16}
         mode={props.mode}
         theme={props.theme as 'dark' | 'light'}
-        openKeys={props.openKeys || state?.openKeys.value || []}
-        selectedKeys={props.selectedKeys || state?.selectedKeys.value || []}
+        openKeys={props.openKeys || []}
+        selectedKeys={props.selectedKeys || []}
         onOpenChange={handleOpenChange}
         onSelect={handleSelect}
       >
