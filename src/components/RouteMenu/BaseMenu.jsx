@@ -79,6 +79,22 @@ const renderTitle = (h, title, i18nRender) => {
   return <span>{ i18nRender && i18nRender(title) || title }</span>
 }
 
+const setOpenKeys = function setOpenKeys(children, path, findOpenKeys) {
+  for (let i = 0; i < children.length; i++) {
+    if (children[i].path === path) {
+      return true
+    }
+    if (children[i].children && children[i].children.length !== 0) {
+      const hasFound = setOpenKeys(children[i].children, path)
+      if (hasFound) {
+        findOpenKeys.push(children[i].path)
+        return true
+      }
+    }
+  }
+  return false
+}
+
 const RouteMenu = {
   name: 'RouteMenu',
   props: RouteMenuProps,
@@ -144,9 +160,9 @@ const RouteMenu = {
       }
       const openKeys = []
       if (this.mode === 'inline') {
-        routes.forEach(item => {
-          item.path && openKeys.push(item.path)
-        })
+        if(this.selectedKeys.length > 0) {
+          setOpenKeys(this.menus,this.selectedKeys[0], openKeys)
+        }
       }
 
       this.collapsed ? (this.cachedOpenKeys = openKeys) : (this.openKeys = openKeys)
