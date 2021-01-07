@@ -22,8 +22,8 @@ export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slot
     return {
       [`${prefixCls}-content`]: true,
       [`${prefixCls}-has-header`]: true,
-    }
-  })
+    };
+  });
 
   return (
     <Content class={classNames.value} {...attrs}>

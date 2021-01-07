@@ -1,4 +1,4 @@
-import { FunctionalComponent, CSSProperties, toRefs } from 'vue';
+import { FunctionalComponent, CSSProperties } from 'vue';
 import { useProProvider } from '../ProProvider';
 import { PureSettings } from '../defaultSettings';
 import './GridContent.less';

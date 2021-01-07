@@ -6,7 +6,6 @@ import { default as ProLayout } from '../src/';
 import { menus } from './menus';
 import * as Icon from '@ant-design/icons-vue';
 import { createRouteContext, RouteContextProps } from '../src/RouteContext';
-import { DemoBox } from './demoBox';
 
 const BasicLayout = defineComponent({
   name: 'BasicLayout',
@@ -29,20 +28,24 @@ const BasicLayout = defineComponent({
       hasHeader: true,
       hasFooterToolbar: false,
       setHasFooterToolbar: (has: boolean) => (state.hasFooterToolbar = has),
-    })
-    const [ RouteContextProvider ] = createRouteContext();
+    });
+    const [RouteContextProvider] = createRouteContext();
 
     const cacheOpenKeys = ref<string[]>([]);
     watch(
       () => state.collapsed,
       (collapsed: boolean) => {
+        console.log('post watch', collapsed, state.collapsed);
         if (collapsed) {
           cacheOpenKeys.value = state.openKeys;
           state.openKeys = [];
         } else {
           state.openKeys = cacheOpenKeys.value;
         }
-      }
+      },
+      {
+        flush: 'pre',
+      },
     );
 
     return () => (
@@ -63,15 +66,15 @@ const BasicLayout = defineComponent({
           v-slots={{
             rightContentRender: () => (
               <div style="color: #FFF;margin-right: 16px;">
-                <Avatar icon={(<Icon.UserOutlined />)} /> Sendya
+                <Avatar icon={<Icon.UserOutlined />} /> Sendya
               </div>
             ),
             menuHeaderRender: () => (
               <a>
                 <img src="https://gw.alipayobjects.com/zos/antfincdn/PmY%24TNNDBI/logo.svg" />
-                {state.collapsed ? null : (<h1>Pro Layout</h1>)}
+                {state.collapsed ? null : <h1>Pro Layout</h1>}
               </a>
-            )
+            ),
           }}
         >
           <Button

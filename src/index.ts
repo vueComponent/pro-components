@@ -16,12 +16,9 @@ export {
   default as BaseMenu,
   BaseMenuProps,
   MenuMode,
-  MenuState,
-  MenuStateWatched,
   OpenEventHandler,
   SelectInfo,
   VueBaseMenuProps,
-  useMenuState,
 } from './SiderMenu/BaseMenu';
 
 export { default } from './BasicLayout';

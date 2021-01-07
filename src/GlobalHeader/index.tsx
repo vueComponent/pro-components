@@ -1,7 +1,13 @@
-import { computed, CSSProperties, FunctionalComponent, toRefs } from 'vue';
+import { computed, CSSProperties, FunctionalComponent } from 'vue';
 import { PureSettings } from '../defaultSettings';
 import { RenderVNodeType, MenuDataItem, WithFalse } from '../typings';
-import { SiderMenuProps, PrivateSiderMenuProps, defaultRenderLogo, defaultRenderLogoAndTitle, defaultRenderCollapsedButton } from '../SiderMenu/SiderMenu';
+import {
+  SiderMenuProps,
+  PrivateSiderMenuProps,
+  defaultRenderLogo,
+  defaultRenderLogoAndTitle,
+  defaultRenderCollapsedButton,
+} from '../SiderMenu/SiderMenu';
 import { TopNavHeader } from '../TopNavHeader';
 import { clearMenuItem } from '../utils';
 import type { HeaderViewProps } from '../Header';
@@ -23,7 +29,7 @@ export interface GlobalHeaderProps extends Partial<PureSettings> {
   menuHeaderRender?: SiderMenuProps['menuHeaderRender'];
   collapsedButtonRender?: SiderMenuProps['collapsedButtonRender'];
   splitMenus?: boolean;
-};
+}
 
 const renderLogo = (
   menuHeaderRender: SiderMenuProps['menuHeaderRender'],
@@ -38,7 +44,10 @@ const renderLogo = (
   return logoDom;
 };
 
-export const GlobalHeader: FunctionalComponent<GlobalHeaderProps & PrivateSiderMenuProps> = (props, { slots }) => {
+export const GlobalHeader: FunctionalComponent<GlobalHeaderProps & PrivateSiderMenuProps> = (
+  props,
+  { slots },
+) => {
   const {
     isMobile,
     logo,
@@ -48,7 +57,7 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps & PrivateSiderM
     rightContentRender,
     menuHeaderRender,
     onMenuHeaderClick,
-    className: propClassName,
+    // className: propClassName,
     layout,
     headerTheme = 'dark',
     splitMenus,
@@ -62,10 +71,10 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps & PrivateSiderM
     return {
       [baseClassName.value]: true,
       [`${baseClassName.value}-layout-${layout}`]: layout && headerTheme === 'dark',
-    }
+    };
   });
   if (layout === 'mix' && !isMobile && splitMenus) {
-    const noChildrenMenuData = (menuData || []).map((item) => ({
+    const noChildrenMenuData = (menuData || []).map(item => ({
       ...item,
       children: undefined,
     }));
@@ -110,12 +119,11 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps & PrivateSiderM
         </>
       )}
       <div style={{ flex: 1 }}>{slots.default?.()}</div>
-      { rightContentRender && typeof rightContentRender === 'function'
+      {rightContentRender && typeof rightContentRender === 'function'
         ? rightContentRender(props)
-        : rightContentRender
-      }
+        : rightContentRender}
     </div>
   );
-}
+};
 
 export default GlobalHeader;

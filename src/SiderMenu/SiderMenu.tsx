@@ -1,4 +1,4 @@
-import { FunctionalComponent, computed, ref } from 'vue';
+import { FunctionalComponent, computed } from 'vue';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 import 'ant-design-vue/es/menu/style';
@@ -114,7 +114,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
       [`${baseClassName}-${navTheme}`]: true,
       [`${baseClassName}-${props.layout}`]: true,
       [`${baseClassName}-fixed`]: context.fixSiderbar,
-    }
+    };
   });
   // call menuHeaderRender
   const headerDom = defaultRenderLogoAndTitle(props);

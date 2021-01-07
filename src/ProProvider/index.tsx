@@ -65,7 +65,7 @@ const ProProvider = defineComponent({
   },
 });
 
-ProProvider.install = function(app: App) {
+ProProvider.install = function (app: App) {
   app.component(ProProvider.name, ProProvider);
 };
 

@@ -14,10 +14,18 @@ export interface BreadcrumbProps {
   routes?: Route[];
   params?: any;
   separator?: VNodeChild;
-  itemRender?: (route: Route, params: any, routes: Array<Route>, paths: Array<string>) => VNodeChild;
+  itemRender?: (
+    route: Route,
+    params: any,
+    routes: Array<Route>,
+    paths: Array<string>,
+  ) => VNodeChild;
 }
 
-export type BreadcrumbListReturn = Pick<BreadcrumbProps, Extract<keyof BreadcrumbProps, 'routes' | 'itemRender'>>;
+export type BreadcrumbListReturn = Pick<
+  BreadcrumbProps,
+  Extract<keyof BreadcrumbProps, 'routes' | 'itemRender'>
+>;
 
 export interface MenuState {
   selectedKeys: string[];
@@ -44,8 +52,6 @@ export interface RouteContextProps extends Partial<PureSettings>, MenuState {
 
 const routeContextInjectKey: InjectionKey<RouteContextProps> = Symbol();
 
-export const createRouteContext = () =>
-  createContext<RouteContextProps>(routeContextInjectKey);
+export const createRouteContext = () => createContext<RouteContextProps>(routeContextInjectKey);
 
-export const useRouteContext = () =>
-  useContext<RouteContextProps>(routeContextInjectKey);
+export const useRouteContext = () => useContext<RouteContextProps>(routeContextInjectKey);
