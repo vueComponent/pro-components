@@ -116,7 +116,7 @@ const renderSubMenu = (item: MenuDataItem, i18nRender: FormatMessage) => {
 };
 
 const renderMenu = (item: MenuDataItem, i18nRender: FormatMessage) => {
-  if (item && !item.hidden) {
+  if (item && !item.meta.hidden) {
     const hasChild = item.children && !item.meta?.hideChildInMenu;
     return hasChild ? renderSubMenu(item, i18nRender) : renderMenuItem(item, i18nRender);
   }
@@ -193,7 +193,7 @@ export default defineComponent({
       >
         {props.menuData &&
           props.menuData.map(menu => {
-            if (menu.hidden) {
+            if (menu.meta.hidden) {
               return null;
             }
             return renderMenu(menu, i18n.value);

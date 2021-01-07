@@ -1,4 +1,4 @@
-import { computed, FunctionalComponent, CSSProperties, VNodeChild } from 'vue';
+import { computed, FunctionalComponent, CSSProperties, VNodeChild, VNode } from 'vue';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 import { withInstall } from 'ant-design-vue/es/_util/type';
@@ -100,7 +100,7 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots, 
     props: BasicLayoutProps & {
       hasSiderMenu: boolean;
       customHeaderRender: VNodeChild | false;
-      rightContentRender: VNodeChild | false;
+      rightContentRender: VNodeChild | VNode | false;
     },
     matchMenuKeys: string[],
   ): RenderVNodeType => {
@@ -109,7 +109,7 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots, 
     }
     return <Header matchMenuKeys={matchMenuKeys} {...props} headerHeight={48} />;
   };
-  const rightContentRender = getComponentOrSlot(props, slots, 'rightContentRender');
+  const rightContentRender = getComponentOrSlot(props, slots, 'rightContentRender') as any;
   const customHeaderRender = getComponentOrSlot(props, slots, 'headerRender');
   const headerDom = headerRender(
     {
@@ -119,8 +119,8 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots, 
       isMobile,
       collapsed,
       onCollapse,
-      onSelect: handleSelect,
-      onOpenChange: handleOpenChange,
+      // onSelect: handleSelect,
+      // onOpenChange: handleOpenChange,
       customHeaderRender,
       rightContentRender,
       theme: (navTheme || 'dark').toLocaleLowerCase().includes('dark') ? 'dark' : 'light',

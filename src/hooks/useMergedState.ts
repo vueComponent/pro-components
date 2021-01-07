@@ -8,5 +8,5 @@ export default function useControlledState<T, R = T>(
   },
 ): [R, (value: T) => void] {
   const triggerChange = () => {};
-  return [option.value, triggerChange];
+  return [null, triggerChange];
 }
