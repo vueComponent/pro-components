@@ -4,8 +4,9 @@ import Layout from 'ant-design-vue/es/layout';
 
 import { GlobalHeader, GlobalHeaderProps } from './GlobalHeader';
 import { TopNavHeader } from './TopNavHeader';
+import { useRouteContext } from './RouteContext';
 import { RenderVNodeType, WithFalse } from './typings';
-import { clearMenuItem } from './utils';
+import { flatMap } from './utils';
 import './Header.less';
 
 const { Header } = Layout;
@@ -75,12 +76,13 @@ export const HeaderView = defineComponent({
       onCollapse,
     } = toRefs(props);
     console.log('HeaderView', props);
-    const isTop = computed(() => props.layout === 'top');
+    const context = useRouteContext();
+    const isTop = computed(() => props.layout === 'top' || props.layout === 'mix');
     const needFixedHeader = computed(() => fixedHeader.value || layout.value === 'mix');
     const needSettingWidth = computed(
       () => needFixedHeader.value && hasSiderMenu.value && !isTop.value && !isMobile.value,
     );
-    const clearMenuData = computed(() => clearMenuItem(props.menuData || []));
+    const clearMenuData = computed(() => (context.menuData && flatMap(context.menuData)) || []);
     const className = computed(() => {
       return {
         [`${prefixCls.value}-fixed-header`]: needFixedHeader.value,
@@ -93,6 +95,7 @@ export const HeaderView = defineComponent({
           {headerContentRender && headerContentRender.value && headerContentRender.value(props)}
         </GlobalHeader>
       );
+      console.log('renderContent', isTop.value, clearMenuData.value);
       if (isTop.value && !isMobile.value) {
         defaultDom = (
           <TopNavHeader

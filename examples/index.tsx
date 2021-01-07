@@ -17,13 +17,17 @@ const BasicLayout = defineComponent({
       openKeys: ['/dashboard'],
       setOpenKeys: (keys: string[]) => (state.openKeys = keys),
       selectedKeys: ['/welcome'],
-      setSelectedKeys: (keys: string[]) => (state.selectedKeys = keys),
+      setSelectedKeys: (keys: string[]) => {
+        console.log('keys', keys);
+        state.selectedKeys = keys;
+      },
 
       isMobile: false,
       fixSiderbar: false,
       fixedHeader: false,
       menuData: menus,
       sideWidth: 208,
+      splitMenus: true,
       hasSideMenu: true,
       hasHeader: true,
       hasFooterToolbar: false,
@@ -52,9 +56,8 @@ const BasicLayout = defineComponent({
       <RouteContextProvider value={state}>
         <ProLayout
           v-model={[state.collapsed, 'collapsed']}
-          title={'Pro Layout'}
-          layout={'side'}
-          navTheme={'dark'}
+          layout={'mix'}
+          navTheme={'light'}
           i18n={(key: string) => key}
           isMobile={state.isMobile}
           fixSiderbar={state.fixSiderbar}
@@ -63,6 +66,7 @@ const BasicLayout = defineComponent({
           primaryColor={'#1890ff'}
           contentStyle={{ minHeight: '300px' }}
           siderWidth={state.sideWidth}
+          splitMenus={state.splitMenus}
           v-slots={{
             rightContentRender: () => (
               <div style="color: #FFF;margin-right: 16px;">
@@ -72,7 +76,7 @@ const BasicLayout = defineComponent({
             menuHeaderRender: () => (
               <a>
                 <img src="https://gw.alipayobjects.com/zos/antfincdn/PmY%24TNNDBI/logo.svg" />
-                {state.collapsed ? null : <h1>Pro Layout</h1>}
+                {state.collapsed ? null : <h1>Pro Preview</h1>}
               </a>
             ),
           }}

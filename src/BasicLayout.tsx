@@ -111,6 +111,8 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots, 
   };
   const rightContentRender = getComponentOrSlot(props, slots, 'rightContentRender') as any;
   const customHeaderRender = getComponentOrSlot(props, slots, 'headerRender');
+  const menuHeaderRenderFunc = props['menuHeaderRender'];
+  const menuHeaderRenderSlot = slots['menuHeaderRender'];
   const headerDom = headerRender(
     {
       ...props,
@@ -123,6 +125,8 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots, 
       // onOpenChange: handleOpenChange,
       customHeaderRender,
       rightContentRender,
+      headerTitleRender:
+        menuHeaderRenderFunc || (menuHeaderRenderSlot && (() => menuHeaderRenderSlot())),
       theme: (navTheme || 'dark').toLocaleLowerCase().includes('dark') ? 'dark' : 'light',
     },
     matchMenuKeys,
@@ -131,8 +135,6 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots, 
   const footerRender = getComponentOrSlot(props, slots, 'footerRender');
   const menuRender = getComponentOrSlot(props, slots, 'menuRender');
   // const menuHeaderRender = getComponentOrSlot(props, slots, 'menuHeaderRender');
-  const menuHeaderRenderFunc = props['menuHeaderRender'];
-  const menuHeaderRenderSlot = slots['menuHeaderRender'];
 
   return (
     <ProProvider i18n={defaultI18nRender}>

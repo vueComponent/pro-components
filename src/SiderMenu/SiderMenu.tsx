@@ -8,8 +8,9 @@ import { WithFalse, RenderVNodeType } from '../typings';
 import { SiderProps } from './typings';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
 import { useProProvider } from '../ProProvider';
-import './index.less';
 import { useRouteContext } from '../RouteContext';
+import { getMenuFirstChildren } from '../utils';
+import './index.less';
 
 const { Sider } = Layout;
 
@@ -116,14 +117,21 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
       [`${baseClassName}-fixed`]: context.fixSiderbar,
     };
   });
+  const hasSide = computed(() => props.layout === 'mix' && context.splitMenus);
+  const flatMenuData = computed(
+    () => hasSide.value && getMenuFirstChildren(context.menuData, context.selectedKeys[0]),
+  );
   // call menuHeaderRender
   const headerDom = defaultRenderLogoAndTitle(props);
   const extraDom = menuExtraRender && menuExtraRender(props);
+  if (hasSide.value && flatMenuData.value.length === 0) {
+    return null;
+  }
   const defaultMenuDom = (
     <BaseMenu
       theme={navTheme === 'realDark' ? 'dark' : navTheme}
       mode="inline"
-      menuData={context.menuData}
+      menuData={hasSide.value ? flatMenuData.value : context.menuData}
       collapsed={props.collapsed}
       openKeys={context.openKeys}
       selectedKeys={context.selectedKeys}

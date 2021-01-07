@@ -41,12 +41,29 @@ export function clearMenuItem(menusData: MenuDataItem[]): MenuDataItem[] {
             children: clearMenuItem(finalItem.children),
           };
         }
-        // children 为空就直接删掉
         delete finalItem.children;
       }
+      console.log('finalItem', finalItem);
       return finalItem;
     })
     .filter(item => item) as MenuDataItem[];
+}
+
+export function flatMap(menusData: MenuDataItem[]): MenuDataItem[] {
+  return menusData
+    .map(item => {
+      const finalItem = { ...item };
+      if (!finalItem.name || finalItem.meta?.hideInMenu) {
+        return null;
+      }
+      delete finalItem.children;
+      return finalItem;
+    })
+    .filter(item => item);
+}
+
+export function getMenuFirstChildren(menus: MenuDataItem[], key: string) {
+  return (menus[menus.findIndex(menu => menu.path === key)] || {}).children;
 }
 
 export const PropRenderType = {

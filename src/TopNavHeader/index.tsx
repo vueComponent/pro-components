@@ -55,6 +55,7 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = props => {
     contentWidth,
     rightContentRender,
     layout,
+    menuData,
   } = props;
   const context = useRouteContext();
   const prefixCls = `${propPrefixCls || 'ant-pro'}-top-nav-header`;
@@ -83,16 +84,16 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = props => {
             theme={props.theme === 'realDark' ? 'dark' : props.theme}
             mode={props.mode}
             collapsed={props.collapsed}
-            menuData={context.menuData}
+            menuData={menuData}
             openKeys={context.openKeys}
             selectedKeys={context.selectedKeys}
             class={{ 'top-nav-menu': props.mode === 'horizontal' }}
             {...{
               'onUpdate:openKeys': ($event: string[]) => {
-                context.onOpenKeys($event);
+                context.setOpenKeys($event);
               },
               'onUpdate:selectedKeys': ($event: any) => {
-                context.onSelectedKeys($event);
+                context.setSelectedKeys($event);
               },
             }}
           />
