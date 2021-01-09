@@ -193,7 +193,7 @@ export default defineComponent({
       >
         {props.menuData &&
           props.menuData.map(menu => {
-            if (menu.meta.hidden) {
+            if (menu.meta?.hidden) {
               return null;
             }
             return renderMenu(menu, i18n.value);
