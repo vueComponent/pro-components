@@ -1,4 +1,4 @@
-@import "~ant-design-vue/es/style/themes/default.less";
+@import '~ant-design-vue/es/style/themes/default.less';
 @import '../BasicLayout.less';
 
 @pro-layout-sider-menu-prefix-cls: ~'@{ant-prefix}-pro-sider';
@@ -31,23 +31,23 @@
 
   .@{ant-prefix}-menu-inline-collapsed > .@{ant-prefix}-menu-item .anticon + span,
   .@{ant-prefix}-menu-inline-collapsed
-  > .@{ant-prefix}-menu-item-group
-  > .@{ant-prefix}-menu-item-group-list
-  > .@{ant-prefix}-menu-item
-  .anticon
-  + span,
+    > .@{ant-prefix}-menu-item-group
+    > .@{ant-prefix}-menu-item-group-list
+    > .@{ant-prefix}-menu-item
+    .anticon
+    + span,
   .@{ant-prefix}-menu-inline-collapsed
-  > .@{ant-prefix}-menu-item-group
-  > .@{ant-prefix}-menu-item-group-list
-  > .@{ant-prefix}-menu-submenu
-  > .@{ant-prefix}-menu-submenu-title
-  .anticon
-  + span,
+    > .@{ant-prefix}-menu-item-group
+    > .@{ant-prefix}-menu-item-group-list
+    > .@{ant-prefix}-menu-submenu
+    > .@{ant-prefix}-menu-submenu-title
+    .anticon
+    + span,
   .@{ant-prefix}-menu-inline-collapsed
-  > .@{ant-prefix}-menu-submenu
-  > .@{ant-prefix}-menu-submenu-title
-  .anticon
-  + span {
+    > .@{ant-prefix}-menu-submenu
+    > .@{ant-prefix}-menu-submenu-title
+    .anticon
+    + span {
     display: none;
   }
 
@@ -148,16 +148,16 @@
   .@{ant-prefix}-menu-inline-collapsed {
     & > .@{ant-prefix}-menu-item .sider-menu-item-img + span,
     &
-    > .@{ant-prefix}-menu-item-group
-    > .@{ant-prefix}-menu-item-group-list
-    > .@{ant-prefix}-menu-item
-    .sider-menu-item-img
-    + span,
+      > .@{ant-prefix}-menu-item-group
+      > .@{ant-prefix}-menu-item-group-list
+      > .@{ant-prefix}-menu-item
+      .sider-menu-item-img
+      + span,
     &
-    > .@{ant-prefix}-menu-submenu
-    > .@{ant-prefix}-menu-submenu-title
-    .sider-menu-item-img
-    + span {
+      > .@{ant-prefix}-menu-submenu
+      > .@{ant-prefix}-menu-submenu-title
+      .sider-menu-item-img
+      + span {
       display: inline-block;
       max-width: 0;
       opacity: 0;
@@ -208,7 +208,7 @@
   .@{ant-prefix}-menu-inline {
     .@{ant-prefix}-menu-item,
     .@{ant-prefix}-menu-submenu-title {
-      width: 100%;
+      // width: 100%;
     }
   }
 
@@ -260,6 +260,10 @@
     border-top: @border-width-base @border-style-base rgba(0, 0, 0, 0.25);
     .anticon {
       font-size: 16px;
+    }
+    > span::after {
+      content: '';
+      display: inline;
     }
   }
 

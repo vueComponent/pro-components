@@ -1,7 +1,7 @@
 import 'ant-design-vue/dist/antd.less';
 import { createApp, defineComponent, onMounted, watch, ref, reactive } from 'vue';
 import { RouterLink } from './mock-router';
-import { Button, Avatar, message } from 'ant-design-vue';
+import { Button, Avatar, Space, message } from 'ant-design-vue';
 import { default as ProLayout } from '../src/';
 import { menus } from './menus';
 import * as Icon from '@ant-design/icons-vue';
@@ -21,7 +21,7 @@ const BasicLayout = defineComponent({
         console.log('keys', keys);
         state.selectedKeys = keys;
       },
-
+      navTheme: 'dark',
       isMobile: false,
       fixSiderbar: false,
       fixedHeader: false,
@@ -57,7 +57,7 @@ const BasicLayout = defineComponent({
         <ProLayout
           v-model={[state.collapsed, 'collapsed']}
           layout={'mix'}
-          navTheme={'light'}
+          navTheme={state.navTheme}
           i18n={(key: string) => key}
           isMobile={state.isMobile}
           fixSiderbar={state.fixSiderbar}
@@ -69,7 +69,7 @@ const BasicLayout = defineComponent({
           splitMenus={state.splitMenus}
           v-slots={{
             rightContentRender: () => (
-              <div style="color: #FFF;margin-right: 16px;">
+              <div style="margin-right: 16px;">
                 <Avatar icon={<Icon.UserOutlined />} /> Sendya
               </div>
             ),
@@ -81,13 +81,24 @@ const BasicLayout = defineComponent({
             ),
           }}
         >
-          <Button
-            onClick={() => {
-              message.info('clicked.');
-            }}
-          >
-            Click Me!!
-          </Button>
+          <Space>
+            <Button
+              type="primary"
+              onClick={() => {
+                message.info('clicked.');
+              }}
+            >
+              Click Me!!
+            </Button>
+            <Button
+              onClick={() => {
+                state.navTheme = state.navTheme === 'light' ? 'dark' : 'light';
+              }}
+            >
+              Switch Theme
+            </Button>
+          </Space>
+
         </ProLayout>
       </RouteContextProvider>
     );
@@ -98,10 +109,7 @@ const SimpleDemo = {
   setup() {
     return () => (
       <div class="components">
-        <h2># BasicLayout</h2>
-        <div>
-          <BasicLayout />
-        </div>
+         <BasicLayout />
       </div>
     );
   },
@@ -116,4 +124,4 @@ Object.keys(Icon)
     app.component(Icon[k].displayName, Icon[k]);
   });
 
-app.use(RouterLink).use(ProLayout).mount('#__vue-content>div');
+app.use(RouterLink).use(ProLayout).mount('#app');
