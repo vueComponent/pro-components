@@ -117,9 +117,10 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
     };
   });
   const hasSide = computed(() => props.layout === 'mix' && context.splitMenus);
-  const flatMenuData = computed(
-    () => hasSide.value && getMenuFirstChildren(context.menuData, context.selectedKeys[0]),
-  );
+  const flatMenuData = computed(() => {
+    console.log('context.selectedKeys', context.selectedKeys);
+    return hasSide.value && getMenuFirstChildren(context.menuData, context.selectedKeys[0]);
+  });
   // call menuHeaderRender
   const headerDom = defaultRenderLogoAndTitle(props);
   const extraDom = menuExtraRender && menuExtraRender(props);

@@ -8,22 +8,22 @@ export const menus: RouteProps[] = [
   },
   {
     path: '/dashboard',
-    name: 'Dashboard',
+    name: 'dashboard',
     meta: { icon: 'dashboard-outlined', title: 'Dashboard' },
     children: [
       {
         path: '/dashboard/analysis',
-        name: 'Analysis',
+        name: 'analysis',
         meta: { icon: 'SmileOutlined', title: 'Analysis' },
       },
       {
         path: '/dashboard/monitor',
-        name: 'Monitor',
+        name: 'monitor',
         meta: { icon: 'SmileOutlined', title: 'Monitor' },
       },
       {
         path: '/dashboard/workplace',
-        name: 'Workplace',
+        name: 'workplace',
         meta: { icon: 'SmileOutlined', title: 'Workplace' },
       },
     ],
@@ -50,4 +50,4 @@ export const menus: RouteProps[] = [
       },
     ],
   },
-]
+];
