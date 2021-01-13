@@ -171,6 +171,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
         collapsed={collapsed}
         collapsible={false}
         collapsedWidth={collapsedWidth}
+        onCollapse={onCollapse}
       >
         <div class={`${baseClassName}-logo`}>{headerDom}</div>
         {extraDom && (
