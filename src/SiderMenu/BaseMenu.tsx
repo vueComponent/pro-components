@@ -18,6 +18,7 @@ import { MenuMode, SelectInfo, OpenEventHandler } from './typings';
 import { MenuDataItem, MenuTheme, FormatMessage, WithFalse } from '../typings';
 import { PrivateSiderMenuProps } from './SiderMenu';
 import './index.less';
+import { useProProvider } from '../ProProvider';
 
 export { MenuMode, SelectInfo, OpenEventHandler };
 
@@ -70,11 +71,15 @@ export const VueBaseMenuProps = {
 
 const httpReg = /(http|https|ftp):\/\/([\w.]+\/?)\S*/;
 
-const renderTitle = (title: string | undefined, i18nRender: FormatMessage) => {
-  return <span>{(i18nRender && title && i18nRender(title)) || title}</span>;
+const renderTitle = (title: string | undefined, i18nRender: FormatMessage, prefixCls: string) => {
+  return (
+    <span class={`${prefixCls}-item-title`}>
+      {(i18nRender && title && i18nRender(title)) || title}
+    </span>
+  );
 };
 
-const renderMenuItem = (item: MenuDataItem, i18nRender: FormatMessage) => {
+const renderMenuItem = (item: MenuDataItem, i18nRender: FormatMessage, prefixCls: string) => {
   const meta = Object.assign({}, item.meta);
   const target = meta.target || null;
   const hasRemoteUrl = httpReg.test(item.path);
@@ -94,31 +99,34 @@ const renderMenuItem = (item: MenuDataItem, i18nRender: FormatMessage) => {
     <Menu.Item key={item.path}>
       <CustomTag {...attrs} {...props}>
         <LazyIcon icon={meta.icon} />
-        {renderTitle(meta.title, i18nRender)}
+        {renderTitle(meta.title, i18nRender, prefixCls)}
       </CustomTag>
     </Menu.Item>
   );
 };
 
-const renderSubMenu = (item: MenuDataItem, i18nRender: FormatMessage) => {
+const renderSubMenu = (item: MenuDataItem, i18nRender: FormatMessage, prefixCls: string) => {
   const renderMenuContent = (
     <span>
       <LazyIcon icon={item.meta?.icon} />
-      <span>{renderTitle(item.meta?.title, i18nRender)}</span>
+      <span>{renderTitle(item.meta?.title, i18nRender, prefixCls)}</span>
     </span>
   ) as string & VNode;
   return (
     <Menu.SubMenu key={item.path} title={renderMenuContent}>
       {/* eslint-disable-next-line @typescript-eslint/no-use-before-define */}
-      {!item.meta?.hideChildInMenu && item.children.map(cd => renderMenu(cd, i18nRender))}
+      {!item.meta?.hideChildInMenu &&
+        item.children.map(cd => renderMenu(cd, i18nRender, prefixCls))}
     </Menu.SubMenu>
   );
 };
 
-const renderMenu = (item: MenuDataItem, i18nRender: FormatMessage) => {
+const renderMenu = (item: MenuDataItem, i18nRender: FormatMessage, prefixCls: string) => {
   if (item && !item.meta.hidden) {
     const hasChild = item.children && !item.meta?.hideChildInMenu;
-    return hasChild ? renderSubMenu(item, i18nRender) : renderMenuItem(item, i18nRender);
+    return hasChild
+      ? renderSubMenu(item, i18nRender, prefixCls)
+      : renderMenuItem(item, i18nRender, prefixCls);
   }
   return null;
 };
@@ -165,6 +173,8 @@ export default defineComponent({
   ),
   emits: ['update:openKeys', 'update:selectedKeys'],
   setup(props, { emit }) {
+    const { getPrefixCls } = useProProvider();
+    const baseClassName = getPrefixCls('menu');
     const { mode, i18n } = toRefs(props);
     const isInline = computed(() => mode.value === 'inline');
     const handleOpenChange: OpenEventHandler = (openKeys: string[]): void => {
@@ -179,6 +189,7 @@ export default defineComponent({
     }): void => {
       emit('update:selectedKeys', params.selectedKeys);
     };
+
     return () => (
       <Menu
         key="Menu"
@@ -196,7 +207,7 @@ export default defineComponent({
             if (menu.meta.hidden) {
               return null;
             }
-            return renderMenu(menu, i18n.value);
+            return renderMenu(menu, i18n.value, baseClassName);
           })}
       </Menu>
     );
