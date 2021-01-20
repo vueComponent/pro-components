@@ -32,7 +32,7 @@ const renderContent = (h, props) => {
   const maxWidth = 1200 - 280 - 120
   const contentWidth = props.contentWidth === 'Fixed'
   const baseCls = 'ant-pro-top-nav-header'
-  const { logo, title, theme, isMobile, headerRender, rightContentRender, menuHeaderRender } = props
+  const { logo, title, theme, isMobile, headerRender, rightContentRender, menuRender, menuHeaderRender } = props
   const rightContentProps = { theme, isTop, isMobile }
   let defaultDom = <GlobalHeader {...{ props: props }} />
   if (isTop && !isMobile) {
@@ -47,7 +47,7 @@ const renderContent = (h, props) => {
             </div>
           )}
           <div class={`${baseCls}-menu`} style={{ maxWidth: `${maxWidth}px`, flex: 1 }}>
-            <BaseMenu {...{ props: props }} />
+            {menuRender && (isFun(menuRender) && menuRender(h, props) || menuRender) || (<BaseMenu {...{ props: props }} />) }
           </div>
           {isFun(rightContentRender) && rightContentRender(h, rightContentProps) || rightContentRender}
         </div>
