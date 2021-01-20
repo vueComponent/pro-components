@@ -1,7 +1,14 @@
 import { defineComponent } from 'vue';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   setup() {
-    return () => <div>Page1</div>;
+    const route = useRoute();
+    return () => (
+      <div>
+        <h1>Page: {route.meta.title}</h1>
+        <pre>{JSON.stringify(route.meta, null, 4)}</pre>
+      </div>
+    );
   },
 });

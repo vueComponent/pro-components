@@ -1,11 +1,12 @@
 import 'ant-design-vue/dist/antd.less';
-import { createApp, defineComponent, onMounted, watch, ref, reactive } from 'vue';
-import { createRouter, createWebHashHistory } from 'vue-router';
-import { Button, Avatar, Space, message } from 'ant-design-vue';
+import { createApp, defineComponent, watch, ref } from 'vue';
+import { createRouter, createWebHashHistory, useRoute } from 'vue-router';
+import { Avatar } from 'ant-design-vue';
 import { UserOutlined } from '@ant-design/icons-vue';
 import { default as ProLayout } from '../src/';
-import { createRouteContext, RouteContextProps } from '../src/RouteContext';
-import { menus } from './menus';
+import { createRouteContext } from '../src/RouteContext';
+import { globalState as state } from './state';
+
 import registerIcons from './_util/icons';
 
 // demo pages
@@ -17,28 +18,7 @@ const BasicLayout = defineComponent({
   name: 'BasicLayout',
   inheritAttrs: false,
   setup() {
-    const state = reactive<RouteContextProps>({
-      collapsed: false,
-
-      openKeys: ['/dashboard'],
-      setOpenKeys: (keys: string[]) => (state.openKeys = keys),
-      selectedKeys: ['/welcome'],
-      setSelectedKeys: (keys: string[]) => {
-        console.log('keys', keys);
-        state.selectedKeys = keys;
-      },
-      navTheme: 'dark',
-      isMobile: false,
-      fixSiderbar: false,
-      fixedHeader: false,
-      menuData: menus,
-      sideWidth: 208,
-      splitMenus: true,
-      hasSideMenu: true,
-      hasHeader: true,
-      hasFooterToolbar: false,
-      setHasFooterToolbar: (has: boolean) => (state.hasFooterToolbar = has),
-    });
+    const route = useRoute();
     const [RouteContextProvider] = createRouteContext();
 
     const cacheOpenKeys = ref<string[]>([]);
@@ -61,8 +41,7 @@ const BasicLayout = defineComponent({
     return () => (
       <RouteContextProvider value={state}>
         <ProLayout
-          v-model={[state.collapsed, 'collapsed']}
-          layout={'mix'}
+          layout={state.layout}
           navTheme={state.navTheme}
           i18n={(key: string) => key}
           isMobile={state.isMobile}
@@ -73,16 +52,28 @@ const BasicLayout = defineComponent({
           contentStyle={{ minHeight: '300px' }}
           siderWidth={state.sideWidth}
           splitMenus={state.splitMenus}
+          collapsed={state.collapsed}
+          openKeys={state.openKeys}
+          selectedKeys={state.selectedKeys}
+          {...{
+            'onUpdate:collapsed': $event => (state.collapsed = $event),
+            'onUpdate:openKeys': $event => (state.openKeys = $event),
+            'onUpdate:selectedKeys': () => {
+              const matched = route.matched.concat().map(item => item.path);
+              matched.shift();
+              state.selectedKeys = matched;
+            },
+          }}
           v-slots={{
             rightContentRender: () => (
-              <div style="margin-right: 16px;">
+              <div style={{ marginRight: '16px' }}>
                 <Avatar icon={<UserOutlined />} /> Sendya
               </div>
             ),
             menuHeaderRender: () => (
               <a>
                 <img src="https://gw.alipayobjects.com/zos/antfincdn/PmY%24TNNDBI/logo.svg" />
-                {state.collapsed ? null : <h1>Pro Preview</h1>}
+                {state.collapsed && state.layout !== 'mix' ? null : <h1>Pro Preview</h1>}
               </a>
             ),
           }}

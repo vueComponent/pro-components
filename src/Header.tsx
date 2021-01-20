@@ -75,7 +75,6 @@ export const HeaderView = defineComponent({
       navTheme,
       onCollapse,
     } = toRefs(props);
-    console.log('HeaderView', props);
     const context = useRouteContext();
     const isTop = computed(() => props.layout === 'top' || props.layout === 'mix');
     const needFixedHeader = computed(() => fixedHeader.value || layout.value === 'mix');
@@ -95,7 +94,6 @@ export const HeaderView = defineComponent({
           {headerContentRender && headerContentRender.value && headerContentRender.value(props)}
         </GlobalHeader>
       );
-      console.log('renderContent', isTop.value, clearMenuData.value);
       if (isTop.value && !isMobile.value) {
         defaultDom = (
           <TopNavHeader
@@ -127,7 +125,7 @@ export const HeaderView = defineComponent({
         {needFixedHeader.value && (
           <Header
             style={{
-              height: headerHeight.value,
+              height: `${headerHeight.value}px`,
               lineHeight: `${headerHeight.value}px`,
               background: 'transparent',
             }}

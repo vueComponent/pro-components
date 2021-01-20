@@ -1,4 +1,4 @@
-import { computed, FunctionalComponent, CSSProperties, VNodeChild, VNode } from 'vue';
+import { computed, FunctionalComponent, CSSProperties, VNodeChild, VNode, ComputedRef } from 'vue';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 import { withInstall } from 'ant-design-vue/es/_util/type';
@@ -73,11 +73,11 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots, 
   const handleCollapse = (collapsed: boolean) => {
     emit('update:collapsed', collapsed);
   };
-  const handleOpenChange = (openKeys: string[] | false): void => {
-    openKeys && emit('update:openKeys', openKeys);
+  const handleOpenKeys = (openKeys: string[] | false): void => {
+    openKeys && emit('update:open-keys', openKeys);
   };
   const handleSelect = (selectedKeys: string[] | false): void => {
-    selectedKeys && emit('update:selectedKeys', selectedKeys);
+    selectedKeys && emit('update:selected-keys', selectedKeys);
   };
   const baseClassName = computed(() => `${props.prefixCls}-basicLayout`);
   // gen className
@@ -116,13 +116,13 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots, 
   const headerDom = headerRender(
     {
       ...props,
-      hasSiderMenu: isTop.value,
+      hasSiderMenu: !isTop.value,
       menuData,
       isMobile,
       collapsed,
       onCollapse,
-      // onSelect: handleSelect,
-      // onOpenChange: handleOpenChange,
+      onSelect: handleSelect,
+      onOpenKeys: handleOpenKeys,
       customHeaderRender,
       rightContentRender,
       headerTitleRender:
@@ -150,9 +150,11 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots, 
                   menuHeaderRenderFunc || (menuHeaderRenderSlot && (() => menuHeaderRenderSlot()))
                 }
                 onCollapse={handleCollapse}
+                onSelect={handleSelect}
+                onOpenKeys={handleOpenKeys}
               />
             )}
-            <Layout>
+            <Layout style={contentStyle}>
               {headerDom}
               <WrapContent style={props.contentStyle}>{slots.default?.()}</WrapContent>
               {footerRender !== false && footerRender && footerRender}
@@ -166,7 +168,7 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots, 
 
 ProLayout.inheritAttrs = false;
 ProLayout.displayName = 'ProLayout';
-ProLayout.emits = ['update:collapsed', 'update:openKeys', 'update:selectedKeys'];
+ProLayout.emits = ['update:collapsed', 'update:open-keys', 'update:selected-keys'];
 ProLayout.props = {
   prefixCls: PropTypes.string.def('ant-pro'),
   title: PropTypes.VNodeChild.def('Ant Design Pro'),

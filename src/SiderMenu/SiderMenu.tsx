@@ -11,6 +11,7 @@ import { useProProvider } from '../ProProvider';
 import { useRouteContext } from '../RouteContext';
 import { getMenuFirstChildren } from '../utils';
 import './index.less';
+import { emit } from 'process';
 
 const { Sider } = Layout;
 
@@ -36,8 +37,8 @@ export interface SiderMenuProps
   onMenuHeaderClick?: (e: MouseEvent) => void;
   fixed?: boolean;
   hide?: boolean;
-  // onOpenChange?: (openKeys: WithFalse<string[]>) => void;
-  // onSelect?: (selectedKeys: WithFalse<string[]>) => void;
+  onOpenKeys?: (openKeys: WithFalse<string[]>) => void;
+  onSelect?: (selectedKeys: WithFalse<string[]>) => void;
 }
 
 export const defaultRenderLogo = (logo: RenderVNodeType): RenderVNodeType => {
@@ -86,10 +87,11 @@ export const defaultRenderCollapsedButton = (collapsed?: boolean): RenderVNodeTy
 
 const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) => {
   const {
-    // menuData,
     collapsed,
     siderWidth,
     onCollapse,
+    onOpenKeys,
+    onSelect,
     breakpoint,
     collapsedWidth = 48,
     menuExtraRender = false,
@@ -118,7 +120,6 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
   });
   const hasSide = computed(() => props.layout === 'mix' && context.splitMenus);
   const flatMenuData = computed(() => {
-    console.log('context.selectedKeys', context.selectedKeys);
     return hasSide.value && getMenuFirstChildren(context.menuData, context.selectedKeys[0]);
   });
   // call menuHeaderRender
@@ -140,12 +141,8 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
       }}
       class={`${baseClassName}-menu`}
       {...{
-        'onUpdate:openKeys': ($event: string[]) => {
-          context?.setOpenKeys($event);
-        },
-        'onUpdate:selectedKeys': ($event: string[]) => {
-          context?.setSelectedKeys($event);
-        },
+        'onUpdate:openKeys': ($event: string[]) => onOpenKeys && onOpenKeys($event),
+        'onUpdate:selectedKeys': ($event: string[]) => onSelect && onSelect($event),
       }}
     />
   );

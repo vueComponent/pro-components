@@ -29,6 +29,8 @@ export interface GlobalHeaderProps extends Partial<PureSettings> {
   menuHeaderRender?: SiderMenuProps['menuHeaderRender'];
   collapsedButtonRender?: SiderMenuProps['collapsedButtonRender'];
   splitMenus?: boolean;
+  onOpenKeys?: (openKeys: WithFalse<string[]>) => void;
+  onSelect?: (selectedKeys: WithFalse<string[]>) => void;
 }
 
 const renderLogo = (

@@ -40,7 +40,7 @@
     "@types/rimraf": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
-    "@vue/babel-plugin-jsx": "^1.0.0-rc.5",
+    "@vue/babel-plugin-jsx": "^1.0.2",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
@@ -66,7 +66,7 @@
     "ts-jest": "^26.4.4",
     "ts-node": "^9.1.1",
     "typescript": "~3.9.3",
-    "vue": "^3.0.0-0",
+    "vue": "^3.0.5",
     "vue-jest": "^5.0.0-alpha.3",
     "vue-router": "^4.0.3"
   },

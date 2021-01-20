@@ -52,6 +52,8 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = props => {
   const {
     prefixCls: propPrefixCls,
     onMenuHeaderClick,
+    onOpenKeys,
+    onSelect,
     contentWidth,
     rightContentRender,
     layout,
@@ -89,12 +91,8 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = props => {
             selectedKeys={context.selectedKeys}
             class={{ 'top-nav-menu': props.mode === 'horizontal' }}
             {...{
-              'onUpdate:openKeys': ($event: string[]) => {
-                context.setOpenKeys($event);
-              },
-              'onUpdate:selectedKeys': ($event: any) => {
-                context.setSelectedKeys($event);
-              },
+              'onUpdate:openKeys': ($event: string[]) => onOpenKeys && onOpenKeys($event),
+              'onUpdate:selectedKeys': ($event: string[]) => onSelect && onSelect($event),
             }}
           />
         </div>

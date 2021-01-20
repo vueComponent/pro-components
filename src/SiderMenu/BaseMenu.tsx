@@ -143,7 +143,7 @@ const LazyIcon = (props: any) => {
   if (isVNode(icon)) {
     return icon;
   }
-  const LazyIcon = resolveComponent(icon);
+  const LazyIcon = resolveComponent(icon) as any;
   return (typeof LazyIcon === 'function' && <LazyIcon />) || null;
 };
 
