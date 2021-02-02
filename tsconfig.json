@@ -7,6 +7,7 @@
     "moduleResolution": "node",
     "jsx": "preserve",
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "lib": [
       "DOM",
       "DOM.Iterable",

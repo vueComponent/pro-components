@@ -1,4 +1,4 @@
-import { computed, FunctionalComponent, CSSProperties, VNodeChild, VNode, ComputedRef } from 'vue';
+import { computed, FunctionalComponent, CSSProperties, VNodeChild, VNode } from 'vue';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 import { withInstall } from 'ant-design-vue/es/_util/type';
@@ -8,7 +8,6 @@ import { WrapContent } from './WrapContent';
 import { default as Header, HeaderViewProps } from './Header';
 import { RenderVNodeType, WithFalse } from './typings';
 import { getComponentOrSlot, PropRenderType, PropTypes } from './utils';
-import useMergedState from './hooks/useMergedState';
 import './BasicLayout.less';
 
 const defaultI18nRender = (key: string) => key;
@@ -50,27 +49,26 @@ export type BasicLayoutProps = SiderMenuWrapperProps &
     disableContentMargin?: boolean;
   };
 
-const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots, attrs }) => {
+const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }) => {
   const {
     onCollapse: propsOnCollapse,
     contentStyle,
     disableContentMargin,
-    siderWidth = 208,
-    menu,
     isChildrenLayout: propsIsChildrenLayout,
-    loading,
+    // loading,
     layout,
     matchMenuKeys,
     navTheme,
     menuData,
     isMobile,
-    defaultCollapsed,
+    // defaultCollapsed,
   } = props;
   const isTop = computed(() => layout === 'top');
-  const isSide = computed(() => layout === 'side');
-  const isMix = computed(() => layout === 'mix');
+  // const isSide = computed(() => layout === 'side');
+  // const isMix = computed(() => layout === 'mix');
 
   const handleCollapse = (collapsed: boolean) => {
+    propsOnCollapse && propsOnCollapse(collapsed);
     emit('update:collapsed', collapsed);
   };
   const handleOpenKeys = (openKeys: string[] | false): void => {
@@ -92,10 +90,10 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots, 
     };
   });
 
-  const [collapsed, onCollapse] = useMergedState<boolean>(defaultCollapsed || false, {
-    value: props.collapsed,
-    onChange: propsOnCollapse,
-  });
+  // const [collapsed, onCollapse] = useMergedState<boolean>(defaultCollapsed || false, {
+  //   value: props.collapsed,
+  //   onChange: propsOnCollapse,
+  // });
   const headerRender = (
     props: BasicLayoutProps & {
       hasSiderMenu: boolean;
@@ -119,8 +117,7 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots, 
       hasSiderMenu: !isTop.value,
       menuData,
       isMobile,
-      collapsed,
-      onCollapse,
+      onCollapse: handleCollapse,
       onSelect: handleSelect,
       onOpenKeys: handleOpenKeys,
       customHeaderRender,
@@ -133,7 +130,7 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots, 
   );
 
   const footerRender = getComponentOrSlot(props, slots, 'footerRender');
-  const menuRender = getComponentOrSlot(props, slots, 'menuRender');
+  // const menuRender = getComponentOrSlot(props, slots, 'menuRender');
   // const menuHeaderRender = getComponentOrSlot(props, slots, 'menuHeaderRender');
 
   return (
@@ -154,9 +151,14 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots, 
                 onOpenKeys={handleOpenKeys}
               />
             )}
-            <Layout style={contentStyle}>
+            <Layout>
               {headerDom}
-              <WrapContent style={props.contentStyle}>{slots.default?.()}</WrapContent>
+              <WrapContent
+                isChildrenLayout={propsIsChildrenLayout}
+                style={disableContentMargin ? null : contentStyle}
+              >
+                {slots.default?.()}
+              </WrapContent>
               {footerRender !== false && footerRender && footerRender}
             </Layout>
           </Layout>

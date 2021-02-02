@@ -11,7 +11,6 @@ import { useProProvider } from '../ProProvider';
 import { useRouteContext } from '../RouteContext';
 import { getMenuFirstChildren } from '../utils';
 import './index.less';
-import { emit } from 'process';
 
 const { Sider } = Layout;
 
