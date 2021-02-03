@@ -1,11 +1,11 @@
 import 'ant-design-vue/dist/antd.less';
 import { createApp, defineComponent, watch, ref } from 'vue';
-import { createRouter, createWebHashHistory, useRoute } from 'vue-router';
+import { createRouter, createWebHashHistory, useRoute, useRouter, RouteRecord } from 'vue-router';
 import { Avatar } from 'ant-design-vue';
 import { UserOutlined } from '@ant-design/icons-vue';
 import { default as ProLayout } from '../src/';
 import { createRouteContext } from '../src/RouteContext';
-import { globalState as state } from './state';
+import { globalState, globalState as state } from './state';
 
 import registerIcons from './_util/icons';
 
@@ -14,12 +14,21 @@ import Page1 from './demo/page1';
 import Welcome from './demo/welcome';
 import FormPage from './demo/form';
 
+const getMenuData = (routes: RouteRecord[]) => {
+  const childrenRoute = routes.find(route => route.path === '/');
+  return childrenRoute?.children || [];
+};
+
 const BasicLayout = defineComponent({
   name: 'BasicLayout',
   inheritAttrs: false,
   setup() {
+    const { getRoutes } = useRouter();
     const route = useRoute();
     const [RouteContextProvider] = createRouteContext();
+
+    const menuData = getMenuData(getRoutes());
+    globalState.menuData = menuData;
 
     const cacheOpenKeys = ref<string[]>([]);
     watch(
@@ -112,6 +121,7 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     meta: { title: 'dashboard' },
+    redirect: '/dashboard/analysis',
     component: RouteView,
     children: [
       {
@@ -138,6 +148,7 @@ const routes = [
     path: '/form',
     name: 'form',
     meta: { title: 'Form', icon: 'SmileOutlined' },
+    redirect: '/form/basic-form',
     component: RouteView,
     children: [
       {
@@ -168,6 +179,7 @@ const router = createRouter({
       path: '/',
       name: 'index',
       meta: { title: '' },
+      redirect: '/welcome',
       component: BasicLayout,
       children: routes,
     },

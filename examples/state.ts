@@ -1,5 +1,4 @@
 import { reactive } from 'vue';
-import { menus } from './menus';
 import { RouteContextProps } from '../src/RouteContext';
 
 export const globalState = reactive<RouteContextProps>({
@@ -12,10 +11,10 @@ export const globalState = reactive<RouteContextProps>({
   isMobile: false,
   fixSiderbar: false,
   fixedHeader: false,
-  menuData: menus,
+  menuData: [],
   sideWidth: 208,
-  splitMenus: true,
-  hasSideMenu: true,
+  splitMenus: false,
+  hasSideMenu: false,
   hasHeader: true,
   hasFooterToolbar: false,
   setHasFooterToolbar: (has: boolean) => (globalState.hasFooterToolbar = has),

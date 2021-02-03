@@ -43,7 +43,6 @@ export function clearMenuItem(menusData: MenuDataItem[]): MenuDataItem[] {
         }
         delete finalItem.children;
       }
-      console.log('finalItem', finalItem);
       return finalItem;
     })
     .filter(item => item) as MenuDataItem[];

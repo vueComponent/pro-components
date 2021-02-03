@@ -6,7 +6,7 @@ import { GlobalHeader, GlobalHeaderProps } from './GlobalHeader';
 import { TopNavHeader } from './TopNavHeader';
 import { useRouteContext } from './RouteContext';
 import { RenderVNodeType, WithFalse } from './typings';
-import { flatMap } from './utils';
+import { clearMenuItem, flatMap } from './utils';
 import './Header.less';
 
 const { Header } = Layout;
@@ -56,6 +56,7 @@ export const headerProps = [
   'navTheme',
   'onSelect',
   'onOpenChange',
+  'onOpenKeys',
 ];
 
 export const HeaderView = defineComponent({
@@ -76,12 +77,16 @@ export const HeaderView = defineComponent({
       onCollapse,
     } = toRefs(props);
     const context = useRouteContext();
-    const isTop = computed(() => props.layout === 'top' || props.layout === 'mix');
     const needFixedHeader = computed(() => fixedHeader.value || layout.value === 'mix');
+    const isTop = computed(() => layout.value === 'top');
     const needSettingWidth = computed(
       () => needFixedHeader.value && hasSiderMenu.value && !isTop.value && !isMobile.value,
     );
-    const clearMenuData = computed(() => (context.menuData && flatMap(context.menuData)) || []);
+    // cache menu
+    const clearMenuData = computed(
+      () => (context.menuData && clearMenuItem(context.menuData)) || [],
+    );
+
     const className = computed(() => {
       return {
         [`${prefixCls.value}-fixed-header`]: needFixedHeader.value,
@@ -120,32 +125,34 @@ export const HeaderView = defineComponent({
         : '100%';
     });
     const right = computed(() => (needFixedHeader.value ? 0 : undefined));
-    return () => (
-      <>
-        {needFixedHeader.value && (
+    return () => {
+      return (
+        <>
+          {needFixedHeader.value && (
+            <Header
+              style={{
+                height: `${headerHeight.value}px`,
+                lineHeight: `${headerHeight.value}px`,
+                background: 'transparent',
+              }}
+            />
+          )}
           <Header
             style={{
+              padding: 0,
               height: `${headerHeight.value}px`,
               lineHeight: `${headerHeight.value}px`,
-              background: 'transparent',
+              width: width.value,
+              zIndex: layout.value === 'mix' ? 100 : 19,
+              right: right.value,
             }}
-          />
-        )}
-        <Header
-          style={{
-            padding: 0,
-            height: `${headerHeight.value}px`,
-            lineHeight: `${headerHeight.value}px`,
-            width: width.value,
-            zIndex: layout.value === 'mix' ? 100 : 19,
-            right: right.value,
-          }}
-          class={className.value}
-        >
-          {renderContent()}
-        </Header>
-      </>
-    );
+            class={className.value}
+          >
+            {renderContent()}
+          </Header>
+        </>
+      );
+    };
   },
 });
 

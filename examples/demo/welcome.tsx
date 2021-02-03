@@ -42,13 +42,16 @@ export default defineComponent({
               state.fixSiderbar = !state.fixSiderbar;
             }}
           />
+          <Switch
+            checkedChildren="Split Menus"
+            unCheckedChildren="Un Split Menus"
+            checked={state.splitMenus}
+            onChange={() => {
+              state.splitMenus = !state.splitMenus;
+            }}
+          />
         </Space>
-        <p>
-          <p>block</p>
-          ...
-          <br />
-          long text..
-        </p>
+        <pre>{JSON.stringify(state, null, 2)}</pre>
         <p>
           <p>block</p>
           ...

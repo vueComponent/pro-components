@@ -71,6 +71,7 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = props => {
       light: props.theme === 'light',
     };
   });
+  console.log('onOpenKeys', onOpenKeys);
   return (
     <div class={className.value}>
       <div ref={headerRef} class={`${prefixCls}-main ${contentWidth === 'Fixed' ? 'wide' : ''}`}>

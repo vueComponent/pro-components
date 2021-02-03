@@ -72,7 +72,7 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }
     emit('update:collapsed', collapsed);
   };
   const handleOpenKeys = (openKeys: string[] | false): void => {
-    openKeys && emit('update:open-keys', openKeys);
+    emit('update:open-keys', openKeys);
   };
   const handleSelect = (selectedKeys: string[] | false): void => {
     selectedKeys && emit('update:selected-keys', selectedKeys);
@@ -239,6 +239,7 @@ ProLayout.props = {
   // settings
   /* 侧边菜单宽度 */
   siderWidth: PropTypes.number.def(208),
+  splitMenus: PropTypes.bool,
   /* 控制菜单的收起和展开 */
   collapsed: PropTypes.bool,
   /* 菜单的折叠收起事件 (collapsed: boolean) => void */
