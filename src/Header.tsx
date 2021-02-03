@@ -6,7 +6,7 @@ import { GlobalHeader, GlobalHeaderProps } from './GlobalHeader';
 import { TopNavHeader } from './TopNavHeader';
 import { useRouteContext } from './RouteContext';
 import { RenderVNodeType, WithFalse } from './typings';
-import { clearMenuItem, flatMap } from './utils';
+import { clearMenuItem } from './utils';
 import './Header.less';
 
 const { Header } = Layout;
