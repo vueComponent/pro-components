@@ -2246,6 +2246,13 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/cheerio@^0.22.10":
+  version "0.22.23"
+  resolved "https://registry.yarnpkg.com/@types/cheerio/-/cheerio-0.22.23.tgz#74bcfee9c5ee53f619711dca953a89fe5cfa4eb4"
+  integrity sha512-QfHLujVMlGqcS/ePSf3Oe5hK3H8wi/yN2JYuxSB1U10VvW1fO3K8C+mURQesFYS1Hn7lspOsTT75SKq/XtydQg==
+  dependencies:
+    "@types/node" "*"
+
 "@types/cheerio@^0.22.22":
   version "0.22.22"
   resolved "https://registry.npm.taobao.org/@types/cheerio/download/@types/cheerio-0.22.22.tgz#ae71cf4ca59b8bbaf34c99af7a5d6c8894988f5f"
@@ -2523,19 +2530,22 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@vue/server-test-utils@1.0.0-beta.16":
-  version "1.0.0-beta.16"
-  resolved "https://registry.npm.taobao.org/@vue/server-test-utils/download/@vue/server-test-utils-1.0.0-beta.16.tgz#6fee1d086171b5581321de54b21ed16ef464813f"
-  integrity sha1-b+4dCGFxtVgTId5Ush7RbvRkgT8=
+"@vue/server-test-utils@1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@vue/server-test-utils/-/server-test-utils-1.1.3.tgz#3e7e16384f1b9d7d2b62185fc066a1e39baefd90"
+  integrity sha512-xoSpgagYFOYy8pNTC21PjPgJ1G4+muy9v0X8mluqyhf6oVSPzfC5Uh++jyrIdcBe0d5pYFvuyui15CVF2zbCVQ==
   dependencies:
+    "@types/cheerio" "^0.22.10"
     cheerio "^1.0.0-rc.2"
 
-"@vue/test-utils@1.0.0-beta.16":
-  version "1.0.0-beta.16"
-  resolved "https://registry.npm.taobao.org/@vue/test-utils/download/@vue/test-utils-1.0.0-beta.16.tgz?cache=0&sync_timestamp=1605605323647&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40vue%2Ftest-utils%2Fdownload%2F%40vue%2Ftest-utils-1.0.0-beta.16.tgz#dcf7a30304391422e382b5f97db6eb9508112906"
-  integrity sha1-3PejAwQ5FCLjgrX5fbbrlQgRKQY=
+"@vue/test-utils@1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-1.1.3.tgz#747f5683d8d4633c85a385fe2e02c1bb35bec153"
+  integrity sha512-BAY1Cwe9JpkJseimC295EW3YlAmgIJI9OPkg2FSP62+PHZooB0B+wceDi9TYyU57oqzL0yLbcP73JKFpKiLc9A==
   dependencies:
-    lodash "^4.17.4"
+    dom-event-types "^1.0.0"
+    lodash "^4.17.15"
+    pretty "^2.0.0"
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
@@ -5925,6 +5935,11 @@ dom-converter@^0.2:
   integrity sha1-ZyGp2u4uKTaClVtq/kFncWJ7t2g=
   dependencies:
     utila "~0.4"
+
+dom-event-types@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/dom-event-types/-/dom-event-types-1.0.0.tgz#5830a0a29e1bf837fe50a70cd80a597232813cae"
+  integrity sha512-2G2Vwi2zXTHBGqXHsJ4+ak/iP0N8Ar+G8a7LiD2oup5o4sQWytwqqrZu/O6hIMV0KMID2PL69OhpshLO0n7UJQ==
 
 dom-helpers@^3.4.0:
   version "3.4.0"
@@ -13375,9 +13390,9 @@ pretty-hrtime@^1.0.0, pretty-hrtime@^1.0.3:
   resolved "https://registry.npm.taobao.org/pretty-hrtime/download/pretty-hrtime-1.0.3.tgz#b7e3ea42435a4c9b2759d99e0f201eb195802ee1"
   integrity sha1-t+PqQkNaTJsnWdmeDyAesZWALuE=
 
-pretty@2.0.0:
+pretty@2.0.0, pretty@^2.0.0:
   version "2.0.0"
-  resolved "https://registry.npm.taobao.org/pretty/download/pretty-2.0.0.tgz#adbc7960b7bbfe289a557dc5f737619a220d06a5"
+  resolved "https://registry.yarnpkg.com/pretty/-/pretty-2.0.0.tgz#adbc7960b7bbfe289a557dc5f737619a220d06a5"
   integrity sha1-rbx5YLe7/iiaVX3F9zdhmiINBqU=
   dependencies:
     condense-newlines "^0.2.1"
