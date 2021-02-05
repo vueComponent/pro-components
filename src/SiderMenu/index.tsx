@@ -4,11 +4,14 @@ import 'ant-design-vue/es/drawer/style';
 import Drawer from 'ant-design-vue/es/drawer';
 
 import SiderMenu, { SiderMenuProps, PrivateSiderMenuProps } from './SiderMenu';
+import { useRouteContext } from '../RouteContext';
 
 export type SiderMenuWrapperProps = SiderMenuProps & Partial<PrivateSiderMenuProps>;
 
 const SiderMenuWrapper: FunctionalComponent<SiderMenuWrapperProps> = props => {
-  return props.isMobile ? (
+  const routeContext = useRouteContext();
+  const { isMobile } = routeContext;
+  return isMobile ? (
     <Drawer>
       <SiderMenu {...props} />
     </Drawer>

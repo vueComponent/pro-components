@@ -9,6 +9,7 @@ import { default as Header, HeaderViewProps } from './Header';
 import { RenderVNodeType, WithFalse } from './typings';
 import { getComponentOrSlot, PropRenderType, PropTypes } from './utils';
 import './BasicLayout.less';
+import { useRouteContext } from './RouteContext';
 
 const defaultI18nRender = (key: string) => key;
 
@@ -60,9 +61,10 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }
     matchMenuKeys,
     navTheme,
     menuData,
-    isMobile,
     // defaultCollapsed,
   } = props;
+  const routeContext = useRouteContext();
+  const { isMobile } = routeContext;
   const isTop = computed(() => layout === 'top');
   // const isSide = computed(() => layout === 'side');
   // const isMix = computed(() => layout === 'mix');
