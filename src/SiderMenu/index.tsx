@@ -11,6 +11,7 @@ export type SiderMenuWrapperProps = SiderMenuProps & Partial<PrivateSiderMenuPro
 
 const SiderMenuWrapper: FunctionalComponent<SiderMenuWrapperProps> = props => {
   const routeContext = useRouteContext();
+
   const proProvider = useProProvider();
   const { isMobile, drawerSetting } = routeContext;
   const drawerProps: DrawerSetting = {
