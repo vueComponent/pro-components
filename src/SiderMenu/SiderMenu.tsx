@@ -92,7 +92,6 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
     onOpenKeys,
     onSelect,
     breakpoint,
-    collapsedWidth = 48,
     menuExtraRender = false,
     menuContentRender = false,
     menuFooterRender = false,
@@ -101,13 +100,11 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
   const { getPrefixCls } = useProProvider();
   const context = useRouteContext();
   const baseClassName = getPrefixCls('sider');
-
+  const collapsedWidth = context.collapsedWidth || 48;
   // const isMix = computed(() => props.layout === 'mix');
   // const fixed = computed(() => context.fixSiderbar);
   const runtimeTheme = computed(() => (props.layout === 'mix' && 'light') || props.navTheme);
-  const runtimeSideWidth = computed(() =>
-    props.collapsed ? props.collapsedWidth : props.siderWidth,
-  );
+  const runtimeSideWidth = computed(() => (props.collapsed ? collapsedWidth : siderWidth));
 
   const classNames = computed(() => {
     return {
@@ -177,29 +174,31 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
         <div style="flex: 1; overflow: hidden auto;">
           {(menuContentRender && menuContentRender(props, defaultMenuDom)) || defaultMenuDom}
         </div>
-        <div class={`${baseClassName}-links`}>
-          <Menu
-            class={`${baseClassName}-link-menu`}
-            inlineIndent={16}
-            theme={runtimeTheme.value as 'light' | 'dark'}
-            selectedKeys={[]}
-            openKeys={[]}
-            mode="inline"
-            onClick={() => {
-              if (onCollapse) {
-                onCollapse(!props.collapsed);
-              }
-            }}
-          >
-            <Menu.Item
-              key={'collapsed-button'}
-              class={`${baseClassName}-collapsed-button`}
-              title={null}
+        {!context.isMobile && (
+          <div class={`${baseClassName}-links`}>
+            <Menu
+              class={`${baseClassName}-link-menu`}
+              inlineIndent={16}
+              theme={runtimeTheme.value as 'light' | 'dark'}
+              selectedKeys={[]}
+              openKeys={[]}
+              mode="inline"
+              onClick={() => {
+                if (onCollapse) {
+                  onCollapse(!props.collapsed);
+                }
+              }}
             >
-              {collapsedButtonRender && collapsedButtonRender(collapsed)}
-            </Menu.Item>
-          </Menu>
-        </div>
+              <Menu.Item
+                key={'collapsed-button'}
+                class={`${baseClassName}-collapsed-button`}
+                title={null}
+              >
+                {collapsedButtonRender && collapsedButtonRender(collapsed)}
+              </Menu.Item>
+            </Menu>
+          </div>
+        )}
         {menuFooterRender && <div class={`${baseClassName}-footer`}>{menuFooterRender(props)}</div>}
       </Sider>
     </>
