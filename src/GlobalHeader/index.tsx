@@ -53,8 +53,6 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps & PrivateSiderM
 ) => {
   const {
     logo,
-    collapsed,
-    onCollapse,
     collapsedButtonRender = defaultRenderCollapsedButton,
     rightContentRender,
     menuHeaderRender,
@@ -67,7 +65,10 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps & PrivateSiderM
     prefixCls: customPrefixCls,
   } = props;
   const routeContext = useRouteContext();
-  const { isMobile } = routeContext;
+  const {
+    isMobile,
+    drawerSetting: { onVisible, visible },
+  } = routeContext;
   const { getPrefixCls } = useProProvider();
   const prefixCls = customPrefixCls || getPrefixCls();
   const baseClassName = computed(() => `${prefixCls}-global-header`);
@@ -107,12 +108,12 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps & PrivateSiderM
         <span
           class={`${baseClassName.value}-collapsed-button`}
           onClick={() => {
-            if (onCollapse) {
-              onCollapse(!collapsed);
+            if (onVisible) {
+              onVisible(!visible);
             }
           }}
         >
-          {collapsedButtonRender(collapsed)}
+          {collapsedButtonRender(!visible)}
         </span>
       )}
       {layout === 'mix' && !isMobile && (

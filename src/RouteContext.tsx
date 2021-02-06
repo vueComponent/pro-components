@@ -34,6 +34,13 @@ export interface MenuState {
   setOpenKeys?: (key: string[]) => void;
 }
 
+export interface DrawerSetting {
+  visible?: boolean;
+  placement?: 'left' | 'right';
+  closable?: boolean;
+  width?: number | string;
+  onVisible?: (visible: boolean) => void;
+}
 export interface RouteContextProps extends Partial<PureSettings>, MenuState {
   breadcrumb?: BreadcrumbListReturn;
   menuData?: MenuDataItem[];
@@ -47,6 +54,10 @@ export interface RouteContextProps extends Partial<PureSettings>, MenuState {
   hasFooter?: boolean;
   setHasFooterToolbar?: (bool: boolean) => void;
   collapsedWidth?: number;
+  /**
+   * 移动端模式下,菜单抽屉相关设置
+   */
+  drawerSetting?: DrawerSetting;
   /* 附加属性 */
   [key: string]: any;
 }
