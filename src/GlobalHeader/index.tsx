@@ -13,7 +13,6 @@ import { clearMenuItem } from '../utils';
 import type { HeaderViewProps } from '../Header';
 import './index.less';
 import { useProProvider } from '../ProProvider';
-import { useRouteContext } from '../RouteContext';
 
 export interface GlobalHeaderProps extends Partial<PureSettings> {
   collapsed?: boolean;
@@ -52,6 +51,7 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps & PrivateSiderM
   { slots },
 ) => {
   const {
+    isMobile,
     logo,
     collapsed,
     onCollapse,
@@ -66,8 +66,6 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps & PrivateSiderM
     menuData,
     prefixCls: customPrefixCls,
   } = props;
-  const routeContext = useRouteContext();
-  const { isMobile } = routeContext;
   const { getPrefixCls } = useProProvider();
   const prefixCls = customPrefixCls || getPrefixCls();
   const baseClassName = computed(() => `${prefixCls}-global-header`);

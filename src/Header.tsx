@@ -68,6 +68,7 @@ export const HeaderView = defineComponent({
       prefixCls,
       headerRender,
       headerContentRender,
+      isMobile,
       fixedHeader,
       hasSiderMenu,
       headerHeight,
@@ -76,11 +77,10 @@ export const HeaderView = defineComponent({
       onCollapse,
     } = toRefs(props);
     const context = useRouteContext();
-    const { isMobile } = context;
     const needFixedHeader = computed(() => fixedHeader.value || layout.value === 'mix');
     const isTop = computed(() => layout.value === 'top');
     const needSettingWidth = computed(
-      () => needFixedHeader.value && hasSiderMenu.value && !isTop.value && !isMobile,
+      () => needFixedHeader.value && hasSiderMenu.value && !isTop.value && !isMobile.value,
     );
     // cache menu
     const clearMenuData = computed(
@@ -99,7 +99,7 @@ export const HeaderView = defineComponent({
           {headerContentRender && headerContentRender.value && headerContentRender.value(props)}
         </GlobalHeader>
       );
-      if (isTop.value && !isMobile) {
+      if (isTop.value && !isMobile.value) {
         defaultDom = (
           <TopNavHeader
             theme={navTheme.value as 'light' | 'dark'}
