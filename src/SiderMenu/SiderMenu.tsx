@@ -109,6 +109,8 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
     props.collapsed ? props.collapsedWidth : props.siderWidth,
   );
 
+  console.log('runtimeSideWidth', runtimeSideWidth);
+
   const classNames = computed(() => {
     return {
       [baseClassName]: true,

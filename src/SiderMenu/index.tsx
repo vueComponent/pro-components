@@ -9,8 +9,23 @@ export type SiderMenuWrapperProps = SiderMenuProps & Partial<PrivateSiderMenuPro
 
 const SiderMenuWrapper: FunctionalComponent<SiderMenuWrapperProps> = props => {
   return props.isMobile ? (
-    <Drawer>
-      <SiderMenu {...props} />
+    <Drawer
+      visible={!props.collapsed}
+      closable={false}
+      placement={'left'}
+      style={{
+        padding: 0,
+        height: '100vh',
+      }}
+      onClose={() => props.onCollapse(true)}
+      width={props.siderWidth}
+      bodyStyle={{ height: '100vh', padding: 0, display: 'flex', flexDirection: 'row' }}
+    >
+      <SiderMenu
+        {...props}
+        collapsed={props.isMobile ? false : props.collapsed}
+        splitMenus={false}
+       />
     </Drawer>
   ) : (
     <SiderMenu {...props} />

@@ -1,4 +1,4 @@
-import { computed, FunctionalComponent, CSSProperties, VNodeChild, VNode } from 'vue';
+import { computed, FunctionalComponent, CSSProperties, VNodeChild, VNode, unref } from 'vue';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 import { withInstall } from 'ant-design-vue/es/_util/type';
@@ -8,9 +8,12 @@ import { WrapContent } from './WrapContent';
 import { default as Header, HeaderViewProps } from './Header';
 import { RenderVNodeType, WithFalse } from './typings';
 import { getComponentOrSlot, PropRenderType, PropTypes } from './utils';
+import useMediaQuery from './hooks/useMediaQuery';
 import './BasicLayout.less';
 
 const defaultI18nRender = (key: string) => key;
+
+
 
 export type BasicLayoutProps = SiderMenuWrapperProps &
   HeaderViewProps & {
@@ -60,7 +63,6 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }
     matchMenuKeys,
     navTheme,
     menuData,
-    isMobile,
     // defaultCollapsed,
   } = props;
   const isTop = computed(() => layout === 'top');
@@ -68,6 +70,7 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }
   // const isMix = computed(() => layout === 'mix');
 
   const handleCollapse = (collapsed: boolean) => {
+    console.log('handleCollapse', collapsed);
     propsOnCollapse && propsOnCollapse(collapsed);
     emit('update:collapsed', collapsed);
   };
@@ -77,6 +80,8 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }
   const handleSelect = (selectedKeys: string[] | false): void => {
     selectedKeys && emit('update:selected-keys', selectedKeys);
   };
+  const colSize = useMediaQuery();
+  const isMobile = computed(() => (colSize.value === 'sm' || colSize.value === 'xs') && !props.disableMobile);
   const baseClassName = computed(() => `${props.prefixCls}-basicLayout`);
   // gen className
   const className = computed(() => {
@@ -87,6 +92,7 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }
       [`${baseClassName.value}-is-children`]: props.isChildrenLayout,
       [`${baseClassName.value}-fix-siderbar`]: props.fixSiderbar,
       [`${baseClassName.value}-${props.layout}`]: props.layout,
+      [colSize.value]: colSize.value,
     };
   });
 
@@ -116,7 +122,7 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }
       ...props,
       hasSiderMenu: !isTop.value,
       menuData,
-      isMobile,
+      isMobile: unref(isMobile),
       onCollapse: handleCollapse,
       onSelect: handleSelect,
       onOpenKeys: handleOpenKeys,
@@ -143,6 +149,7 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }
             {!isTop.value && (
               <SiderMenuWrapper
                 {...props}
+                isMobile={isMobile.value}
                 menuHeaderRender={
                   menuHeaderRenderFunc || (menuHeaderRenderSlot && (() => menuHeaderRenderSlot()))
                 }
