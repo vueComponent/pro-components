@@ -46,7 +46,6 @@ export interface RouteContextProps extends Partial<PureSettings>, MenuState {
   hasFooterToolbar?: boolean;
   hasFooter?: boolean;
   setHasFooterToolbar?: (bool: boolean) => void;
-  collapsedWidth?: number;
   /* 附加属性 */
   [key: string]: any;
 }
