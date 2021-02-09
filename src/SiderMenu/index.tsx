@@ -25,7 +25,7 @@ const SiderMenuWrapper: FunctionalComponent<SiderMenuWrapperProps> = props => {
         {...props}
         collapsed={props.isMobile ? false : props.collapsed}
         splitMenus={false}
-       />
+      />
     </Drawer>
   ) : (
     <SiderMenu {...props} />

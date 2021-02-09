@@ -13,8 +13,6 @@ import './BasicLayout.less';
 
 const defaultI18nRender = (key: string) => key;
 
-
-
 export type BasicLayoutProps = SiderMenuWrapperProps &
   HeaderViewProps & {
     pure?: boolean;
@@ -84,7 +82,9 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }
     emit('update:selected-keys', selectedKeys);
   };
   const colSize = useMediaQuery();
-  const isMobile = computed(() => (colSize.value === 'sm' || colSize.value === 'xs') && !props.disableMobile);
+  const isMobile = computed(
+    () => (colSize.value === 'sm' || colSize.value === 'xs') && !props.disableMobile,
+  );
   const baseClassName = computed(() => `${props.prefixCls}-basicLayout`);
   // gen className
   const className = computed(() => {
