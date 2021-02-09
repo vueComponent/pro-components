@@ -9,6 +9,7 @@ import {
   isVNode,
   toRefs,
   toRaw,
+  unref,
 } from 'vue';
 import { createFromIconfontCN } from '@ant-design/icons-vue';
 import 'ant-design-vue/es/menu/style';
@@ -180,7 +181,7 @@ export default defineComponent({
     const { mode, i18n } = toRefs(props);
     const isInline = computed(() => mode.value === 'inline');
     const openKeysProps = computed(() =>
-      getOpenKeysProps(toRaw(props.openKeys), { layout: props.layout, collapsed: props.collapsed }),
+      getOpenKeysProps(props.openKeys, { layout: props.layout, collapsed: props.collapsed }),
     );
 
     const handleOpenChange: OpenEventHandler = (openKeys: string[]): void => {
@@ -202,7 +203,7 @@ export default defineComponent({
         inlineIndent={16}
         mode={props.mode}
         theme={props.theme as 'dark' | 'light'}
-        openKeys={openKeysProps.value}
+        openKeys={props.openKeys === false ? [] : props.openKeys}
         selectedKeys={props.selectedKeys || []}
         onOpenChange={handleOpenChange}
         onSelect={handleSelect}

@@ -32,7 +32,7 @@ const SiderMenuWrapper: FunctionalComponent<SiderMenuWrapperProps> = props => {
   );
 };
 
-SiderMenuWrapper.inheritAttrs = false;
+SiderMenuWrapper.inheritAttrs = true;
 SiderMenuWrapper.displayName = 'SiderMenuWrapper';
 
 export default SiderMenuWrapper;

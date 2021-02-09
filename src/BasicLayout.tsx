@@ -55,6 +55,8 @@ export type BasicLayoutProps = SiderMenuWrapperProps &
 const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }) => {
   const {
     onCollapse: propsOnCollapse,
+    onOpenKeys: propsOnOpenKeys,
+    onSelect: propsOnSelect,
     contentStyle,
     disableContentMargin,
     isChildrenLayout: propsIsChildrenLayout,
@@ -70,15 +72,16 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }
   // const isMix = computed(() => layout === 'mix');
 
   const handleCollapse = (collapsed: boolean) => {
-    console.log('handleCollapse', collapsed);
     propsOnCollapse && propsOnCollapse(collapsed);
     emit('update:collapsed', collapsed);
   };
   const handleOpenKeys = (openKeys: string[] | false): void => {
+    propsOnOpenKeys && propsOnOpenKeys(openKeys);
     emit('update:open-keys', openKeys);
   };
   const handleSelect = (selectedKeys: string[] | false): void => {
-    selectedKeys && emit('update:selected-keys', selectedKeys);
+    propsOnSelect && propsOnSelect(selectedKeys);
+    emit('update:selected-keys', selectedKeys);
   };
   const colSize = useMediaQuery();
   const isMobile = computed(() => (colSize.value === 'sm' || colSize.value === 'xs') && !props.disableMobile);
@@ -87,14 +90,23 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }
   const className = computed(() => {
     return {
       [baseClassName.value]: true,
-      [`screen-${props.colSize}`]: props.colSize,
+      [`screen-${colSize.value}`]: colSize.value,
       [`${baseClassName.value}-top-menu`]: props.layout === 'top',
       [`${baseClassName.value}-is-children`]: props.isChildrenLayout,
       [`${baseClassName.value}-fix-siderbar`]: props.fixSiderbar,
       [`${baseClassName.value}-${props.layout}`]: props.layout,
-      [colSize.value]: colSize.value,
     };
   });
+
+  // siderMenuDom 为空的时候，不需要 padding
+  const genLayoutStyle: CSSProperties = {
+    position: 'relative',
+  };
+
+  // if is some layout children, don't need min height
+  if (propsIsChildrenLayout || (contentStyle && contentStyle.minHeight)) {
+    genLayoutStyle.minHeight = 0;
+  }
 
   // const [collapsed, onCollapse] = useMergedState<boolean>(defaultCollapsed || false, {
   //   value: props.collapsed,
@@ -158,7 +170,7 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }
                 onOpenKeys={handleOpenKeys}
               />
             )}
-            <Layout>
+            <Layout style={genLayoutStyle}>
               {headerDom}
               <WrapContent
                 isChildrenLayout={propsIsChildrenLayout}
@@ -246,6 +258,9 @@ ProLayout.props = {
   // settings
   /* 侧边菜单宽度 */
   siderWidth: PropTypes.number.def(208),
+  /* 侧边栏收起宽度 */
+  collapsedWidth: PropTypes.number.def(48),
+  /* 是否分割菜单 (仅 mix 模式有效) */
   splitMenus: PropTypes.bool,
   /* 控制菜单的收起和展开 */
   collapsed: PropTypes.bool,

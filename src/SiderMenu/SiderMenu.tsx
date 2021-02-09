@@ -88,15 +88,16 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
   const {
     collapsed,
     siderWidth,
-    onCollapse,
-    onOpenKeys,
-    onSelect,
     breakpoint,
     collapsedWidth = 48,
     menuExtraRender = false,
     menuContentRender = false,
     menuFooterRender = false,
     collapsedButtonRender = defaultRenderCollapsedButton,
+
+    onCollapse,
+    onOpenKeys,
+    onSelect,
   } = props;
   const { getPrefixCls } = useProProvider();
   const context = useRouteContext();
@@ -108,9 +109,6 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
   const runtimeSideWidth = computed(() =>
     props.collapsed ? props.collapsedWidth : props.siderWidth,
   );
-
-  console.log('runtimeSideWidth', runtimeSideWidth);
-
   const classNames = computed(() => {
     return {
       [baseClassName]: true,
@@ -119,7 +117,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
       [`${baseClassName}-fixed`]: context.fixSiderbar,
     };
   });
-  const hasSide = computed(() => props.layout === 'mix' && context.splitMenus);
+  const hasSide = computed(() => props.layout === 'mix' && props.splitMenus);
   const flatMenuData = computed(() => {
     return hasSide.value && getMenuFirstChildren(context.menuData, context.selectedKeys[0]);
   });
