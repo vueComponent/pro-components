@@ -10,7 +10,7 @@ import './index.less';
 const App = defineComponent({
   name: 'App',
   setup: function() {
-    const [ routeContext, RouteContextProvider ] = createRouteContext({
+    const [ RouteContextProvider ] = createRouteContext({
       hasSideMenu: true,
       collapsed: true,
       isMobile: false,
@@ -38,7 +38,7 @@ const App = defineComponent({
     return () => (
       <div class="demo-page-box" style="padding: 20px; background: #ccc;">
         <ProProvider prefixCls={'ant-pro'} contentWidth={'Fixed'}>
-          <RouteContextProvider>
+          <RouteContextProvider value={{}}>
             <div style="background: #fff; height: 500px;">
               <PageContainer
                 title="Title"
