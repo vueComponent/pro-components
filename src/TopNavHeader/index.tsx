@@ -63,7 +63,9 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = props => {
   const prefixCls = `${propPrefixCls || 'ant-pro'}-top-nav-header`;
   const headerDom = defaultRenderLogoAndTitle(
     { ...props, collapsed: false },
-    layout === 'mix' ? 'headerTitleRender' : undefined,
+    // REMARK:: Any time render header title
+    // layout === 'mix' ? 'headerTitleRender' : undefined,
+    layout !== 'side' ? 'headerTitleRender' : undefined,
   );
   const className = computed(() => {
     return {
@@ -71,7 +73,6 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = props => {
       light: props.theme === 'light',
     };
   });
-  console.log('onOpenKeys', onOpenKeys);
   return (
     <div class={className.value}>
       <div ref={headerRef} class={`${prefixCls}-main ${contentWidth === 'Fixed' ? 'wide' : ''}`}>

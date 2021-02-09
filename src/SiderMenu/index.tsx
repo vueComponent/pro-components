@@ -25,14 +25,14 @@ const SiderMenuWrapper: FunctionalComponent<SiderMenuWrapperProps> = props => {
         {...props}
         collapsed={props.isMobile ? false : props.collapsed}
         splitMenus={false}
-       />
+      />
     </Drawer>
   ) : (
     <SiderMenu {...props} />
   );
 };
 
-SiderMenuWrapper.inheritAttrs = false;
+SiderMenuWrapper.inheritAttrs = true;
 SiderMenuWrapper.displayName = 'SiderMenuWrapper';
 
 export default SiderMenuWrapper;

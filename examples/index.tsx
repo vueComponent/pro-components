@@ -114,13 +114,13 @@ const routes = [
   {
     path: '/welcome',
     name: 'welcome',
-    meta: { title: 'Welcome' },
+    meta: { title: 'Welcome', icon: 'SmileOutlined' },
     component: Welcome,
   },
   {
     path: '/dashboard',
     name: 'dashboard',
-    meta: { title: 'dashboard' },
+    meta: { title: 'dashboard', icon: 'SmileOutlined' },
     redirect: '/dashboard/analysis',
     component: RouteView,
     children: [

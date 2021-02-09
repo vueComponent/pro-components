@@ -8,7 +8,6 @@ import {
   PropType,
   isVNode,
   toRefs,
-  toRaw,
 } from 'vue';
 import { createFromIconfontCN } from '@ant-design/icons-vue';
 import 'ant-design-vue/es/menu/style';
@@ -156,13 +155,6 @@ LazyIcon.icon = {
   type: [String, Function, Object] as PropType<string | Function | VNodeChild | JSX.Element>,
 };
 
-const getOpenKeysProps = (openKeys: string[] | false, { layout, collapsed }) => {
-  if (openKeys && !collapsed && ['side', 'mix'].includes(layout || 'mix')) {
-    return openKeys;
-  }
-  return [];
-};
-
 export default defineComponent({
   name: 'BaseMenu',
   props: Object.assign(
@@ -179,9 +171,6 @@ export default defineComponent({
   setup(props, { emit }) {
     const { mode, i18n } = toRefs(props);
     const isInline = computed(() => mode.value === 'inline');
-    const openKeysProps = computed(() =>
-      getOpenKeysProps(toRaw(props.openKeys), { layout: props.layout, collapsed: props.collapsed }),
-    );
 
     const handleOpenChange: OpenEventHandler = (openKeys: string[]): void => {
       emit('update:openKeys', openKeys);
@@ -202,7 +191,7 @@ export default defineComponent({
         inlineIndent={16}
         mode={props.mode}
         theme={props.theme as 'dark' | 'light'}
-        openKeys={openKeysProps.value}
+        openKeys={props.openKeys === false ? [] : props.openKeys}
         selectedKeys={props.selectedKeys || []}
         onOpenChange={handleOpenChange}
         onSelect={handleSelect}

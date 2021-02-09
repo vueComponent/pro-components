@@ -13,6 +13,7 @@ module.exports = {
         '@babel/plugin-syntax-dynamic-import',
         '@babel/plugin-transform-runtime',
         '@babel/plugin-transform-modules-commonjs',
+        // 'transform-es2015-modules-commonjs',
       ],
     },
   },
