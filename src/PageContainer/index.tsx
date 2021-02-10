@@ -203,7 +203,7 @@ export const PageContainer: FunctionalComponent<PageContainerProps> = (props, { 
   );
 
   return (
-    <div class={classNames}>
+    <div class={classNames.value}>
       {fixedHeader ? (
         <Affix
           offsetTop={value.hasHeader && value.fixedHeader ? value.headerHeight : 0}
