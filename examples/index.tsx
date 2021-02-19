@@ -63,14 +63,10 @@ const BasicLayout = defineComponent({
           splitMenus={state.splitMenus}
           collapsed={state.collapsed}
           openKeys={state.openKeys}
-          selectedKeys={state.selectedKeys}
           {...{
             'onUpdate:collapsed': $event => (state.collapsed = $event),
             'onUpdate:openKeys': $event => (state.openKeys = $event),
             'onUpdate:selectedKeys': () => {
-              const matched = route.matched.concat().map(item => item.path);
-              matched.shift();
-              state.selectedKeys = matched;
             },
           }}
           v-slots={{
