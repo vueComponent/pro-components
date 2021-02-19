@@ -9,6 +9,8 @@ import {
   isVNode,
   toRefs,
 } from 'vue';
+import { useRoute,onBeforeRouteUpdate } from 'vue-router'
+
 import { createFromIconfontCN } from '@ant-design/icons-vue';
 import 'ant-design-vue/es/menu/style';
 import Menu from 'ant-design-vue/es/menu';
@@ -171,7 +173,11 @@ export default defineComponent({
   setup(props, { emit }) {
     const { mode, i18n } = toRefs(props);
     const isInline = computed(() => mode.value === 'inline');
-
+    const route = useRoute();
+    let selectedKeys = props.selectedKeys || [route.path];
+    onBeforeRouteUpdate((to,from)=>{
+      selectedKeys = props.selectedKeys || [to.path];
+    });
     const handleOpenChange: OpenEventHandler = (openKeys: string[]): void => {
       emit('update:openKeys', openKeys);
     };
@@ -184,6 +190,7 @@ export default defineComponent({
     }): void => {
       emit('update:selectedKeys', params.selectedKeys);
     };
+
     return () => (
       <Menu
         key="Menu"
@@ -192,7 +199,7 @@ export default defineComponent({
         mode={props.mode}
         theme={props.theme as 'dark' | 'light'}
         openKeys={props.openKeys === false ? [] : props.openKeys}
-        selectedKeys={props.selectedKeys || []}
+        selectedKeys={selectedKeys}
         onOpenChange={handleOpenChange}
         onSelect={handleSelect}
       >

@@ -24,7 +24,8 @@
   },
   "peerDependencies": {
     "ant-design-vue": "^2.0.0",
-    "vue": ">=3.0.0"
+    "vue": ">=3.0.0",
+    "vue-router": "^4.0.0"
   },
   "devDependencies": {
     "@ant-design-vue/tools": "^3.0.4",

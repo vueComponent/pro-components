@@ -28,7 +28,7 @@ export type BreadcrumbListReturn = Pick<
 >;
 
 export interface MenuState {
-  selectedKeys: string[];
+  selectedKeys?: string[];
   openKeys: string[];
   setSelectedKeys?: (key: string[]) => void;
   setOpenKeys?: (key: string[]) => void;
