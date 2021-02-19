@@ -42,8 +42,12 @@ export interface BaseMenuProps extends Partial<PureSettings>, PrivateSiderMenuPr
 }
 
 // vue props
-export const VueBaseMenuProps = {
+export const baseMenuProps = {
   locale: Boolean,
+  i18n: {
+    type: Function as PropType<FormatMessage>,
+    default: (t: string): string => t,
+  },
   menuData: Array as PropType<MenuDataItem[]>,
   // top-nav-header: horizontal
   mode: {
@@ -131,8 +135,12 @@ const IconFont = createFromIconfontCN({
   scriptUrl: defaultSettings.iconfontUrl,
 });
 
-const LazyIcon = (props: any) => {
-  const { icon, prefixCls } = props;
+const LazyIcon = (props: {
+  icon: VNode | string;
+  iconPrefixes?: string;
+  prefixCls?: string;
+}) => {
+  const { icon, iconPrefixes = 'icon-', prefixCls = 'ant-pro' } = props;
   if (!icon) {
     return null;
   }
@@ -140,33 +148,105 @@ const LazyIcon = (props: any) => {
     if (isUrl(icon) || isImg(icon)) {
       return <img src={icon} alt="icon" class={`${prefixCls}-sider-menu-icon`} />;
     }
-    if (icon.startsWith('icon-')) {
+    if (icon.startsWith(iconPrefixes)) {
       return <IconFont type={icon} />;
     }
   }
   if (isVNode(icon)) {
     return icon;
   }
-  const LazyIcon = resolveComponent(icon) as any;
-  return (typeof LazyIcon === 'function' && <LazyIcon />) || null;
+  const DynamicIcon = resolveComponent(icon) as any;
+  return (typeof LazyIcon === 'function' && <DynamicIcon />) || null;
 };
 
-LazyIcon.icon = {
-  type: [String, Function, Object] as PropType<string | Function | VNodeChild | JSX.Element>,
+LazyIcon.props = {
+  icon: {
+    type: [String, Function, Object] as PropType<string | Function | VNode | JSX.Element>,
+  },
+  iconPrefixes: String,
+  prefixCls: String,
 };
+
+class MenuUtil {
+  props: BaseMenuProps;
+
+  constructor(props: BaseMenuProps) {
+    this.props = props;
+  }
+
+  getNavMenuItems = (menusData: MenuDataItem[] = [], isChildren: boolean) => {
+    return menusData.map(item => this.getSubMenuOrItem(item, isChildren)).filter(item => item);
+  }
+
+  getSubMenuOrItem = (item: MenuDataItem, isChildren: boolean) => {
+    if (Array.isArray(item.children)
+          && item.children.length > 0
+          && !item?.meta?.hideInMenu) {
+      const { prefixCls, i18n } = this.props;
+      const menuTitle = i18n && i18n(item.meta?.title) || item.meta?.title;
+      const defaultTitle = item?.meta.icon ? (
+        <span class={`${prefixCls}-menu-item`}>
+          {!isChildren && <LazyIcon icon={item.meta.icon} />}
+          <span class={`${prefixCls}-menu-item-title`}>{menuTitle}</span>
+        </span>
+      ) : (
+        <span class={`${prefixCls}-menu-item`}>{menuTitle}</span>
+      );
+      const MenuComponent = item.meta?.type === 'group' ? Menu.ItemGroup : Menu.SubMenu;
+      return (
+        <MenuComponent title={defaultTitle} key={item.path}>
+          {this.getNavMenuItems(item.children, true)}
+        </MenuComponent>
+      );
+    }
+
+    return (
+      <Menu.Item
+        inlineIndent={24}
+        disabled={item.meta?.disabled}
+        key={item.path}
+        // onClick={}
+      >
+        {this.getMenuItem(item, isChildren)}
+      </Menu.Item>
+    );
+  }
+
+  getMenuItem = (item: MenuDataItem, isChildren: boolean) => {
+    const meta = Object.assign({}, item.meta);
+    const target = meta.target || null;
+    const hasUrl = isUrl(item.path);
+    const CustomTag: any = resolveComponent((target && 'a') || 'router-link');
+    const props = { to: { name: item.name } };
+    const attrs = hasUrl || target ? { href: item.path, target: target } : {};
+
+    const { prefixCls, i18n } = this.props;
+    const menuTitle = i18n && i18n(item.meta?.title) || item.meta?.title;
+    const defaultTitle = item?.meta.icon ? (
+      <span class={`${prefixCls}-menu-item`}>
+        <CustomTag {...attrs} {...props}>
+          {!isChildren && <LazyIcon icon={item.meta.icon} />}
+          <span class={`${prefixCls}-menu-item-title`}>{menuTitle}</span>
+        </CustomTag>
+      </span>
+    ) : (
+      <span class={`${prefixCls}-menu-item`}>{menuTitle}</span>
+    );
+
+    return defaultTitle;
+  }
+
+  conversionPath = (path: string) => {
+    if (path && path.indexOf('http') === 0) {
+      return path;
+    }
+    return `/${path || ''}`.replace(/\/+/g, '/');
+  };
+}
 
 export default defineComponent({
   name: 'BaseMenu',
-  props: Object.assign(
-    {},
-    {
-      i18n: {
-        type: Function as PropType<FormatMessage>,
-        default: (t: string): string => t,
-      },
-    },
-    VueBaseMenuProps,
-  ),
+  props: baseMenuProps,
   emits: ['update:openKeys', 'update:selectedKeys'],
   setup(props, { emit }) {
     const { mode, i18n } = toRefs(props);
@@ -184,6 +264,8 @@ export default defineComponent({
     }): void => {
       emit('update:selectedKeys', params.selectedKeys);
     };
+    // TODO :: add `Menu` onClick custom handle.
+
     return () => (
       <Menu
         key="Menu"

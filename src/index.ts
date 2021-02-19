@@ -18,7 +18,7 @@ export {
   MenuMode,
   OpenEventHandler,
   SelectInfo,
-  VueBaseMenuProps,
+  baseMenuProps,
 } from './SiderMenu/BaseMenu';
 
 export { default } from './BasicLayout';

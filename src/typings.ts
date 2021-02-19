@@ -1,7 +1,7 @@
-import { VNodeChild } from 'vue';
+import { VNode } from 'vue';
 
 // define global types
-export type RenderVNodeType = VNodeChild | Element | JSX.Element;
+export type RenderVNodeType = VNode | Element | JSX.Element;
 
 export type MenuTheme = 'dark' | 'light';
 
@@ -15,7 +15,11 @@ export interface MetaRecord {
   /**
    * @name 菜单的icon
    */
-  icon?: string | VNodeChild | JSX.Element;
+  icon?: string | VNode;
+  /**
+   * @type 有 children 的菜单的组件类型 可选值 'group'
+   */
+  type?: string;
   /**
    * @name 自定义菜单的国际化 key，如果没有则返回自身
    */
