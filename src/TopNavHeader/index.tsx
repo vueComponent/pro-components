@@ -85,6 +85,7 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = props => {
         )}
         <div style={{ flex: 1 }} class={`${prefixCls}-menu`}>
           <BaseMenu
+            prefixCls={propPrefixCls}
             theme={props.theme === 'realDark' ? 'dark' : props.theme}
             mode={props.mode}
             collapsed={props.collapsed}

@@ -129,6 +129,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
   }
   const defaultMenuDom = (
     <BaseMenu
+      prefixCls={getPrefixCls()}
       theme={runtimeTheme.value === 'realDark' ? 'dark' : runtimeTheme.value}
       mode="inline"
       menuData={hasSide.value ? flatMenuData.value : context.menuData}
