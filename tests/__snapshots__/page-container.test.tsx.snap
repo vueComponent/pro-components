@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageContainer 🥩 base use 1`] = `
-<div class="_rawValue __v_isRef _value">
+<div class="ant-pro-page-container">
   <div class="ant-pro-page-container-warp">
     <div class="ant-page-header has-breadcrumb ant-page-header-ghost">
       <div class="ant-breadcrumb"><span><span class="ant-breadcrumb-link"><a href="#/index">First-level Menu</a></span><span class="ant-breadcrumb-separator">/</span></span><span><span class="ant-breadcrumb-link"><a href="#/index/first">Second-level Menu</a></span><span class="ant-breadcrumb-separator">/</span></span><span><span class="ant-breadcrumb-link"><span>Third-level Menu</span></span><span class="ant-breadcrumb-separator">/</span></span></div>
