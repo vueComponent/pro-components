@@ -3,6 +3,7 @@ test/
 examples/
 src/
 scripts/
+.idea/
 
 .eslintignore
 .eslintrc.js
