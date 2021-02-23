@@ -1,5 +1,5 @@
 import 'ant-design-vue/dist/antd.less';
-import { createApp, defineComponent, watch, ref } from 'vue';
+import { createApp, defineComponent, watch, ref, watchEffect, onMounted } from 'vue';
 import { createRouter, createWebHashHistory, useRoute, useRouter, RouteRecord } from 'vue-router';
 import { Avatar } from 'ant-design-vue';
 import { UserOutlined } from '@ant-design/icons-vue';
@@ -30,22 +30,36 @@ const BasicLayout = defineComponent({
     const menuData = getMenuData(getRoutes());
     globalState.menuData = menuData;
 
-    const cacheOpenKeys = ref<string[]>([]);
-    watch(
-      () => state.collapsed,
-      (collapsed: boolean) => {
-        console.log('post watch', collapsed, state.collapsed);
-        if (collapsed) {
-          cacheOpenKeys.value = state.openKeys;
-          state.openKeys = [];
-        } else {
-          state.openKeys = cacheOpenKeys.value;
-        }
-      },
-      {
-        flush: 'pre',
-      },
-    );
+    const updateSelectedMenu = () => {
+      const matched = route.matched.concat().map(item => item.path);
+      matched.shift();
+      state.selectedKeys = matched;
+    };
+
+    onMounted(() => {
+      // if sider collapsed, set openKeys is null.
+      const cacheOpenKeys = ref<string[]>([]);
+      watch(
+        () => state.collapsed,
+        (collapsed: boolean) => {
+          console.log('post watch', collapsed, state.collapsed);
+          if (collapsed) {
+            cacheOpenKeys.value = state.openKeys;
+            state.openKeys = [];
+          } else {
+            state.openKeys = cacheOpenKeys.value;
+          }
+        },
+        {
+          flush: 'pre',
+        },
+      );
+
+      // watch route
+      watchEffect(() => {
+        updateSelectedMenu();
+      });
+    });
 
     return () => (
       <RouteContextProvider value={state}>
@@ -67,11 +81,7 @@ const BasicLayout = defineComponent({
           {...{
             'onUpdate:collapsed': $event => (state.collapsed = $event),
             'onUpdate:openKeys': $event => (state.openKeys = $event),
-            'onUpdate:selectedKeys': () => {
-              const matched = route.matched.concat().map(item => item.path);
-              matched.shift();
-              state.selectedKeys = matched;
-            },
+            'onUpdate:selectedKeys': updateSelectedMenu,
           }}
           v-slots={{
             rightContentRender: () => (

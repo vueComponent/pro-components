@@ -167,12 +167,12 @@ class MenuUtil {
     const { prefixCls, i18n } = this.props;
     const menuTitle = (i18n && i18n(item.meta?.title)) || item.meta?.title;
     const defaultTitle = item?.meta.icon ? (
-      <span class={`${prefixCls}-menu-item`}>
-        <CustomTag {...attrs} {...props}>
+      <CustomTag {...attrs} {...props}>
+        <span class={`${prefixCls}-menu-item`}>
           {!isChildren && <LazyIcon icon={item.meta.icon} />}
           <span class={`${prefixCls}-menu-item-title`}>{menuTitle}</span>
-        </CustomTag>
-      </span>
+        </span>
+      </CustomTag>
     ) : (
       <span class={`${prefixCls}-menu-item`}>{menuTitle}</span>
     );
