@@ -7,6 +7,7 @@ on:
   push:
     branches:
     - master
+    - next
     - feature/*
     - release/*
 
@@ -18,5 +19,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: yarn && yarn lint && yarn compile
-
+      - run: |
+          yarn
+          yarn compile
+          yarn test
