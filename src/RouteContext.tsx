@@ -2,7 +2,6 @@ import { InjectionKey, VNodeChild } from 'vue';
 import { createContext, useContext } from './hooks/context';
 import { MenuDataItem } from './typings';
 import { PureSettings } from './defaultSettings';
-
 export interface Route {
   path: string;
   breadcrumbName: string;
@@ -14,12 +13,12 @@ export interface BreadcrumbProps {
   routes?: Route[];
   params?: any;
   separator?: VNodeChild;
-  itemRender?: (
-    route: Route,
-    params: any,
-    routes: Array<Route>,
-    paths: Array<string>,
-  ) => VNodeChild;
+  itemRender?: (opts: {
+    route: Route;
+    params: any;
+    routes: Array<Route>;
+    paths: Array<string>;
+  }) => VNodeChild;
 }
 
 export type BreadcrumbListReturn = Pick<
