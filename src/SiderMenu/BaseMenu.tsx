@@ -174,7 +174,9 @@ class MenuUtil {
         </span>
       </CustomTag>
     ) : (
-      <span class={`${prefixCls}-menu-item`}>{menuTitle}</span>
+      <CustomTag {...attrs} {...props}>
+        <span class={`${prefixCls}-menu-item`}>{menuTitle}</span>
+      </CustomTag>
     );
 
     return defaultTitle;

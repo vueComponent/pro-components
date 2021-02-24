@@ -13,6 +13,7 @@ import registerIcons from './_util/icons';
 import Page1 from './demo/page1';
 import Welcome from './demo/welcome';
 import FormPage from './demo/form';
+import ChildPage from './demo/child/child-page';
 
 const getMenuData = (routes: RouteRecord[]) => {
   const childrenRoute = routes.find(route => route.path === '/');
@@ -178,6 +179,27 @@ const routes = [
         name: 'advance-form',
         meta: { icon: 'SmileOutlined', title: 'Advanced Form' },
         component: FormPage,
+      },
+      {
+        path: '/form/child',
+        name: 'child-form',
+        meta: { icon: 'SmileOutlined', hideInMenu: true, title: 'Child Form' },
+        redirect: '/form/child/page1',
+        component: ChildPage,
+        children: [
+          {
+            path: '/form/child/page1',
+            name: 'child-page1-form',
+            meta: { title: 'Page1 Child' },
+            component: FormPage,
+          },
+          {
+            path: '/form/child/page2',
+            name: 'child-page2-form',
+            meta: { title: 'Page2 Child' },
+            component: FormPage,
+          },
+        ],
       },
     ],
   },
