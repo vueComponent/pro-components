@@ -6,11 +6,11 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/ant-design/pro-layout"
+    "url": "https://github.com/vueComponent/pro-layout"
   },
   "contributors": [
     "tangjinzhou <415800467@qq.com>",
-    "Sendya <yladmxa@gmail.com>"
+    "Sendya <18x@loacg.com>"
   ],
   "license": "MIT",
   "scripts": {
