@@ -5,7 +5,7 @@ import Layout from 'ant-design-vue/es/layout';
 import { GlobalHeader, GlobalHeaderProps } from './GlobalHeader';
 import { TopNavHeader } from './TopNavHeader';
 import { useRouteContext } from './RouteContext';
-import { RenderVNodeType, WithFalse } from './typings';
+import { VNodeType, WithFalse } from './typings';
 import { clearMenuItem } from './utils';
 import './Header.less';
 
@@ -18,15 +18,11 @@ interface HeaderViewState {
 export type HeaderViewProps = GlobalHeaderProps & {
   isMobile?: boolean;
   collapsed?: boolean;
-  logo?: RenderVNodeType;
+  logo?: VNodeType;
 
-  headerRender?: WithFalse<
-    (props: HeaderViewProps, defaultDom: RenderVNodeType) => RenderVNodeType
-  >;
-  headerTitleRender?: WithFalse<
-    (props: HeaderViewProps, defaultDom: RenderVNodeType) => RenderVNodeType
-  >;
-  headerContentRender?: WithFalse<(props: HeaderViewProps) => RenderVNodeType>;
+  headerRender?: WithFalse<(props: HeaderViewProps, defaultDom: VNodeType) => VNodeType>;
+  headerTitleRender?: WithFalse<(props: HeaderViewProps, defaultDom: VNodeType) => VNodeType>;
+  headerContentRender?: WithFalse<(props: HeaderViewProps) => VNodeType>;
   siderWidth?: number;
   hasSiderMenu?: boolean;
 };
@@ -66,8 +62,6 @@ export const HeaderView = defineComponent({
   setup(props: HeaderViewProps) {
     const {
       prefixCls,
-      headerRender,
-      headerContentRender,
       isMobile,
       fixedHeader,
       hasSiderMenu,
@@ -96,7 +90,7 @@ export const HeaderView = defineComponent({
     const renderContent = () => {
       let defaultDom = (
         <GlobalHeader {...props} onCollapse={onCollapse.value} menuData={clearMenuData.value}>
-          {headerContentRender && headerContentRender.value && headerContentRender.value(props)}
+          {props.headerContentRender && props.headerContentRender(props)}
         </GlobalHeader>
       );
       if (isTop.value && !isMobile.value) {
@@ -110,8 +104,8 @@ export const HeaderView = defineComponent({
           />
         );
       }
-      if (headerRender.value && typeof headerRender.value === 'function') {
-        return headerRender.value(props, defaultDom);
+      if (props.headerRender) {
+        return props.headerRender(props, defaultDom);
       }
       return defaultDom;
     };

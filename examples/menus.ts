@@ -1,6 +1,4 @@
-import { RouteProps } from '../src/typings';
-
-export const menus: RouteProps[] = [
+export const menus = [
   {
     path: '/welcome',
     name: 'welcome',

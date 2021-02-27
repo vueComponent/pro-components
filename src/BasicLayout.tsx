@@ -1,4 +1,4 @@
-import { computed, FunctionalComponent, CSSProperties, VNodeChild, VNode, unref } from 'vue';
+import { computed, FunctionalComponent, CSSProperties, unref } from 'vue';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 import { withInstall } from 'ant-design-vue/es/_util/type';
@@ -6,8 +6,8 @@ import { default as ProProvider, ProProviderData } from './ProProvider';
 import { default as SiderMenuWrapper, SiderMenuWrapperProps } from './SiderMenu';
 import { WrapContent } from './WrapContent';
 import { default as Header, HeaderViewProps } from './Header';
-import { RenderVNodeType, WithFalse } from './typings';
-import { getComponentOrSlot, PropRenderType, PropTypes } from './utils';
+import { VNodeType, CustomRender, WithFalse } from './typings';
+import { getCustomRender, PropRenderType, PropTypes } from './utils';
 import useMediaQuery from './hooks/useMediaQuery';
 import './BasicLayout.less';
 
@@ -19,7 +19,7 @@ export type BasicLayoutProps = SiderMenuWrapperProps &
     /**
      *@name logo url
      */
-    logo?: string | RenderVNodeType | WithFalse<string | RenderVNodeType>;
+    logo?: VNodeType;
 
     loading?: boolean;
 
@@ -29,11 +29,9 @@ export type BasicLayoutProps = SiderMenuWrapperProps &
 
     onCollapse?: (collapsed: boolean) => void;
 
-    footerRender?: WithFalse<
-      (props: any /* FooterProps */, defaultDom: RenderVNodeType) => RenderVNodeType
-    >;
+    footerRender?: WithFalse<(props: any /* FooterProps */) => VNodeType>;
 
-    headerRender?: WithFalse<(props: any /* HeaderProps */) => RenderVNodeType>;
+    headerRender?: WithFalse<(props: any /* HeaderProps */) => VNodeType>;
 
     colSize?: string;
     /**
@@ -68,19 +66,16 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }
   const isTop = computed(() => layout === 'top');
   // const isSide = computed(() => layout === 'side');
   // const isMix = computed(() => layout === 'mix');
-
-  const handleCollapse = (collapsed: boolean) => {
-    propsOnCollapse && propsOnCollapse(collapsed);
-    emit('update:collapsed', collapsed);
-  };
-  const handleOpenKeys = (openKeys: string[] | false): void => {
-    propsOnOpenKeys && propsOnOpenKeys(openKeys);
-    emit('update:open-keys', openKeys);
-  };
-  const handleSelect = (selectedKeys: string[] | false): void => {
-    propsOnSelect && propsOnSelect(selectedKeys);
-    emit('update:selected-keys', selectedKeys);
-  };
+  // if on event and @event
+  const onCollapse =
+    (propsOnCollapse && propsOnCollapse) ||
+    ((collapsed: boolean) => emit('update:collapsed', collapsed));
+  const onOpenKeys =
+    (propsOnOpenKeys && propsOnOpenKeys) ||
+    ((openKeys: string[] | false) => emit('update:open-keys', openKeys));
+  const onSelect =
+    (propsOnSelect && propsOnSelect) ||
+    ((selectedKeys: string[] | false) => emit('update:selected-keys', selectedKeys));
   const colSize = useMediaQuery();
   const isMobile = computed(
     () => (colSize.value === 'sm' || colSize.value === 'xs') && !props.disableMobile,
@@ -115,41 +110,38 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }
   const headerRender = (
     props: BasicLayoutProps & {
       hasSiderMenu: boolean;
-      customHeaderRender: VNodeChild | false;
-      rightContentRender: VNodeChild | VNode | false;
+      customHeaderRender: WithFalse<CustomRender>;
+      rightContentRender: WithFalse<CustomRender>;
     },
     matchMenuKeys: string[],
-  ): RenderVNodeType => {
+  ): VNodeType => {
     if (props.headerRender === false || props.pure) {
       return null;
     }
     return <Header matchMenuKeys={matchMenuKeys} {...props} headerHeight={48} />;
   };
-  const rightContentRender = getComponentOrSlot(props, slots, 'rightContentRender') as any;
-  const customHeaderRender = getComponentOrSlot(props, slots, 'headerRender');
-  const menuHeaderRenderFunc = props['menuHeaderRender'];
-  const menuHeaderRenderSlot = slots['menuHeaderRender'];
+  const rightContentRender = getCustomRender(props, slots, 'rightContentRender');
+  const customHeaderRender = getCustomRender(props, slots, 'headerRender');
+  const menuHeaderRender = getCustomRender(props, slots, 'menuHeaderRender');
+  const footerRender = getCustomRender(props, slots, 'footerRender');
+  // const menuRender = getCustomRender(props, slots, 'menuRender');
+
   const headerDom = headerRender(
     {
       ...props,
       hasSiderMenu: !isTop.value,
       menuData,
       isMobile: unref(isMobile),
-      onCollapse: handleCollapse,
-      onSelect: handleSelect,
-      onOpenKeys: handleOpenKeys,
+      onCollapse,
+      onOpenKeys,
+      onSelect,
       customHeaderRender,
       rightContentRender,
-      headerTitleRender:
-        menuHeaderRenderFunc || (menuHeaderRenderSlot && (() => menuHeaderRenderSlot())),
+      headerTitleRender: menuHeaderRender,
       theme: (navTheme || 'dark').toLocaleLowerCase().includes('dark') ? 'dark' : 'light',
     },
     matchMenuKeys,
   );
-
-  const footerRender = getComponentOrSlot(props, slots, 'footerRender');
-  // const menuRender = getComponentOrSlot(props, slots, 'menuRender');
-  // const menuHeaderRender = getComponentOrSlot(props, slots, 'menuHeaderRender');
 
   return (
     <ProProvider i18n={defaultI18nRender}>
@@ -162,12 +154,10 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }
               <SiderMenuWrapper
                 {...props}
                 isMobile={isMobile.value}
-                menuHeaderRender={
-                  menuHeaderRenderFunc || (menuHeaderRenderSlot && (() => menuHeaderRenderSlot()))
-                }
-                onCollapse={handleCollapse}
-                onSelect={handleSelect}
-                onOpenKeys={handleOpenKeys}
+                menuHeaderRender={menuHeaderRender}
+                onCollapse={onCollapse}
+                onSelect={onSelect}
+                onOpenKeys={onOpenKeys}
               />
             )}
             <Layout style={genLayoutStyle}>
@@ -178,7 +168,7 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }
               >
                 {slots.default?.()}
               </WrapContent>
-              {footerRender !== false && footerRender && footerRender}
+              {footerRender && footerRender(props)}
             </Layout>
           </Layout>
         </div>
@@ -266,6 +256,8 @@ ProLayout.props = {
   collapsed: PropTypes.bool,
   /* 菜单的折叠收起事件 (collapsed: boolean) => void */
   onCollapse: PropTypes.func,
+  onSelect: PropTypes.func,
+  onOpenKeys: PropTypes.func,
   // onPageChange // 请使用 vue-router 监听
   /* 禁止自动切换到移动页面 */
   disableMobile: PropTypes.bool,

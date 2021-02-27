@@ -117,7 +117,6 @@ class MenuUtil {
 
   constructor(props: BaseMenuProps) {
     this.props = props;
-    console.log('MenuUtil constructor', new Date());
   }
 
   getNavMenuItems = (menusData: MenuDataItem[] = [], isChildren: boolean) => {

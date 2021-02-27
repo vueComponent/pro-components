@@ -1,6 +1,6 @@
 import { computed, CSSProperties, FunctionalComponent } from 'vue';
 import { PureSettings } from '../defaultSettings';
-import { RenderVNodeType, MenuDataItem, WithFalse } from '../typings';
+import { VNodeType, MenuDataItem, WithFalse } from '../typings';
 import {
   SiderMenuProps,
   PrivateSiderMenuProps,
@@ -18,9 +18,9 @@ export interface GlobalHeaderProps extends Partial<PureSettings> {
   collapsed?: boolean;
   onCollapse?: (collapsed: boolean) => void;
   isMobile?: boolean;
-  logo?: RenderVNodeType;
-  menuRender?: WithFalse<(props: HeaderViewProps, defaultDom: RenderVNodeType) => RenderVNodeType>;
-  rightContentRender?: WithFalse<(props: HeaderViewProps) => RenderVNodeType>;
+  logo?: VNodeType;
+  menuRender?: WithFalse<(props: HeaderViewProps, defaultDom: VNodeType) => VNodeType>;
+  rightContentRender?: WithFalse<(props: HeaderViewProps) => VNodeType>;
   className?: string;
   prefixCls?: string;
   menuData?: MenuDataItem[];
@@ -33,10 +33,7 @@ export interface GlobalHeaderProps extends Partial<PureSettings> {
   onSelect?: (selectedKeys: WithFalse<string[]>) => void;
 }
 
-const renderLogo = (
-  menuHeaderRender: SiderMenuProps['menuHeaderRender'],
-  logoDom: RenderVNodeType,
-) => {
+const renderLogo = (menuHeaderRender: SiderMenuProps['menuHeaderRender'], logoDom: VNodeType) => {
   if (menuHeaderRender === false) {
     return null;
   }

@@ -13,9 +13,9 @@ Ant Design Pro Layout
 
 ```bash
 # yarn
-yarn add @ant-design-vue/pro-layout
+yarn add @ant-design-vue/pro-layout@next
 # npm
-npm i @ant-design-vue/pro-layout -S
+npm i @ant-design-vue/pro-layout@next -S
 ```
 
 ## Basic Usage
@@ -46,7 +46,7 @@ After that, you can use pro-layout in your Vue components as simply as this:
 
 <script>
 import { defineComponent, reactive } from 'vue';
-import ProLayout, { createRouteContext } from '@ant-design-vue/pro-layout';
+import { createRouteContext } from '@ant-design-vue/pro-layout';
 
 const [ RouteContextProvider ] = createRouteContext();
 
@@ -56,9 +56,7 @@ export default defineComponent({
       collapsed: false,
 
       openKeys: ['/dashboard'],
-      setOpenKeys: (keys) => (state.openKeys = keys),
       selectedKeys: ['/welcome'],
-      setSelectedKeys: (keys) => (state.selectedKeys = keys),
 
       isMobile: false,
       fixSiderbar: false,
@@ -76,7 +74,6 @@ export default defineComponent({
     }
   },
   components: {
-    ProLayout,
     RouteContextProvider,
   }
 });
@@ -95,9 +92,7 @@ export default defineComponent({
         collapsed: false,
 
         openKeys: ['/dashboard'],
-        setOpenKeys: (keys: string[]) => (state.openKeys = keys),
         selectedKeys: ['/welcome'],
-        setSelectedKeys: (keys: string[]) => (state.selectedKeys = keys),
 
         isMobile: false,
         fixSiderbar: false,

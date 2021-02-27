@@ -1,5 +1,5 @@
 import { Slots, VNodeChild } from 'vue';
-import { MenuDataItem } from '../typings';
+import { CustomRender, MenuDataItem } from '../typings';
 export { getComponent } from 'ant-design-vue/es/_util/props-util';
 export { default as PropTypes } from 'ant-design-vue/es/_util/vue-types';
 
@@ -10,6 +10,18 @@ export { default as isNil } from './isNil';
 export function getComponentOrSlot(props: any, slots: Slots, name: string): VNodeChild {
   const comp = props[name] || slots[name];
   return typeof comp === 'function' ? comp() : (comp && (comp as VNodeChild)) || false;
+}
+
+export function getCustomRender(props: any, slots: Slots, name: string): CustomRender | false {
+  const propRender = props[name];
+  if (propRender === false) {
+    return false;
+  }
+  if (propRender) {
+    return propRender;
+  }
+  const slotVNode = slots[name || 'default'];
+  return slotVNode;
 }
 
 export function warn(valid: boolean, message: string) {
