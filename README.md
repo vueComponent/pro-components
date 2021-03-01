@@ -4,8 +4,11 @@ Ant Design Pro Layout
 
 <div align="center">
 
-[![NPM version](https://img.shields.io/npm/v/@ant-design-vue/pro-layout.svg?style=flat)](https://npmjs.org/package/@ant-design-vue/pro-layout)
+[![NPM version](https://img.shields.io/npm/v/@ant-design-vue/pro-layout/next?style=flat)](https://npmjs.org/package/@ant-design-vue/pro-layout)
+[![Vue Support](https://img.shields.io/badge/support-Vue3-green?style=flat)](./package.json)
+[![Vue Grammar Level](https://img.shields.io/badge/full-Composition%20API-blue?style=flat)](https://v3.vuejs.org/guide/composition-api-introduction.html)
 [![NPM downloads](http://img.shields.io/npm/dm/@ant-design-vue/pro-layout.svg?style=flat)](https://npmjs.org/package/@ant-design-vue/pro-layout)
+[![License](https://img.shields.io/github/license/vueComponent/pro-layout)](./LICENSE)
 
 </div>
 
