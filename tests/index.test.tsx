@@ -1,5 +1,6 @@
 import './_utils/mock-func';
-import { mount } from '@vue/test-utils';
+import { mount, shallowMount } from '@vue/test-utils';
+import { reactive } from 'vue';
 import BasicLayout from '../src/BasicLayout';
 
 const title = 'Pro Tests';
@@ -47,5 +48,38 @@ describe('BasicLayout', () => {
     const renderLogo = wrapper.find('.ant-pro-sider-logo img');
     expect(renderTitle.element.innerHTML).toEqual(title);
     expect(renderLogo.attributes()).toHaveProperty('src', logoSrc);
+  });
+
+  it('😄 custom layout mode, navTheme', async () => {
+    const wrapper = mount({
+      props: {
+        theme: {
+          type: String,
+          default: 'light',
+        },
+        layout: {
+          type: String,
+          default: 'mix',
+        },
+      },
+      render() {
+        return (
+          <BasicLayout navTheme={this.theme} layout={this.layout}>
+            <div>content</div>
+          </BasicLayout>
+        );
+      },
+    });
+    expect(wrapper.find('.ant-pro-basicLayout-mix').exists()).toBe(true);
+    expect(wrapper.find('.ant-pro-sider-light').exists()).toBe(true);
+
+    // update props
+    await wrapper.setProps({
+      theme: 'dark',
+      layout: 'top',
+    });
+
+    expect(wrapper.find('div.ant-pro-basicLayout-top').exists()).toBe(true);
+    expect(wrapper.find('.ant-pro-top-nav-header.light').exists()).toBe(false);
   });
 });

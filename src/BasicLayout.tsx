@@ -86,7 +86,7 @@ const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }
     return {
       [baseClassName.value]: true,
       [`screen-${colSize.value}`]: colSize.value,
-      [`${baseClassName.value}-top-menu`]: props.layout === 'top',
+      [`${baseClassName.value}-top-menu`]: isTop.value,
       [`${baseClassName.value}-is-children`]: props.isChildrenLayout,
       [`${baseClassName.value}-fix-siderbar`]: props.fixSiderbar,
       [`${baseClassName.value}-${props.layout}`]: props.layout,
