@@ -4,6 +4,7 @@ examples/
 src/
 scripts/
 .idea/
+.github/
 
 .eslintignore
 .eslintrc.js
