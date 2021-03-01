@@ -76,6 +76,10 @@
     "lodash-es": "^4.17.20",
     "vue-types": "^3.0.1"
   },
+  "files": [
+    "es",
+    "lib"
+  ],
   "config": {
     "port": 9528,
     "entry": {
