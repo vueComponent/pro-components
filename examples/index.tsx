@@ -29,7 +29,7 @@ const BasicLayout = defineComponent({
     const [RouteContextProvider] = createRouteContext();
 
     const menuData = getMenuData(getRoutes());
-    globalState.menuData = menuData;
+    state.menuData = menuData;
 
     const updateSelectedMenu = () => {
       const matched = route.matched.concat().map(item => item.path);
@@ -65,12 +65,9 @@ const BasicLayout = defineComponent({
     return () => (
       <RouteContextProvider value={state}>
         <ProLayout
+          i18n={(key: string) => key}
           layout={state.layout}
           navTheme={state.navTheme}
-          i18n={(key: string) => key}
-          isMobile={state.isMobile}
-          fixSiderbar={state.fixSiderbar}
-          fixedHeader={state.fixedHeader}
           contentWidth={'Fixed'}
           primaryColor={'#1890ff'}
           contentStyle={{ minHeight: '300px' }}

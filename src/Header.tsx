@@ -71,7 +71,9 @@ export const HeaderView = defineComponent({
       onCollapse,
     } = toRefs(props);
     const context = useRouteContext();
-    const needFixedHeader = computed(() => fixedHeader.value || layout.value === 'mix');
+    const needFixedHeader = computed(
+      () => fixedHeader.value || context.fixedHeader || layout.value === 'mix',
+    );
     const isTop = computed(() => layout.value === 'top');
     const needSettingWidth = computed(
       () => needFixedHeader.value && hasSiderMenu.value && !isTop.value && !isMobile.value,
