@@ -34,6 +34,9 @@ export interface MenuState {
 }
 
 export interface RouteContextProps extends Partial<PureSettings>, MenuState {
+  getPrefixCls: (suffixCls?: string, customizePrefixCls?: string) => string;
+  i18n: (t: string) => string;
+
   breadcrumb?: BreadcrumbListReturn;
   menuData?: MenuDataItem[];
   isMobile?: boolean;
@@ -49,8 +52,16 @@ export interface RouteContextProps extends Partial<PureSettings>, MenuState {
   [key: string]: any;
 }
 
-const routeContextInjectKey: InjectionKey<RouteContextProps> = Symbol();
+const routeContextInjectKey: InjectionKey<RouteContextProps> = Symbol('route-context');
 
-export const createRouteContext = () => createContext<RouteContextProps>(routeContextInjectKey);
+export const createRouteContext = () =>
+  createContext<RouteContextProps>(routeContextInjectKey, 'RouteContext.Provider');
 
-export const useRouteContext = () => useContext<RouteContextProps>(routeContextInjectKey);
+export const useRouteContext = () =>
+  useContext<RouteContextProps>('route-context' /* routeContextInjectKey */);
+
+const Provider = createRouteContext();
+
+export default {
+  Provider,
+};

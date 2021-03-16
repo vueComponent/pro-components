@@ -12,21 +12,14 @@ import {
 
 export type ContextType<T> = any;
 
-export type CreateContext<T> = [
-  // UnwrapRef<T> | T,
-  DefineComponent<{}, () => VNode | VNode[] | undefined, any>,
-];
+export type CreateContext<T> = DefineComponent<{}, () => VNode | VNode[] | undefined, any>;
 
 export const createContext = <T>(
-  // context: ContextType<T>,
   contextInjectKey: InjectionKey<ContextType<T>> = Symbol(),
+  injectCompName: string = 'Context.Provider',
 ): CreateContext<T> => {
-  // const state = reactive<ContextType<T>>({
-  //   ...toRaw(context),
-  // });
-
   const ContextProvider = defineComponent({
-    name: 'ContextProvider',
+    name: injectCompName,
     props: {
       value: {
         type: Object as PropType<ContextType<T>>,
@@ -39,11 +32,11 @@ export const createContext = <T>(
     },
   });
 
-  return [ContextProvider];
+  return ContextProvider;
 };
 
 export const useContext = <T>(
-  contextInjectKey: InjectionKey<ContextType<T>> = Symbol(),
+  contextInjectKey: string | InjectionKey<ContextType<T>> = Symbol(),
   defaultValue?: ContextType<T>,
 ): T => {
   return inject(contextInjectKey, defaultValue || ({} as T));

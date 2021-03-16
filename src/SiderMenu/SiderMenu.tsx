@@ -1,4 +1,4 @@
-import { FunctionalComponent, computed } from 'vue';
+import { FunctionalComponent, computed, watch } from 'vue';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 import 'ant-design-vue/es/menu/style';
@@ -7,7 +7,6 @@ import BaseMenu, { BaseMenuProps } from './BaseMenu';
 import { WithFalse, VNodeType } from '../typings';
 import { SiderProps } from './typings';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
-import { useProProvider } from '../ProProvider';
 import { useRouteContext } from '../RouteContext';
 import { getMenuFirstChildren } from '../utils';
 import './index.less';
@@ -98,9 +97,10 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
     onOpenKeys,
     onSelect,
   } = props;
-  const { getPrefixCls } = useProProvider();
   const context = useRouteContext();
+  const { getPrefixCls } = context;
   const baseClassName = getPrefixCls('sider');
+  console.log('useRouteContext', context);
   // const isMix = computed(() => props.layout === 'mix');
   // const fixed = computed(() => context.fixSiderbar);
   const runtimeTheme = computed(() => (props.layout === 'mix' && 'light') || props.navTheme);
@@ -125,6 +125,12 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
   if (hasSide.value && flatMenuData.value.length === 0) {
     return null;
   }
+  watch(
+    () => context.selectedKeys,
+    n => {
+      console.log('watch:context', n);
+    },
+  );
   const defaultMenuDom = (
     <BaseMenu
       prefixCls={getPrefixCls()}
