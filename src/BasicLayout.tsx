@@ -1,8 +1,16 @@
-import { computed, FunctionalComponent, CSSProperties, unref } from 'vue';
+import {
+  computed,
+  FunctionalComponent,
+  CSSProperties,
+  reactive,
+  unref,
+  provide,
+  defineComponent,
+} from 'vue';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 import { withInstall } from 'ant-design-vue/es/_util/type';
-import { default as ProProvider, ProProviderData } from './ProProvider';
+import RouteContext, { RouteContextProps } from './RouteContext';
 import { default as SiderMenuWrapper, SiderMenuWrapperProps } from './SiderMenu';
 import { WrapContent } from './WrapContent';
 import { default as Header, HeaderViewProps } from './Header';
@@ -10,6 +18,8 @@ import { VNodeType, CustomRender, WithFalse } from './typings';
 import { getCustomRender, PropRenderType, PropTypes } from './utils';
 import useMediaQuery from './hooks/useMediaQuery';
 import './BasicLayout.less';
+
+export const defaultPrefixCls = 'ant-pro';
 
 const defaultI18nRender = (key: string) => key;
 
@@ -23,7 +33,7 @@ export type BasicLayoutProps = SiderMenuWrapperProps &
 
     loading?: boolean;
 
-    i18n?: ProProviderData['i18n'];
+    i18n?: RouteContextProps['i18n'];
 
     defaultCollapsed?: boolean;
 
@@ -48,134 +58,153 @@ export type BasicLayoutProps = SiderMenuWrapperProps &
     disableContentMargin?: boolean;
   };
 
-const ProLayout: FunctionalComponent<BasicLayoutProps> = (props, { emit, slots }) => {
-  const {
-    onCollapse: propsOnCollapse,
-    onOpenKeys: propsOnOpenKeys,
-    onSelect: propsOnSelect,
-    contentStyle,
-    disableContentMargin,
-    isChildrenLayout: propsIsChildrenLayout,
-    // loading,
-    layout,
-    matchMenuKeys,
-    navTheme,
-    menuData,
-    // defaultCollapsed,
-  } = props;
-  const isTop = computed(() => layout === 'top');
-  // const isSide = computed(() => layout === 'side');
-  // const isMix = computed(() => layout === 'mix');
-  // if on event and @event
-  const onCollapse =
-    (propsOnCollapse && propsOnCollapse) ||
-    ((collapsed: boolean) => emit('update:collapsed', collapsed));
-  const onOpenKeys =
-    (propsOnOpenKeys && propsOnOpenKeys) ||
-    ((openKeys: string[] | false) => emit('update:open-keys', openKeys));
-  const onSelect =
-    (propsOnSelect && propsOnSelect) ||
-    ((selectedKeys: string[] | false) => emit('update:selected-keys', selectedKeys));
-  const colSize = useMediaQuery();
-  const isMobile = computed(
-    () => (colSize.value === 'sm' || colSize.value === 'xs') && !props.disableMobile,
-  );
-  const baseClassName = computed(() => `${props.prefixCls}-basicLayout`);
-  // gen className
-  const className = computed(() => {
-    return {
-      [baseClassName.value]: true,
-      [`screen-${colSize.value}`]: colSize.value,
-      [`${baseClassName.value}-top-menu`]: isTop.value,
-      [`${baseClassName.value}-is-children`]: props.isChildrenLayout,
-      [`${baseClassName.value}-fix-siderbar`]: props.fixSiderbar,
-      [`${baseClassName.value}-${props.layout}`]: props.layout,
-    };
-  });
-
-  // siderMenuDom 为空的时候，不需要 padding
-  const genLayoutStyle: CSSProperties = {
-    position: 'relative',
-  };
-
-  // if is some layout children, don't need min height
-  if (propsIsChildrenLayout || (contentStyle && contentStyle.minHeight)) {
-    genLayoutStyle.minHeight = 0;
-  }
-
-  // const [collapsed, onCollapse] = useMergedState<boolean>(defaultCollapsed || false, {
-  //   value: props.collapsed,
-  //   onChange: propsOnCollapse,
-  // });
-  const headerRender = (
-    props: BasicLayoutProps & {
-      hasSiderMenu: boolean;
-      customHeaderRender: WithFalse<CustomRender>;
-      rightContentRender: WithFalse<CustomRender>;
-    },
-    matchMenuKeys: string[],
-  ): VNodeType => {
-    if (props.headerRender === false || props.pure) {
-      return null;
-    }
-    return <Header matchMenuKeys={matchMenuKeys} {...props} headerHeight={48} />;
-  };
-  const rightContentRender = getCustomRender(props, slots, 'rightContentRender');
-  const customHeaderRender = getCustomRender(props, slots, 'headerRender');
-  const menuHeaderRender = getCustomRender(props, slots, 'menuHeaderRender');
-  const footerRender = getCustomRender(props, slots, 'footerRender');
-  // const menuRender = getCustomRender(props, slots, 'menuRender');
-
-  const headerDom = headerRender(
-    {
-      ...props,
-      hasSiderMenu: !isTop.value,
+const ProLayout = defineComponent({
+  setup(props: BasicLayoutProps, { emit, slots }) {
+    const {
+      onCollapse: propsOnCollapse,
+      onOpenKeys: propsOnOpenKeys,
+      onSelect: propsOnSelect,
+      contentStyle,
+      disableContentMargin,
+      isChildrenLayout: propsIsChildrenLayout,
+      // loading,
+      layout,
+      matchMenuKeys,
+      navTheme,
       menuData,
-      isMobile: unref(isMobile),
-      onCollapse,
-      onOpenKeys,
-      onSelect,
-      customHeaderRender,
-      rightContentRender,
-      headerTitleRender: menuHeaderRender,
-      theme: (navTheme || 'dark').toLocaleLowerCase().includes('dark') ? 'dark' : 'light',
-    },
-    matchMenuKeys,
-  );
+      // defaultCollapsed,
+    } = props;
+    const isTop = computed(() => layout === 'top');
+    // const isSide = computed(() => layout === 'side');
+    // const isMix = computed(() => layout === 'mix');
+    const pure = computed(() => props.pure);
+    // if on event and @event
+    const onCollapse =
+      (propsOnCollapse && propsOnCollapse) ||
+      ((collapsed: boolean) => emit('update:collapsed', collapsed));
+    const onOpenKeys =
+      (propsOnOpenKeys && propsOnOpenKeys) ||
+      ((openKeys: string[] | false) => emit('update:open-keys', openKeys));
+    const onSelect =
+      (propsOnSelect && propsOnSelect) ||
+      ((selectedKeys: string[] | false) => emit('update:selected-keys', selectedKeys));
+    const colSize = useMediaQuery();
+    const isMobile = computed(
+      () => (colSize.value === 'sm' || colSize.value === 'xs') && !props.disableMobile,
+    );
+    const baseClassName = computed(() => `${props.prefixCls}-basicLayout`);
+    // gen className
+    const className = computed(() => {
+      return {
+        [baseClassName.value]: true,
+        [`screen-${colSize.value}`]: colSize.value,
+        [`${baseClassName.value}-top-menu`]: isTop.value,
+        [`${baseClassName.value}-is-children`]: props.isChildrenLayout,
+        [`${baseClassName.value}-fix-siderbar`]: props.fixSiderbar,
+        [`${baseClassName.value}-${props.layout}`]: props.layout,
+      };
+    });
 
-  return (
-    <ProProvider i18n={defaultI18nRender}>
-      {props.pure ? (
-        slots.default?.()
-      ) : (
-        <div class={className.value}>
-          <Layout class={baseClassName.value}>
-            {!isTop.value && (
-              <SiderMenuWrapper
-                {...props}
-                isMobile={isMobile.value}
-                menuHeaderRender={menuHeaderRender}
-                onCollapse={onCollapse}
-                onSelect={onSelect}
-                onOpenKeys={onOpenKeys}
-              />
-            )}
-            <Layout style={genLayoutStyle}>
-              {headerDom}
-              <WrapContent
-                isChildrenLayout={propsIsChildrenLayout}
-                style={disableContentMargin ? null : contentStyle}
-              >
-                {slots.default?.()}
-              </WrapContent>
-              {footerRender && footerRender(props)}
+    // siderMenuDom 为空的时候，不需要 padding
+    const genLayoutStyle: CSSProperties = {
+      position: 'relative',
+    };
+
+    // if is some layout children, don't need min height
+    if (propsIsChildrenLayout || (contentStyle && contentStyle.minHeight)) {
+      genLayoutStyle.minHeight = 0;
+    }
+
+    // const [collapsed, onCollapse] = useMergedState<boolean>(defaultCollapsed || false, {
+    //   value: props.collapsed,
+    //   onChange: propsOnCollapse,
+    // });
+    const headerRender = (
+      props: BasicLayoutProps & {
+        hasSiderMenu: boolean;
+        customHeaderRender: WithFalse<CustomRender>;
+        rightContentRender: WithFalse<CustomRender>;
+      },
+      matchMenuKeys: string[],
+    ): VNodeType => {
+      if (props.headerRender === false || props.pure) {
+        return null;
+      }
+      return <Header matchMenuKeys={matchMenuKeys} {...props} headerHeight={48} />;
+    };
+    const rightContentRender = getCustomRender(props, slots, 'rightContentRender');
+    const customHeaderRender = getCustomRender(props, slots, 'headerRender');
+    const menuHeaderRender = getCustomRender(props, slots, 'menuHeaderRender');
+    const footerRender = getCustomRender(props, slots, 'footerRender');
+    // const menuRender = getCustomRender(props, slots, 'menuRender');
+
+    const headerDom = headerRender(
+      {
+        ...props,
+        hasSiderMenu: !isTop.value,
+        menuData,
+        isMobile: unref(isMobile),
+        onCollapse,
+        onOpenKeys,
+        onSelect,
+        customHeaderRender,
+        rightContentRender,
+        headerTitleRender: menuHeaderRender,
+        theme: (navTheme || 'dark').toLocaleLowerCase().includes('dark') ? 'dark' : 'light',
+      },
+      matchMenuKeys,
+    );
+
+    const routeContext: RouteContextProps = {
+      getPrefixCls: (suffixCls?: string, customizePrefixCls?: string) => {
+        if (customizePrefixCls) return customizePrefixCls;
+        return suffixCls ? `${defaultPrefixCls}-${suffixCls}` : defaultPrefixCls;
+      },
+      i18n: (t: string): string => t,
+      contentWidth: 'Fluid',
+      menuData,
+      selectedKeys: props.selectedKeys || [],
+      openKeys: props.openKeys || [],
+    };
+
+    console.log('BasicLayout.routeContext', routeContext);
+    console.log('pure', pure.value);
+    provide('route-context', routeContext);
+
+    return () => (
+      <>
+        {pure.value ? (
+          slots.default?.()
+        ) : (
+          <div class={className.value}>
+            <Layout class={baseClassName.value}>
+              {!isTop.value && (
+                <SiderMenuWrapper
+                  {...props}
+                  isMobile={isMobile.value}
+                  menuHeaderRender={menuHeaderRender}
+                  onCollapse={onCollapse}
+                  onSelect={onSelect}
+                  onOpenKeys={onOpenKeys}
+                />
+              )}
+              <Layout style={genLayoutStyle}>
+                {headerDom}
+                <WrapContent
+                  isChildrenLayout={propsIsChildrenLayout}
+                  style={disableContentMargin ? null : contentStyle}
+                >
+                  {slots.default?.()}
+                </WrapContent>
+                {footerRender && footerRender(props)}
+              </Layout>
             </Layout>
-          </Layout>
-        </div>
-      )}
-    </ProProvider>
-  );
-};
+          </div>
+        )}
+      </>
+    );
+  },
+});
 
 ProLayout.inheritAttrs = false;
 ProLayout.displayName = 'ProLayout';
@@ -237,10 +266,6 @@ ProLayout.props = {
   fixedHeader: PropTypes.bool,
   /* 触发响应式布局的断点 https://ant.design/components/grid-cn/#Col */
   breakpoint: PropTypes.string.def('lg'),
-  /* 关于 menu 的配置，暂时只有 locale,locale 可以关闭 menu 的自带的全球化 */
-  menu: PropTypes.object,
-  /* 传递到 antd menu 组件的 props */
-  menuProps: PropTypes.object,
   /* 使用 IconFont 的图标配置 */
   iconfontUrl: PropTypes.string,
   /* 当前 layout 的语言设置 */
@@ -250,8 +275,16 @@ ProLayout.props = {
   siderWidth: PropTypes.number.def(208),
   /* 侧边栏收起宽度 */
   collapsedWidth: PropTypes.number.def(48),
+  /* 关于 menu 的配置，暂时只有 locale,locale 可以关闭 menu 的自带的全球化 */
+  menu: PropTypes.object,
+  /* 传递到 antd menu 组件的 props */
+  menuProps: PropTypes.object,
+  /* 菜单数组 */
+  menuData: PropTypes.object,
   /* 是否分割菜单 (仅 mix 模式有效) */
   splitMenus: PropTypes.bool,
+  selectedKeys: PropTypes.array,
+  openKeys: PropTypes.array,
   /* 控制菜单的收起和展开 */
   collapsed: PropTypes.bool,
   /* 菜单的折叠收起事件 (collapsed: boolean) => void */

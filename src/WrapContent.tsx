@@ -1,8 +1,8 @@
 import { FunctionalComponent, computed, toRefs, CSSProperties } from 'vue';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
-import { useProProvider } from './ProProvider';
-import { ContentWidth } from './typings';
+import { useRouteContext } from './RouteContext';
+import type { ContentWidth } from './typings';
 
 const { Content } = Layout;
 
@@ -16,7 +16,7 @@ export interface WrapContentProps {
 }
 
 export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slots, attrs }) => {
-  const { getPrefixCls } = toRefs(useProProvider());
+  const { getPrefixCls } = toRefs(useRouteContext());
   const prefixCls = getPrefixCls.value('basicLayout');
   const classNames = computed(() => {
     return {
