@@ -17,7 +17,7 @@ const SiderMenuWrapper: FunctionalComponent<SiderMenuWrapperProps> = props => {
         padding: 0,
         height: '100vh',
       }}
-      onClose={() => props.onCollapse(true)}
+      onClose={() => props.onCollapse && props.onCollapse(true)}
       width={props.siderWidth}
       bodyStyle={{ height: '100vh', padding: 0, display: 'flex', flexDirection: 'row' }}
     >

@@ -73,6 +73,7 @@
     "@babel/runtime": "^7.11.2",
     "ant-design-vue": "^2.0.0",
     "lodash-es": "^4.17.20",
+    "omit.js": "^2.0.2",
     "vue-types": "^3.0.1"
   },
   "files": [

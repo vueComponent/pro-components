@@ -29,16 +29,16 @@ const FooterToolbar = defineComponent({
   props: FooterToolbarProps,
   setup(props, ctx) {
     const { slots } = ctx;
-    const { getPrefixCls } = useProProvider();
+    const routeContext = useRouteContext();
+    const { getPrefixCls } = routeContext;
     const baseClassName = props.prefixCls || getPrefixCls('footer-bar');
 
-    const routeContext = useRouteContext();
     const width = computed(() => {
-      const { hasSideMenu, isMobile, sideWidth } = routeContext;
+      const { hasSideMenu, isMobile, sideWidth, layout } = routeContext;
       if (!hasSideMenu) {
         return undefined;
       }
-      if (!sideWidth) {
+      if (!sideWidth || layout === 'top') {
         return '100%';
       }
       return isMobile ? '100%' : `calc(100% - ${sideWidth}px)`;

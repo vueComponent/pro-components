@@ -4,8 +4,9 @@
     "declaration": true,
     "module": "esnext",
     "target": "ES2018",
-    "moduleResolution": "node",
+    "strict": true,
     "jsx": "preserve",
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "lib": [

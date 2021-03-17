@@ -38,7 +38,7 @@ export interface RouteContextProps extends Partial<PureSettings>, MenuState {
   i18n: (t: string) => string;
 
   breadcrumb?: BreadcrumbListReturn;
-  menuData?: MenuDataItem[];
+  menuData: MenuDataItem[];
   isMobile?: boolean;
   prefixCls?: string;
   collapsed?: boolean;
