@@ -1,27 +1,18 @@
-import {
-  computed,
-  FunctionalComponent,
-  CSSProperties,
-  reactive,
-  unref,
-  provide,
-  defineComponent,
-} from 'vue';
+import { computed, CSSProperties, reactive, unref, provide, defineComponent, toRefs } from 'vue';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 import { withInstall } from 'ant-design-vue/es/_util/type';
-import RouteContext, { RouteContextProps } from './RouteContext';
+import { RouteContextProps } from './RouteContext';
 import { default as SiderMenuWrapper, SiderMenuWrapperProps } from './SiderMenu';
 import { WrapContent } from './WrapContent';
 import { default as Header, HeaderViewProps } from './Header';
 import { VNodeType, CustomRender, WithFalse } from './typings';
 import { getCustomRender, PropRenderType, PropTypes } from './utils';
+import omit from 'omit.js';
 import useMediaQuery from './hooks/useMediaQuery';
 import './BasicLayout.less';
 
 export const defaultPrefixCls = 'ant-pro';
-
-const defaultI18nRender = (key: string) => key;
 
 export type BasicLayoutProps = SiderMenuWrapperProps &
   HeaderViewProps & {
@@ -60,34 +51,23 @@ export type BasicLayoutProps = SiderMenuWrapperProps &
 
 const ProLayout = defineComponent({
   setup(props: BasicLayoutProps, { emit, slots }) {
-    const {
-      onCollapse: propsOnCollapse,
-      onOpenKeys: propsOnOpenKeys,
-      onSelect: propsOnSelect,
-      contentStyle,
-      disableContentMargin,
-      isChildrenLayout: propsIsChildrenLayout,
-      // loading,
-      layout,
-      matchMenuKeys,
-      navTheme,
-      menuData,
-      // defaultCollapsed,
-    } = props;
-    const isTop = computed(() => layout === 'top');
+    const isTop = computed(() => props.layout === 'top');
     // const isSide = computed(() => layout === 'side');
     // const isMix = computed(() => layout === 'mix');
     const pure = computed(() => props.pure);
+    const siderWidth = computed(() => (props.collapsed ? props.collapsedWidth : props.siderWidth));
     // if on event and @event
-    const onCollapse =
-      (propsOnCollapse && propsOnCollapse) ||
-      ((collapsed: boolean) => emit('update:collapsed', collapsed));
-    const onOpenKeys =
-      (propsOnOpenKeys && propsOnOpenKeys) ||
-      ((openKeys: string[] | false) => emit('update:open-keys', openKeys));
-    const onSelect =
-      (propsOnSelect && propsOnSelect) ||
-      ((selectedKeys: string[] | false) => emit('update:selected-keys', selectedKeys));
+    const onCollapse = (collapsed: boolean) => {
+      (props.onCollapse && props.onCollapse(collapsed)) || emit('update:collapsed', collapsed);
+    };
+    const onOpenKeys = (openKeys: string[] | false) => {
+      (props.onOpenKeys && props.onOpenKeys(openKeys)) || emit('update:open-keys', openKeys);
+    };
+    const onSelect = (selectedKeys: string[] | false) => {
+      (props.onSelect && props.onSelect(selectedKeys)) ||
+        emit('update:selected-keys', selectedKeys);
+    };
+
     const colSize = useMediaQuery();
     const isMobile = computed(
       () => (colSize.value === 'sm' || colSize.value === 'xs') && !props.disableMobile,
@@ -106,12 +86,12 @@ const ProLayout = defineComponent({
     });
 
     // siderMenuDom 为空的时候，不需要 padding
-    const genLayoutStyle: CSSProperties = {
+    const genLayoutStyle = reactive<CSSProperties>({
       position: 'relative',
-    };
+    });
 
     // if is some layout children, don't need min height
-    if (propsIsChildrenLayout || (contentStyle && contentStyle.minHeight)) {
+    if (props.isChildrenLayout || (props.contentStyle && props.contentStyle.minHeight)) {
       genLayoutStyle.minHeight = 0;
     }
 
@@ -120,17 +100,17 @@ const ProLayout = defineComponent({
     //   onChange: propsOnCollapse,
     // });
     const headerRender = (
-      props: BasicLayoutProps & {
+      p: BasicLayoutProps & {
         hasSiderMenu: boolean;
         customHeaderRender: WithFalse<CustomRender>;
         rightContentRender: WithFalse<CustomRender>;
       },
-      matchMenuKeys: string[],
-    ): VNodeType => {
-      if (props.headerRender === false || props.pure) {
+      matchMenuKeys?: string[],
+    ): VNodeType | null => {
+      if (p.headerRender === false || p.pure) {
         return null;
       }
-      return <Header matchMenuKeys={matchMenuKeys} {...props} headerHeight={48} />;
+      return <Header matchMenuKeys={matchMenuKeys || []} {...p} headerHeight={48} />;
     };
     const rightContentRender = getCustomRender(props, slots, 'rightContentRender');
     const customHeaderRender = getCustomRender(props, slots, 'headerRender');
@@ -138,37 +118,49 @@ const ProLayout = defineComponent({
     const footerRender = getCustomRender(props, slots, 'footerRender');
     // const menuRender = getCustomRender(props, slots, 'menuRender');
 
-    const headerDom = headerRender(
-      {
-        ...props,
-        hasSiderMenu: !isTop.value,
-        menuData,
-        isMobile: unref(isMobile),
-        onCollapse,
-        onOpenKeys,
-        onSelect,
-        customHeaderRender,
-        rightContentRender,
-        headerTitleRender: menuHeaderRender,
-        theme: (navTheme || 'dark').toLocaleLowerCase().includes('dark') ? 'dark' : 'light',
-      },
-      matchMenuKeys,
+    const headerDom = computed(() =>
+      headerRender(
+        {
+          ...props,
+          hasSiderMenu: !isTop.value,
+          menuData: props.menuData,
+          isMobile: unref(isMobile),
+          onCollapse,
+          onOpenKeys,
+          onSelect,
+          customHeaderRender,
+          rightContentRender,
+          headerTitleRender: menuHeaderRender,
+          theme: (props.navTheme || 'dark').toLocaleLowerCase().includes('dark') ? 'dark' : 'light',
+        },
+        props.matchMenuKeys,
+      ),
     );
 
-    const routeContext: RouteContextProps = {
+    const propRefs = toRefs(props);
+
+    // @ts-ignore
+    const routeContext: RouteContextProps = reactive({
       getPrefixCls: (suffixCls?: string, customizePrefixCls?: string) => {
         if (customizePrefixCls) return customizePrefixCls;
         return suffixCls ? `${defaultPrefixCls}-${suffixCls}` : defaultPrefixCls;
       },
       i18n: (t: string): string => t,
       contentWidth: 'Fluid',
-      menuData,
-      selectedKeys: props.selectedKeys || [],
-      openKeys: props.openKeys || [],
-    };
+      layout: propRefs.layout,
+      navTheme: propRefs.navTheme,
+      splitMenus: propRefs.splitMenus,
+      fixedHeader: propRefs.fixSiderbar,
+      fixSiderbar: propRefs.fixSiderbar,
+      sideWidth: siderWidth,
+      hasSideMenu: true,
+      hasFooterToolbar: false,
+      menuData: propRefs.menuData,
+      selectedKeys: propRefs.selectedKeys || [],
+      openKeys: propRefs.openKeys || [],
+    });
 
-    console.log('BasicLayout.routeContext', routeContext);
-    console.log('pure', pure.value);
+    const restProps = computed(() => omit(props, ['onCollapse', 'onOpenKeys', 'onSelect']));
     provide('route-context', routeContext);
 
     return () => (
@@ -180,7 +172,7 @@ const ProLayout = defineComponent({
             <Layout class={baseClassName.value}>
               {!isTop.value && (
                 <SiderMenuWrapper
-                  {...props}
+                  {...restProps.value}
                   isMobile={isMobile.value}
                   menuHeaderRender={menuHeaderRender}
                   onCollapse={onCollapse}
@@ -189,10 +181,10 @@ const ProLayout = defineComponent({
                 />
               )}
               <Layout style={genLayoutStyle}>
-                {headerDom}
+                {headerDom.value}
                 <WrapContent
-                  isChildrenLayout={propsIsChildrenLayout}
-                  style={disableContentMargin ? null : contentStyle}
+                  isChildrenLayout={props.isChildrenLayout}
+                  style={props.disableContentMargin ? undefined : props.contentStyle}
                 >
                   {slots.default?.()}
                 </WrapContent>
@@ -218,7 +210,7 @@ ProLayout.props = {
   /* layout 的加载态 */
   loading: PropTypes.bool,
   /* 用于生成菜单和面包屑 请从 RouterContext 注入 */
-  // menuData: PropTypes.array,
+  menuData: PropTypes.array,
 
   // location: PropTypes.string,
   // Custom render
@@ -279,8 +271,6 @@ ProLayout.props = {
   menu: PropTypes.object,
   /* 传递到 antd menu 组件的 props */
   menuProps: PropTypes.object,
-  /* 菜单数组 */
-  menuData: PropTypes.object,
   /* 是否分割菜单 (仅 mix 模式有效) */
   splitMenus: PropTypes.bool,
   selectedKeys: PropTypes.array,
@@ -294,6 +284,7 @@ ProLayout.props = {
   // onPageChange // 请使用 vue-router 监听
   /* 禁止自动切换到移动页面 */
   disableMobile: PropTypes.bool,
+  isChildrenLayout: PropTypes.bool,
 } as any;
 
 export default withInstall(ProLayout);

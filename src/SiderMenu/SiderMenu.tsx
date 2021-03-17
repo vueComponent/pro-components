@@ -1,4 +1,4 @@
-import { FunctionalComponent, computed, watch } from 'vue';
+import { FunctionalComponent, computed } from 'vue';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 import 'ant-design-vue/es/menu/style';
@@ -51,7 +51,7 @@ export const defaultRenderLogo = (logo: VNodeType): VNodeType => {
 export const defaultRenderLogoAndTitle = (
   props: SiderMenuProps,
   renderKey: string | undefined = 'menuHeaderRender',
-): VNodeType => {
+): VNodeType | null => {
   const {
     logo = 'https://gw.alipayobjects.com/zos/antfincdn/PmY%24TNNDBI/logo.svg',
     title,
@@ -100,7 +100,6 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
   const context = useRouteContext();
   const { getPrefixCls } = context;
   const baseClassName = getPrefixCls('sider');
-  console.log('useRouteContext', context);
   // const isMix = computed(() => props.layout === 'mix');
   // const fixed = computed(() => context.fixSiderbar);
   const runtimeTheme = computed(() => (props.layout === 'mix' && 'light') || props.navTheme);
@@ -115,9 +114,9 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
       [`${baseClassName}-fixed`]: context.fixSiderbar,
     };
   });
-  const hasSide = computed(() => props.layout === 'mix' && props.splitMenus);
+  const hasSide = computed(() => (props.layout === 'mix' && props.splitMenus) || false);
   const flatMenuData = computed(() => {
-    return hasSide.value && getMenuFirstChildren(context.menuData, context.selectedKeys[0]);
+    return (hasSide.value && getMenuFirstChildren(context.menuData, context.selectedKeys[0])) || [];
   });
   // call menuHeaderRender
   const headerDom = defaultRenderLogoAndTitle(props);
@@ -125,12 +124,6 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
   if (hasSide.value && flatMenuData.value.length === 0) {
     return null;
   }
-  watch(
-    () => context.selectedKeys,
-    n => {
-      console.log('watch:context', n);
-    },
-  );
   const defaultMenuDom = (
     <BaseMenu
       prefixCls={getPrefixCls()}

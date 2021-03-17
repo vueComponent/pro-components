@@ -1,4 +1,3 @@
-@import '~ant-design-vue/es/style/themes/default.less';
 @import '../BasicLayout.less';
 
 @pro-layout-sider-menu-prefix-cls: ~'@{ant-prefix}-pro-sider';
@@ -9,8 +8,10 @@
   position: relative;
   background-color: @layout-sider-background;
   border-right: 0;
-  transition: background-color 0.3s, min-width 0.3s,
-    max-width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  box-shadow: 2px 0 8px 0 rgba(29, 35, 41, 0.05);
+  transition: background-color 0.3s
+    /* , min-width 0.3s,
+    max-width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) */;
   z-index: 100;
 
   &.@{ant-prefix}-menu-vertical .@{ant-prefix}-menu-item:not(:last-child),
