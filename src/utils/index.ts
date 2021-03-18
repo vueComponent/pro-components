@@ -73,8 +73,10 @@ export function flatMap(menusData: MenuDataItem[]): MenuDataItem[] {
     .filter(item => item);
 }
 
-export function getMenuFirstChildren(menus: MenuDataItem[], key: string) {
-  return (menus[menus.findIndex(menu => menu.path === key)] || {}).children || [];
+export function getMenuFirstChildren(menus: MenuDataItem[], key?: string) {
+  return key === undefined
+    ? []
+    : (menus[menus.findIndex(menu => menu.path === key)] || {}).children || [];
 }
 
 export const PropRenderType = {

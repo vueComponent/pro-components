@@ -1,6 +1,6 @@
 import { computed, defineComponent, onBeforeUnmount, onMounted, PropType, VNodeChild } from 'vue';
-import { useProProvider } from '../ProProvider';
 import { RouteContextProps, useRouteContext } from '../RouteContext';
+import { getMenuFirstChildren } from '../utils';
 import './index.less';
 
 export interface FooterToolbarProps {
@@ -32,13 +32,29 @@ const FooterToolbar = defineComponent({
     const routeContext = useRouteContext();
     const { getPrefixCls } = routeContext;
     const baseClassName = props.prefixCls || getPrefixCls('footer-bar');
-
+    // matchMenuKeys
+    const matchMenuChildrenSize = computed(
+      () =>
+        (
+          (routeContext.menuData &&
+            getMenuFirstChildren(
+              routeContext.menuData,
+              (routeContext.selectedKeys && routeContext.selectedKeys[0]) || undefined,
+            )) ||
+          []
+        ).length,
+    );
+    const hasSide = computed(() => {
+      return routeContext.layout === 'mix' && routeContext.splitMenus
+        ? matchMenuChildrenSize.value > 0
+        : true;
+    });
     const width = computed(() => {
-      const { hasSideMenu, isMobile, sideWidth, layout } = routeContext;
-      if (!hasSideMenu) {
-        return undefined;
-      }
+      const { isMobile, sideWidth, layout } = routeContext;
       if (!sideWidth || layout === 'top') {
+        return '100%';
+      }
+      if (!hasSide.value) {
         return '100%';
       }
       return isMobile ? '100%' : `calc(100% - ${sideWidth}px)`;
