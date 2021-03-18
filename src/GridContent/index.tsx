@@ -1,7 +1,8 @@
-import { FunctionalComponent, CSSProperties } from 'vue';
-import { useProProvider } from '../ProProvider';
-import { PureSettings } from '../defaultSettings';
 import './GridContent.less';
+
+import { FunctionalComponent, CSSProperties } from 'vue';
+import { PureSettings } from '../defaultSettings';
+import { useRouteContext } from '../RouteContext';
 
 export interface GridContentProps {
   contentWidth?: PureSettings['contentWidth'];
@@ -10,7 +11,7 @@ export interface GridContentProps {
 }
 
 const GridContent: FunctionalComponent<GridContentProps> = (props, { slots }) => {
-  const { contentWidth, getPrefixCls } = useProProvider();
+  const { contentWidth, getPrefixCls } = useRouteContext();
   const customPrefixCls = props.prefixCls || getPrefixCls();
   const customContentWidth = props.contentWidth || contentWidth;
   return (

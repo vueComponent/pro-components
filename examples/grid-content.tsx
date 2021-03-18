@@ -1,15 +1,15 @@
 import { createApp, defineComponent, reactive } from 'vue';
 import { Card, Space, Button } from 'ant-design-vue';
 import { ContentWidth } from '../src/typings';
-import GridContent from '../src/GridContent';
+import GridContent, { GridContentProps } from '../src/GridContent';
 
 import 'ant-design-vue/dist/antd.less';
 
 const GridContentDemo = defineComponent({
-  setup () {
-    const state = reactive({
-      contentWidth: 'Fixed' as ContentWidth
-    })
+  setup() {
+    const state = reactive<GridContentProps>({
+      contentWidth: 'Fixed',
+    });
 
     return () => (
       <div class="components" style={{ background: 'rgb(240, 240, 240)', paddingBottom: '20px' }}>
@@ -26,7 +26,10 @@ const GridContentDemo = defineComponent({
             </Button>
           </Space>
         </Card>
-        <GridContent contentWidth={state.contentWidth} style={{ background: 'rgb(220, 220, 220)', padding: '22px' }}>
+        <GridContent
+          contentWidth={state.contentWidth}
+          style={{ background: 'rgb(220, 220, 220)', padding: '22px' }}
+        >
           Content
           <br />
           ...
@@ -37,11 +40,12 @@ const GridContentDemo = defineComponent({
           <br />
           ...
           <br />
-          ...<br />
+          ...
+          <br />
         </GridContent>
       </div>
     );
-  }
+  },
 });
 
 createApp(GridContentDemo).mount('#__vue-content>div');

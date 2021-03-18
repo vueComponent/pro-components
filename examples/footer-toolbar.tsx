@@ -2,26 +2,21 @@ import { Button, Card, Space, Switch } from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.less';
 import { createApp, reactive } from 'vue';
 import FooterToolbar, { FooterToolbarProps } from '../src/FooterToolbar';
-import { createRouteContext } from '../src/RouteContext';
+import { useRouteContext } from '../src/RouteContext';
 
 const DemoComponent = {
   setup() {
-    const state = reactive({
-      name: 'value',
-      hasFooterToolbar: 'unset' as string | boolean,
-      toolbarProps: {} as FooterToolbarProps,
-    });
-    const setToolbarProps = tProps => {
-      state.toolbarProps = { ...state.toolbarProps, ...tProps };
-    };
+    const routeContext = useRouteContext();
 
-    const [ routeContext, RouteContextProvider ] = createRouteContext({
-      hasFooterToolbar: false,
-      setHasFooterToolbar: v => {
-        state.hasFooterToolbar = v;
-        routeContext.hasFooterToolbar = v;
-      },
+    const state = reactive({
+      name: '',
+      toolbarProps: {
+        extra: undefined,
+        renderContent: undefined,
+      } as FooterToolbarProps,
     });
+
+    console.log('routeContext', routeContext);
 
     return () => (
       <div class="components">
@@ -43,17 +38,14 @@ const DemoComponent = {
               checked={!!state.toolbarProps.extra}
               onClick={() => {
                 state.name = new Date().getTime().toString();
-                const extra = !state.toolbarProps.extra ? (
+                state.toolbarProps.extra = !state.toolbarProps.extra ? (
                   <img
                     src="https://gw.alipayobjects.com/zos/antfincdn/PmY%24TNNDBI/logo.svg"
                     alt="logo"
                     width="32"
                     height="32"
                   />
-                ) : (
-                  undefined
-                );
-                setToolbarProps({ extra });
+                ) : undefined;
               }}
             />
             <Switch
@@ -62,41 +54,25 @@ const DemoComponent = {
               checked={!!state.toolbarProps.renderContent}
               onClick={() => {
                 state.name = new Date().getTime().toString();
-                const renderContent = !state.toolbarProps.renderContent
+                state.toolbarProps.renderContent = !state.toolbarProps.renderContent
                   ? () => 'home_toolbar'
                   : undefined;
-                setToolbarProps({ renderContent });
               }}
             />
           </Space>
           <div style={{ margin: '12px 0' }}>
             state
-            <pre>
-              {JSON.stringify(
-                {
-                  name: state.name,
-                  toolbarProps: Object.fromEntries(
-                    Object.entries(state.toolbarProps).map(([k, v]) => [k, typeof v]),
-                  ),
-                },
-                null,
-                2,
-              )}
-            </pre>
+            <pre>{JSON.stringify(state, null, 2)}</pre>
             routeContext:
             <pre>{JSON.stringify(routeContext, null, 2)}</pre>
           </div>
         </Card>
         <div>
-          <RouteContextProvider>
-            {routeContext.hasFooterToolbar && (
-              <FooterToolbar {...state.toolbarProps}>
-                <Button type="primary">
-                  right
-                </Button>
-              </FooterToolbar>
-            )}
-          </RouteContextProvider>
+          {routeContext.hasFooterToolbar && (
+            <FooterToolbar {...state.toolbarProps}>
+              <Button type="primary">right</Button>
+            </FooterToolbar>
+          )}
         </div>
       </div>
     );

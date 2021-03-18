@@ -2,28 +2,23 @@ import { computed, CSSProperties, reactive, unref, provide, defineComponent, toR
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 import { withInstall } from 'ant-design-vue/es/_util/type';
-import { RouteContextProps } from './RouteContext';
+import { getPrefixCls, RouteContextProps } from './RouteContext';
 import { default as SiderMenuWrapper, SiderMenuWrapperProps } from './SiderMenu';
 import { WrapContent } from './WrapContent';
 import { default as Header, HeaderViewProps } from './Header';
-import { VNodeType, CustomRender, WithFalse } from './typings';
-import { getCustomRender, getMenuFirstChildren, PropRenderType, PropTypes } from './utils';
+import { CustomRender, WithFalse } from './typings';
+import { getCustomRender, PropRenderType, PropTypes } from './utils';
 import omit from 'omit.js';
 import useMediaQuery from './hooks/useMediaQuery';
 import './BasicLayout.less';
 
-export const defaultPrefixCls = 'ant-pro';
-const getPrefixCls = (suffixCls?: string, customizePrefixCls?: string) => {
-  if (customizePrefixCls) return customizePrefixCls;
-  return suffixCls ? `${defaultPrefixCls}-${suffixCls}` : defaultPrefixCls;
-};
 export type BasicLayoutProps = SiderMenuWrapperProps &
   HeaderViewProps & {
     pure?: boolean;
     /**
      *@name logo url
      */
-    logo?: VNodeType;
+    logo?: CustomRender;
 
     loading?: boolean;
 
@@ -33,9 +28,9 @@ export type BasicLayoutProps = SiderMenuWrapperProps &
 
     onCollapse?: (collapsed: boolean) => void;
 
-    footerRender?: WithFalse<(props: any /* FooterProps */) => VNodeType>;
+    footerRender?: WithFalse<(props: any /* FooterProps */) => CustomRender>;
 
-    headerRender?: WithFalse<(props: any /* HeaderProps */) => VNodeType>;
+    headerRender?: WithFalse<(props: any /* HeaderProps */) => CustomRender>;
 
     colSize?: string;
     /**
@@ -109,7 +104,7 @@ const ProLayout = defineComponent({
         rightContentRender: WithFalse<CustomRender>;
       },
       matchMenuKeys?: string[],
-    ): VNodeType | null => {
+    ): CustomRender | null => {
       if (p.headerRender === false || p.pure) {
         return null;
       }
@@ -161,7 +156,6 @@ const ProLayout = defineComponent({
 
     const restProps = computed(() => omit(props, ['onCollapse', 'onOpenKeys', 'onSelect']));
     provide('route-context', routeContext);
-
     return () => (
       <>
         {pure.value ? (

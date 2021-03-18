@@ -12,7 +12,11 @@ export function getComponentOrSlot(props: any, slots: Slots, name: string): VNod
   return typeof comp === 'function' ? comp() : (comp && (comp as VNodeChild)) || false;
 }
 
-export function getCustomRender(props: any, slots: Slots, name: string): CustomRender | false {
+export function getCustomRender(
+  props: any,
+  slots: Slots,
+  name: string,
+): any | /*  | CustomRender  */ false | null {
   const propRender = props[name];
   if (propRender === false) {
     return false;
@@ -21,7 +25,7 @@ export function getCustomRender(props: any, slots: Slots, name: string): CustomR
     return propRender;
   }
   const slotVNode = slots[name || 'default'];
-  return slotVNode;
+  return slotVNode || null;
 }
 
 export function warn(valid: boolean, message: string) {
@@ -70,7 +74,7 @@ export function flatMap(menusData: MenuDataItem[]): MenuDataItem[] {
       delete finalItem.children;
       return finalItem;
     })
-    .filter(item => item);
+    .filter(item => item) as any[];
 }
 
 export function getMenuFirstChildren(menus: MenuDataItem[], key?: string) {

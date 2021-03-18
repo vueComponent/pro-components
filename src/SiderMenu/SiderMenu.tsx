@@ -4,7 +4,7 @@ import Layout from 'ant-design-vue/es/layout';
 import 'ant-design-vue/es/menu/style';
 import Menu from 'ant-design-vue/es/menu';
 import BaseMenu, { BaseMenuProps } from './BaseMenu';
-import { WithFalse, VNodeType } from '../typings';
+import { WithFalse, CustomRender } from '../typings';
 import { SiderProps } from './typings';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
 import { useRouteContext } from '../RouteContext';
@@ -19,16 +19,16 @@ export type PrivateSiderMenuProps = {
 
 export interface SiderMenuProps
   extends Pick<BaseMenuProps, Exclude<keyof BaseMenuProps, ['onCollapse']>> {
-  logo?: VNodeType;
+  logo?: CustomRender;
   siderWidth?: number;
   collapsedWidth?: number;
   menuHeaderRender?: WithFalse<
-    (logo: VNodeType, title: VNodeType, props?: SiderMenuProps) => VNodeType
+    (logo: CustomRender, title: CustomRender, props?: SiderMenuProps) => CustomRender
   >;
-  menuFooterRender?: WithFalse<(props?: SiderMenuProps) => VNodeType>;
-  menuContentRender?: WithFalse<(props: SiderMenuProps, defaultDom: VNodeType) => VNodeType>;
-  menuExtraRender?: WithFalse<(props: SiderMenuProps) => VNodeType>;
-  collapsedButtonRender?: WithFalse<(collapsed?: boolean) => VNodeType>;
+  menuFooterRender?: WithFalse<(props?: SiderMenuProps) => CustomRender>;
+  menuContentRender?: WithFalse<(props: SiderMenuProps, defaultDom: CustomRender) => CustomRender>;
+  menuExtraRender?: WithFalse<(props: SiderMenuProps) => CustomRender>;
+  collapsedButtonRender?: WithFalse<(collapsed?: boolean) => CustomRender>;
   breakpoint?: SiderProps['breakpoint'] | false;
   onMenuHeaderClick?: (e: MouseEvent) => void;
   fixed?: boolean;
@@ -38,7 +38,10 @@ export interface SiderMenuProps
   onSelect?: (selectedKeys: WithFalse<string[]>) => void;
 }
 
-export const defaultRenderLogo = (logo: VNodeType): VNodeType => {
+export const defaultRenderLogo = (logo?: CustomRender): CustomRender => {
+  if (!logo) {
+    return null;
+  }
   if (typeof logo === 'string') {
     return <img src={logo} alt="logo" />;
   }
@@ -51,7 +54,7 @@ export const defaultRenderLogo = (logo: VNodeType): VNodeType => {
 export const defaultRenderLogoAndTitle = (
   props: SiderMenuProps,
   renderKey: string | undefined = 'menuHeaderRender',
-): VNodeType | null => {
+): CustomRender | null => {
   const {
     logo = 'https://gw.alipayobjects.com/zos/antfincdn/PmY%24TNNDBI/logo.svg',
     title,
@@ -79,7 +82,7 @@ export const defaultRenderLogoAndTitle = (
   );
 };
 
-export const defaultRenderCollapsedButton = (collapsed?: boolean): VNodeType =>
+export const defaultRenderCollapsedButton = (collapsed?: boolean): CustomRender =>
   collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />;
 
 const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) => {

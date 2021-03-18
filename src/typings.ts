@@ -1,7 +1,4 @@
-import { VNode } from 'vue';
-
-// define global types
-export type VNodeType = WithFalse<string | VNode | JSX.Element>;
+import type { Slot, VNode } from 'vue';
 
 export type MenuTheme = 'dark' | 'light';
 
@@ -67,6 +64,14 @@ export interface MenuDataItem {
 
 export type WithFalse<T> = T | false;
 
-export type CustomRender = (...args: any[]) => VNode | VNode[];
+export type CustomRender =
+  | Slot
+  | VNode
+  | ((...props: any) => Slot)
+  | ((...props: any) => VNode)
+  | ((...args: any[]) => VNode)
+  | VNode[]
+  | JSX.Element
+  | null;
 
-export type FormatMessage = (message: string) => string;
+export type FormatMessage = (message?: string) => string;

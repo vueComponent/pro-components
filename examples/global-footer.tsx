@@ -1,16 +1,10 @@
-import { createApp, defineComponent, reactive } from 'vue';
+import { createApp, defineComponent } from 'vue';
 import { Card } from 'ant-design-vue';
-import { ContentWidth } from '../src/typings';
 import GlobalFooter from '../src/GlobalFooter';
-
 import 'ant-design-vue/dist/antd.less';
 
 const GlobalFooterDemo = defineComponent({
-  setup () {
-    const state = reactive({
-      contentWidth: 'Fixed' as ContentWidth
-    })
-
+  setup() {
     return () => (
       <div class="components" style={{ background: 'rgb(240, 240, 240)', paddingBottom: '20px' }}>
         <Card style={{ marginBottom: '24px', background: 'rgb(244,244,244)' }}>
@@ -35,13 +29,17 @@ const GlobalFooterDemo = defineComponent({
               title: '@Sendya',
               href: 'https://www.github.com/sendya/',
               blankTarget: true,
-            }
+            },
           ]}
-          copyright={(<a href="https://github.com/vueComponent" target="_blank">vueComponent</a>)}
+          copyright={
+            <a href="https://github.com/vueComponent" target="_blank">
+              vueComponent
+            </a>
+          }
         />
       </div>
     );
-  }
+  },
 });
 
 createApp(GlobalFooterDemo).mount('#__vue-content>div');

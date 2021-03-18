@@ -5,7 +5,7 @@ import Layout from 'ant-design-vue/es/layout';
 import { GlobalHeader, GlobalHeaderProps } from './GlobalHeader';
 import { TopNavHeader } from './TopNavHeader';
 import { useRouteContext } from './RouteContext';
-import { VNodeType, WithFalse } from './typings';
+import { CustomRender, WithFalse } from './typings';
 import { clearMenuItem } from './utils';
 import './Header.less';
 
@@ -18,11 +18,11 @@ interface HeaderViewState {
 export type HeaderViewProps = GlobalHeaderProps & {
   isMobile?: boolean;
   collapsed?: boolean;
-  logo?: VNodeType;
+  logo?: CustomRender;
 
-  headerRender?: WithFalse<(props: HeaderViewProps, defaultDom: VNodeType) => VNodeType>;
-  headerTitleRender?: WithFalse<(props: HeaderViewProps, defaultDom: VNodeType) => VNodeType>;
-  headerContentRender?: WithFalse<(props: HeaderViewProps) => VNodeType>;
+  headerRender?: WithFalse<(props: HeaderViewProps, defaultDom: CustomRender) => CustomRender>;
+  headerTitleRender?: WithFalse<(props: HeaderViewProps, defaultDom: CustomRender) => CustomRender>;
+  headerContentRender?: WithFalse<(props: HeaderViewProps) => CustomRender>;
   siderWidth?: number;
   hasSiderMenu?: boolean;
 };
@@ -59,7 +59,7 @@ export const HeaderView = defineComponent({
   inheritAttrs: false,
   name: 'HeaderView',
   props: headerProps,
-  setup(props: HeaderViewProps) {
+  setup(props /*Required<HeaderViewProps> */) {
     const {
       prefixCls,
       isMobile,

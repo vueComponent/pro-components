@@ -1,20 +1,23 @@
-import { computed, defineComponent, onBeforeUnmount, onMounted, PropType, VNodeChild } from 'vue';
-import { RouteContextProps, useRouteContext } from '../RouteContext';
-import { getMenuFirstChildren } from '../utils';
 import './index.less';
 
+import { computed, defineComponent, onBeforeUnmount, onMounted, PropType } from 'vue';
+import { RouteContextProps, useRouteContext } from '../RouteContext';
+import { getMenuFirstChildren, PropTypes } from '../utils';
+import type { CustomRender } from '../typings';
 export interface FooterToolbarProps {
-  extra?: VNodeChild | JSX.Element;
+  extra?: CustomRender | JSX.Element;
   renderContent?: (
     props: FooterToolbarProps & RouteContextProps & { leftWidth?: string },
-    dom: JSX.Element,
-  ) => VNodeChild | JSX.Element;
+    dom: CustomRender | JSX.Element,
+  ) => CustomRender | JSX.Element;
   getContainer?: (triggerNode: HTMLElement) => HTMLElement | null;
   prefixCls?: string;
 }
 
-const FooterToolbarProps = {
-  extra: { type: Object as PropType<VNodeChild> },
+const footerToolbarProps = {
+  extra: {
+    type: Object as PropType<FooterToolbarProps['extra']>,
+  },
   renderContent: {
     type: Function as PropType<FooterToolbarProps['renderContent']>,
   },
@@ -26,7 +29,7 @@ const FooterToolbarProps = {
 
 const FooterToolbar = defineComponent({
   name: 'FooterToolbar',
-  props: FooterToolbarProps,
+  props: footerToolbarProps,
   setup(props, ctx) {
     const { slots } = ctx;
     const routeContext = useRouteContext();

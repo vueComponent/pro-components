@@ -1,6 +1,12 @@
 import { ref } from 'vue';
 
-export const MediaQueryEnum = {
+export const MediaQueryEnum /* : {
+  [key: string]: {
+    matchMedia: string;
+    minWidth?: number;
+    maxWidth?: number;
+  };
+} */ = {
   xs: {
     maxWidth: 575,
     matchMedia: '(max-width: 575px)',
@@ -60,7 +66,7 @@ const useMedia = () => {
   const colSpan = ref<string>(getScreenClassName());
 
   Object.keys(MediaQueryEnum).forEach(key => {
-    const { matchMedia } = MediaQueryEnum[key];
+    const { matchMedia } = MediaQueryEnum[key as MediaQueryKey];
     const query = window.matchMedia(matchMedia);
     if (query.matches) {
       colSpan.value = key;

@@ -1,7 +1,7 @@
 import './_utils/mock-func';
-import { mount, shallowMount } from '@vue/test-utils';
-import { reactive } from 'vue';
-import BasicLayout from '../src/BasicLayout';
+import { mount } from '@vue/test-utils';
+import { PropType } from 'vue';
+import BasicLayout, { BasicLayoutProps } from '../src/BasicLayout';
 
 const title = 'Pro Tests';
 const logoSrc = 'https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg';
@@ -54,11 +54,11 @@ describe('BasicLayout', () => {
     const wrapper = mount({
       props: {
         theme: {
-          type: String,
+          type: String as PropType<BasicLayoutProps['navTheme']>,
           default: 'light',
         },
         layout: {
-          type: String,
+          type: String as PropType<BasicLayoutProps['layout']>,
           default: 'mix',
         },
       },

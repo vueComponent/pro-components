@@ -36,7 +36,7 @@ exports[`BasicLayout 🥩 base use 1`] = `
           <div class="custom-header-right-content"><span>custom-right-content</span></div>
         </div>
       </header>
-      <main class="ant-layout-content ant-pro-basicLayout-content ant-pro-basicLayout-has-header" style="min-height: 300px;">
+      <main class="ant-layout-content ant-pro-basicLayout-content ant-pro-basicLayout-has-header" ischildrenlayout="false" style="min-height: 300px;">
         <div>content</div>
       </main>
       <div>custom-footer</div>

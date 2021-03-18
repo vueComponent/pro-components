@@ -4,7 +4,6 @@ import { Tag, Button } from 'ant-design-vue';
 import { sleep } from './utils';
 
 describe('PageContainer', () => {
-
   const routes = [
     {
       path: 'index',
@@ -21,20 +20,24 @@ describe('PageContainer', () => {
   ];
   const props = {
     title: 'Title',
-    subTitle: "This is a subtitle",
+    subTitle: 'This is a subtitle',
     breadcrumb: { routes },
     onBack: () => {},
-    tags: ['Tag 1', 'Tag 2'].map(tag => (<Tag color="blue">{tag}</Tag>)),
-    extra: [<Button key="1" type="primary">主操作</Button>,],
-    content: (<div>content</div>),
-    extraContent: (<div>extraContent</div>),
+    tags: ['Tag 1', 'Tag 2'].map(tag => <Tag color="blue">{tag}</Tag>),
+    extra: [
+      <Button key="1" type="primary">
+        主操作
+      </Button>,
+    ],
+    content: <div>content</div>,
+    extraContent: <div>extraContent</div>,
     footer: [
       <Button key="3">重置</Button>,
       <Button key="2" type="primary">
         提交
       </Button>,
     ],
-  }
+  };
 
   it('🥩 base use', () => {
     const wrapper = mount({
@@ -52,12 +55,7 @@ describe('PageContainer', () => {
   it('😄 custom title,subTitle', () => {
     const wrapper = mount({
       render() {
-        return (
-          <PageContainer
-            title="Title"
-            subTitle="SubTitle"
-          />
-        );
+        return <PageContainer title="Title" subTitle="SubTitle" />;
       },
     });
 
@@ -89,7 +87,9 @@ describe('PageContainer', () => {
       render() {
         return (
           <PageContainer
-            tags={['Tag 1', 'Tag 2'].map(tag => (<Tag color="blue">{tag}</Tag>))}
+            tags={['Tag 1', 'Tag 2'].map(tag => (
+              <Tag color="blue">{tag}</Tag>
+            ))}
           />
         );
       },

@@ -1,6 +1,6 @@
 import { computed, CSSProperties, FunctionalComponent } from 'vue';
 import { PureSettings } from '../defaultSettings';
-import { VNodeType, MenuDataItem, WithFalse } from '../typings';
+import { CustomRender, MenuDataItem, WithFalse } from '../typings';
 import {
   SiderMenuProps,
   PrivateSiderMenuProps,
@@ -12,15 +12,14 @@ import { TopNavHeader } from '../TopNavHeader';
 import { clearMenuItem } from '../utils';
 import type { HeaderViewProps } from '../Header';
 import './index.less';
-import { useProProvider } from '../ProProvider';
-
+import { useRouteContext } from '../RouteContext';
 export interface GlobalHeaderProps extends Partial<PureSettings> {
   collapsed?: boolean;
   onCollapse?: (collapsed: boolean) => void;
   isMobile?: boolean;
-  logo?: VNodeType;
-  menuRender?: WithFalse<(props: HeaderViewProps, defaultDom: VNodeType) => VNodeType>;
-  rightContentRender?: WithFalse<(props: HeaderViewProps) => VNodeType>;
+  logo?: CustomRender;
+  menuRender?: WithFalse<(props: HeaderViewProps, defaultDom: CustomRender) => CustomRender>;
+  rightContentRender?: WithFalse<(props: HeaderViewProps) => CustomRender>;
   className?: string;
   prefixCls?: string;
   menuData?: MenuDataItem[];
@@ -33,7 +32,10 @@ export interface GlobalHeaderProps extends Partial<PureSettings> {
   onSelect?: (selectedKeys: WithFalse<string[]>) => void;
 }
 
-const renderLogo = (menuHeaderRender: SiderMenuProps['menuHeaderRender'], logoDom: VNodeType) => {
+const renderLogo = (
+  menuHeaderRender: SiderMenuProps['menuHeaderRender'],
+  logoDom: CustomRender,
+) => {
   if (menuHeaderRender === false) {
     return null;
   }
@@ -63,7 +65,7 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps & PrivateSiderM
     menuData,
     prefixCls: customPrefixCls,
   } = props;
-  const { getPrefixCls } = useProProvider();
+  const { getPrefixCls } = useRouteContext();
   const prefixCls = customPrefixCls || getPrefixCls();
   const baseClassName = computed(() => `${prefixCls}-global-header`);
   const className = computed(() => {

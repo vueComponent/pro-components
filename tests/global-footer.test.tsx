@@ -1,8 +1,5 @@
-import { mount, shallowMount } from '@vue/test-utils';
-// import BasicLayout from '../src/BasicLayout';
-import ProProvider from '../src/ProProvider';
+import { mount } from '@vue/test-utils';
 import GlobalFooter from '../src/GlobalFooter';
-import { link } from 'fs';
 
 const testLinks = [
   {
@@ -22,18 +19,23 @@ const testLinks = [
     title: '@Sendya',
     href: 'https://www.github.com/sendya/',
     blankTarget: true,
-  }
-]
+  },
+];
 
 describe('GlobalFooter', () => {
-
   it('🥩 base use', () => {
     const wrapper = mount({
       render() {
-        return (<GlobalFooter
-          links={testLinks}
-          copyright={(<a href="https://github.com/vueComponent" target="_blank">vueComponent</a>)}
-        />);
+        return (
+          <GlobalFooter
+            links={testLinks}
+            copyright={
+              <a href="https://github.com/vueComponent" target="_blank">
+                vueComponent
+              </a>
+            }
+          />
+        );
       },
     });
     expect(wrapper.html()).toMatchSnapshot();
@@ -43,13 +45,17 @@ describe('GlobalFooter', () => {
     const wrapper = mount({
       render() {
         return (
-          <GlobalFooter links={[{
-            key: '1',
-            title: 'Pro Layout',
-            href: 'https://www.github.com/vueComponent/pro-layout',
-            blankTarget: true,
-          }]} />
-        )
+          <GlobalFooter
+            links={[
+              {
+                key: '1',
+                title: 'Pro Layout',
+                href: 'https://www.github.com/vueComponent/pro-layout',
+                blankTarget: true,
+              },
+            ]}
+          />
+        );
       },
     });
     const links = wrapper.findAll('.ant-pro-global-footer-links a');
@@ -59,12 +65,12 @@ describe('GlobalFooter', () => {
   it('😄 custom copyright', () => {
     const wrapper = mount({
       render() {
-        return (
-          <GlobalFooter copyright={(<a href="#copyright">vueComponent</a>)} />
-        );
+        return <GlobalFooter copyright={<a href="#copyright">vueComponent</a>} />;
       },
     });
-    expect(wrapper.find('.ant-pro-global-footer-copyright a').attributes()).toHaveProperty('href', '#copyright');
+    expect(wrapper.find('.ant-pro-global-footer-copyright a').attributes()).toHaveProperty(
+      'href',
+      '#copyright',
+    );
   });
-
 });

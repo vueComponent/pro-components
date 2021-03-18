@@ -32,7 +32,7 @@ export const createContext = <T>(
     },
   });
 
-  return ContextProvider;
+  return ContextProvider as any;
 };
 
 export const useContext = <T>(

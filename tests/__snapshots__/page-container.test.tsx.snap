@@ -38,7 +38,7 @@ exports[`PageContainer 🥩 base use 1`] = `
       </div>
     </div>
   </div>
-  <div class="ant-pro-footer-bar">
+  <div class="ant-pro-footer-bar" style="width: 100%;">
     <div class="ant-pro-footer-bar-left">
       <!---->
     </div>

@@ -1,4 +1,4 @@
-import { InjectionKey, VNodeChild } from 'vue';
+import { InjectionKey, reactive, VNodeChild } from 'vue';
 import { createContext, useContext } from './hooks/context';
 import { MenuDataItem } from './typings';
 import { PureSettings } from './defaultSettings';
@@ -34,8 +34,8 @@ export interface MenuState {
 }
 
 export interface RouteContextProps extends Partial<PureSettings>, MenuState {
-  getPrefixCls: (suffixCls?: string, customizePrefixCls?: string) => string;
-  i18n: (t: string) => string;
+  getPrefixCls?: (suffixCls?: string, customizePrefixCls?: string) => string;
+  i18n?: (t: string) => string;
 
   breadcrumb?: BreadcrumbListReturn;
   menuData: MenuDataItem[];
@@ -52,13 +52,32 @@ export interface RouteContextProps extends Partial<PureSettings>, MenuState {
   [key: string]: any;
 }
 
+export const defaultPrefixCls = 'ant-pro';
+
+export const getPrefixCls = (suffixCls?: string, customizePrefixCls?: string) => {
+  if (customizePrefixCls) return customizePrefixCls;
+  return suffixCls ? `${defaultPrefixCls}-${suffixCls}` : defaultPrefixCls;
+};
+
+// set default context
+const defaultRouteContext = reactive({
+  getPrefixCls,
+  i18n: (t: string) => t,
+  contentWidth: 'Fluid',
+  hasFooterToolbar: false,
+  setHasFooterToolbar: (bool: boolean) => (defaultRouteContext.hasFooterToolbar = bool),
+});
+
 const routeContextInjectKey: InjectionKey<RouteContextProps> = Symbol('route-context');
 
 export const createRouteContext = () =>
   createContext<RouteContextProps>(routeContextInjectKey, 'RouteContext.Provider');
 
 export const useRouteContext = () =>
-  useContext<RouteContextProps>('route-context' /* routeContextInjectKey */);
+  useContext<Required<RouteContextProps>>(
+    'route-context' /* routeContextInjectKey */,
+    defaultRouteContext,
+  );
 
 const Provider = createRouteContext();
 
