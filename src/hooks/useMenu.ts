@@ -70,5 +70,5 @@ export function useMenu({ collapsed = false, openKeys = [], selectedKeys = [] }:
 }
 
 export function useMenuState(): Readonly<ToRefs<MenuStated>> & MenuHandles {
-  return inject(MenuStateKey);
+  return inject(MenuStateKey) as any;
 }
