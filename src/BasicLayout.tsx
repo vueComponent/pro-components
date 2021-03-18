@@ -13,7 +13,10 @@ import useMediaQuery from './hooks/useMediaQuery';
 import './BasicLayout.less';
 
 export const defaultPrefixCls = 'ant-pro';
-
+const getPrefixCls = (suffixCls?: string, customizePrefixCls?: string) => {
+  if (customizePrefixCls) return customizePrefixCls;
+  return suffixCls ? `${defaultPrefixCls}-${suffixCls}` : defaultPrefixCls;
+};
 export type BasicLayoutProps = SiderMenuWrapperProps &
   HeaderViewProps & {
     pure?: boolean;
@@ -24,7 +27,7 @@ export type BasicLayoutProps = SiderMenuWrapperProps &
 
     loading?: boolean;
 
-    i18n?: RouteContextProps['i18n'];
+    locale?: RouteContextProps['i18n'];
 
     defaultCollapsed?: boolean;
 
@@ -141,11 +144,8 @@ const ProLayout = defineComponent({
 
     // @ts-ignore
     const routeContext: RouteContextProps = reactive({
-      getPrefixCls: (suffixCls?: string, customizePrefixCls?: string) => {
-        if (customizePrefixCls) return customizePrefixCls;
-        return suffixCls ? `${defaultPrefixCls}-${suffixCls}` : defaultPrefixCls;
-      },
-      i18n: (t: string): string => t,
+      getPrefixCls,
+      i18n: props.locale || ((t: string) => t),
       contentWidth: 'Fluid',
       layout: propRefs.layout,
       navTheme: propRefs.navTheme,
