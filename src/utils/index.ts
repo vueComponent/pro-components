@@ -1,5 +1,5 @@
 import { Slots, VNodeChild } from 'vue';
-import { CustomRender, MenuDataItem } from '../typings';
+import { MenuDataItem } from '../typings';
 export { getComponent } from 'ant-design-vue/es/_util/props-util';
 export { default as PropTypes } from 'ant-design-vue/es/_util/vue-types';
 

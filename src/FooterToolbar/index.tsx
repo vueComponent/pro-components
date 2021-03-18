@@ -2,7 +2,7 @@ import './index.less';
 
 import { computed, defineComponent, onBeforeUnmount, onMounted, PropType } from 'vue';
 import { RouteContextProps, useRouteContext } from '../RouteContext';
-import { getMenuFirstChildren, PropTypes } from '../utils';
+import { getMenuFirstChildren } from '../utils';
 import type { CustomRender } from '../typings';
 export interface FooterToolbarProps {
   extra?: CustomRender | JSX.Element;
