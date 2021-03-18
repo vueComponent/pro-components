@@ -7,7 +7,7 @@ import { default as SiderMenuWrapper, SiderMenuWrapperProps } from './SiderMenu'
 import { WrapContent } from './WrapContent';
 import { default as Header, HeaderViewProps } from './Header';
 import { VNodeType, CustomRender, WithFalse } from './typings';
-import { getCustomRender, PropRenderType, PropTypes } from './utils';
+import { getCustomRender, getMenuFirstChildren, PropRenderType, PropTypes } from './utils';
 import omit from 'omit.js';
 import useMediaQuery from './hooks/useMediaQuery';
 import './BasicLayout.less';
@@ -153,7 +153,6 @@ const ProLayout = defineComponent({
       fixedHeader: propRefs.fixSiderbar,
       fixSiderbar: propRefs.fixSiderbar,
       sideWidth: siderWidth,
-      hasSideMenu: true,
       hasFooterToolbar: false,
       menuData: propRefs.menuData,
       selectedKeys: propRefs.selectedKeys || [],
