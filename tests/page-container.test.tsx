@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { PageContainer } from '../src/PageContainer';
+import PageContainer from '../src/PageContainer';
 import { Tag, Button } from 'ant-design-vue';
 import { sleep } from './utils';
 
