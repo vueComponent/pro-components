@@ -148,11 +148,13 @@ const defaultPageHeaderRender = (
   if (!title && title !== false) {
     pageHeaderTitle = value.title;
   }
+  console.log('value.breadcrumb', value.breadcrumb);
   // inject value
   return (
     <PageHeader
       title={pageHeaderTitle}
       {...restProps}
+      breadcrumb={{ routes: value.breadcrumb?.routes, itemRender: value.breadcrumb?.itemRender }}
       footer={renderFooter({
         ...restProps,
         tabList,
@@ -218,5 +220,7 @@ const PageContainer: FunctionalComponent<PageContainerProps> = (props, { slots }
     </div>
   );
 };
+
+PageContainer.displayName = 'page-container';
 
 export default withInstall(PageContainer);

@@ -1,5 +1,6 @@
 export * from './RouteContext';
 export * from './typings';
+export * from './utils/getMenuData';
 export { createContext, useContext, ContextType, CreateContext } from './hooks/context';
 export { default as FooterToolbar } from './FooterToolbar';
 export { default as GlobalFooter } from './GlobalFooter';
@@ -12,7 +13,7 @@ export { WrapContent } from './WrapContent';
 //   ProProviderData,
 // } from './ProProvider';
 export { default as PageContainer } from './PageContainer';
-export { default as SiderMenuWrapper, SiderMenuWrapperProps } from './SiderMenu/index';
+export { default as SiderMenuWrapper, SiderMenuWrapperProps } from './SiderMenu';
 export {
   default as BaseMenu,
   BaseMenuProps,

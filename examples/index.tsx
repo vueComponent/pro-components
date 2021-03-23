@@ -1,9 +1,9 @@
 import 'ant-design-vue/dist/antd.less';
 import { createApp, defineComponent, watch, ref, watchEffect, onMounted } from 'vue';
-import { createRouter, createWebHashHistory, useRoute, useRouter, RouteRecord } from 'vue-router';
+import { createRouter, createWebHashHistory, useRoute, useRouter, RouterLink } from 'vue-router';
 import { Avatar, Button, Space, Select, Switch } from 'ant-design-vue';
 import { UserOutlined } from '@ant-design/icons-vue';
-import { default as ProLayout, FooterToolbar, WaterMark, FormatMessage } from '../src/';
+import { default as ProLayout, FooterToolbar, WaterMark, getMenuData } from '../src/';
 import { globalState as state } from './state';
 import './demo.less';
 
@@ -27,11 +27,6 @@ const i18n = (key: string): string => {
   return locales[key] || key;
 };
 
-const getMenuData = (routes: RouteRecord[]) => {
-  const childrenRoute = routes.find(route => route.path === '/');
-  return childrenRoute?.children || [];
-};
-
 const BasicLayout = defineComponent({
   name: 'BasicLayout',
   inheritAttrs: false,
@@ -39,7 +34,7 @@ const BasicLayout = defineComponent({
     const { getRoutes } = useRouter();
     const route = useRoute();
 
-    const menuData = getMenuData(getRoutes());
+    const { menuData, breadcrumb } = getMenuData(getRoutes());
 
     const updateSelectedMenu = () => {
       const matched = route.matched.concat().map(item => item.path);
@@ -82,6 +77,7 @@ const BasicLayout = defineComponent({
         siderWidth={state.sideWidth}
         splitMenus={state.splitMenus}
         menuData={menuData}
+        breadcrumbData={breadcrumb}
         collapsed={state.collapsed}
         openKeys={state.openKeys}
         selectedKeys={state.selectedKeys}
@@ -108,6 +104,13 @@ const BasicLayout = defineComponent({
             {state.collapsed && state.layout !== 'mix' ? null : <h1>Pro Preview</h1>}
           </a>
         )}
+        breadcrumbRender={({ route: r, routes, paths }) =>
+          routes.indexOf(r) === routes.length - 1 ? (
+            <span>{r.breadcrumbName}</span>
+          ) : (
+            <RouterLink to={{ path: `/${paths.join('/')}` }}>{r.breadcrumbName}</RouterLink>
+          )
+        }
         // {...{
         //   'onUpdate:collapsed': noop,
         //   'onUpdate:openKeys': noop,

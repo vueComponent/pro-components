@@ -2,7 +2,7 @@ import { computed, CSSProperties, reactive, unref, provide, defineComponent, toR
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 import { withInstall } from 'ant-design-vue/es/_util/type';
-import { getPrefixCls, RouteContextProps } from './RouteContext';
+import { BreadcrumbProps, getPrefixCls, RouteContextProps } from './RouteContext';
 import { default as SiderMenuWrapper, SiderMenuWrapperProps } from './SiderMenu';
 import { WrapContent } from './WrapContent';
 import { default as Header, HeaderViewProps } from './Header';
@@ -31,6 +31,10 @@ export type BasicLayoutProps = SiderMenuWrapperProps &
     footerRender?: WithFalse<(props: any /* FooterProps */) => CustomRender>;
 
     headerRender?: WithFalse<(props: any /* HeaderProps */) => CustomRender>;
+
+    breadcrumbRender?: WithFalse<BreadcrumbProps['itemRender']>;
+
+    breadcrumbData?: BreadcrumbProps['routes'];
 
     colSize?: string;
     /**
@@ -116,6 +120,9 @@ const ProLayout = defineComponent({
     const footerRender = getCustomRender(props, slots, 'footerRender');
     // const menuRender = getCustomRender(props, slots, 'menuRender');
 
+    const breadcrumbRender = getCustomRender(props, slots, 'breadcrumbRender');
+    console.log('breadcrumbRender', breadcrumbRender);
+
     const headerDom = computed(() =>
       headerRender(
         {
@@ -141,6 +148,10 @@ const ProLayout = defineComponent({
     const routeContext: RouteContextProps = reactive({
       getPrefixCls,
       i18n: props.locale || ((t: string) => t),
+      breadcrumb: {
+        routes: propRefs.breadcrumbData,
+        itemRender: breadcrumbRender,
+      },
       contentWidth: 'Fluid',
       layout: propRefs.layout,
       navTheme: propRefs.navTheme,

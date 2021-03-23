@@ -1,6 +1,6 @@
 import { InjectionKey, reactive, VNodeChild } from 'vue';
 import { createContext, useContext } from './hooks/context';
-import { MenuDataItem } from './typings';
+import { MenuDataItem, CustomRender } from './typings';
 import { PureSettings } from './defaultSettings';
 export interface Route {
   path: string;
@@ -18,7 +18,7 @@ export interface BreadcrumbProps {
     params: any;
     routes: Array<Route>;
     paths: Array<string>;
-  }) => VNodeChild;
+  }) => CustomRender;
 }
 
 export type BreadcrumbListReturn = Pick<

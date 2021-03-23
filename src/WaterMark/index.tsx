@@ -142,11 +142,11 @@ const WaterMark: FC<WaterMarkProps> = (props, { slots }) => {
       style={{
         position: 'relative',
       }}
-      class={wrapperCls}
+      class={wrapperCls.value}
     >
       {slots.default?.()}
       <div
-        class={waterMakrCls}
+        class={waterMakrCls.value}
         style={{
           zIndex,
           position: 'absolute',
