@@ -254,7 +254,7 @@ ProLayout.props = {
   /* 使用 IconFont 的图标配置 */
   iconfontUrl: PropTypes.string,
   /* 当前 layout 的语言设置 */
-  locale: PropTypes.func.def((key: string) => key),
+  locale: PropTypes.func,
   // settings
   /* 侧边菜单宽度 */
   siderWidth: PropTypes.number.def(208),

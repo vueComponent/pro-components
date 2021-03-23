@@ -6,6 +6,7 @@ import { PageHeaderProps } from './interfaces/PageHeader';
 import { AffixProps } from './interfaces/Affix';
 /* replace antd ts define end */
 import { useRouteContext, RouteContextProps } from '../RouteContext';
+import { withInstall } from 'ant-design-vue/es/_util/type';
 import 'ant-design-vue/es/affix/style';
 import Affix from 'ant-design-vue/es/affix';
 import 'ant-design-vue/es/page-header/style';
@@ -164,7 +165,7 @@ const defaultPageHeaderRender = (
   );
 };
 
-export const PageContainer: FunctionalComponent<PageContainerProps> = (props, { slots }) => {
+const PageContainer: FunctionalComponent<PageContainerProps> = (props, { slots }) => {
   const { loading, footer, affixProps, ghost, fixedHeader } = props; // toRefs(props);
   const value = useRouteContext();
   const { getPrefixCls } = value;
@@ -217,3 +218,5 @@ export const PageContainer: FunctionalComponent<PageContainerProps> = (props, { 
     </div>
   );
 };
+
+export default withInstall(PageContainer);

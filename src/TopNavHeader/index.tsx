@@ -7,6 +7,7 @@ import {
 import BaseMenu from '../SiderMenu/BaseMenu';
 import { GlobalHeaderProps } from '../GlobalHeader';
 import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer';
+import { FormatMessage } from '../typings';
 
 import './index.less';
 import { useRouteContext } from '../RouteContext';
@@ -86,6 +87,7 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = props => {
         <div style={{ flex: 1 }} class={`${prefixCls}-menu`}>
           <BaseMenu
             prefixCls={propPrefixCls}
+            i18n={context.i18n as FormatMessage}
             theme={props.theme === 'realDark' ? 'dark' : props.theme}
             mode={props.mode}
             collapsed={props.collapsed}

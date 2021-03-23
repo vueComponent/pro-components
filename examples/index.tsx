@@ -3,7 +3,7 @@ import { createApp, defineComponent, watch, ref, watchEffect, onMounted } from '
 import { createRouter, createWebHashHistory, useRoute, useRouter, RouteRecord } from 'vue-router';
 import { Avatar, Button, Space, Select, Switch } from 'ant-design-vue';
 import { UserOutlined } from '@ant-design/icons-vue';
-import { default as ProLayout, FooterToolbar, WaterMark } from '../src/';
+import { default as ProLayout, FooterToolbar, WaterMark, FormatMessage } from '../src/';
 import { globalState as state } from './state';
 import './demo.less';
 
@@ -17,6 +17,15 @@ import ChildPage from './demo/child/child-page';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const noop = () => {};
+
+const locales: Record<string, string> = {
+  home: '首页',
+  'views.dashboard.title': '页面1',
+};
+
+const i18n = (key: string): string => {
+  return locales[key] || key;
+};
 
 const getMenuData = (routes: RouteRecord[]) => {
   const childrenRoute = routes.find(route => route.path === '/');
@@ -63,7 +72,7 @@ const BasicLayout = defineComponent({
       <ProLayout
         layout={state.layout}
         navTheme={state.navTheme}
-        i18n={(key: string) => key}
+        locale={i18n}
         isMobile={state.isMobile}
         fixSiderbar={state.fixSiderbar}
         fixedHeader={state.fixedHeader}
@@ -186,7 +195,7 @@ const routes = [
   {
     path: '/dashboard',
     name: 'dashboard',
-    meta: { title: 'dashboard', icon: 'SmileOutlined' },
+    meta: { title: 'views.dashboard.title', icon: 'SmileOutlined' },
     redirect: '/dashboard/analysis',
     component: RouteView,
     children: [

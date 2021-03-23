@@ -4,7 +4,7 @@ import Layout from 'ant-design-vue/es/layout';
 import 'ant-design-vue/es/menu/style';
 import Menu from 'ant-design-vue/es/menu';
 import BaseMenu, { BaseMenuProps } from './BaseMenu';
-import { WithFalse, CustomRender } from '../typings';
+import { FormatMessage, WithFalse, CustomRender } from '../typings';
 import { SiderProps } from './typings';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
 import { useRouteContext } from '../RouteContext';
@@ -101,7 +101,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
     onSelect,
   } = props;
   const context = useRouteContext();
-  const { getPrefixCls } = context;
+  const { getPrefixCls, i18n } = context;
   const baseClassName = getPrefixCls('sider');
   // const isMix = computed(() => props.layout === 'mix');
   // const fixed = computed(() => context.fixSiderbar);
@@ -130,6 +130,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
   const defaultMenuDom = (
     <BaseMenu
       prefixCls={getPrefixCls()}
+      i18n={i18n as FormatMessage}
       theme={runtimeTheme.value === 'realDark' ? 'dark' : runtimeTheme.value}
       mode="inline"
       menuData={hasSide.value ? flatMenuData.value : context.menuData}
