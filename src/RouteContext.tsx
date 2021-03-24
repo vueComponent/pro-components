@@ -1,4 +1,4 @@
-import { InjectionKey, reactive, VNodeChild } from 'vue';
+import { InjectionKey, reactive } from 'vue';
 import { createContext, useContext } from './hooks/context';
 import { MenuDataItem, CustomRender } from './typings';
 import { PureSettings } from './defaultSettings';
@@ -12,7 +12,7 @@ export interface BreadcrumbProps {
   prefixCls?: string;
   routes?: Route[];
   params?: any;
-  separator?: VNodeChild;
+  separator?: CustomRender;
   itemRender?: (opts: {
     route: Route;
     params: any;

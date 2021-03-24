@@ -34,7 +34,7 @@ export type BasicLayoutProps = SiderMenuWrapperProps &
 
     breadcrumbRender?: WithFalse<BreadcrumbProps['itemRender']>;
 
-    breadcrumbData?: BreadcrumbProps['routes'];
+    breadcrumb?: BreadcrumbProps;
 
     colSize?: string;
     /**
@@ -119,9 +119,7 @@ const ProLayout = defineComponent({
     const menuHeaderRender = getCustomRender(props, slots, 'menuHeaderRender');
     const footerRender = getCustomRender(props, slots, 'footerRender');
     // const menuRender = getCustomRender(props, slots, 'menuRender');
-
     const breadcrumbRender = getCustomRender(props, slots, 'breadcrumbRender');
-    console.log('breadcrumbRender', breadcrumbRender);
 
     const headerDom = computed(() =>
       headerRender(
@@ -148,10 +146,12 @@ const ProLayout = defineComponent({
     const routeContext: RouteContextProps = reactive({
       getPrefixCls,
       i18n: props.locale || ((t: string) => t),
-      breadcrumb: {
-        routes: propRefs.breadcrumbData,
-        itemRender: breadcrumbRender,
-      },
+      breadcrumb: computed(() => {
+        return {
+          ...props.breadcrumb,
+          itemRender: breadcrumbRender,
+        };
+      }),
       contentWidth: 'Fluid',
       layout: propRefs.layout,
       navTheme: propRefs.navTheme,
@@ -241,8 +241,10 @@ ProLayout.props = {
   menuItemRender: PropRenderType,
   /* 自定义拥有子菜单菜单项的 render 方法 */
   subMenuItemRender: PropRenderType,
-  /* 自定义面包屑的数据 */
+  /* 自定义面包屑的渲染 注意:优先级比 PageContainer props 低 */
   breadcrumbRender: PropRenderType,
+  /* 自定义面包屑的完整数据 注意:优先级比 PageContainer props 低 */
+  breadcrumb: PropTypes.object,
 
   // Event
   onMenuHeaderClick: PropTypes.func,

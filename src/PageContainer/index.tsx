@@ -1,4 +1,4 @@
-import { FunctionalComponent, VNodeChild, ref } from 'vue';
+import { FunctionalComponent, VNodeChild, ref, unref } from 'vue';
 /* replace antd ts define */
 import { TabPaneProps } from './interfaces/TabPane';
 import { TabBarExtraContent, TabsProps } from './interfaces/Tabs';
@@ -148,13 +148,16 @@ const defaultPageHeaderRender = (
   if (!title && title !== false) {
     pageHeaderTitle = value.title;
   }
-  console.log('value.breadcrumb', value.breadcrumb);
   // inject value
   return (
     <PageHeader
       title={pageHeaderTitle}
+      // 拉高了 直接传递 props 的优先级
+      breadcrumb={{
+        routes: unref(value.breadcrumb?.routes),
+        itemRender: value.breadcrumb?.itemRender,
+      }}
       {...restProps}
-      breadcrumb={{ routes: value.breadcrumb?.routes, itemRender: value.breadcrumb?.itemRender }}
       footer={renderFooter({
         ...restProps,
         tabList,

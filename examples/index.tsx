@@ -1,9 +1,9 @@
 import 'ant-design-vue/dist/antd.less';
-import { createApp, defineComponent, watch, ref, watchEffect, onMounted } from 'vue';
+import { createApp, defineComponent, watch, ref, watchEffect, onMounted, computed } from 'vue';
 import { createRouter, createWebHashHistory, useRoute, useRouter, RouterLink } from 'vue-router';
 import { Avatar, Button, Space, Select, Switch } from 'ant-design-vue';
 import { UserOutlined } from '@ant-design/icons-vue';
-import { default as ProLayout, FooterToolbar, WaterMark, getMenuData } from '../src/';
+import { default as ProLayout, FooterToolbar, WaterMark, getMenuData, Route } from '../src/';
 import { globalState as state } from './state';
 import './demo.less';
 
@@ -34,7 +34,12 @@ const BasicLayout = defineComponent({
     const { getRoutes } = useRouter();
     const route = useRoute();
 
-    const { menuData, breadcrumb } = getMenuData(getRoutes());
+    const { menuData } = getMenuData(getRoutes());
+    const breadcrumb = computed(() =>
+      route.matched.concat().map(item => {
+        return { path: item.path, breadcrumbName: item.meta.title } as Route;
+      }),
+    );
 
     const updateSelectedMenu = () => {
       const matched = route.matched.concat().map(item => item.path);
@@ -77,7 +82,6 @@ const BasicLayout = defineComponent({
         siderWidth={state.sideWidth}
         splitMenus={state.splitMenus}
         menuData={menuData}
-        breadcrumbData={breadcrumb}
         collapsed={state.collapsed}
         openKeys={state.openKeys}
         selectedKeys={state.selectedKeys}
@@ -106,16 +110,14 @@ const BasicLayout = defineComponent({
         )}
         breadcrumbRender={({ route: r, routes, paths }) =>
           routes.indexOf(r) === routes.length - 1 ? (
-            <span>{r.breadcrumbName}</span>
+            <span>{i18n(r.breadcrumbName)}</span>
           ) : (
-            <RouterLink to={{ path: `/${paths.join('/')}` }}>{r.breadcrumbName}</RouterLink>
+            <RouterLink to={{ path: `/${paths.join('/')}` }}>{i18n(r.breadcrumbName)}</RouterLink>
           )
         }
-        // {...{
-        //   'onUpdate:collapsed': noop,
-        //   'onUpdate:openKeys': noop,
-        //   'onUpdate:selectedKeys': noop,
-        // }}
+        breadcrumb={{
+          routes: breadcrumb.value,
+        }}
       >
         <WaterMark content="Ant Design Pro of Vue">
           <router-view />
@@ -277,7 +279,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'index',
-      meta: { title: '' },
+      meta: { title: 'home' },
       redirect: '/welcome',
       component: BasicLayout,
       children: routes,
