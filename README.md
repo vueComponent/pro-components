@@ -22,6 +22,7 @@ npm i @ant-design-vue/pro-layout@next -S
 First, you should add the icons that you need into the library.
 
 ```js
+import 'ant-design-vue/dist/antd.less';
 import { createApp } from 'vue';
 import ProLayout, { PageContainer } from '@ant-design-vue/pro-layout';
 
