@@ -1,4 +1,4 @@
-import { FunctionalComponent, VNodeChild, ref, unref } from 'vue';
+import { FunctionalComponent, VNodeChild, computed, unref } from 'vue';
 /* replace antd ts define */
 import { TabPaneProps } from './interfaces/TabPane';
 import { TabBarExtraContent, TabsProps } from './interfaces/Tabs';
@@ -6,6 +6,7 @@ import { PageHeaderProps } from './interfaces/PageHeader';
 import { AffixProps } from './interfaces/Affix';
 /* replace antd ts define end */
 import { useRouteContext, RouteContextProps } from '../RouteContext';
+import { getCustomRender } from '../utils';
 import { withInstall } from 'ant-design-vue/es/_util/type';
 import 'ant-design-vue/es/affix/style';
 import Affix from 'ant-design-vue/es/affix';
@@ -119,8 +120,16 @@ const renderPageHeader = (
     <div class={`${prefixedClassName}-detail`}>
       <div class={`${prefixedClassName}-main`}>
         <div class={`${prefixedClassName}-row`}>
-          {content && <div class={`${prefixedClassName}-content`}>{content}</div>}
-          {extraContent && <div class={`${prefixedClassName}-extraContent`}>{extraContent}</div>}
+          {content && (
+            <div class={`${prefixedClassName}-content`}>
+              {(typeof content === 'function' && content()) || content}
+            </div>
+          )}
+          {extraContent && (
+            <div class={`${prefixedClassName}-extraContent`}>
+              {(typeof extraContent === 'function' && extraContent()) || extraContent}
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -176,11 +185,17 @@ const PageContainer: FunctionalComponent<PageContainerProps> = (props, { slots }
   const { getPrefixCls } = value;
   const prefixCls = props.prefixCls || getPrefixCls();
   const prefixedClassName = `${prefixCls}-page-container`; // computed(() => `${prefixCls}-page-container`);
-
-  const classNames = ref({
-    [prefixedClassName]: true,
-    [`${prefixCls}-page-container-ghost`]: ghost,
+  const classNames = computed(() => {
+    return {
+      [prefixedClassName]: true,
+      [`${prefixCls}-page-container-ghost`]: ghost,
+    };
   });
+
+  const tags = getCustomRender(props, slots, 'tags');
+  const headerContent = getCustomRender(props, slots, 'content');
+  const extra = getCustomRender(props, slots, 'extra');
+  const extraContent = getCustomRender(props, slots, 'extraContent');
 
   const content = slots.default ? (
     <div>
@@ -198,11 +213,20 @@ const PageContainer: FunctionalComponent<PageContainerProps> = (props, { slots }
 
   const headerDom = (
     <div class={`${prefixedClassName}-warp`}>
-      {defaultPageHeaderRender(props, {
-        ...value,
-        prefixCls: undefined,
-        prefixedClassName,
-      })}
+      {defaultPageHeaderRender(
+        {
+          ...props,
+          tags,
+          content: headerContent,
+          extra,
+          extraContent,
+        },
+        {
+          ...value,
+          prefixCls: undefined,
+          prefixedClassName,
+        },
+      )}
     </div>
   );
 

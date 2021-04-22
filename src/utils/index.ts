@@ -24,7 +24,7 @@ export function getCustomRender(
   if (propRender) {
     return propRender;
   }
-  const slotVNode = slots[name || 'default'];
+  const slotVNode = slots[name];
   return slotVNode || null;
 }
 

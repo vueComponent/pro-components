@@ -63,6 +63,25 @@ describe('PageContainer', () => {
     expect(wrapper.find('.ant-page-header-heading-sub-title').text()).toBe('SubTitle');
   });
 
+  it('😄 render content,extraContent', async () => {
+    const wrapper = mount({
+      render() {
+        return (
+          <PageContainer
+            content={<div class="my-test-content">MyTestContent</div>}
+            extraContent={<span>extra right content</span>}
+          />
+        );
+      },
+    });
+
+    // test render content, extraContent
+    expect(wrapper.findAll('.ant-pro-page-container-content .my-test-content')).toHaveLength(1);
+    expect(wrapper.findAll('.ant-pro-page-container-extraContent span')[0].text()).toBe(
+      'extra right content',
+    );
+  });
+
   it('😄 render footer', () => {
     const wrapper = mount({
       render() {

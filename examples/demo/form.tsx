@@ -7,6 +7,7 @@ export default defineComponent({
     const route = useRoute();
     return () => (
       <PageContainer
+        title={route.meta.title}
         breadcrumb={{
           routes: [{ path: '/', breadcrumbName: 'home' }] as Route[],
         }}

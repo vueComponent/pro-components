@@ -23,7 +23,7 @@ const locales: Record<string, string> = {
   'views.dashboard.title': '页面1',
 };
 
-const i18n = (key: string): string => {
+export const i18n = (key: string): string => {
   return locales[key] || key;
 };
 
@@ -119,7 +119,7 @@ const BasicLayout = defineComponent({
           routes: breadcrumb.value,
         }}
       >
-        <WaterMark content="Ant Design Pro of Vue">
+        <WaterMark content="Pro Layout">
           <router-view />
         </WaterMark>
         <FooterToolbar>
