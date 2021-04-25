@@ -19,6 +19,7 @@ import Spin from 'ant-design-vue/es/spin';
 import GridContent from '../GridContent';
 import FooterToolbar from '../FooterToolbar';
 import './index.less';
+import { WithFalse } from '../typings';
 
 export interface Tab {
   key: string;
@@ -62,7 +63,7 @@ export interface PageContainerProps extends PageHeaderTabConfig, Omit<PageHeader
   content?: VNodeChild | JSX.Element;
   extraContent?: VNodeChild | JSX.Element;
   prefixCls?: string;
-  footer?: VNodeChild | VNodeChild[] | JSX.Element;
+  footer?: WithFalse<VNodeChild | VNodeChild[] | JSX.Element>;
   ghost?: boolean;
   header?: PageHeaderProps | VNodeChild;
   pageHeaderRender?: (props: PageContainerProps) => VNodeChild | JSX.Element;

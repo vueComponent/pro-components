@@ -1,7 +1,7 @@
 import { createApp, defineComponent, reactive } from 'vue';
 import 'ant-design-vue/dist/antd.less';
 import { Button, Descriptions, Space, Statistic, Tag, message } from 'ant-design-vue';
-import { PageContainer } from '../src/PageContainer';
+import { PageContainer } from '../src/';
 import { LikeOutlined } from '@ant-design/icons-vue';
 import './index.less';
 
@@ -33,6 +33,12 @@ const App = defineComponent({
           <PageContainer
             title="Title"
             subTitle="This is a subtitle"
+            footer={[
+              <Button key="3">重置</Button>,
+              <Button key="2" type="primary">
+                提交
+              </Button>,
+            ]}
             breadcrumb={{ routes }}
             onBack={() => message.info('@back click')}
             tags={['Tag 1', 'Tag 2'].map(tag => (
@@ -65,6 +71,7 @@ const App = defineComponent({
             tabList={[
               { key: '1', tab: 'Details' },
               { key: '2', tab: 'Rule' },
+              { key: '3', tab: 'Disabled', disabled: true },
             ]}
             tabProps={{
               type: 'card',
@@ -73,12 +80,6 @@ const App = defineComponent({
             onTabChange={(key: string) => {
               state.tabActiveKey = key;
             }}
-            footer={[
-              <Button key="3">重置</Button>,
-              <Button key="2" type="primary">
-                提交
-              </Button>,
-            ]}
           >
             <div>Page Content</div>
           </PageContainer>

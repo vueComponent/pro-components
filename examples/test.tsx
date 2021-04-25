@@ -15,6 +15,7 @@ const SimpleDemo = {
     });
     return () => (
       <ProLayout
+        {...appState}
         title="Pro Tests"
         logo="https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg"
         onSelect={(selectedKeys: string[] | false) => {
@@ -23,6 +24,9 @@ const SimpleDemo = {
         onOpenKeys={(openKeys: string[] | false) => {
           console.log('onOpenKeys', openKeys);
           openKeys && (appState.openKeys = openKeys);
+        }}
+        onCollapse={collapsed => {
+          appState.collapsed = collapsed;
         }}
         footerRender={() => <div>custom-footer</div>}
         v-slots={{
@@ -33,7 +37,7 @@ const SimpleDemo = {
           ),
         }}
       >
-        <div>content</div>
+        <div style="min-height: 300px;">content</div>
       </ProLayout>
     );
   },
