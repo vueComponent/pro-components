@@ -27,7 +27,7 @@
     "vue": ">=3.0.0"
   },
   "devDependencies": {
-    "@ant-design-vue/tools": "^3.0.7",
+    "@ant-design-vue/tools": "^3.0.8",
     "@babel/core": "^7.12.10",
     "@babel/plugin-proposal-export-default-from": "^7.12.1",
     "@babel/plugin-transform-modules-commonjs": "^7.12.1",
