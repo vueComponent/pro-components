@@ -67,11 +67,13 @@ export type WithFalse<T> = T | false;
 export type CustomRender =
   | Slot
   | VNode
-  | ((...props: any) => Slot)
-  | ((...props: any) => VNode)
+  | ((...props: any[]) => Slot)
+  | ((...props: any[]) => VNode)
   | ((...args: any[]) => VNode)
   | VNode[]
   | JSX.Element
-  | null;
+  | string
+  | null
+  | undefined;
 
 export type FormatMessage = (message?: string) => string;

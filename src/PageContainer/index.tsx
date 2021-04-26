@@ -1,11 +1,11 @@
-import { FunctionalComponent, VNodeChild, computed, unref } from 'vue';
+import { computed, FunctionalComponent, unref, VNode, VNodeChild } from 'vue';
 /* replace antd ts define */
 import { TabPaneProps } from './interfaces/TabPane';
 import { TabBarExtraContent, TabsProps } from './interfaces/Tabs';
 import { PageHeaderProps } from './interfaces/PageHeader';
 import { AffixProps } from './interfaces/Affix';
 /* replace antd ts define end */
-import { useRouteContext, RouteContextProps } from '../RouteContext';
+import { RouteContextProps, useRouteContext } from '../RouteContext';
 import { getCustomRender } from '../utils';
 import { withInstall } from 'ant-design-vue/es/_util/type';
 import 'ant-design-vue/es/affix/style';
@@ -19,11 +19,11 @@ import Spin from 'ant-design-vue/es/spin';
 import GridContent from '../GridContent';
 import FooterToolbar from '../FooterToolbar';
 import './index.less';
-import { WithFalse } from '../typings';
+import { CustomRender, WithFalse } from '../typings';
 
 export interface Tab {
   key: string;
-  tab: string | VNodeChild | JSX.Element;
+  tab: string | VNode | JSX.Element;
 }
 
 export interface PageHeaderTabConfig {
@@ -59,14 +59,15 @@ export interface PageHeaderTabConfig {
 }
 
 export interface PageContainerProps extends PageHeaderTabConfig, Omit<PageHeaderProps, 'title'> {
-  title?: VNodeChild | JSX.Element | false;
-  content?: VNodeChild | JSX.Element;
-  extraContent?: VNodeChild | JSX.Element;
   prefixCls?: string;
-  footer?: WithFalse<VNodeChild | VNodeChild[] | JSX.Element>;
+
+  title?: WithFalse<VNodeChild | JSX.Element | string>;
+  content?: CustomRender;
+  extraContent?: CustomRender;
+  footer?: VNodeChild | JSX.Element;
   ghost?: boolean;
-  header?: PageHeaderProps | VNodeChild;
-  pageHeaderRender?: (props: PageContainerProps) => VNodeChild | JSX.Element;
+  header?: PageHeaderProps | CustomRender;
+  pageHeaderRender?: (props: PageContainerProps | Record<string, any>) => VNode | JSX.Element;
   affixProps?: AffixProps;
   loading?: boolean;
 }
@@ -110,10 +111,10 @@ const renderFooter = (
 };
 
 const renderPageHeader = (
-  content: VNodeChild | JSX.Element,
-  extraContent: VNodeChild | JSX.Element,
+  content: CustomRender,
+  extraContent: CustomRender,
   prefixedClassName: string,
-): VNodeChild | JSX.Element => {
+): VNode | JSX.Element | null => {
   if (!content && !extraContent) {
     return null;
   }
@@ -140,7 +141,7 @@ const renderPageHeader = (
 const defaultPageHeaderRender = (
   props: PageContainerProps,
   value: RouteContextProps & { prefixedClassName: string },
-): VNodeChild | JSX.Element => {
+): VNode | JSX.Element => {
   const {
     title,
     tabList,

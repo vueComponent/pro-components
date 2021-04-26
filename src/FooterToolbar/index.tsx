@@ -19,10 +19,10 @@ const footerToolbarProps = {
     type: Object as PropType<FooterToolbarProps['extra']>,
   },
   renderContent: {
-    type: Function as PropType<FooterToolbarProps['renderContent']>,
+    type: [Function, Object] as PropType<FooterToolbarProps['renderContent']>,
   },
   getContainer: {
-    type: Function as PropType<FooterToolbarProps['getContainer']>,
+    type: [Function, Object] as PropType<FooterToolbarProps['getContainer']>,
   },
   prefixCls: { type: String as PropType<string> },
 };

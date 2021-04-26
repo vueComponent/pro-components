@@ -1,11 +1,11 @@
-import { VNodeChild, CSSProperties } from 'vue';
+import { VNode, VNodeChild, CSSProperties } from 'vue';
 
 export type ShapeType = 'circle' | 'square';
 
 export type Size = 'large' | 'small' | 'default';
 
 export interface AvatarProps {
-  icon?: VNodeChild | JSX.Element;
+  icon?: VNode | JSX.Element;
   shape?: ShapeType;
   size?: Size;
   src?: string;
@@ -29,3 +29,4 @@ export interface PageHeaderProps {
   onBack?: (e: MouseEvent) => void;
   ghost?: boolean;
 }
+``;
