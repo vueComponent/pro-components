@@ -1,8 +1,8 @@
 import 'ant-design-vue/dist/antd.less';
 import { createApp, defineComponent, watch, ref, watchEffect, onMounted, computed } from 'vue';
 import { createRouter, createWebHashHistory, useRoute, useRouter, RouterLink } from 'vue-router';
-import { Avatar, Button, Space, Select, Switch } from 'ant-design-vue';
-import { UserOutlined } from '@ant-design/icons-vue';
+import { Avatar, Button, Space, Select, Switch, Menu } from 'ant-design-vue';
+import { UserOutlined, SmileOutlined } from '@ant-design/icons-vue';
 import { default as ProLayout, FooterToolbar, WaterMark, getMenuData, Route } from '../src/';
 import { globalState as state } from './state';
 import './demo.less';
@@ -14,6 +14,8 @@ import Page1 from './demo/page1';
 import Welcome from './demo/welcome';
 import FormPage from './demo/form';
 import ChildPage from './demo/child/child-page';
+import ChildTable from './demo/child/child-table';
+import ChildForm from './demo/child/child-form';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const noop = () => {};
@@ -46,6 +48,9 @@ const BasicLayout = defineComponent({
       matched.shift();
       state.selectedKeys = matched;
     };
+    const updateOpenKeys = () => {
+      state.openKeys = route.matched.concat().map(item => item.path);
+    };
 
     onMounted(() => {
       // if sider collapsed, set openKeys is null.
@@ -65,6 +70,7 @@ const BasicLayout = defineComponent({
       // watch route
       watchEffect(() => {
         updateSelectedMenu();
+        updateOpenKeys();
       });
     });
 
@@ -108,6 +114,23 @@ const BasicLayout = defineComponent({
             {state.collapsed && state.layout !== 'mix' ? null : <h1>Pro Preview</h1>}
           </a>
         )}
+        menuItemRender={item => {
+          return (
+            <Menu.Item inlineIndent={24} key={item.path}>
+              <router-link to={{ ...item.meta, path: item.path }}>
+                <SmileOutlined />
+                <span class="custom-menu-item">{i18n(`${item.meta.title}`)}</span>
+              </router-link>
+            </Menu.Item>
+          );
+        }}
+        subMenuItemRender={(item, children) => {
+          return (
+            <Menu.SubMenu title={<span>{i18n(`${item.meta.title}`)}</span>} key={item.path}>
+              {children}
+            </Menu.SubMenu>
+          );
+        }}
         breadcrumbRender={({ route: r, routes, paths }) =>
           routes.indexOf(r) === routes.length - 1 ? (
             <span>{i18n(r.breadcrumbName)}</span>
@@ -258,15 +281,15 @@ const routes = [
         children: [
           {
             path: '/form/child/page1',
-            name: 'child-page1-form',
-            meta: { title: 'Page1 Child' },
-            component: FormPage,
+            name: 'child-page1-table',
+            meta: { title: 'Page1 Child Table' },
+            component: ChildTable,
           },
           {
             path: '/form/child/page2',
-            name: 'child-page2-form',
-            meta: { title: 'Page2 Child' },
-            component: FormPage,
+            name: 'child-page1-form',
+            meta: { title: 'Page2 Child Form' },
+            component: ChildForm,
           },
         ],
       },

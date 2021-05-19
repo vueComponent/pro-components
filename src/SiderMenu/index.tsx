@@ -7,7 +7,7 @@ import SiderMenu, { SiderMenuProps, PrivateSiderMenuProps } from './SiderMenu';
 
 export type SiderMenuWrapperProps = SiderMenuProps & Partial<PrivateSiderMenuProps>;
 
-const SiderMenuWrapper: FunctionalComponent<SiderMenuWrapperProps> = props => {
+const SiderMenuWrapper: FunctionalComponent<SiderMenuWrapperProps> = (props, { attrs }) => {
   return props.isMobile ? (
     <Drawer
       visible={!props.collapsed}
@@ -22,13 +22,14 @@ const SiderMenuWrapper: FunctionalComponent<SiderMenuWrapperProps> = props => {
       bodyStyle={{ height: '100vh', padding: 0, display: 'flex', flexDirection: 'row' }}
     >
       <SiderMenu
+        {...attrs}
         {...props}
         collapsed={props.isMobile ? false : props.collapsed}
         splitMenus={false}
       />
     </Drawer>
   ) : (
-    <SiderMenu {...props} />
+    <SiderMenu {...attrs} {...props} />
   );
 };
 

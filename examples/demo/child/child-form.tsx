@@ -1,16 +1,15 @@
 import { defineComponent } from 'vue';
 import { useRoute } from 'vue-router';
-import { i18n } from '../../index';
-import { PageContainer } from '../../../src';
+import { PageContainer, Route } from '../../../src';
 
 export default defineComponent({
   setup() {
     const route = useRoute();
-
     return () => (
-      <PageContainer title={i18n(`${route.meta.title}`)}>
-        <router-view />
-      </PageContainer>
+      <div>
+        <h1>Child Form: {route.meta.title}</h1>
+        <pre>{JSON.stringify(route.meta, null, 4)}</pre>
+      </div>
     );
   },
 });

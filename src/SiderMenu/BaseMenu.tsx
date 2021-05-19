@@ -15,7 +15,7 @@ import Menu from 'ant-design-vue/es/menu';
 import defaultSettings, { PureSettings } from '../defaultSettings';
 import { isImg, isUrl } from '../utils';
 import { MenuMode, SelectInfo, OpenEventHandler } from './typings';
-import { MenuDataItem, MenuTheme, FormatMessage, WithFalse } from '../typings';
+import { MenuDataItem, MenuTheme, FormatMessage, CustomRender, WithFalse } from '../typings';
 import { PrivateSiderMenuProps } from './SiderMenu';
 import './index.less';
 
@@ -26,7 +26,15 @@ export function useRootSubmenuKeys(menus: MenuDataItem[]): ComputedRef<string[]>
 }
 
 // ts typo
-export interface BaseMenuProps extends Partial<PureSettings>, PrivateSiderMenuProps {
+interface CustomMenuRender {
+  menuItemRender: WithFalse<(item: MenuDataItem) => CustomRender>;
+  subMenuItemRender: WithFalse<(item: MenuDataItem, children?: CustomRender[]) => CustomRender>;
+}
+export interface BaseMenuProps
+  extends Partial<PureSettings>,
+    PrivateSiderMenuProps,
+    CustomMenuRender {
+  menuProps?: Record<string, any>;
   prefixCls?: string;
   collapsed?: boolean;
   splitMenus?: boolean;
@@ -78,6 +86,18 @@ export const baseMenuProps = {
     type: Array as PropType<WithFalse<string[]>>,
     default: undefined,
   },
+  menuProps: {
+    type: Object as PropType<BaseMenuProps['menuProps']>,
+    default: () => null,
+  },
+  menuItemRender: {
+    type: [Function, Boolean] as PropType<BaseMenuProps['menuItemRender']>,
+    default: () => false,
+  },
+  subMenuItemRender: {
+    type: [Function, Boolean] as PropType<BaseMenuProps['subMenuItemRender']>,
+    default: () => false,
+  },
 };
 
 const IconFont = createFromIconfontCN({
@@ -123,12 +143,19 @@ class MenuUtil {
     return menusData.map(item => this.getSubMenuOrItem(item, isChildren)).filter(item => item);
   };
 
-  getSubMenuOrItem = (item: MenuDataItem, isChildren: boolean) => {
+  getSubMenuOrItem = (item: MenuDataItem, isChildren: boolean): VNode => {
     if (
       Array.isArray(item.children) &&
       item.children.length > 0 &&
+      !item?.meta?.hideInMenu &&
       !item?.meta?.hideChildrenInMenu
     ) {
+      if (this.props.subMenuItemRender) {
+        return this.props.subMenuItemRender(
+          item,
+          this.getNavMenuItems(item.children, true),
+        ) as VNode;
+      }
       const { prefixCls, i18n } = this.props;
       const menuTitle = (i18n && i18n(item.meta?.title)) || item.meta?.title;
       const defaultTitle = item.meta?.icon ? (
@@ -139,6 +166,7 @@ class MenuUtil {
       ) : (
         <span class={`${prefixCls}-menu-item`}>{menuTitle}</span>
       );
+
       const MenuComponent = item.meta?.type === 'group' ? Menu.ItemGroup : Menu.SubMenu;
       return (
         <MenuComponent title={defaultTitle} key={item.path}>
@@ -148,14 +176,16 @@ class MenuUtil {
     }
 
     return (
-      <Menu.Item
-        inlineIndent={24}
-        disabled={item.meta?.disabled}
-        key={item.path}
-        // onClick={}
-      >
-        {this.getMenuItem(item, isChildren)}
-      </Menu.Item>
+      ((this.props.menuItemRender && this.props.menuItemRender(item)) as VNode) || (
+        <Menu.Item
+          inlineIndent={24}
+          disabled={item.meta?.disabled}
+          key={item.path}
+          // onClick={}
+        >
+          {this.getMenuItem(item, isChildren)}
+        </Menu.Item>
+      )
     );
   };
 
@@ -165,7 +195,7 @@ class MenuUtil {
     const hasUrl = isUrl(item.path);
     const CustomTag: any = resolveComponent((target && 'a') || 'router-link');
     const props = { to: { name: item.name } };
-    const attrs = hasUrl || target ? { href: item.path, target: target } : {};
+    const attrs = hasUrl || target ? { ...item.meta, href: item.path, target: target } : {};
 
     const { prefixCls, i18n } = this.props;
     const menuTitle = (i18n && i18n(item.meta?.title)) || item.meta?.title;
@@ -227,6 +257,7 @@ export default defineComponent({
         selectedKeys={props.selectedKeys || []}
         onOpenChange={handleOpenChange}
         onSelect={handleSelect}
+        {...props.menuProps}
       >
         {menuUtil.getNavMenuItems(props.menuData, false)}
       </Menu>

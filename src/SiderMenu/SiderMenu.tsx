@@ -137,6 +137,8 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
       collapsed={props.collapsed}
       openKeys={context.openKeys}
       selectedKeys={context.selectedKeys}
+      menuItemRender={props.menuItemRender}
+      subMenuItemRender={props.subMenuItemRender}
       style={{
         width: '100%',
       }}

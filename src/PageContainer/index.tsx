@@ -245,7 +245,7 @@ const PageContainer: FunctionalComponent<PageContainerProps> = (props, { slots }
         headerDom
       )}
       <GridContent>{loading ? <Spin /> : content}</GridContent>
-      {footer && <FooterToolbar>{footer}</FooterToolbar>}
+      {value.hasFooterToolbar && <FooterToolbar>{footer}</FooterToolbar>}
     </div>
   );
 };
