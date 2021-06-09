@@ -27,8 +27,8 @@ export function useRootSubmenuKeys(menus: MenuDataItem[]): ComputedRef<string[]>
 
 // ts typo
 interface CustomMenuRender {
-  menuItemRender: WithFalse<(item: MenuDataItem) => CustomRender>;
-  subMenuItemRender: WithFalse<(item: MenuDataItem, children?: CustomRender[]) => CustomRender>;
+  menuItemRender?: WithFalse<(item: MenuDataItem) => CustomRender>;
+  subMenuItemRender?: WithFalse<(item: MenuDataItem, children?: CustomRender[]) => CustomRender>;
 }
 export interface BaseMenuProps
   extends Partial<PureSettings>,
@@ -160,7 +160,6 @@ class MenuUtil {
       const menuTitle = (i18n && i18n(item.meta?.title)) || item.meta?.title;
       const defaultTitle = item.meta?.icon ? (
         <span class={`${prefixCls}-menu-item`}>
-          {!isChildren && <LazyIcon icon={item.meta.icon} />}
           <span class={`${prefixCls}-menu-item-title`}>{menuTitle}</span>
         </span>
       ) : (
@@ -169,7 +168,11 @@ class MenuUtil {
 
       const MenuComponent = item.meta?.type === 'group' ? Menu.ItemGroup : Menu.SubMenu;
       return (
-        <MenuComponent title={defaultTitle} key={item.path}>
+        <MenuComponent
+          title={defaultTitle}
+          key={item.path}
+          icon={item.meta?.type === 'group' ? null : <LazyIcon icon={item.meta?.icon} />}
+        >
           {this.getNavMenuItems(item.children, true)}
         </MenuComponent>
       );
@@ -178,9 +181,10 @@ class MenuUtil {
     return (
       ((this.props.menuItemRender && this.props.menuItemRender(item)) as VNode) || (
         <Menu.Item
-          inlineIndent={24}
           disabled={item.meta?.disabled}
+          danger={item.meta?.danger}
           key={item.path}
+          icon={item.meta?.icon && <LazyIcon icon={item.meta.icon} />}
           // onClick={}
         >
           {this.getMenuItem(item, isChildren)}
@@ -200,15 +204,12 @@ class MenuUtil {
     const { prefixCls, i18n } = this.props;
     const menuTitle = (i18n && i18n(item.meta?.title)) || item.meta?.title;
     const defaultTitle = item.meta?.icon ? (
-      <CustomTag {...attrs} {...props}>
-        <span class={`${prefixCls}-menu-item`}>
-          {!isChildren && <LazyIcon icon={item.meta.icon} />}
-          <span class={`${prefixCls}-menu-item-title`}>{menuTitle}</span>
-        </span>
+      <CustomTag {...attrs} {...props} class={`${prefixCls}-menu-item`}>
+        <span class={`${prefixCls}-menu-item-title`}>{menuTitle}</span>
       </CustomTag>
     ) : (
-      <CustomTag {...attrs} {...props}>
-        <span class={`${prefixCls}-menu-item`}>{menuTitle}</span>
+      <CustomTag {...attrs} {...props} class={`${prefixCls}-menu-item`}>
+        <span>{menuTitle}</span>
       </CustomTag>
     );
 
@@ -233,6 +234,7 @@ export default defineComponent({
     const menuUtil = new MenuUtil(props);
 
     const handleOpenChange = (openKeys: string[]): void => {
+      console.log('openChange', '....');
       emit('update:openKeys', openKeys);
     };
     const handleSelect = (params: {
@@ -249,7 +251,7 @@ export default defineComponent({
     return () => (
       <Menu
         key="Menu"
-        inlineCollapsed={(isInline.value && props.collapsed) || undefined}
+        // inlineCollapsed={(isInline.value && props.collapsed) || undefined}
         inlineIndent={16}
         mode={props.mode}
         theme={props.theme as 'dark' | 'light'}

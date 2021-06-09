@@ -1,6 +1,5 @@
 import { VNodeChild, CSSProperties, HTMLAttributes } from 'vue';
-
-export type MenuMode = 'vertical' | 'vertical-left' | 'vertical-right' | 'horizontal' | 'inline';
+export { MenuMode, MenuTheme } from 'ant-design-vue/es/menu/src/interface';
 
 export interface MenuInfo {
   key: string | number;
@@ -27,7 +26,6 @@ export type OpenEventHandler = (
 export type CollapseType = 'clickTrigger' | 'responsive';
 
 export type SiderTheme = 'light' | 'dark';
-
 export interface SiderProps extends HTMLAttributes {
   prefixCls?: string;
   collapsible?: boolean;
