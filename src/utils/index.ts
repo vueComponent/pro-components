@@ -1,32 +1,10 @@
-import { Slots, VNodeChild } from 'vue';
 import { MenuDataItem } from '../typings';
-export { getComponent } from 'ant-design-vue/es/_util/props-util';
+export { getPropsSlot } from 'ant-design-vue/es/_util/props-util';
 export { default as PropTypes } from 'ant-design-vue/es/_util/vue-types';
 
 export { default as isUrl } from './isUrl';
 export { default as isImg } from './isImg';
 export { default as isNil } from './isNil';
-
-export function getComponentOrSlot(props: any, slots: Slots, name: string): VNodeChild {
-  const comp = props[name] || slots[name];
-  return typeof comp === 'function' ? comp() : (comp && (comp as VNodeChild)) || false;
-}
-
-export function getCustomRender(
-  props: any,
-  slots: Slots,
-  name: string,
-): any | /*  | CustomRender  */ false | null {
-  const propRender = props[name];
-  if (propRender === false) {
-    return false;
-  }
-  if (propRender) {
-    return propRender;
-  }
-  const slotVNode = slots[name];
-  return slotVNode || null;
-}
 
 export function warn(valid: boolean, message: string) {
   // Support uglify

@@ -6,7 +6,7 @@ import { PageHeaderProps } from './interfaces/PageHeader';
 import { AffixProps } from './interfaces/Affix';
 /* replace antd ts define end */
 import { RouteContextProps, useRouteContext } from '../RouteContext';
-import { getCustomRender } from '../utils';
+import { getPropsSlot } from '../utils';
 import { withInstall } from 'ant-design-vue/es/_util/type';
 import 'ant-design-vue/es/affix/style';
 import Affix from 'ant-design-vue/es/affix';
@@ -194,10 +194,10 @@ const PageContainer: FunctionalComponent<PageContainerProps> = (props, { slots }
     };
   });
 
-  const tags = getCustomRender(props, slots, 'tags');
-  const headerContent = getCustomRender(props, slots, 'content');
-  const extra = getCustomRender(props, slots, 'extra');
-  const extraContent = getCustomRender(props, slots, 'extraContent');
+  const tags = getPropsSlot(slots, props, 'tags');
+  const headerContent = getPropsSlot(slots, props, 'content');
+  const extra = getPropsSlot(slots, props, 'extra');
+  const extraContent = getPropsSlot(slots, props, 'extraContent');
 
   const content = slots.default ? (
     <div>

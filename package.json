@@ -22,9 +22,9 @@
     "prepublishOnly": "npm run lint && npm run compile && npm run test"
   },
   "peerDependencies": {
-    "ant-design-vue": "^2.0.0",
+    "ant-design-vue": ">=2.2.0",
     "vue-router": "^4.0.3",
-    "vue": ">=3.0.0"
+    "vue": ">=3.1.0"
   },
   "devDependencies": {
     "@ant-design-vue/tools": "^3.0.8",
@@ -45,7 +45,7 @@
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.3",
+    "@vue/compiler-sfc": "^3.1.1",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^5.0.2",
     "@vue/test-utils": "^2.0.0-beta.2",
@@ -66,13 +66,13 @@
     "ts-jest": "^26.4.4",
     "ts-node": "^9.1.1",
     "typescript": "~3.9.3",
-    "vue": "^3.0.5",
+    "vue": "^3.1.1",
     "vue-jest": "^5.0.0-alpha.3",
     "vue-router": "^4.0.3"
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "ant-design-vue": "^2.0.0",
+    "ant-design-vue": "^2.2.0-beta.2",
     "core-js": "^3.9.1",
     "lodash-es": "^4.17.20",
     "omit.js": "^2.0.2",

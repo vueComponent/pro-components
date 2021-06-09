@@ -7,7 +7,7 @@ import { default as SiderMenuWrapper, SiderMenuWrapperProps } from './SiderMenu'
 import { WrapContent } from './WrapContent';
 import { default as Header, HeaderViewProps } from './Header';
 import { CustomRender, WithFalse } from './typings';
-import { getCustomRender, PropRenderType, PropTypes } from './utils';
+import { getPropsSlot, PropRenderType, PropTypes } from './utils';
 import omit from 'omit.js';
 import useMediaQuery from './hooks/useMediaQuery';
 import './BasicLayout.less';
@@ -114,12 +114,12 @@ const ProLayout = defineComponent({
       }
       return <Header matchMenuKeys={matchMenuKeys || []} {...p} headerHeight={48} />;
     };
-    const rightContentRender = getCustomRender(props, slots, 'rightContentRender');
-    const customHeaderRender = getCustomRender(props, slots, 'headerRender');
-    const menuHeaderRender = getCustomRender(props, slots, 'menuHeaderRender');
-    const footerRender = getCustomRender(props, slots, 'footerRender');
-    // const menuRender = getCustomRender(props, slots, 'menuRender');
-    const breadcrumbRender = getCustomRender(props, slots, 'breadcrumbRender');
+    const rightContentRender = getPropsSlot(slots, props, 'rightContentRender');
+    const customHeaderRender = getPropsSlot(slots, props, 'headerRender');
+    const menuHeaderRender = getPropsSlot(slots, props, 'menuHeaderRender');
+    const footerRender = getPropsSlot(slots, props, 'footerRender');
+    // const menuRender = getPropsSlot(slots, props, 'menuRender');
+    const breadcrumbRender = getPropsSlot(slots, props, 'breadcrumbRender');
 
     const headerDom = computed(() =>
       headerRender(

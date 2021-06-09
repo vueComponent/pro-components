@@ -198,7 +198,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
             <Menu.Item
               key={'collapsed-button'}
               class={`${baseClassName}-collapsed-button`}
-              title={null}
+              title={false}
             >
               {collapsedButtonRender && collapsedButtonRender(collapsed)}
             </Menu.Item>
