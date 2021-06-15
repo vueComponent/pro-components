@@ -1,65 +1,45 @@
-import { defineComponent, computed, toRefs } from 'vue';
+import { defineComponent, computed, toRefs, PropType, ExtractPropTypes } from 'vue';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 
-import { GlobalHeader, GlobalHeaderProps } from './GlobalHeader';
+import { GlobalHeader, globalHeaderProps, GlobalHeaderProps } from './GlobalHeader';
 import { TopNavHeader } from './TopNavHeader';
 import { useRouteContext } from './RouteContext';
 import { CustomRender, WithFalse } from './typings';
-import { clearMenuItem } from './utils';
+import { clearMenuItem, PropTypes } from './utils';
 import './Header.less';
 
 const { Header } = Layout;
 
-interface HeaderViewState {
-  visible: boolean;
-}
-
-export type HeaderViewProps = GlobalHeaderProps & {
-  isMobile?: boolean;
-  collapsed?: boolean;
-  logo?: CustomRender;
-
-  headerRender?: WithFalse<(props: HeaderViewProps, defaultDom: CustomRender) => CustomRender>;
-  headerTitleRender?: WithFalse<(props: HeaderViewProps, defaultDom: CustomRender) => CustomRender>;
-  headerContentRender?: WithFalse<(props: HeaderViewProps) => CustomRender>;
-  siderWidth?: number;
-  hasSiderMenu?: boolean;
+export const headerViewProps = {
+  ...globalHeaderProps,
+  headerRender: {
+    type: [Object, Function] as PropType<
+      WithFalse<(props: any, defaultDom: CustomRender) => CustomRender>
+    >,
+    default: () => undefined,
+  },
+  headerTitleRender: {
+    type: [Object, Function] as PropType<
+      WithFalse<(props: any, defaultDom: CustomRender) => CustomRender>
+    >,
+    default: () => undefined,
+  },
+  headerContentRender: {
+    type: [Object, Function] as PropType<WithFalse<(props: any) => CustomRender>>,
+    default: () => undefined,
+  },
+  hasSiderMenu: PropTypes.looseBool,
+  siderWidth: PropTypes.number.def(208),
 };
-export const headerProps = [
-  'prefixCls',
-  'collapsed',
-  'onCollapse',
-  'openKeys',
-  'selectedKeys',
-  'isMobile',
-  'logo',
-  'title',
-  'menuRender',
-  'rightContentRender',
-  'menuData',
-  'menuHeaderRender',
-  'splitMenus',
-  'headerRender',
-  'headerTitleRender',
-  'headerContentRender',
-  'siderWidth',
-  'hasSiderMenu',
-  'fixedHeader',
-  'headerHeight',
-  'headerTheme',
-  'layout',
-  'navTheme',
-  'onSelect',
-  'onOpenChange',
-  'onOpenKeys',
-];
+
+export type HeaderViewProps = Partial<ExtractPropTypes<typeof headerViewProps> & GlobalHeaderProps>;
 
 export const HeaderView = defineComponent({
   inheritAttrs: false,
   name: 'HeaderView',
-  props: headerProps,
-  setup(props /*Required<HeaderViewProps> */) {
+  props: headerViewProps,
+  setup(props) {
     const {
       prefixCls,
       isMobile,

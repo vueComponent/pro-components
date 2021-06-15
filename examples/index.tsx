@@ -44,6 +44,7 @@ const BasicLayout = defineComponent({
     );
 
     const updateSelectedMenu = () => {
+      console.log('route', route.matched.concat());
       const matched = route.matched.concat().map(item => item.path);
       matched.shift();
       state.selectedKeys = matched;
@@ -98,6 +99,9 @@ const BasicLayout = defineComponent({
           state.openKeys = $event;
         }}
         onSelect={updateSelectedMenu}
+        onMenuHeaderClick={e => {
+          console.log('onMenuHeaderClick', e);
+        }}
         rightContentRender={props => (
           <div
             class={['right-content', `${props.layout}-${props.navTheme}`]}
@@ -108,13 +112,13 @@ const BasicLayout = defineComponent({
             </span>
           </div>
         )}
-        menuHeaderRender={() => (
-          <a>
-            <img src="https://gw.alipayobjects.com/zos/antfincdn/PmY%24TNNDBI/logo.svg" />
-            {state.collapsed && state.layout !== 'mix' ? null : <h1>Pro Preview</h1>}
-          </a>
-        )}
-        menuItemRender={item => {
+        // menuHeaderRender={() => (
+        //   <a>
+        //     <img src="https://gw.alipayobjects.com/zos/antfincdn/PmY%24TNNDBI/logo.svg" />
+        //     {state.collapsed && state.layout !== 'mix' ? null : <h1>Pro Preview</h1>}
+        //   </a>
+        // )}
+        /* menuItemRender={item => {
           return (
             <Menu.Item inlineIndent={24} key={item.path}>
               <router-link to={{ ...item.meta, path: item.path }}>
@@ -130,7 +134,7 @@ const BasicLayout = defineComponent({
               {children}
             </Menu.SubMenu>
           );
-        }}
+        }} */
         breadcrumbRender={({ route: r, routes, paths }) =>
           routes.indexOf(r) === routes.length - 1 ? (
             <span>{i18n(r.breadcrumbName)}</span>

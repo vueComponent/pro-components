@@ -1,8 +1,16 @@
-import { computed, FunctionalComponent, unref, VNode, VNodeChild } from 'vue';
+import {
+  computed,
+  defineComponent,
+  unref,
+  toRefs,
+  VNode,
+  VNodeChild,
+  PropType,
+  ExtractPropTypes,
+} from 'vue';
 /* replace antd ts define */
 import { TabPaneProps } from './interfaces/TabPane';
 import { TabBarExtraContent, TabsProps } from './interfaces/Tabs';
-import { PageHeaderProps } from './interfaces/PageHeader';
 import { AffixProps } from './interfaces/Affix';
 /* replace antd ts define end */
 import { RouteContextProps, useRouteContext } from '../RouteContext';
@@ -11,66 +19,113 @@ import { withInstall } from 'ant-design-vue/es/_util/type';
 import 'ant-design-vue/es/affix/style';
 import Affix from 'ant-design-vue/es/affix';
 import 'ant-design-vue/es/page-header/style';
-import PageHeader from 'ant-design-vue/es/page-header';
+import PageHeader, { pageHeaderProps } from 'ant-design-vue/es/page-header';
 import 'ant-design-vue/es/tabs/style';
 import Tabs from 'ant-design-vue/es/tabs';
 import 'ant-design-vue/es/spin/style';
 import Spin from 'ant-design-vue/es/spin';
 import GridContent from '../GridContent';
 import FooterToolbar from '../FooterToolbar';
-import './index.less';
+import { PropTypes } from '../utils';
 import { CustomRender, WithFalse } from '../typings';
+import omit from 'omit.js';
+import './index.less';
 
 export interface Tab {
   key: string;
   tab: string | VNode | JSX.Element;
 }
 
-export interface PageHeaderTabConfig {
+export const pageHeaderTabConfig = {
   /**
    * @name tabs 的列表
    */
-  tabList?: (Omit<TabPaneProps, 'id'> & { key?: string })[];
+  tabList: {
+    type: [Object, Function, Array] as PropType<(Omit<TabPaneProps, 'id'> & { key?: string })[]>,
+    default: () => undefined,
+  },
   /**
    * @name 当前选中 tab 的 key
    */
-  tabActiveKey?: string;
-  /**
-   * @name tab 修改时触发
-   */
-  onTabChange?: (key: string | number | any) => void;
+  tabActiveKey: PropTypes.string,
   /**
    * @name tab 上多余的区域
    */
-  tabBarExtraContent?: TabBarExtraContent;
+  tabBarExtraContent: {
+    type: [Object, Function] as PropType<TabBarExtraContent>,
+    default: () => undefined,
+  },
   /**
    * @name tabs 的其他配置
    */
-  tabProps?: TabsProps;
-  /**
-   * @name 固定 PageHeader 到页面顶部
-   * @deprecated 请使用 fixedHeader
-   */
-  fixHeader?: boolean;
+  tabProps: {
+    type: Object as PropType<TabsProps>,
+    default: () => undefined,
+  },
   /**
    * @name 固定 PageHeader 到页面顶部
    */
-  fixedHeader?: boolean;
-}
+  fixedHeader: PropTypes.looseBool,
+  // events
+  onTabChange: PropTypes.func,
+};
+export type PageHeaderTabConfig = Partial<ExtractPropTypes<typeof pageHeaderTabConfig>>;
 
-export interface PageContainerProps extends PageHeaderTabConfig, Omit<PageHeaderProps, 'title'> {
-  prefixCls?: string;
+export const pageContainerProps = {
+  ...pageHeaderTabConfig,
+  ...pageHeaderProps,
+  prefixCls: PropTypes.string.def('ant-pro'),
+  title: {
+    type: [Object, String, Boolean, Function] as PropType<
+      WithFalse<VNodeChild | JSX.Element | string>
+    >,
+    default: () => null,
+  },
+  subTitle: {
+    type: [Object, String, Boolean, Function] as PropType<
+      WithFalse<VNodeChild | JSX.Element | string>
+    >,
+    default: () => null,
+  },
+  content: {
+    type: [Object, String, Boolean, Function] as PropType<
+      WithFalse<VNodeChild | JSX.Element | string>
+    >,
+    default: () => null,
+  },
+  extraContent: {
+    type: [Object, String, Boolean, Function] as PropType<
+      WithFalse<VNodeChild | JSX.Element | string>
+    >,
+    default: () => null,
+  },
+  header: {
+    type: [Object, String, Boolean, Function] as PropType<
+      WithFalse<VNodeChild | JSX.Element | string>
+    >,
+    default: () => null,
+  },
+  footer: {
+    type: [Object, String, Boolean, Function] as PropType<
+      WithFalse<VNodeChild | JSX.Element | string>
+    >,
+    default: () => null,
+  },
+  pageHeaderRender: {
+    type: [Object, Function, Boolean] as PropType<
+      (
+        props: any | /* PageContainerProps */ Record<string, any>,
+      ) => VNodeChild | VNode | JSX.Element
+    >,
+  },
+  affixProps: {
+    type: [Object, Function] as PropType<AffixProps>,
+  },
+  ghost: PropTypes.looseBool,
+  loading: PropTypes.looseBool,
+};
 
-  title?: WithFalse<VNodeChild | JSX.Element | string>;
-  content?: CustomRender;
-  extraContent?: CustomRender;
-  footer?: VNodeChild | JSX.Element;
-  ghost?: boolean;
-  header?: PageHeaderProps | CustomRender;
-  pageHeaderRender?: (props: PageContainerProps | Record<string, any>) => VNode | JSX.Element;
-  affixProps?: AffixProps;
-  loading?: boolean;
-}
+export type PageContainerProps = Partial<ExtractPropTypes<typeof pageContainerProps>>;
 
 const renderFooter = (
   props: Omit<
@@ -79,7 +134,7 @@ const renderFooter = (
     },
     'title'
   >,
-) => {
+): VNodeChild | JSX.Element => {
   const {
     tabList,
     tabActiveKey,
@@ -93,7 +148,7 @@ const renderFooter = (
       <Tabs
         class={`${prefixedClassName}-tabs`}
         activeKey={tabActiveKey}
-        onChange={key => {
+        onChange={(key: string | number) => {
           if (onTabChange) {
             onTabChange(key);
           }
@@ -114,7 +169,7 @@ const renderPageHeader = (
   content: CustomRender,
   extraContent: CustomRender,
   prefixedClassName: string,
-): VNode | JSX.Element | null => {
+): VNodeChild | JSX.Element | null => {
   if (!content && !extraContent) {
     return null;
   }
@@ -141,7 +196,7 @@ const renderPageHeader = (
 const defaultPageHeaderRender = (
   props: PageContainerProps,
   value: RouteContextProps & { prefixedClassName: string },
-): VNode | JSX.Element => {
+): VNodeChild | JSX.Element => {
   const {
     title,
     tabList,
@@ -151,7 +206,7 @@ const defaultPageHeaderRender = (
     header,
     extraContent,
     ...restProps
-  } = props;
+  } = omit(props, ['prefixCls']);
   if (pageHeaderRender) {
     return pageHeaderRender({ ...props, ...value });
   }
@@ -159,16 +214,19 @@ const defaultPageHeaderRender = (
   if (!title && title !== false) {
     pageHeaderTitle = value.title;
   }
+
+  const breadcrumb = restProps.breadcrumb || {
+    routes: unref(value.breadcrumb?.routes),
+    itemRender: value.breadcrumb?.itemRender,
+  };
+
+  //
   // inject value
   return (
     <PageHeader
-      title={pageHeaderTitle}
-      // 拉高了 直接传递 props 的优先级
-      breadcrumb={{
-        routes: unref(value.breadcrumb?.routes),
-        itemRender: value.breadcrumb?.itemRender,
-      }}
       {...restProps}
+      title={pageHeaderTitle}
+      breadcrumb={breadcrumb}
       footer={renderFooter({
         ...restProps,
         tabList,
@@ -181,75 +239,80 @@ const defaultPageHeaderRender = (
   );
 };
 
-const PageContainer: FunctionalComponent<PageContainerProps> = (props, { slots }) => {
-  const { loading, footer, affixProps, ghost, fixedHeader } = props; // toRefs(props);
-  const value = useRouteContext();
-  const { getPrefixCls } = value;
-  const prefixCls = props.prefixCls || getPrefixCls();
-  const prefixedClassName = `${prefixCls}-page-container`; // computed(() => `${prefixCls}-page-container`);
-  const classNames = computed(() => {
-    return {
-      [prefixedClassName]: true,
-      [`${prefixCls}-page-container-ghost`]: ghost,
-    };
-  });
+const PageContainer = defineComponent({
+  name: 'PageContainer',
+  props: pageContainerProps,
+  setup(props, { slots }) {
+    const { loading, affixProps, ghost } = toRefs(props);
+    const value = useRouteContext();
+    const { getPrefixCls } = value;
+    const prefixCls = props.prefixCls || getPrefixCls();
+    const prefixedClassName = computed(() => `${prefixCls}-page-container`);
+    const classNames = computed(() => {
+      return {
+        [prefixedClassName.value]: true,
+        [`${prefixCls}-page-container-ghost`]: ghost.value,
+      };
+    });
 
-  const tags = getPropsSlot(slots, props, 'tags');
-  const headerContent = getPropsSlot(slots, props, 'content');
-  const extra = getPropsSlot(slots, props, 'extra');
-  const extraContent = getPropsSlot(slots, props, 'extraContent');
+    const tags = getPropsSlot(slots, props, 'tags');
+    const headerContent = getPropsSlot(slots, props, 'content');
+    const extra = getPropsSlot(slots, props, 'extra');
+    const extraContent = getPropsSlot(slots, props, 'extraContent');
+    const footer = getPropsSlot(slots, props, 'footer');
 
-  const content = slots.default ? (
-    <div>
-      <div class={`${prefixedClassName}-children-content`}>{slots.default()}</div>
-      {value.hasFooterToolbar && (
-        <div
-          style={{
-            height: 48,
-            marginTop: 24,
-          }}
-        />
-      )}
-    </div>
-  ) : null;
+    const headerDom = computed(() => (
+      <div class={`${prefixedClassName.value}-warp`}>
+        {defaultPageHeaderRender(
+          {
+            ...props,
+            tags,
+            content: headerContent,
+            extra,
+            extraContent,
+          },
+          {
+            ...value,
+            prefixCls: undefined,
+            prefixedClassName: prefixedClassName.value,
+          },
+        )}
+      </div>
+    ));
 
-  const headerDom = (
-    <div class={`${prefixedClassName}-warp`}>
-      {defaultPageHeaderRender(
-        {
-          ...props,
-          tags,
-          content: headerContent,
-          extra,
-          extraContent,
-        },
-        {
-          ...value,
-          prefixCls: undefined,
-          prefixedClassName,
-        },
-      )}
-    </div>
-  );
-
-  return (
-    <div class={classNames.value}>
-      {fixedHeader ? (
-        <Affix
-          offsetTop={value.hasHeader && value.fixedHeader ? value.headerHeight : 0}
-          {...affixProps}
-        >
-          {headerDom}
-        </Affix>
-      ) : (
-        headerDom
-      )}
-      <GridContent>{loading ? <Spin /> : content}</GridContent>
-      {value.hasFooterToolbar && <FooterToolbar>{footer}</FooterToolbar>}
-    </div>
-  );
-};
-
-PageContainer.displayName = 'page-container';
+    return () => (
+      <div class={classNames.value}>
+        {value.fixedHeader ? (
+          <Affix
+            offsetTop={value.hasHeader && value.fixedHeader ? value.headerHeight : 0}
+            {...affixProps.value}
+          >
+            {headerDom.value}
+          </Affix>
+        ) : (
+          headerDom.value
+        )}
+        <GridContent>
+          {loading.value ? (
+            <Spin />
+          ) : slots.default ? (
+            <div>
+              <div class={`${prefixedClassName.value}-children-content`}>{slots.default()}</div>
+              {value.hasFooterToolbar && (
+                <div
+                  style={{
+                    height: 48,
+                    marginTop: 24,
+                  }}
+                />
+              )}
+            </div>
+          ) : null}
+        </GridContent>
+        {value.hasFooterToolbar && <FooterToolbar>{footer}</FooterToolbar>}
+      </div>
+    );
+  },
+});
 
 export default withInstall(PageContainer);

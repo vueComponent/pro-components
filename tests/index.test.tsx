@@ -1,7 +1,7 @@
 import './_utils/mock-func';
 import { mount } from '@vue/test-utils';
 import { PropType } from 'vue';
-import BasicLayout, { BasicLayoutProps } from '../src/BasicLayout';
+import BasicLayout, { BasicLayoutProps } from '../src';
 
 const title = 'Pro Tests';
 const logoSrc = 'https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg';
@@ -18,11 +18,13 @@ describe('BasicLayout', () => {
             navTheme="light"
             contentWidth="Fluid"
             contentStyle={{ minHeight: '300px' }}
-            rightContentRender={() => (
-              <div class="custom-header-right-content">
-                <span>custom-right-content</span>
-              </div>
-            )}
+            rightContentRender={() => {
+              return (
+                <div>
+                  <span>custom-right-content</span>
+                </div>
+              );
+            }}
             footerRender={() => <div>custom-footer</div>}
           >
             <div>content</div>
@@ -37,6 +39,7 @@ describe('BasicLayout', () => {
     const wrapper = mount({
       render() {
         return (
+          // @ts-ignore
           <BasicLayout title={title} logo={logoSrc}>
             <div>content</div>
           </BasicLayout>
@@ -64,7 +67,10 @@ describe('BasicLayout', () => {
       },
       render() {
         return (
-          <BasicLayout navTheme={this.theme} layout={this.layout}>
+          <BasicLayout
+            navTheme={this.theme as BasicLayoutProps['navTheme']}
+            layout={this.layout as BasicLayoutProps['layout']}
+          >
             <div>content</div>
           </BasicLayout>
         );

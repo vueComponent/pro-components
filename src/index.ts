@@ -24,4 +24,4 @@ export {
 } from './SiderMenu/BaseMenu';
 export { default as WaterMark } from './WaterMark/index';
 
-export { default } from './BasicLayout';
+export { default, BasicLayoutProps } from './BasicLayout';

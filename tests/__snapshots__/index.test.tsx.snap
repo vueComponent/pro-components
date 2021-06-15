@@ -4,22 +4,29 @@ exports[`BasicLayout 🥩 base use 1`] = `
 <div class="ant-pro-basicLayout ant-pro-basicLayout-side">
   <section class="ant-layout ant-pro-basicLayout">
     <!---->
-    <aside class="ant-pro-sider ant-pro-sider-light ant-pro-sider-side ant-layout-sider ant-layout-sider-light" style="flex: 0 0 208px; max-width: 208px; min-width: 208px; width: 208px;">
+    <aside style="overflow: hidden; flex: 0 0 208px; max-width: 208px; min-width: 208px; width: 208px;" class="ant-layout-sider ant-layout-sider-light ant-pro-sider ant-pro-sider-light ant-pro-sider-side">
       <div class="ant-layout-sider-children">
-        <div class="ant-pro-sider-logo"><a><img src="https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg" alt="logo">
+        <div class="ant-pro-sider-logo" id="logo"><a><img src="https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg" alt="logo">
             <h1>Pro Tests</h1>
           </a></div>
+        <!---->
         <div style="flex: 1; overflow: hidden auto;">
-          <ul role="menu" class="ant-pro-sider-menu ant-menu-light ant-menu-root ant-menu ant-menu-inline" style="width: 100%;"></ul>
-        </div>
-        <div class="ant-pro-sider-links">
-          <ul role="menu" class="ant-pro-sider-link-menu ant-menu-light ant-menu-root ant-menu ant-menu-inline">
+          <ul class="ant-menu ant-menu-root ant-menu-inline ant-menu-light ant-pro-sider-menu" style="width: 100%;" data-hack-store-update="[object Object]" role="menu" data-menu-list="true">
             <!---->
-            <li role="menuitem" style="padding-left: 16px;" class="ant-pro-sider-collapsed-button ant-menu-item"><span role="img" aria-label="menu-fold" class="anticon anticon-menu-fold"><svg class="" data-icon="menu-fold" width="1em" height="1em" fill="currentColor" aria-hidden="true" viewBox="64 64 896 896" focusable="false"><path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 000 13.8z"></path></svg></span>
-              <!---->
-            </li>
+            <!---->
           </ul>
         </div>
+        <div class="ant-pro-sider-links">
+          <ul class="ant-menu ant-menu-root ant-menu-inline ant-menu-light ant-pro-sider-link-menu" data-hack-store-update="[object Object]" role="menu" data-menu-list="true">
+            <!---->
+            <li class="ant-menu-item ant-pro-sider-collapsed-button ant-menu-item-only-child" style="padding-left: 16px;" role="menuitem" tabindex="-1" data-menu-id="collapsed-button" aria-disabled="false">
+              <!----><span class="ant-menu-title-content"><span role="img" aria-label="menu-fold" class="anticon anticon-menu-fold"><svg focusable="false" class="" data-icon="menu-fold" width="1em" height="1em" fill="currentColor" aria-hidden="true" viewBox="64 64 896 896"><path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 000 13.8z"></path></svg></span></span>
+            </li>
+            <!---->
+            <!---->
+          </ul>
+        </div>
+        <!---->
       </div>
       <!---->
     </aside>
@@ -33,10 +40,10 @@ exports[`BasicLayout 🥩 base use 1`] = `
           <div style="flex: 1;">
             <!---->
           </div>
-          <div class="custom-header-right-content"><span>custom-right-content</span></div>
+          <div><span>custom-right-content</span></div>
         </div>
       </header>
-      <main class="ant-layout-content ant-pro-basicLayout-content ant-pro-basicLayout-has-header" ischildrenlayout="false" style="min-height: 300px;">
+      <main class="ant-layout-content ant-pro-basicLayout-content ant-pro-basicLayout-has-header" style="min-height: 300px;">
         <div>content</div>
       </main>
       <div>custom-footer</div>

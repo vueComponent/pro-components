@@ -1,13 +1,13 @@
-import { FunctionalComponent } from 'vue';
+import { FunctionalComponent as FC } from 'vue';
 
 import 'ant-design-vue/es/drawer/style';
 import Drawer from 'ant-design-vue/es/drawer';
 
-import SiderMenu, { SiderMenuProps, PrivateSiderMenuProps } from './SiderMenu';
+import SiderMenu, { siderMenuProps, SiderMenuProps, PrivateSiderMenuProps } from './SiderMenu';
 
-export type SiderMenuWrapperProps = SiderMenuProps & Partial<PrivateSiderMenuProps>;
+export type SiderMenuWrapperProps = Partial<SiderMenuProps> & Partial<PrivateSiderMenuProps>;
 
-const SiderMenuWrapper: FunctionalComponent<SiderMenuWrapperProps> = (props, { attrs }) => {
+const SiderMenuWrapper: FC<SiderMenuWrapperProps> = (props, { attrs }) => {
   return props.isMobile ? (
     <Drawer
       visible={!props.collapsed}
@@ -33,7 +33,15 @@ const SiderMenuWrapper: FunctionalComponent<SiderMenuWrapperProps> = (props, { a
   );
 };
 
-SiderMenuWrapper.inheritAttrs = true;
+SiderMenuWrapper.inheritAttrs = false;
 SiderMenuWrapper.displayName = 'SiderMenuWrapper';
+
+export {
+  SiderMenu,
+  SiderMenuProps,
+  PrivateSiderMenuProps,
+  // vue props
+  siderMenuProps,
+};
 
 export default SiderMenuWrapper;
