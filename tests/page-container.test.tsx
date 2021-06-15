@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import PageContainer from '../src/PageContainer';
+import { PageContainer } from '../src';
 import { Tag, Button } from 'ant-design-vue';
 import { sleep } from './utils';
 
@@ -40,15 +40,30 @@ describe('PageContainer', () => {
   };
 
   it('🥩 base use', () => {
-    const wrapper = mount({
-      render() {
-        return (
-          <PageContainer {...props}>
-            <div>PageContent</div>
-          </PageContainer>
-        );
+    const wrapper = mount(
+      {
+        render() {
+          return (
+            <PageContainer {...props}>
+              <div>PageContent</div>
+            </PageContainer>
+          );
+        },
       },
-    });
+      {
+        global: {
+          mocks: {
+            window: {
+              ResizeObserver: class {
+                observe() {}
+                unobserve() {}
+                disconnect() {}
+              },
+            },
+          },
+        },
+      },
+    );
     expect(wrapper.html()).toMatchSnapshot();
   });
 
@@ -64,6 +79,12 @@ describe('PageContainer', () => {
   });
 
   it('😄 render content,extraContent', async () => {
+    mount(PageContainer, {
+      props: {
+        content: <div class="my-test-content">MyTestContent</div>,
+        extraContent: <span>extra right content</span>,
+      },
+    });
     const wrapper = mount({
       render() {
         return (

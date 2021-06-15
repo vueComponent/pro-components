@@ -1,18 +1,24 @@
-import { ref, computed, FunctionalComponent } from 'vue';
+import { ref, computed, FunctionalComponent, ExtractPropTypes } from 'vue';
 import {
+  siderMenuProps,
   SiderMenuProps,
   defaultRenderLogoAndTitle,
   PrivateSiderMenuProps,
 } from '../SiderMenu/SiderMenu';
 import BaseMenu from '../SiderMenu/BaseMenu';
-import { GlobalHeaderProps } from '../GlobalHeader';
+import { globalHeaderProps } from '../GlobalHeader';
 import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer';
 import { FormatMessage } from '../typings';
-
-import './index.less';
 import { useRouteContext } from '../RouteContext';
+import './index.less';
 
-export type TopNavHeaderProps = SiderMenuProps & GlobalHeaderProps & PrivateSiderMenuProps & {};
+export const topNavHeaderProps = {
+  ...siderMenuProps,
+  ...globalHeaderProps,
+};
+
+export type TopNavHeaderProps = Partial<ExtractPropTypes<typeof topNavHeaderProps>> &
+  Partial<SiderMenuProps>;
 
 const RightContent: FunctionalComponent<TopNavHeaderProps> = ({ rightContentRender, ...props }) => {
   const rightSize = ref<number | string>('auto');
@@ -63,7 +69,7 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = props => {
   const context = useRouteContext();
   const prefixCls = `${propPrefixCls || 'ant-pro'}-top-nav-header`;
   const headerDom = defaultRenderLogoAndTitle(
-    { ...props, collapsed: false },
+    { ...props, collapsed: false } as SiderMenuProps,
     // REMARK:: Any time render header title
     // layout === 'mix' ? 'headerTitleRender' : undefined,
     layout !== 'side' ? 'headerTitleRender' : undefined,
@@ -87,7 +93,7 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = props => {
         <div style={{ flex: 1 }} class={`${prefixCls}-menu`}>
           <BaseMenu
             prefixCls={propPrefixCls}
-            i18n={context.i18n as FormatMessage}
+            locale={context.locale as FormatMessage}
             theme={props.theme === 'realDark' ? 'dark' : props.theme}
             mode={props.mode}
             collapsed={props.collapsed}
@@ -106,3 +112,5 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = props => {
     </div>
   );
 };
+
+TopNavHeader.inheritAttrs = false;

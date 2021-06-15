@@ -1,6 +1,8 @@
-import type { Slot, VNode } from 'vue';
+import type { Slot, VNode, VNodeChild } from 'vue';
 
-export type MenuTheme = 'dark' | 'light';
+export type Theme = 'dark' | 'light';
+
+export type MenuTheme = Theme;
 
 export type LayoutType = 'side' | 'top' | 'mix';
 
@@ -66,6 +68,7 @@ export type WithFalse<T> = T | false;
 
 export type CustomRender =
   | Slot
+  | VNodeChild
   | VNode
   | ((...props: any[]) => Slot)
   | ((...props: any[]) => VNode)

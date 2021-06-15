@@ -1,6 +1,6 @@
 import { InjectionKey, reactive } from 'vue';
 import { createContext, useContext } from './hooks/context';
-import { MenuDataItem, CustomRender } from './typings';
+import { MenuDataItem, FormatMessage, WithFalse, CustomRender } from './typings';
 import { PureSettings } from './defaultSettings';
 export interface Route {
   path: string;
@@ -35,7 +35,7 @@ export interface MenuState {
 
 export interface RouteContextProps extends Partial<PureSettings>, MenuState {
   getPrefixCls?: (suffixCls?: string, customizePrefixCls?: string) => string;
-  i18n?: (t: string) => string;
+  locale?: WithFalse<FormatMessage>;
 
   breadcrumb?: BreadcrumbListReturn;
   menuData: MenuDataItem[];
@@ -62,7 +62,7 @@ export const getPrefixCls = (suffixCls?: string, customizePrefixCls?: string) =>
 // set default context
 const defaultRouteContext = reactive({
   getPrefixCls,
-  i18n: (t: string) => t,
+  locale: (t: string) => t,
   contentWidth: 'Fluid',
   hasFooterToolbar: false,
   setHasFooterToolbar: (bool: boolean) => (defaultRouteContext.hasFooterToolbar = bool),

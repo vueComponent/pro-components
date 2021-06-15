@@ -1,4 +1,5 @@
-import { MenuTheme, ContentWidth } from './typings';
+import type { PropType, ExtractPropTypes } from 'vue';
+import type { MenuTheme, ContentWidth } from './typings';
 
 export interface RenderSetting {
   headerRender?: false;
@@ -6,7 +7,6 @@ export interface RenderSetting {
   menuRender?: false;
   menuHeaderRender?: false;
 }
-
 export interface RenderSetting {
   headerRender?: false;
   footerRender?: false;
@@ -56,7 +56,7 @@ export interface PureSettings {
 
 export type ProSettings = PureSettings & RenderSetting;
 
-const defaultSettings: ProSettings = {
+export const defaultSettings = {
   navTheme: 'dark',
   layout: 'side',
   contentWidth: 'Fluid',
@@ -71,4 +71,51 @@ const defaultSettings: ProSettings = {
   primaryColor: '#1890ff',
 };
 
-export default defaultSettings;
+export const defaultSettingProps = {
+  navTheme: {
+    type: String as PropType<PureSettings['navTheme']>,
+    default: defaultSettings.navTheme,
+  },
+  layout: {
+    type: String as PropType<PureSettings['layout']>,
+    default: defaultSettings.layout,
+  },
+  contentWidth: {
+    type: String as PropType<PureSettings['contentWidth']>,
+    default: defaultSettings.contentWidth,
+  },
+  fixedHeader: {
+    type: Boolean as PropType<PureSettings['fixedHeader']>,
+    default: defaultSettings.fixedHeader,
+  },
+  fixSiderbar: {
+    type: Boolean as PropType<PureSettings['fixSiderbar']>,
+    default: defaultSettings.fixSiderbar,
+  },
+  menu: {
+    type: Object as PropType<PureSettings['menu']>,
+    default: () => {
+      return {
+        locale: true,
+      };
+    },
+  },
+  headerHeight: {
+    type: Number as PropType<PureSettings['headerHeight']>,
+    default: defaultSettings.headerHeight,
+  },
+  title: {
+    type: String as PropType<PureSettings['title']>,
+    default: () => defaultSettings.title,
+  },
+  iconfontUrl: {
+    type: String as PropType<PureSettings['iconfontUrl']>,
+    default: () => defaultSettings.iconfontUrl,
+  },
+  primaryColor: {
+    type: String as PropType<PureSettings['primaryColor']>,
+    default: () => defaultSettings.primaryColor,
+  },
+};
+
+export type ProSettingsProps = ExtractPropTypes<typeof defaultSettingProps>;

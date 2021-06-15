@@ -2417,7 +2417,7 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.1.1.tgz#2287cfc3dc20e5b20aeb65c2c3a56533bdca801c"
   integrity sha512-g+4pzAw7PYSjARtLBoDq6DmcblX8i9KJHSCnyM5VDDFFifUaUT9iHbFpOF/KOizQ9f7QAqU2JH3Y6aXjzUMhVA==
 
-"@vue/test-utils@^2.0.0-beta.2":
+"@vue/test-utils@^2.0.0-rc.6":
   version "2.0.0-rc.6"
   resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-2.0.0-rc.6.tgz#d0aac24d20450d379e183f70542c0822670b8783"
   integrity sha512-0cnQBVH589PwgqWpyv1fgCAz+9Ram/MsvN3ZEAEVXi1aPuhUa22EudGc0WezQ9PKwR+L40NrBmt3JBXE2tSRRQ==
@@ -2835,10 +2835,10 @@ ansi-wrap@0.1.0, ansi-wrap@^0.1.0:
   resolved "https://registry.yarnpkg.com/ansi-wrap/-/ansi-wrap-0.1.0.tgz#a82250ddb0015e9a27ca82e82ea603bbfa45efaf"
   integrity sha1-qCJQ3bABXponyoLoLqYDu/pF768=
 
-ant-design-vue@^2.2.0-beta.2:
-  version "2.2.0-beta.2"
-  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-2.2.0-beta.2.tgz#f6a97245a81e4aabfb792c3ff17292919a2112a7"
-  integrity sha512-Dqpc1J3aG/beww/Hb8g3I+eDAW+zfxvQNFuyZBmlI7pKAIV6GZOOtQKI4oq8wsvxr32TP/Xl4/ffKN2Z03aefQ==
+ant-design-vue@^2.2.0-beta.3:
+  version "2.2.0-beta.3"
+  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-2.2.0-beta.3.tgz#ef01b99b8b823a00ace4d373539bfd393b96a640"
+  integrity sha512-bFcAZK4mUaiHQwYLof+quY/6X2HBwEAYXcEEe2bOzAZZ8o3dTalpkEBAYSIPAGuQ+swdWRGGgEMIVJoeyW36oA==
   dependencies:
     "@ant-design-vue/use" "^0.0.1-0"
     "@ant-design/icons-vue" "^6.0.0"

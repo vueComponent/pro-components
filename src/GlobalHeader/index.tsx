@@ -1,36 +1,59 @@
-import { computed, CSSProperties, FunctionalComponent } from 'vue';
-import { PureSettings } from '../defaultSettings';
-import { CustomRender, MenuDataItem, WithFalse } from '../typings';
+import { computed, FunctionalComponent, PropType, ExtractPropTypes } from 'vue';
+import { defaultSettingProps } from '../defaultSettings';
+import { CustomRender, Theme, MenuDataItem, WithFalse } from '../typings';
 import {
+  siderMenuProps,
   SiderMenuProps,
-  PrivateSiderMenuProps,
   defaultRenderLogo,
   defaultRenderLogoAndTitle,
   defaultRenderCollapsedButton,
 } from '../SiderMenu/SiderMenu';
 import { TopNavHeader } from '../TopNavHeader';
-import { clearMenuItem } from '../utils';
+import { clearMenuItem, PropTypes } from '../utils';
 import type { HeaderViewProps } from '../Header';
-import './index.less';
 import { useRouteContext } from '../RouteContext';
-export interface GlobalHeaderProps extends Partial<PureSettings> {
-  collapsed?: boolean;
-  onCollapse?: (collapsed: boolean) => void;
-  isMobile?: boolean;
-  logo?: CustomRender;
-  menuRender?: WithFalse<(props: HeaderViewProps, defaultDom: CustomRender) => CustomRender>;
-  rightContentRender?: WithFalse<(props: HeaderViewProps) => CustomRender>;
-  className?: string;
-  prefixCls?: string;
-  menuData?: MenuDataItem[];
-  onMenuHeaderClick?: (e: MouseEvent) => void;
-  style?: CSSProperties;
-  menuHeaderRender?: SiderMenuProps['menuHeaderRender'];
-  collapsedButtonRender?: SiderMenuProps['collapsedButtonRender'];
-  splitMenus?: boolean;
-  onOpenKeys?: (openKeys: WithFalse<string[]>) => void;
-  onSelect?: (selectedKeys: WithFalse<string[]>) => void;
-}
+
+import './index.less';
+
+export const globalHeaderProps = {
+  ...defaultSettingProps,
+
+  prefixCls: PropTypes.string.def('ant-pro'),
+  collapsed: PropTypes.looseBool,
+  isMobile: PropTypes.looseBool,
+  logo: siderMenuProps.logo,
+  logoStyle: siderMenuProps.logoStyle,
+  headerTheme: {
+    type: String as PropType<Theme>,
+    default: 'dark',
+  },
+  menuData: {
+    type: Array as PropType<MenuDataItem[]>,
+    default: () => [],
+  },
+  splitMenus: siderMenuProps.splitMenus,
+  menuRender: {
+    type: [Object, Function] as PropType<
+      WithFalse<(props: any /* HeaderViewProps */, defaultDom: CustomRender) => CustomRender>
+    >,
+    default: () => undefined,
+  },
+  menuHeaderRender: siderMenuProps.menuHeaderRender,
+  rightContentRender: {
+    type: [Object, Function] as PropType<WithFalse<(props: any) => CustomRender>>,
+    default: () => undefined,
+  },
+  collapsedButtonRender: siderMenuProps.collapsedButtonRender,
+  matchMenuKeys: siderMenuProps.matchMenuKeys,
+
+  // events
+  onMenuHeaderClick: PropTypes.func,
+  onCollapse: siderMenuProps.onCollapse,
+  onOpenKeys: siderMenuProps.onOpenKeys,
+  onSelect: siderMenuProps.onSelect,
+};
+
+export type GlobalHeaderProps = ExtractPropTypes<typeof globalHeaderProps>;
 
 const renderLogo = (
   menuHeaderRender: SiderMenuProps['menuHeaderRender'],
@@ -45,10 +68,7 @@ const renderLogo = (
   return logoDom;
 };
 
-export const GlobalHeader: FunctionalComponent<GlobalHeaderProps & PrivateSiderMenuProps> = (
-  props,
-  { slots },
-) => {
+export const GlobalHeader: FunctionalComponent<GlobalHeaderProps> = (props, { slots }) => {
   const {
     isMobile,
     logo,
@@ -126,5 +146,6 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps & PrivateSiderM
     </div>
   );
 };
+GlobalHeader.emits = ['menuHeaderClick', 'collapse', 'openKeys', 'select'];
 
 export default GlobalHeader;
