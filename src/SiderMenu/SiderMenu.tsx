@@ -10,7 +10,7 @@ import Layout from 'ant-design-vue/es/layout';
 import 'ant-design-vue/es/menu/style';
 import Menu from 'ant-design-vue/es/menu';
 import BaseMenu, { baseMenuProps } from './BaseMenu';
-import { FormatMessage, WithFalse, CustomRender } from '../typings';
+import { WithFalse, CustomRender } from '../typings';
 import { SiderProps } from './typings';
 import { defaultSettingProps } from '../defaultSettings';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
@@ -95,7 +95,7 @@ export const defaultRenderLogo = (logo?: CustomRender, logoStyle?: CSSProperties
     return null;
   }
   if (typeof logo === 'string') {
-    return <img src={logo} alt="logo" />;
+    return <img src={logo} alt="logo" style={logoStyle} />;
   }
   if (typeof logo === 'function') {
     return logo();
@@ -155,7 +155,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
     onMenuHeaderClick,
   } = props;
   const context = useRouteContext();
-  const { getPrefixCls, locale } = context;
+  const { getPrefixCls } = context;
   const baseClassName = getPrefixCls('sider');
   // const isMix = computed(() => props.layout === 'mix');
   // const fixed = computed(() => context.fixSiderbar);
@@ -182,7 +182,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
   const defaultMenuDom = (
     <BaseMenu
       prefixCls={getPrefixCls()}
-      locale={props.locale}
+      locale={context.locale}
       theme={sTheme.value === 'realDark' ? 'dark' : sTheme.value}
       mode="inline"
       menuData={hasSide.value ? flatMenuData.value : context.menuData}
@@ -261,6 +261,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
             selectedKeys={[]}
             openKeys={[]}
             mode="inline"
+            // @ts-ignore
             onClick={() => {
               if (onCollapse) {
                 onCollapse(!props.collapsed);

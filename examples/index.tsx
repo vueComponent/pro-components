@@ -67,12 +67,11 @@ const BasicLayout = defineComponent({
           }
         },
       );
-
       // watch route
-      watchEffect(() => {
+      watch(route, () => {
         updateSelectedMenu();
         updateOpenKeys();
-      });
+      })
     });
 
     return () => (
@@ -98,7 +97,7 @@ const BasicLayout = defineComponent({
         onOpenKeys={$event => {
           state.openKeys = $event;
         }}
-        onSelect={updateSelectedMenu}
+        // onSelect={updateSelectedMenu}
         onMenuHeaderClick={e => {
           console.log('onMenuHeaderClick', e);
         }}

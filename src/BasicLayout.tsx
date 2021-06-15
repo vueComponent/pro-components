@@ -1,4 +1,4 @@
-import { computed, reactive, unref, provide, defineComponent } from 'vue';
+import { computed, reactive, unref, provide, defineComponent, toRefs } from 'vue';
 import type { CSSProperties, PropType, ExtractPropTypes } from 'vue';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
@@ -74,6 +74,7 @@ const ProLayout = defineComponent({
   ],
   props: basicLayoutProps,
   setup(props, { emit, slots }) {
+    const refProps = toRefs(props);
     const isTop = computed(() => props.layout === 'top');
     // const isSide = computed(() => layout === 'side');
     // const isMix = computed(() => layout === 'mix');
@@ -170,28 +171,29 @@ const ProLayout = defineComponent({
     const routeContext = reactive({
       getPrefixCls,
       ...props,
-      locale: props.locale,
+      locale: refProps.locale,
       breadcrumb: computed(() => {
         return {
-          ...props.breadcrumb,
+          ...refProps.breadcrumb,
           itemRender: breadcrumbRender,
         };
       }),
       contentWidth: 'Fluid',
-      layout: props.layout,
-      navTheme: props.navTheme,
-      splitMenus: props.splitMenus,
-      fixedHeader: props.fixSiderbar,
-      fixSiderbar: props.fixSiderbar,
+      layout: refProps.layout,
+      navTheme: refProps.navTheme,
+      splitMenus: refProps.splitMenus,
+      fixedHeader: refProps.fixSiderbar,
+      fixSiderbar: refProps.fixSiderbar,
       sideWidth: siderWidth,
       hasFooterToolbar: false,
-      menuData: props.menuData,
-      selectedKeys: props.selectedKeys || [],
-      openKeys: props.openKeys || [],
+      menuData: refProps.menuData,
+      selectedKeys: refProps.selectedKeys,
+      openKeys: refProps.openKeys,
     });
 
     const restProps = computed(() => omit(props, ['onCollapse', 'onOpenKeys', 'onSelect']));
     provide('route-context', routeContext);
+
     return () => (
       <>
         {pure.value ? (
