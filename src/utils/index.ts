@@ -1,5 +1,5 @@
+import { Slots } from 'vue';
 import { MenuDataItem } from '../typings';
-export { getPropsSlot } from 'ant-design-vue/es/_util/props-util';
 export { default as PropTypes } from 'ant-design-vue/es/_util/vue-types';
 
 export { default as isUrl } from './isUrl';
@@ -59,6 +59,10 @@ export function getMenuFirstChildren(menus: MenuDataItem[], key?: string) {
   return key === undefined
     ? []
     : (menus[menus.findIndex(menu => menu.path === key)] || {}).children || [];
+}
+
+export function getPropsSlot(slots: Slots, props: Record<string, any>, prop = 'default') {
+  return props[prop] ?? slots[prop]?.();
 }
 
 export const PropRenderType = {

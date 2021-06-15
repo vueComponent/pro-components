@@ -88,6 +88,8 @@ export const baseMenuProps = {
     type: [Function, Boolean] as PropType<CustomMenuRender['subMenuItemRender']>,
     default: () => false,
   },
+
+  onClick: [Function, Object] as PropType<(...args: any) => void>,
 };
 
 export type BaseMenuProps = ExtractPropTypes<typeof baseMenuProps>;
@@ -180,7 +182,6 @@ class MenuUtil {
           danger={item.meta?.danger}
           key={item.path}
           icon={item.meta?.icon && <LazyIcon icon={item.meta.icon} />}
-          // onClick={}
         >
           {this.getMenuItem(item)}
         </Menu.Item>
@@ -222,7 +223,7 @@ class MenuUtil {
 export default defineComponent({
   name: 'BaseMenu',
   props: baseMenuProps,
-  emits: ['update:openKeys', 'update:selectedKeys'],
+  emits: ['update:openKeys', 'update:selectedKeys', 'click'],
   setup(props, { emit }) {
     const menuUtil = new MenuUtil(props);
 
@@ -238,8 +239,13 @@ export default defineComponent({
     }): void => {
       emit('update:selectedKeys', params.selectedKeys);
     };
-    // TODO :: add `Menu` onClick custom handle.
-
+    const handleClick = (args: {
+      item: VNodeChild;
+      key: string | number;
+      keyPath: string | string[] | number | number[];
+    }) => {
+      emit('click', args);
+    };
     return () => (
       <Menu
         key="Menu"
@@ -252,6 +258,7 @@ export default defineComponent({
         // @ts-ignore
         onOpenChange={handleOpenChange}
         onSelect={handleSelect}
+        onClick={handleClick}
         {...props.menuProps}
       >
         {menuUtil.getNavMenuItems(props.menuData)}

@@ -71,6 +71,7 @@ const ProLayout = defineComponent({
     'openKeys',
     'select',
     'menuHeaderClick',
+    'menuClick',
   ],
   props: basicLayoutProps,
   setup(props, { emit, slots }) {
@@ -95,6 +96,9 @@ const ProLayout = defineComponent({
     };
     const onMenuHeaderClick = (e: MouseEvent) => {
       emit('menuHeaderClick', e);
+    };
+    const onMenuClick = (args: any) => {
+      emit('menuClick', args);
     };
 
     const colSize = useMediaQuery();
@@ -170,7 +174,7 @@ const ProLayout = defineComponent({
 
     const routeContext = reactive({
       getPrefixCls,
-      ...props,
+      // ...props,
       locale: refProps.locale,
       breadcrumb: computed(() => {
         return {
@@ -191,7 +195,9 @@ const ProLayout = defineComponent({
       openKeys: refProps.openKeys,
     });
 
-    const restProps = computed(() => omit(props, ['onCollapse', 'onOpenKeys', 'onSelect']));
+    const restProps = computed(() =>
+      omit(props, ['onCollapse', 'onOpenKeys', 'onSelect', 'onMenuClick', 'menuHeaderRender']),
+    );
     provide('route-context', routeContext);
 
     return () => (
@@ -209,6 +215,7 @@ const ProLayout = defineComponent({
                   onCollapse={onCollapse}
                   onSelect={onSelect}
                   onOpenKeys={onOpenKeys}
+                  onMenuClick={onMenuClick}
                 />
               )}
               <Layout style={genLayoutStyle}>
