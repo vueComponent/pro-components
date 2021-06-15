@@ -149,7 +149,7 @@ class MenuUtil {
       if (this.props.subMenuItemRender) {
         return this.props.subMenuItemRender(
           item,
-          this.getNavMenuItems(item.children, true),
+          this.getNavMenuItems(item.children),
         ) as VNode;
       }
       const { prefixCls, locale } = this.props;
@@ -257,7 +257,7 @@ export default defineComponent({
         onSelect={handleSelect}
         {...props.menuProps}
       >
-        {menuUtil.getNavMenuItems(props.menuData, false)}
+        {menuUtil.getNavMenuItems(props.menuData)}
       </Menu>
     );
   },
