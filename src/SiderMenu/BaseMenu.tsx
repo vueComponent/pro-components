@@ -147,10 +147,7 @@ class MenuUtil {
       !item?.meta?.hideChildrenInMenu
     ) {
       if (this.props.subMenuItemRender) {
-        return this.props.subMenuItemRender(
-          item,
-          this.getNavMenuItems(item.children),
-        ) as VNode;
+        return this.props.subMenuItemRender(item, this.getNavMenuItems(item.children)) as VNode;
       }
       const { prefixCls, locale } = this.props;
       const menuTitle = (locale && locale(item.meta?.title)) || item.meta?.title;
