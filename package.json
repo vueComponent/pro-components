@@ -1,6 +1,6 @@
 {
   "name": "@ant-design-vue/pro-layout",
-  "version": "3.0.0-beta.6",
+  "version": "3.0.0-beta.7",
   "main": "./lib/index.js",
   "module": "./es/index.js",
   "repository": {
@@ -67,7 +67,7 @@
     "ts-node": "^9.1.1",
     "typescript": "~3.9.3",
     "vue": "^3.1.1",
-    "vue-jest": "^5.0.0-alpha.3",
+    "vue-jest": "^5.0.0-alpha.10",
     "vue-router": "^4.0.3"
   },
   "dependencies": {

@@ -10,7 +10,6 @@ import {
 } from '../SiderMenu/SiderMenu';
 import { TopNavHeader } from '../TopNavHeader';
 import { clearMenuItem, PropTypes } from '../utils';
-import type { HeaderViewProps } from '../Header';
 import { useRouteContext } from '../RouteContext';
 
 import './index.less';

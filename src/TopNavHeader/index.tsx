@@ -1,10 +1,5 @@
 import { ref, computed, FunctionalComponent, ExtractPropTypes } from 'vue';
-import {
-  siderMenuProps,
-  SiderMenuProps,
-  defaultRenderLogoAndTitle,
-  PrivateSiderMenuProps,
-} from '../SiderMenu/SiderMenu';
+import { siderMenuProps, SiderMenuProps, defaultRenderLogoAndTitle } from '../SiderMenu/SiderMenu';
 import BaseMenu from '../SiderMenu/BaseMenu';
 import { globalHeaderProps } from '../GlobalHeader';
 import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer';

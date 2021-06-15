@@ -22,6 +22,6 @@ export {
   SelectInfo,
   baseMenuProps,
 } from './SiderMenu/BaseMenu';
-export { default as WaterMark } from './WaterMark/index';
+export { default as WaterMark, WaterMarkProps } from './WaterMark/index';
 
 export { default, BasicLayoutProps } from './BasicLayout';

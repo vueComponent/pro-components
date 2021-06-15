@@ -7,7 +7,6 @@ import {
   VNode,
   PropType,
   isVNode,
-  toRefs,
   ExtractPropTypes,
 } from 'vue';
 import { createFromIconfontCN } from '@ant-design/icons-vue';
@@ -67,15 +66,15 @@ export const baseMenuProps = {
   },
   collapsed: {
     type: Boolean as PropType<boolean | undefined>,
-    default: false,
+    default: () => false,
   },
   openKeys: {
     type: Array as PropType<WithFalse<string[]>>,
-    default: undefined,
+    default: () => undefined,
   },
   selectedKeys: {
     type: Array as PropType<WithFalse<string[]>>,
-    default: undefined,
+    default: () => undefined,
   },
   menuProps: {
     type: Object as PropType<Record<string, any>>,
@@ -136,11 +135,11 @@ class MenuUtil {
     this.props = props;
   }
 
-  getNavMenuItems = (menusData: MenuDataItem[] = [], isChildren: boolean) => {
-    return menusData.map(item => this.getSubMenuOrItem(item, isChildren)).filter(item => item);
+  getNavMenuItems = (menusData: MenuDataItem[] = []) => {
+    return menusData.map(item => this.getSubMenuOrItem(item)).filter(item => item);
   };
 
-  getSubMenuOrItem = (item: MenuDataItem, isChildren: boolean): VNode => {
+  getSubMenuOrItem = (item: MenuDataItem): VNode => {
     if (
       Array.isArray(item.children) &&
       item.children.length > 0 &&
@@ -172,7 +171,7 @@ class MenuUtil {
           key={item.path}
           icon={hasGroup ? null : <LazyIcon icon={item.meta?.icon} />}
         >
-          {this.getNavMenuItems(item.children, true)}
+          {this.getNavMenuItems(item.children)}
         </MenuComponent>
       );
     }
@@ -186,13 +185,13 @@ class MenuUtil {
           icon={item.meta?.icon && <LazyIcon icon={item.meta.icon} />}
           // onClick={}
         >
-          {this.getMenuItem(item, isChildren)}
+          {this.getMenuItem(item)}
         </Menu.Item>
       )
     );
   };
 
-  getMenuItem = (item: MenuDataItem, isChildren: boolean) => {
+  getMenuItem = (item: MenuDataItem) => {
     const meta = Object.assign({}, item.meta);
     const target = (meta.target || null) as string | null;
     const hasUrl = isUrl(item.path);
@@ -228,8 +227,6 @@ export default defineComponent({
   props: baseMenuProps,
   emits: ['update:openKeys', 'update:selectedKeys'],
   setup(props, { emit }) {
-    const { mode } = toRefs(props);
-    const isInline = computed(() => mode.value === 'inline');
     const menuUtil = new MenuUtil(props);
 
     const handleOpenChange = (openKeys: string[]): void => {
