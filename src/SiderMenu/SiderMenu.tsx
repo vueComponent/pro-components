@@ -77,6 +77,7 @@ export const siderMenuProps = {
 
   // events
   onMenuHeaderClick: PropTypes.func,
+  onMenuClick: PropTypes.func,
   onCollapse: {
     type: Function as PropType<(collapsed: boolean) => void>,
   },
@@ -120,9 +121,11 @@ export const defaultRenderLogoAndTitle = (
   const logoDom = defaultRenderLogo(logo, logoStyle);
   const titleDom = <h1>{title}</h1>;
   // call menuHeaderRender
-  if (renderFunction) {
+  if (typeof renderFunction === 'function') {
     // when collapsed, no render title
     return renderFunction(logoDom, props.collapsed ? null : titleDom, props);
+  } else if (Array.isArray(renderFunction)) {
+    return <>{renderFunction}</>;
   }
   if (layout === 'mix' && renderKey === 'menuHeaderRender') {
     return null;
@@ -191,6 +194,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
       selectedKeys={context.selectedKeys}
       menuItemRender={props.menuItemRender}
       subMenuItemRender={props.subMenuItemRender}
+      onClick={props.onMenuClick}
       style={{
         width: '100%',
       }}
