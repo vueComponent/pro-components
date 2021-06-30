@@ -1,10 +1,11 @@
 import { Slots } from 'vue';
 import { MenuDataItem } from '../typings';
-export { default as PropTypes } from 'ant-design-vue/es/_util/vue-types';
+import PropTypes from 'ant-design-vue/es/_util/vue-types';
 
 export { default as isUrl } from './isUrl';
 export { default as isImg } from './isImg';
 export { default as isNil } from './isNil';
+export { PropTypes };
 
 export function warn(valid: boolean, message: string) {
   // Support uglify
