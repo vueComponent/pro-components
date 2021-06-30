@@ -1,6 +1,6 @@
 import './_utils/mock-func';
 import { mount } from '@vue/test-utils';
-import { PropType } from 'vue';
+import type { PropType } from 'vue';
 import BasicLayout, { BasicLayoutProps } from '../src';
 
 const title = 'Pro Tests';

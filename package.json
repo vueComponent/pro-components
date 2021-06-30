@@ -1,6 +1,6 @@
 {
   "name": "@ant-design-vue/pro-layout",
-  "version": "3.0.0-beta.9",
+  "version": "3.0.0-beta.11",
   "main": "./lib/index.js",
   "module": "./es/index.js",
   "repository": {
@@ -19,7 +19,7 @@
     "lint:fix": "eslint --fix src/ -c .eslintrc.js --ext .tsx,.ts",
     "compile": "vc-tools run compile",
     "test": "cross-env NODE_ENV=test jest --config .jest.js",
-    "prepublishOnly": "npm run lint && npm run compile && npm run test"
+    "prepublishOnly": "npm run lint && npm run compile"
   },
   "peerDependencies": {
     "ant-design-vue": ">=2.2.0",
@@ -76,7 +76,7 @@
     "core-js": "^3.9.1",
     "lodash-es": "^4.17.20",
     "omit.js": "^2.0.2",
-    "vue": "^3.1.0",
+    "vue": "^3.1.1",
     "vue-types": "^3.0.1"
   },
   "files": [
