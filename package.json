@@ -72,10 +72,11 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "ant-design-vue": "^2.2.0-beta.3",
+    "ant-design-vue": "^2.2.0-rc.1",
     "core-js": "^3.9.1",
     "lodash-es": "^4.17.20",
     "omit.js": "^2.0.2",
+    "vue": "^3.1.0",
     "vue-types": "^3.0.1"
   },
   "files": [

@@ -45,6 +45,7 @@ export interface RouteContextProps extends Partial<PureSettings>, MenuState {
   hasSideMenu?: boolean;
   hasHeader?: boolean;
   sideWidth?: number;
+  headerHeight?: number;
   hasFooterToolbar?: boolean;
   hasFooter?: boolean;
   setHasFooterToolbar?: (bool: boolean) => void;
