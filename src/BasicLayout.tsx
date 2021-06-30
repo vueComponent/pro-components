@@ -189,6 +189,7 @@ const ProLayout = defineComponent({
       fixedHeader: refProps.fixSiderbar,
       fixSiderbar: refProps.fixSiderbar,
       sideWidth: siderWidth,
+      headerHeight: refProps.headerHeight,
       hasFooterToolbar: false,
       menuData: refProps.menuData,
       selectedKeys: refProps.selectedKeys,

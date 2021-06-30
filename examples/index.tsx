@@ -71,7 +71,7 @@ const BasicLayout = defineComponent({
       watch(route, () => {
         updateSelectedMenu();
         updateOpenKeys();
-      })
+      });
     });
 
     return () => (
@@ -145,9 +145,8 @@ const BasicLayout = defineComponent({
           routes: breadcrumb.value,
         }}
       >
-        <WaterMark content="Pro Layout">
-          <router-view />
-        </WaterMark>
+        <router-view />
+
         <FooterToolbar>
           <Space>
             <Button
