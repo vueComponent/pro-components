@@ -297,6 +297,56 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/hiden-child-in-menu',
+    name: 'hiden-route',
+    meta: { icon: 'SmileOutlined', title: 'hiden-child-in-menu', hideChildInMenu: true },
+    redirect: '/hiden-route',
+    component: RouteView,
+    children: [
+      {
+        path: '/form/basic-form',
+        name: 'basic-form',
+        meta: { icon: 'SmileOutlined', title: 'hiden-child-in-menu' },
+        component: FormPage,
+      },
+    ]
+  },
+  {
+    path: '/hiden-in-menu',
+    name: 'hiden-route',
+    meta: { icon: 'SmileOutlined', title: 'hiden-in-menu' },
+    redirect: '/hiden-route',
+    component: RouteView,
+    children: [
+      {
+        path: '/form/basic-form',
+        name: 'basic-form',
+        meta: { icon: 'SmileOutlined', title: 'hiden-in-menu', hideInMenu: true, },
+        component: FormPage,
+      },
+      {
+        path: '/form/basic-form',
+        name: 'basic-form',
+        meta: { icon: 'SmileOutlined', title: 'hiden-in-menu-nest' },
+        component: RouteView,
+        children: [
+          {
+            path: '/form/basic-form',
+            name: 'basic-form',
+            meta: { icon: 'SmileOutlined', title: 'hiden-in-menu', hideInMenu: true },
+            component: FormPage,
+          },
+          {
+            path: '/form/basic-form',
+            name: 'basic-form',
+            meta: { icon: 'SmileOutlined', title: 'hiden-in-menu', hideInMenu: true },
+            component: FormPage,
+          },
+        ]
+      },
+    ]
+  },
 ];
 
 const router = createRouter({
