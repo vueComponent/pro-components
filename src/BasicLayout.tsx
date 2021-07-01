@@ -182,7 +182,7 @@ const ProLayout = defineComponent({
           itemRender: breadcrumbRender,
         };
       }),
-      contentWidth: 'Fluid',
+      contentWidth: refProps.contentWidth, // 'Fluid',
       layout: refProps.layout,
       navTheme: refProps.navTheme,
       splitMenus: refProps.splitMenus,
