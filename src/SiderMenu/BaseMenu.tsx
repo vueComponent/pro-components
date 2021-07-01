@@ -141,15 +141,18 @@ class MenuUtil {
     return menusData.map(item => this.getSubMenuOrItem(item)).filter(item => item);
   };
 
-  getSubMenuOrItem = (item: MenuDataItem): VNode => {
+  getSubMenuOrItem = (item: MenuDataItem): VNode | null => {
+    if (item?.meta?.hideInMenu) return null
+
+    const showMenuItems = this.getNavMenuItems(item.children)
+
     if (
       Array.isArray(item.children) &&
-      item.children.length > 0 &&
-      !item?.meta?.hideInMenu &&
-      !item?.meta?.hideChildrenInMenu
+      showMenuItems.length > 0 &&
+      !item?.meta?.hideChildInMenu
     ) {
       if (this.props.subMenuItemRender) {
-        return this.props.subMenuItemRender(item, this.getNavMenuItems(item.children)) as VNode;
+        return this.props.subMenuItemRender(item, showMenuItems) as VNode;
       }
       const { prefixCls, locale } = this.props;
       const menuTitle = (locale && locale(item.meta?.title)) || item.meta?.title;
@@ -170,7 +173,7 @@ class MenuUtil {
           key={item.path}
           icon={hasGroup ? null : <LazyIcon icon={item.meta?.icon} />}
         >
-          {this.getNavMenuItems(item.children)}
+          {showMenuItems}
         </MenuComponent>
       );
     }
