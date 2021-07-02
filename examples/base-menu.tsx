@@ -1,10 +1,9 @@
-import { createApp, onMounted, reactive, watch, watchEffect } from 'vue';
+import { createApp, onMounted, reactive, watch } from 'vue';
 import { menus } from './menus';
-import { MenuTheme } from '../src/typings';
+import { BaseMenu, MenuTheme, MenuMode } from '../src';
 import { Card, Space, Button, Switch } from 'ant-design-vue';
 import { useMenu } from '../src/hooks/useMenu';
 import { RouterLink } from './mock-router';
-import { default as BaseMenu, MenuMode } from '../src/SiderMenu/BaseMenu';
 import * as Icon from '@ant-design/icons-vue';
 
 import 'ant-design-vue/dist/antd.less';
@@ -16,21 +15,27 @@ const BaseMenuDemo = {
       mode: 'inline' as MenuMode,
       themeChecked: true,
       modeChecked: true,
-    })
+    });
     const [menuState] = useMenu({
       collapsed: false,
       openKeys: ['/dashboard'],
       selectedKeys: ['/dashboard/monitor'],
-    })
+    });
 
     onMounted(() => {
-      watch(() => state.themeChecked, (val) => {
-        state.theme = val ? 'dark' : 'light'
-      })
-      watch(() => state.modeChecked, (val) => {
-        state.mode = val ? 'inline' : 'horizontal'
-      })
-    })
+      watch(
+        () => state.themeChecked,
+        val => {
+          state.theme = val ? 'dark' : 'light';
+        },
+      );
+      watch(
+        () => state.modeChecked,
+        val => {
+          state.mode = val ? 'inline' : 'horizontal';
+        },
+      );
+    });
 
     return () => (
       <div class="components">
@@ -41,20 +46,28 @@ const BaseMenuDemo = {
               disabled={state.mode !== 'inline'}
               type="primary"
               onClick={() => {
-                menuState.collapsed = !menuState.collapsed
+                menuState.collapsed = !menuState.collapsed;
               }}
             >
               {menuState.collapsed ? '展开' : '收起'}
             </Button>
-            <Switch checkedChildren="dark" unCheckedChildren="light" v-model={[state.themeChecked, 'checked']} />
-            <Switch checkedChildren="inline" unCheckedChildren="horizontal" v-model={[state.modeChecked, 'checked']} />
+            <Switch
+              checkedChildren="dark"
+              unCheckedChildren="light"
+              v-model={[state.themeChecked, 'checked']}
+            />
+            <Switch
+              checkedChildren="inline"
+              unCheckedChildren="horizontal"
+              v-model={[state.modeChecked, 'checked']}
+            />
           </Space>
           <div style={{ margin: '12px 0' }}>
-            <p>SelectedKeys: { JSON.stringify(menuState.selectedKeys) }</p>
-            <p>OpenKeys: { JSON.stringify(menuState.openKeys) }</p>
-            <p>Collapsed: { JSON.stringify(menuState.collapsed) }</p>
-            <p>MenuMode: { JSON.stringify(state.mode) }</p>
-            <p>MenuTheme: { JSON.stringify(state.theme) }</p>
+            <p>SelectedKeys: {JSON.stringify(menuState.selectedKeys)}</p>
+            <p>OpenKeys: {JSON.stringify(menuState.openKeys)}</p>
+            <p>Collapsed: {JSON.stringify(menuState.collapsed)}</p>
+            <p>MenuMode: {JSON.stringify(state.mode)}</p>
+            <p>MenuTheme: {JSON.stringify(state.theme)}</p>
           </div>
         </Card>
         <div class="demo" style="background: rgb(244,244,244);">
@@ -68,11 +81,11 @@ const BaseMenuDemo = {
               selectedKeys={menuState.selectedKeys}
               {...{
                 'onUpdate:openKeys': $event => {
-                  menuState.openKeys = $event
+                  menuState.openKeys = $event;
                 },
                 'onUpdate:selectedKeys': $event => {
-                  menuState.selectedKeys = $event
-                }
+                  menuState.selectedKeys = $event;
+                },
               }}
             />
           </div>
@@ -84,11 +97,11 @@ const BaseMenuDemo = {
 
 const app = createApp(BaseMenuDemo);
 
-const filterIcons = ['default', 'createFromIconfontCN', 'getTwoToneColor', 'setTwoToneColor']
+const filterIcons = ['default', 'createFromIconfontCN', 'getTwoToneColor', 'setTwoToneColor'];
 Object.keys(Icon)
-.filter(k => !filterIcons.includes(k))
-.forEach(k => {
-  app.component(Icon[k].displayName, Icon[k])
-})
+  .filter(k => !filterIcons.includes(k))
+  .forEach(k => {
+    app.component(Icon[k].displayName, Icon[k]);
+  });
 
 app.use(RouterLink).mount('#__vue-content>div');

@@ -14,7 +14,7 @@ import 'ant-design-vue/es/menu/style';
 import Menu from 'ant-design-vue/es/menu';
 import { defaultSettingProps, defaultSettings } from '../defaultSettings';
 import { isImg, isUrl } from '../utils';
-import { MenuMode, SelectInfo, OpenEventHandler } from './typings';
+import { MenuMode } from './typings';
 import {
   MenuDataItem,
   MenuTheme,
@@ -24,8 +24,6 @@ import {
   WithFalse,
 } from '../typings';
 import './index.less';
-
-export { MenuMode, SelectInfo, OpenEventHandler };
 
 export function useRootSubmenuKeys(menus: MenuDataItem[]): ComputedRef<string[]> {
   return computed(() => menus.map(it => it.path));

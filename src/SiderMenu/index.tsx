@@ -38,8 +38,6 @@ SiderMenuWrapper.displayName = 'SiderMenuWrapper';
 
 export {
   SiderMenu,
-  SiderMenuProps,
-  PrivateSiderMenuProps,
   // vue props
   siderMenuProps,
 };
