@@ -1,33 +1,26 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "declaration": true,
+    "plugins": [
+      {
+        "name": "@vuedx/typescript-plugin-vue"
+      }
+    ],
+    "target": "esnext",
     "module": "esnext",
-    "target": "ES2018",
+    "moduleResolution": "node",
     "strict": true,
     "jsx": "preserve",
-    "moduleResolution": "node",
+    "sourceMap": true,
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ES6",
-      "ES2020.Symbol.WellKnown",
-      "ESNext.Symbol"
-    ]
+    "lib": ["esnext", "dom"],
+    "types": ["vite/client", "node"],
+    "baseUrl": "./",
+    "paths": {
+      "@/*":["./src/*"],
+      "@ant-design-vue/pro-layout":["./src/index.ts"]
+    },
   },
-  "include": ["./src", "./typings/"],
-  "typings": "./typings/index.d.ts",
-  "exclude": [
-    "node_modules",
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "jest",
-    "src/setupTests.ts",
-    "tslint:latest",
-    "tslint-config-prettier"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "examples/**/*.vue"]
 }

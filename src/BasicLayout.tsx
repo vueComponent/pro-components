@@ -1,29 +1,38 @@
-import { computed, reactive, unref, provide, defineComponent, toRefs } from 'vue';
+import { computed, reactive, unref, provide, defineComponent, toRefs, watch } from 'vue';
 import type { CSSProperties, PropType, ExtractPropTypes } from 'vue';
+
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
-import { withInstall } from 'ant-design-vue/es/_util/type';
-import { defaultSettingProps } from './defaultSettings';
-import { BreadcrumbProps, getPrefixCls } from './RouteContext';
-import { default as SiderMenuWrapper, siderMenuProps } from './SiderMenu';
-import { WrapContent } from './WrapContent';
-import { default as Header, headerViewProps } from './Header';
-import { CustomRender, FormatMessage, WithFalse } from './typings';
-import { getPropsSlot, PropTypes } from './utils';
 import omit from 'omit.js';
 import useMediaQuery from './hooks/useMediaQuery';
+
+import { withInstall } from 'ant-design-vue/es/_util/type';
+import { defaultSettingProps } from './defaultSettings';
+import { getPrefixCls, defaultRouteContext } from './RouteContext';
+import type { BreadcrumbProps } from './RouteContext';
+import { default as SiderMenuWrapper, siderMenuProps } from './SiderMenu';
+import { WrapContent } from './WrapContent';
+import globalHeaderProps from './GlobalHeader/headerProps';
+import { HeaderView as Header, headerViewProps } from './Header';
+import { getPropsSlot, PropTypes } from './utils';
+
+import type { CustomRender, FormatMessage, WithFalse } from './typings';
+
 import './BasicLayout.less';
 
 export const basicLayoutProps = {
   ...defaultSettingProps,
   ...siderMenuProps,
+  ...globalHeaderProps,
   ...headerViewProps,
 
   pure: PropTypes.looseBool,
   loading: PropTypes.looseBool,
   locale: {
-    type: [Function, Object, Boolean] as PropType<WithFalse<FormatMessage>>,
-    default: (s: string) => s,
+    type: [Function, Boolean] as PropType<WithFalse<FormatMessage>>,
+    default() {
+      return (s: string) => s;
+    },
   },
   /**
    * 是否禁用移动端模式，有的管理系统不需要移动端模式，此属性设置为true即可
@@ -58,11 +67,11 @@ export const basicLayoutProps = {
   contentStyle: PropTypes.style,
 };
 
-export type BasicLayoutProps = ExtractPropTypes<typeof basicLayoutProps>;
+export type BasicLayoutProps = Partial<ExtractPropTypes<typeof basicLayoutProps>>;
 
 const ProLayout = defineComponent({
   name: 'ProLayout',
-  inheritAttrs: false,
+  // inheritAttrs: false,
   emits: [
     'update:collapsed',
     'update:open-keys',
@@ -175,7 +184,7 @@ const ProLayout = defineComponent({
     const routeContext = reactive({
       getPrefixCls,
       // ...props,
-      locale: refProps.locale,
+      locale: refProps.locale.value || defaultRouteContext.locale,
       breadcrumb: computed(() => {
         return {
           ...refProps.breadcrumb,

@@ -42,7 +42,7 @@ export const baseMenuProps = {
     default: () => 'ant-pro',
   },
   locale: {
-    type: [Function, Object, Boolean] as PropType<WithFalse<FormatMessage>>,
+    type: [Function, Boolean] as PropType<WithFalse<FormatMessage>>,
     default: (t: string): string => t,
   },
   menuData: {

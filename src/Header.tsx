@@ -1,11 +1,15 @@
-import { defineComponent, computed, toRefs, PropType, ExtractPropTypes } from 'vue';
+import { defineComponent, computed, toRefs } from 'vue';
+import type { PropType, ExtractPropTypes } from 'vue';
+import type { RouteRecordRaw } from 'vue-router';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 
-import { GlobalHeader, globalHeaderProps, GlobalHeaderProps } from './GlobalHeader';
+import { GlobalHeader } from './GlobalHeader';
+import type { GlobalHeaderProps } from './GlobalHeader';
+import globalHeaderProps from './GlobalHeader/headerProps';
 import { TopNavHeader } from './TopNavHeader';
 import { useRouteContext } from './RouteContext';
-import { CustomRender, WithFalse } from './typings';
+import type { CustomRender, WithFalse } from './typings';
 import { clearMenuItem, PropTypes } from './utils';
 import './Header.less';
 
@@ -60,7 +64,7 @@ export const HeaderView = defineComponent({
     );
     // cache menu
     const clearMenuData = computed(
-      () => (context.menuData && clearMenuItem(context.menuData)) || [],
+      () => (context.menuData && clearMenuItem(context.menuData as RouteRecordRaw[])) || [],
     );
 
     const className = computed(() => {
@@ -131,5 +135,3 @@ export const HeaderView = defineComponent({
     };
   },
 });
-
-export default HeaderView;

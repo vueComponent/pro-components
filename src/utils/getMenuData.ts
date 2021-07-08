@@ -1,4 +1,5 @@
-import { RouteRecordRaw } from 'vue-router';
+import type { RouteRecordRaw } from 'vue-router';
+export { clearMenuItem, flatMap, getMenuFirstChildren } from './index';
 
 export type MenuData = {
   menuData: RouteRecordRaw[];

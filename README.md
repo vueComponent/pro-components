@@ -22,7 +22,9 @@ npm i @ant-design-vue/pro-layout@next -S
 First, you should add the icons that you need into the library.
 
 ```js
-import 'ant-design-vue/dist/antd.less';
+import 'ant-design-vue/dist/antd.less'; // antd css
+import '@ant-design-vue/pro-layout/dist/style.css'; // pro-layout css
+
 import { createApp } from 'vue';
 import ProLayout, { PageContainer } from '@ant-design-vue/pro-layout';
 
@@ -35,19 +37,27 @@ After that, you can use pro-layout in your Vue components as simply as this:
 
 ```vue
 <template>
-  <pro-layout v-bind="state">
+  <pro-layout
+    :locale="locale"
+    v-bind="state"
+    v-model:openKeys="state.openKeys"
+    v-model:collapsed="state.collapsed"
+    v-model:selectedKeys="state.selectedKeys"
+  >
     <router-view />
   </pro-layout>
 </template>
 
 <script>
 import { defineComponent, reactive } from 'vue';
+// import { getMenuData, clearMenuItem } from '@ant-design-vue/pro-layout';
+
+const locale=(i18n: string) => i18n;
 
 export default defineComponent({
   setup() {
     const state = reactive({
       collapsed: false,
-
       openKeys: ['/dashboard'],
       selectedKeys: ['/welcome'],
 
@@ -63,6 +73,7 @@ export default defineComponent({
     });
 
     return {
+      locale,
       state,
     };
   },
@@ -76,6 +87,7 @@ or `TSX`
 import { defineComponent, reactive } from 'vue';
 import { RouterView } from 'vue-router';
 import ProLayout from '@ant-design-vue/pro-layout';
+import '@ant-design-vue/pro-layout/dist/style.css'; // pro-layout css
 
 export default defineComponent({
   setup() {
@@ -108,6 +120,6 @@ export default defineComponent({
 ## Build project
 
 ```bash
-npm run compile # Build library
+npm run build # Build library
 npm run test # Runing Test
 ```

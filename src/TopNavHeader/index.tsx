@@ -1,16 +1,16 @@
-import { ref, computed, FunctionalComponent, ExtractPropTypes } from 'vue';
-import { siderMenuProps, SiderMenuProps, defaultRenderLogoAndTitle } from '../SiderMenu/SiderMenu';
+import { ref, computed } from 'vue';
+import type { FunctionalComponent, ExtractPropTypes } from 'vue';
+import globalHeaderProps from '../GlobalHeader/headerProps';
+import { siderMenuProps, defaultRenderLogoAndTitle } from '../SiderMenu/SiderMenu';
+import type { SiderMenuProps } from '../SiderMenu/SiderMenu';
 import BaseMenu from '../SiderMenu/BaseMenu';
-import { globalHeaderProps } from '../GlobalHeader';
+
 import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer';
-import { FormatMessage } from '../typings';
+import type { FormatMessage } from '../typings';
 import { useRouteContext } from '../RouteContext';
 import './index.less';
 
-export const topNavHeaderProps = {
-  ...siderMenuProps,
-  ...globalHeaderProps,
-};
+export const topNavHeaderProps = Object.assign({}, siderMenuProps, globalHeaderProps);
 
 export type TopNavHeaderProps = Partial<ExtractPropTypes<typeof topNavHeaderProps>> &
   Partial<SiderMenuProps>;
@@ -88,7 +88,7 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = props => {
         <div style={{ flex: 1 }} class={`${prefixCls}-menu`}>
           <BaseMenu
             prefixCls={propPrefixCls}
-            locale={context.locale as FormatMessage}
+            locale={props.locale || context.locale}
             theme={props.theme === 'realDark' ? 'dark' : props.theme}
             mode={props.mode}
             collapsed={props.collapsed}

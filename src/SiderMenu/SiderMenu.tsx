@@ -185,7 +185,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
   const defaultMenuDom = (
     <BaseMenu
       prefixCls={getPrefixCls()}
-      locale={context.locale}
+      locale={props.locale || context.locale}
       theme={sTheme.value === 'realDark' ? 'dark' : sTheme.value}
       mode="inline"
       menuData={hasSide.value ? flatMenuData.value : context.menuData}

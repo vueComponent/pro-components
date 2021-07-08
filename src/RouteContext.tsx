@@ -61,7 +61,7 @@ export const getPrefixCls = (suffixCls?: string, customizePrefixCls?: string) =>
 };
 
 // set default context
-const defaultRouteContext = reactive({
+export const defaultRouteContext = reactive({
   getPrefixCls,
   locale: (t: string) => t,
   contentWidth: 'Fluid',

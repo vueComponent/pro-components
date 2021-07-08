@@ -1,56 +1,19 @@
-import { computed, FunctionalComponent, PropType, ExtractPropTypes } from 'vue';
-import { defaultSettingProps } from '../defaultSettings';
-import { CustomRender, Theme, MenuDataItem, WithFalse } from '../typings';
+import { computed } from 'vue';
+import type { FunctionalComponent, ExtractPropTypes } from 'vue';
+import type { RouteRecordRaw } from 'vue-router';
+import type { CustomRender } from '../typings';
 import {
-  siderMenuProps,
-  SiderMenuProps,
   defaultRenderLogo,
   defaultRenderLogoAndTitle,
   defaultRenderCollapsedButton,
 } from '../SiderMenu/SiderMenu';
+import type { SiderMenuProps } from '../SiderMenu/SiderMenu';
 import { TopNavHeader } from '../TopNavHeader';
-import { clearMenuItem, PropTypes } from '../utils';
+import { clearMenuItem } from '../utils';
 import { useRouteContext } from '../RouteContext';
+import globalHeaderProps from './headerProps';
 
 import './index.less';
-
-export const globalHeaderProps = {
-  ...defaultSettingProps,
-
-  prefixCls: PropTypes.string.def('ant-pro'),
-  collapsed: PropTypes.looseBool,
-  isMobile: PropTypes.looseBool,
-  logo: siderMenuProps.logo,
-  logoStyle: siderMenuProps.logoStyle,
-  headerTheme: {
-    type: String as PropType<Theme>,
-    default: 'dark',
-  },
-  menuData: {
-    type: Array as PropType<MenuDataItem[]>,
-    default: () => [],
-  },
-  splitMenus: siderMenuProps.splitMenus,
-  menuRender: {
-    type: [Object, Function] as PropType<
-      WithFalse<(props: any /* HeaderViewProps */, defaultDom: CustomRender) => CustomRender>
-    >,
-    default: () => undefined,
-  },
-  menuHeaderRender: siderMenuProps.menuHeaderRender,
-  rightContentRender: {
-    type: [Object, Function] as PropType<WithFalse<(props: any) => CustomRender>>,
-    default: () => undefined,
-  },
-  collapsedButtonRender: siderMenuProps.collapsedButtonRender,
-  matchMenuKeys: siderMenuProps.matchMenuKeys,
-
-  // events
-  onMenuHeaderClick: PropTypes.func,
-  onCollapse: siderMenuProps.onCollapse,
-  onOpenKeys: siderMenuProps.onOpenKeys,
-  onSelect: siderMenuProps.onSelect,
-};
 
 export type GlobalHeaderProps = ExtractPropTypes<typeof globalHeaderProps>;
 
@@ -97,7 +60,7 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps> = (props, { sl
     const noChildrenMenuData = (menuData || []).map(item => ({
       ...item,
       children: undefined,
-    }));
+    })) as RouteRecordRaw[];
     const clearMenuData = clearMenuItem(noChildrenMenuData);
     return (
       <TopNavHeader
@@ -146,5 +109,3 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps> = (props, { sl
   );
 };
 GlobalHeader.emits = ['menuHeaderClick', 'collapse', 'openKeys', 'select'];
-
-export default GlobalHeader;

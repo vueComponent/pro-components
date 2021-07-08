@@ -1,7 +1,7 @@
 {
   "singleQuote": true,
   "trailingComma": "all",
-  "endOfLine" : "lf",
+  "endOfLine": "lf",
   "printWidth": 100,
   "proseWrap": "never",
   "arrowParens": "avoid",

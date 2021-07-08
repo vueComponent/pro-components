@@ -1,8 +1,21 @@
 {
   "name": "@ant-design-vue/pro-layout",
-  "version": "3.0.0-beta.12",
-  "main": "./lib/index.js",
-  "module": "./es/index.js",
+  "version": "3.1.0-alpha.0",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "style": "./dist/style.css",
+  "main": "./dist/pro-layout.umd.js",
+  "module": "./dist/pro-layout.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/pro-layout.es.js",
+      "require": "./dist/pro-layout.umd.js"
+    },
+    "./dist/style.css": "./dist/style.css"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/vueComponent/pro-layout"
@@ -11,96 +24,44 @@
     "tangjinzhou <415800467@qq.com>",
     "Sendya <18x@loacg.com>"
   ],
-  "license": "MIT",
   "scripts": {
-    "clean": "cross-env TS_NODE_PROJECT=scripts/tsconfig.json node -r ts-node/register ./scripts/cleanup.ts",
-    "start": "vc-tools run server",
-    "lint": "eslint src/ -c .eslintrc.js --ext .tsx,.ts",
-    "lint:fix": "eslint --fix src/ -c .eslintrc.js --ext .tsx,.ts",
-    "compile": "vc-tools run compile",
-    "test": "cross-env NODE_ENV=test jest --config .jest.js",
-    "prepublishOnly": "npm run lint && npm run compile"
+    "dev": "vite --force",
+    "build": "vue-tsc --noEmit && vite build",
+    "serve": "vite preview"
   },
   "peerDependencies": {
-    "ant-design-vue": "^2.2.0-rc.1",
-    "vue-router": "^4.0.3",
-    "vue": ">=3.1.3"
-  },
-  "devDependencies": {
-    "@ant-design-vue/tools": "^3.1.0",
-    "@babel/core": "^7.12.10",
-    "@babel/plugin-proposal-export-default-from": "^7.12.1",
-    "@babel/plugin-transform-modules-commonjs": "^7.12.1",
-    "@babel/plugin-transform-object-assign": "^7.12.1",
-    "@babel/plugin-transform-runtime": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
-    "@types/fs-extra": "^9.0.6",
-    "@types/jest": "^24.0.17",
-    "@types/node": "^13.13.15",
-    "@types/rimraf": "^3.0.0",
-    "@typescript-eslint/eslint-plugin": "^2.33.0",
-    "@typescript-eslint/parser": "^2.33.0",
-    "@vue/babel-plugin-jsx": "^1.0.2",
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-typescript": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.1.3",
-    "@vue/eslint-config-prettier": "^6.0.0",
-    "@vue/eslint-config-typescript": "^5.0.2",
-    "@vue/test-utils": "^2.0.0-rc.6",
-    "babel-jest": "^26.6.3",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
-    "cross-env": "^7.0.3",
-    "eslint": "^7.16.0",
-    "eslint-config-prettier": "^7.1.0",
-    "eslint-plugin-prettier": "^3.3.0",
-    "eslint-plugin-vue": "^7.3.0",
-    "fs-extra": "^9.0.1",
-    "jest": "^26.6.3",
-    "jest-environment-jsdom-fifteen": "^1.0.2",
-    "jest-serializer-vue": "^2.0.2",
-    "jest-transform-stub": "^2.0.0",
-    "prettier": "^2.2.1",
-    "rimraf": "^3.0.2",
-    "ts-jest": "^26.4.4",
-    "ts-node": "^9.1.1",
-    "typescript": "~3.9.3",
-    "vue": "^3.1.3",
-    "vue-jest": "^5.0.0-alpha.10",
+    "ant-design-vue": ">=2.2.0",
+    "vue": ">=3.1.0",
     "vue-router": "^4.0.3"
   },
   "dependencies": {
-    "@babel/runtime": "^7.11.2",
-    "ant-design-vue": "^2.2.0-rc.1",
-    "core-js": "^3.9.1",
-    "lodash-es": "^4.17.20",
-    "omit.js": "^2.0.2",
-    "vue": "^3.1.3",
-    "vue-types": "^3.0.1"
+    "ant-design-vue": "^2.2.1",
+    "lodash-es": "^4.17.21",
+    "vue": "^3.1.0",
+    "vue-router": "^4.0.10"
   },
-  "files": [
-    "es",
-    "lib"
-  ],
-  "config": {
-    "accesslog": false,
-    "port": 9528,
-    "entry": {
-      "@ant-design-vue/pro-layout": [
-        "./src/index.ts"
-      ]
-    },
-    "parallel": ["es", "js"],
-    "css": {
-      "loaderOptions": {
-        "less": {
-          "options": {
-            "javascriptEnabled": true
-          }
-        }
-      }
-    }
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.4",
+    "@types/node": "^16.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.28.2",
+    "@typescript-eslint/parser": "^4.28.2",
+    "@vitejs/plugin-vue": "^1.2.4",
+    "@vitejs/plugin-vue-jsx": "^1.1.6",
+    "@vue/compiler-sfc": "^3.1.0",
+    "@vuedx/typescript-plugin-vue": "^0.7.4",
+    "eslint": "^7.30.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-vue": "^7.13.0",
+    "less": "^4.1.1",
+    "prettier": "^2.3.2",
+    "typescript": "^4.3.2",
+    "vite": "^2.4.0",
+    "vite-dts": "^1.0.3",
+    "vite-plugin-dts": "^0.5.2",
+    "vue-tsc": "^0.0.24"
   },
   "description": "Ant Design Pro Layout of Vue, easy to use pro scaffolding."
 }

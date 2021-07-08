@@ -1,4 +1,5 @@
 import { Slots } from 'vue';
+import type { RouteRecord, RouteRecordRaw } from 'vue-router';
 import { MenuDataItem } from '../typings';
 import PropTypes from 'ant-design-vue/es/_util/vue-types';
 
@@ -18,9 +19,9 @@ export function warning(valid: boolean, message: string) {
   warn(valid, `[@ant-design-vue/pro-layout] ${message}`);
 }
 
-export function clearMenuItem(menusData: MenuDataItem[]): MenuDataItem[] {
+export function clearMenuItem(menusData: RouteRecord[] | RouteRecordRaw[]): RouteRecordRaw[] {
   return menusData
-    .map(item => {
+    .map((item: RouteRecord | RouteRecordRaw) => {
       const finalItem = { ...item };
       if (!finalItem.name || finalItem.meta?.hideInMenu) {
         return null;
@@ -29,7 +30,7 @@ export function clearMenuItem(menusData: MenuDataItem[]): MenuDataItem[] {
       if (finalItem && finalItem?.children) {
         if (
           !finalItem.meta?.hideChildInMenu &&
-          finalItem.children.some(child => child && child.name && !child.meta?.hideInMenu)
+          finalItem.children.some((child: RouteRecord | RouteRecordRaw) => child && child.name && !child.meta?.hideInMenu)
         ) {
           return {
             ...item,
@@ -40,17 +41,19 @@ export function clearMenuItem(menusData: MenuDataItem[]): MenuDataItem[] {
       }
       return finalItem;
     })
-    .filter(item => item) as MenuDataItem[];
+    .filter(item => item) as RouteRecordRaw[];
 }
 
-export function flatMap(menusData: MenuDataItem[]): MenuDataItem[] {
+export function flatMap(menusData: RouteRecord[]): MenuDataItem[] {
   return menusData
     .map(item => {
-      const finalItem = { ...item };
+      let finalItem = { ...item } as MenuDataItem;
       if (!finalItem.name || finalItem.meta?.hideInMenu) {
         return null;
       }
-      delete finalItem.children;
+      if (finalItem.children) {
+        delete finalItem.children
+      }
       return finalItem;
     })
     .filter(item => item) as any[];
