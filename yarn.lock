@@ -916,10 +916,10 @@ ansi-styles@^4.0.0, ansi-styles@^4.1.0:
   dependencies:
     color-convert "^2.0.1"
 
-ant-design-vue@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-2.2.1.tgz#263716745a8a92673b4b3ba2d382919e38129212"
-  integrity sha512-pxcvVhxQ39JkWl8uLq+W51FIho4kJQve3BhnnlSTz8rcg6yctz6kH+ieOA20AWhkau+/Gk0X2rug2bjBpiA0hw==
+ant-design-vue@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-2.2.2.tgz#197388583c4e0b8ccd9c50ed19831ede27c2b919"
+  integrity sha512-Gmed9dVw4oqYmuO3ubkXbRBadldE82XSt6Gqq3F2grvORKXYoJF/3CaMwfyRN81UaoRhWVTHmLeGLzuVpwJepw==
   dependencies:
     "@ant-design/icons-vue" "^6.0.0"
     "@babel/runtime" "^7.10.5"

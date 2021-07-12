@@ -25,7 +25,7 @@
     "Sendya <18x@loacg.com>"
   ],
   "scripts": {
-    "dev": "vite --force",
+    "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview"
   },
@@ -35,7 +35,7 @@
     "vue-router": "^4.0.3"
   },
   "dependencies": {
-    "ant-design-vue": "^2.2.1",
+    "ant-design-vue": "^2.2.2",
     "lodash-es": "^4.17.21",
     "vue": "^3.1.0",
     "vue-router": "^4.0.10"

@@ -173,15 +173,17 @@ class MenuUtil {
       );
     }
 
+    const [title, icon] = this.getMenuItem(item);
+
     return (
       ((this.props.menuItemRender && this.props.menuItemRender(item)) as VNode) || (
         <Menu.Item
           disabled={item.meta?.disabled}
           danger={item.meta?.danger}
           key={item.path}
-          icon={item.meta?.icon && <LazyIcon icon={item.meta.icon} />}
+          icon={icon}
         >
-          {this.getMenuItem(item)}
+          {title}
         </Menu.Item>
       )
     );
@@ -191,7 +193,7 @@ class MenuUtil {
     const meta = Object.assign({}, item.meta);
     const target = (meta.target || null) as string | null;
     const hasUrl = isUrl(item.path);
-    const CustomTag: any = resolveComponent((target && 'a') || 'router-link');
+    const CustomTag: any = (target && 'a') || resolveComponent('router-link');
     const props = { to: { name: item.name } };
     const attrs = hasUrl || target ? { ...item.meta, href: item.path, target: target } : {};
 
@@ -207,7 +209,15 @@ class MenuUtil {
       </CustomTag>
     );
 
-    return defaultTitle;
+    const icon =
+      (item.meta?.icon && (
+        <CustomTag {...attrs} {...props} class={`${prefixCls}-menu-item`}>
+          <LazyIcon icon={item.meta.icon} />
+        </CustomTag>
+      )) ||
+      null;
+
+    return [defaultTitle, icon];
   };
 
   conversionPath = (path: string) => {
