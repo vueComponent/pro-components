@@ -47,6 +47,10 @@ export const basicLayoutProps = {
     type: [Object, Function] as PropType<BreadcrumbProps>,
     default: () => null,
   },
+  collapsedButtonRender: {
+    type: [Function, Object, Boolean] as PropType<WithFalse<(collapsed?: boolean) => CustomRender>>,
+    default: () => undefined,
+  },
   breadcrumbRender: {
     type: [Object, Function, Boolean] as PropType<WithFalse<BreadcrumbProps['itemRender']>>,
     default: () => {},
@@ -154,6 +158,8 @@ const ProLayout = defineComponent({
       }
       return <Header {...p} matchMenuKeys={matchMenuKeys || []} />;
     };
+
+    const collapsedButtonRender = getPropsSlot(slots, props, 'collapsedButtonRender');
     const rightContentRender = getPropsSlot(slots, props, 'rightContentRender');
     const customHeaderRender = getPropsSlot(slots, props, 'headerRender');
     const menuHeaderRender = getPropsSlot(slots, props, 'menuHeaderRender');
@@ -161,6 +167,8 @@ const ProLayout = defineComponent({
     // const menuRender = getPropsSlot(slots, props, 'menuRender');
     const breadcrumbRender = getPropsSlot(slots, props, 'breadcrumbRender');
 
+    console.log('collapsedButtonRender', collapsedButtonRender);
+    console.log('rightContentRender', rightContentRender);
     const headerDom = computed(() =>
       headerRender(
         {
@@ -222,6 +230,7 @@ const ProLayout = defineComponent({
                   {...restProps.value}
                   isMobile={isMobile.value}
                   menuHeaderRender={menuHeaderRender}
+                  collapsedButtonRender={collapsedButtonRender}
                   onCollapse={onCollapse}
                   onSelect={onSelect}
                   onOpenKeys={onOpenKeys}

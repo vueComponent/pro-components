@@ -59,7 +59,7 @@ export const siderMenuProps = {
     default: () => undefined,
   },
   collapsedButtonRender: {
-    type: [Function, Object] as PropType<WithFalse<(collapsed?: boolean) => CustomRender>>,
+    type: [Function, Object, Boolean] as PropType<WithFalse<(collapsed?: boolean) => CustomRender>>,
     default: () => undefined,
   },
   breakpoint: {
@@ -258,28 +258,32 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
           {(menuContentRender && menuContentRender(props, defaultMenuDom)) || defaultMenuDom}
         </div>
         <div class={`${baseClassName}-links`}>
-          <Menu
-            class={`${baseClassName}-link-menu`}
-            inlineIndent={16}
-            theme={sTheme.value as 'light' | 'dark'}
-            selectedKeys={[]}
-            openKeys={[]}
-            mode="inline"
-            // @ts-ignore
-            onClick={() => {
-              if (onCollapse) {
-                onCollapse(!props.collapsed);
-              }
-            }}
-          >
-            <Menu.Item
-              key={'collapsed-button'}
-              class={`${baseClassName}-collapsed-button`}
-              title={false}
+          {collapsedButtonRender !== false ? (
+            <Menu
+              class={`${baseClassName}-link-menu`}
+              inlineIndent={16}
+              theme={sTheme.value as 'light' | 'dark'}
+              selectedKeys={[]}
+              openKeys={[]}
+              mode="inline"
+              // @ts-ignore
+              onClick={() => {
+                if (onCollapse) {
+                  onCollapse(!props.collapsed);
+                }
+              }}
             >
-              {collapsedButtonRender && collapsedButtonRender(collapsed)}
-            </Menu.Item>
-          </Menu>
+              <Menu.Item
+                key={'collapsed-button'}
+                class={`${baseClassName}-collapsed-button`}
+                title={false}
+              >
+                {collapsedButtonRender && typeof collapsedButtonRender === 'function'
+                  ? collapsedButtonRender(collapsed)
+                  : collapsedButtonRender}
+              </Menu.Item>
+            </Menu>
+          ) : null}
         </div>
         {menuFooterRender && <div class={`${baseClassName}-footer`}>{menuFooterRender(props)}</div>}
       </Sider>

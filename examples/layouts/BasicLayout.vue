@@ -5,6 +5,9 @@
     v-model:openKeys="baseState.openKeys"
     v-bind="state"
   >
+    <template #collapsedButtonRender>
+      <a-button>abc</a-button>
+    </template>
     <!-- custom right-content -->
     <template #rightContentRender>
       <span style="color: #0f0">right</span>
