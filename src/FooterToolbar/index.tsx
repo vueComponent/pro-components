@@ -4,6 +4,7 @@ import { computed, defineComponent, onBeforeUnmount, onMounted, PropType } from 
 import { RouteContextProps, useRouteContext } from '../RouteContext';
 import { getMenuFirstChildren } from '../utils';
 import type { CustomRender } from '../typings';
+
 export interface FooterToolbarProps {
   extra?: CustomRender | JSX.Element;
   renderContent?: (
@@ -54,6 +55,9 @@ const FooterToolbar = defineComponent({
     });
     const width = computed(() => {
       const { isMobile, sideWidth, layout } = routeContext;
+      if (isMobile) {
+        return '100%';
+      }
       if (!sideWidth || layout === 'top') {
         return '100%';
       }
