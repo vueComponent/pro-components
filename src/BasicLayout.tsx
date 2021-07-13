@@ -165,10 +165,7 @@ const ProLayout = defineComponent({
     const menuHeaderRender = getPropsSlot(slots, props, 'menuHeaderRender');
     const footerRender = getPropsSlot(slots, props, 'footerRender');
     // const menuRender = getPropsSlot(slots, props, 'menuRender');
-    const breadcrumbRender = getPropsSlot(slots, props, 'breadcrumbRender');
-
-    console.log('collapsedButtonRender', collapsedButtonRender);
-    console.log('rightContentRender', rightContentRender);
+    const breadcrumbRender = props['breadcrumbRender'] || slots['breadcrumbRender'];
     const headerDom = computed(() =>
       headerRender(
         {

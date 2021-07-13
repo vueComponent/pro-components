@@ -1,7 +1,7 @@
 import { Slots } from 'vue';
 import type { RouteRecord, RouteRecordRaw } from 'vue-router';
-import { MenuDataItem } from '../typings';
 import PropTypes from 'ant-design-vue/es/_util/vue-types';
+import { MenuDataItem } from '../typings';
 
 export { default as isUrl } from './isUrl';
 export { default as isImg } from './isImg';
@@ -30,7 +30,9 @@ export function clearMenuItem(menusData: RouteRecord[] | RouteRecordRaw[]): Rout
       if (finalItem && finalItem?.children) {
         if (
           !finalItem.meta?.hideChildInMenu &&
-          finalItem.children.some((child: RouteRecord | RouteRecordRaw) => child && child.name && !child.meta?.hideInMenu)
+          finalItem.children.some(
+            (child: RouteRecord | RouteRecordRaw) => child && child.name && !child.meta?.hideInMenu,
+          )
         ) {
           return {
             ...item,
@@ -47,12 +49,12 @@ export function clearMenuItem(menusData: RouteRecord[] | RouteRecordRaw[]): Rout
 export function flatMap(menusData: RouteRecord[]): MenuDataItem[] {
   return menusData
     .map(item => {
-      let finalItem = { ...item } as MenuDataItem;
+      const finalItem = { ...item } as MenuDataItem;
       if (!finalItem.name || finalItem.meta?.hideInMenu) {
         return null;
       }
       if (finalItem.children) {
-        delete finalItem.children
+        delete finalItem.children;
       }
       return finalItem;
     })
@@ -66,7 +68,7 @@ export function getMenuFirstChildren(menus: MenuDataItem[], key?: string) {
 }
 
 export function getPropsSlot(slots: Slots, props: Record<string, any>, prop = 'default') {
-  return props[prop] ?? slots[prop]?.();
+  return props[prop] || slots[prop]?.();
 }
 
 export const PropRenderType = {

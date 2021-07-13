@@ -135,14 +135,8 @@ const renderFooter = (
     'title'
   >,
 ): VNodeChild | JSX.Element => {
-  const {
-    tabList,
-    tabActiveKey,
-    onTabChange,
-    tabBarExtraContent,
-    tabProps,
-    prefixedClassName,
-  } = props;
+  const { tabList, tabActiveKey, onTabChange, tabBarExtraContent, tabProps, prefixedClassName } =
+    props;
   if (tabList && tabList.length) {
     return (
       <Tabs
@@ -219,8 +213,6 @@ const defaultPageHeaderRender = (
     routes: unref(value.breadcrumb?.routes),
     itemRender: value.breadcrumb?.itemRender,
   };
-
-  //
   // inject value
   return (
     <PageHeader

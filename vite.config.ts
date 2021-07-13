@@ -19,26 +19,21 @@ export default defineConfig({
       name: 'ProLayout',
     },
     rollupOptions: {
-      // input: {
-      //   main: resolve(__dirname, 'index.html'),
-      // },
-      external: ['vue'],
+      external: ['vue', '@ant-design/icons-vue', 'ant-design-vue', 'antd', 'moment'],
       output: {
         // Provide global variables to use in the UMD build
         // for externalized deps
         globals: {
           vue: 'Vue',
+          moment: 'moment',
+          'ant-design-vue': 'antd',
+          '@ant-design/icons-vue': 'iconsVue',
         },
       },
     },
   },
   optimizeDeps: {
-    include: [
-      /* '@ant-design-vue/pro-layout', */
-      'ant-design-vue/es',
-      '@ant-design/icons-vue',
-      'lodash-es',
-    ],
+    include: ['ant-design-vue/es', '@ant-design/icons-vue', 'lodash-es'],
   },
   css: {
     postcss: {},
