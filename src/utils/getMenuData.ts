@@ -13,9 +13,6 @@ const formatRelativePath = (
 ): RouteRecordRaw[] => {
   // 计算路由绝对路径
   return routes.map(route => {
-    if (route.path.startsWith('/')) {
-      return route;
-    }
     if (parent) {
       route.path = `${parent.path || ''}/${route.path}`;
     } else {
@@ -24,7 +21,7 @@ const formatRelativePath = (
     route.path = route.path.replace('//', '/');
     // format children routes
     if (route.children && route.children.length > 0) {
-      route.children = formatRelativePath(route.children, route);
+      route.children = formatRelativePath(route.children, breadcrumb, route);
     }
     breadcrumb[`${route.path}`] = route;
     return route;
