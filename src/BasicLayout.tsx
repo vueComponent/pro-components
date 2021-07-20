@@ -192,7 +192,7 @@ const ProLayout = defineComponent({
       locale: refProps.locale.value || defaultRouteContext.locale,
       breadcrumb: computed(() => {
         return {
-          ...refProps.breadcrumb,
+          ...unref(props.breadcrumb),
           itemRender: breadcrumbRender,
         };
       }),
