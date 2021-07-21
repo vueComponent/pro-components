@@ -19,11 +19,11 @@ npm i @ant-design-vue/pro-layout@next -S
 
 ## Basic Usage
 
-First, you should add the icons that you need into the library.
+First, you should add the `@ant-design-vue/pro-layout` that you need into the library.
 
 ```js
 import 'ant-design-vue/dist/antd.less'; // antd css
-import '@ant-design-vue/pro-layout/dist/style.css'; // pro-layout css
+import '@ant-design-vue/pro-layout/dist/style.css'; // pro-layout css or style.less
 
 import { createApp } from 'vue';
 import ProLayout, { PageContainer } from '@ant-design-vue/pro-layout';
@@ -87,7 +87,7 @@ or `TSX`
 import { defineComponent, reactive } from 'vue';
 import { RouterView } from 'vue-router';
 import ProLayout from '@ant-design-vue/pro-layout';
-import '@ant-design-vue/pro-layout/dist/style.css'; // pro-layout css
+import '@ant-design-vue/pro-layout/dist/style.css'; // pro-layout css or style.less
 
 export default defineComponent({
   setup() {
@@ -121,5 +121,5 @@ export default defineComponent({
 
 ```bash
 npm run build # Build library
-npm run test # Runing Test
+npm run build:types # Build d.ts
 ```
