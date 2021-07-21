@@ -30,7 +30,7 @@ const renderLogo = (
   return logoDom;
 };
 
-const GlobalHeader: FunctionalComponent<GlobalHeaderProps> = (props, { slots }) => {
+export const GlobalHeader: FunctionalComponent<GlobalHeaderProps> = (props, { slots }) => {
   const {
     isMobile,
     logo,
@@ -108,7 +108,4 @@ const GlobalHeader: FunctionalComponent<GlobalHeaderProps> = (props, { slots }) 
     </div>
   );
 };
-// GlobalHeader.emits = ['menuHeaderClick', 'collapse', 'openKeys', 'select'];
-GlobalHeader.inheritAttrs = false;
-
-export { GlobalHeader };
+GlobalHeader.emits = ['menuHeaderClick', 'collapse', 'openKeys', 'select'];

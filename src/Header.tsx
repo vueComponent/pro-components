@@ -4,7 +4,6 @@ import type { RouteRecordRaw } from 'vue-router';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 
-import omit from 'omit.js';
 import { GlobalHeader } from './GlobalHeader';
 import type { GlobalHeaderProps } from './GlobalHeader';
 import globalHeaderProps from './GlobalHeader/headerProps';
@@ -12,7 +11,6 @@ import { TopNavHeader } from './TopNavHeader';
 import { useRouteContext } from './RouteContext';
 import type { CustomRender, WithFalse } from './typings';
 import { clearMenuItem, PropTypes } from './utils';
-
 import './Header.less';
 
 const { Header } = Layout;
@@ -42,8 +40,8 @@ export const headerViewProps = {
 export type HeaderViewProps = Partial<ExtractPropTypes<typeof headerViewProps> & GlobalHeaderProps>;
 
 export const HeaderView = defineComponent({
-  name: 'HeaderView',
   inheritAttrs: false,
+  name: 'HeaderView',
   props: headerViewProps,
   setup(props) {
     const {
@@ -75,14 +73,9 @@ export const HeaderView = defineComponent({
         [`${prefixCls.value}-top-menu`]: isTop.value,
       };
     });
-    const restProps = computed(() => omit(props, ['onCollapse']));
-    const renderContent = computed(() => {
+    const renderContent = () => {
       let defaultDom = (
-        <GlobalHeader
-          {...restProps.value}
-          onCollapse={onCollapse.value}
-          menuData={clearMenuData.value}
-        >
+        <GlobalHeader {...props} onCollapse={onCollapse.value} menuData={clearMenuData.value}>
           {props.headerContentRender && props.headerContentRender(props)}
         </GlobalHeader>
       );
@@ -101,7 +94,7 @@ export const HeaderView = defineComponent({
         return props.headerRender(props, defaultDom);
       }
       return defaultDom;
-    });
+    };
 
     /**
      * 计算侧边栏的宽度，不然导致左边的样式会出问题
@@ -135,7 +128,7 @@ export const HeaderView = defineComponent({
             }}
             class={className.value}
           >
-            {renderContent.value}
+            {renderContent()}
           </Header>
         </>
       );

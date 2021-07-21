@@ -14,7 +14,8 @@
       "import": "./dist/pro-layout.es.js",
       "require": "./dist/pro-layout.umd.js"
     },
-    "./dist/style.css": "./dist/style.css"
+    "./dist/style.css": "./dist/style.css",
+    "./dist/style.less": "./dist/style.less"
   },
   "repository": {
     "type": "git",
@@ -27,7 +28,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "build:types": "tsc -b --force tsconfig.esm.json"
   },
   "peerDependencies": {
     "ant-design-vue": ">=2.2.0",
@@ -37,10 +39,10 @@
   "dependencies": {
     "ant-design-vue": "^2.2.2",
     "lodash-es": "^4.17.21",
-    "omit.js": "^2.0.2",
     "vue": "^3.1.0",
     "vue-router": "^4.0.10"
   },
+  "types": "./dist",
   "devDependencies": {
     "@types/lodash-es": "^4.17.4",
     "@types/node": "^16.0.1",
@@ -56,8 +58,11 @@
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-vue": "^7.13.0",
+    "fs-extra": "^10.0.0",
     "less": "^4.1.1",
     "prettier": "^2.3.2",
+    "tsc": "^2.0.3",
+    "tsup": "^4.12.5",
     "typescript": "^4.3.2",
     "vite": "^2.4.0",
     "vite-dts": "^1.0.3",

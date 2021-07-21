@@ -1,15 +1,16 @@
 import { ref, computed } from 'vue';
 import type { FunctionalComponent, ExtractPropTypes } from 'vue';
-import ResizeObserver from 'ant-design-vue/es/vc-resize-observer';
 import globalHeaderProps from '../GlobalHeader/headerProps';
 import { siderMenuProps, defaultRenderLogoAndTitle } from '../SiderMenu/SiderMenu';
 import type { SiderMenuProps } from '../SiderMenu/SiderMenu';
 import BaseMenu from '../SiderMenu/BaseMenu';
 
+import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer';
+import type { FormatMessage } from '../typings';
 import { useRouteContext } from '../RouteContext';
 import './index.less';
 
-export const topNavHeaderProps = { ...siderMenuProps, ...globalHeaderProps };
+export const topNavHeaderProps = Object.assign({}, siderMenuProps, globalHeaderProps);
 
 export type TopNavHeaderProps = Partial<ExtractPropTypes<typeof topNavHeaderProps>> &
   Partial<SiderMenuProps>;

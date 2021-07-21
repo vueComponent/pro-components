@@ -20,7 +20,11 @@
     "paths": {
       "@/*":["./src/*"],
       "@ant-design-vue/pro-layout":["./src/index.ts"]
-    }
+    },
+    "noEmit": false,
+    "declaration": true,
+    "outDir": "./dist",
+    "emitDeclarationOnly": true
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "examples/**/*.vue"]
 }

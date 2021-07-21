@@ -2,11 +2,19 @@ import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
-import dts from 'vite-dts';
+import vueLess from './scripts/vite/less';
+// import dts from 'vite-plugin-dts';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), vueJsx(), dts()],
+  plugins: [
+    vue(),
+    vueJsx(),
+    vueLess(),
+    /*     dts({
+      tsConfigFilePath: resolve(__dirname, './tsconfig.json'),
+    }), */
+  ],
   resolve: {
     alias: {
       '@ant-design-vue/pro-layout': resolve(__dirname, 'src'),
@@ -21,6 +29,7 @@ export default defineConfig({
     rollupOptions: {
       external: ['vue', '@ant-design/icons-vue', 'ant-design-vue', 'antd', 'moment'],
       output: {
+        exports: "named",
         // Provide global variables to use in the UMD build
         // for externalized deps
         globals: {

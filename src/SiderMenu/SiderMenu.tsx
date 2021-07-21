@@ -9,11 +9,11 @@ import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 import 'ant-design-vue/es/menu/style';
 import Menu from 'ant-design-vue/es/menu';
-import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
 import BaseMenu, { baseMenuProps } from './BaseMenu';
 import { WithFalse, CustomRender } from '../typings';
 import { SiderProps } from './typings';
 import { defaultSettingProps } from '../defaultSettings';
+import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
 import { useRouteContext } from '../RouteContext';
 import { PropTypes, getMenuFirstChildren } from '../utils';
 import './index.less';
@@ -124,8 +124,7 @@ export const defaultRenderLogoAndTitle = (
   if (typeof renderFunction === 'function') {
     // when collapsed, no render title
     return renderFunction(logoDom, props.collapsed ? null : titleDom, props);
-  }
-  if (Array.isArray(renderFunction)) {
+  } else if (Array.isArray(renderFunction)) {
     return <>{renderFunction}</>;
   }
   if (layout === 'mix' && renderKey === 'menuHeaderRender') {

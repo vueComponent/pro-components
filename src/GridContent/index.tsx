@@ -1,4 +1,4 @@
-import './GridContent.less';
+import './index.less';
 
 import { FunctionalComponent, CSSProperties } from 'vue';
 import { PureSettings } from '../defaultSettings';
