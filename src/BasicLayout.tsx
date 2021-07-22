@@ -19,6 +19,7 @@ import { getPropsSlot, PropTypes } from './utils';
 import type { CustomRender, FormatMessage, WithFalse } from './typings';
 
 import './BasicLayout.less';
+import PageLoading from '@/PageLoading';
 
 export const basicLayoutProps = {
   ...defaultSettingProps,
@@ -240,7 +241,7 @@ const ProLayout = defineComponent({
                   isChildrenLayout={props.isChildrenLayout}
                   style={props.disableContentMargin ? undefined : props.contentStyle}
                 >
-                  {slots.default?.()}
+                  {props.loading ? <PageLoading /> : slots.default?.()}
                 </WrapContent>
                 {footerRender && footerRender(props)}
               </Layout>
