@@ -190,12 +190,12 @@ class MenuUtil {
   };
 
   getMenuItem = (item: MenuDataItem) => {
-    const meta = Object.assign({}, item.meta);
+    const meta = { ...item.meta };
     const target = (meta.target || null) as string | null;
     const hasUrl = isUrl(item.path);
     const CustomTag: any = (target && 'a') || resolveComponent('router-link');
     const props = { to: { name: item.name } };
-    const attrs = hasUrl || target ? { ...item.meta, href: item.path, target: target } : {};
+    const attrs = hasUrl || target ? { ...item.meta, href: item.path, target } : {};
 
     const { prefixCls, locale } = this.props;
     const menuTitle = (locale && locale(item.meta?.title)) || item.meta?.title;
@@ -254,7 +254,6 @@ export default defineComponent({
     }) => {
       emit('click', args);
     };
-    console.log('openKeys', props.openKeys);
     return () => (
       <Menu
         key="Menu"

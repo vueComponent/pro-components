@@ -4,9 +4,9 @@ import type { CSSProperties, PropType, ExtractPropTypes } from 'vue';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 import omit from 'omit.js';
+import { withInstall } from 'ant-design-vue/es/_util/type';
 import useMediaQuery from './hooks/useMediaQuery';
 
-import { withInstall } from 'ant-design-vue/es/_util/type';
 import { defaultSettingProps } from './defaultSettings';
 import { getPrefixCls, defaultRouteContext } from './RouteContext';
 import type { BreadcrumbProps } from './RouteContext';
@@ -79,6 +79,7 @@ export type BasicLayoutProps = Partial<ExtractPropTypes<typeof basicLayoutProps>
 
 const ProLayout = defineComponent({
   name: 'ProLayout',
+  props: basicLayoutProps,
   // inheritAttrs: false,
   emits: [
     'update:collapsed',
@@ -90,7 +91,6 @@ const ProLayout = defineComponent({
     'menuHeaderClick',
     'menuClick',
   ],
-  props: basicLayoutProps,
   setup(props, { emit, slots }) {
     const refProps = toRefs(props);
     const isTop = computed(() => props.layout === 'top');
@@ -172,7 +172,7 @@ const ProLayout = defineComponent({
     const menuHeaderRender = getPropsSlot(slots, props, 'menuHeaderRender');
     const footerRender = getPropsSlot(slots, props, 'footerRender');
     // const menuRender = getPropsSlot(slots, props, 'menuRender');
-    const breadcrumbRender = props['breadcrumbRender'] || slots['breadcrumbRender'];
+    const breadcrumbRender = props.breadcrumbRender || slots.breadcrumbRender;
 
     const headerDom = computed(() =>
       headerRender(
@@ -187,7 +187,7 @@ const ProLayout = defineComponent({
           onMenuHeaderClick,
           rightContentRender,
           headerTitleRender: menuHeaderRender,
-          headerContentRender: headerContentRender,
+          headerContentRender,
           headerRender: customHeaderRender,
           theme: (props.navTheme || 'dark').toLocaleLowerCase().includes('dark') ? 'dark' : 'light',
         },
@@ -195,7 +195,6 @@ const ProLayout = defineComponent({
       ),
     );
 
-    console.log('refProps.breadcrumb', refProps.breadcrumb);
     const routeContext = reactive({
       getPrefixCls,
       // ...props,

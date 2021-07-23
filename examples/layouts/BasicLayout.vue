@@ -20,11 +20,11 @@
       <span style="color: #0f0">right</span>
     </template>
     <!-- custom breadcrumb itemRender  -->
-    <template #breadcrumbRender="{ route, params, routes, paths }">
+    <template #breadcrumbRender="{ route, params, routes }">
       <span v-if="routes.indexOf(route) === routes.length - 1">
         {{ route.breadcrumbName }}
       </span>
-      <router-link v-else :to="{ path: paths.join('/'), params }">
+      <router-link v-else :to="{ path: route.path, params }">
         {{ route.breadcrumbName }}
       </router-link>
     </template>
@@ -77,8 +77,8 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
-
     const { menuData } = getMenuData(clearMenuItem(router.getRoutes()));
+
     const baseState = reactive<Omit<RouteContextProps, 'menuData'>>({
       selectedKeys: [],
       openKeys: [],
@@ -88,7 +88,7 @@ export default defineComponent({
 
     const state = reactive({
       menuData,
-      splitMenus: false,
+      splitMenus: true,
       title: 'ProLayout',
       logo: 'https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg',
       navTheme: 'dark',
@@ -109,12 +109,11 @@ export default defineComponent({
     watchEffect(() => {
       if (router.currentRoute) {
         const matched = router.currentRoute.value.matched.concat();
-        baseState.selectedKeys = matched.map(r => r.path);
+        console.log('matched', matched);
+        baseState.selectedKeys = matched.filter(r => r.name !== 'index').map(r => r.path);
         baseState.openKeys = matched
           .filter(r => r.path !== router.currentRoute.value.path)
           .map(r => r.path);
-
-        console.log('baseState', baseState);
       }
     });
     return {
