@@ -55,6 +55,10 @@ export const basicLayoutProps = {
     type: [Object, Function, Boolean] as PropType<WithFalse<BreadcrumbProps['itemRender']>>,
     default: () => {},
   },
+  headerContentRender: {
+    type: [Function, Object, Boolean] as PropType<WithFalse<() => CustomRender>>,
+    default: () => undefined,
+  },
   headerRender: {
     type: [Object, Function, Boolean] as PropType<
       WithFalse<(props: any /* HeaderProps */) => CustomRender>
@@ -148,7 +152,7 @@ const ProLayout = defineComponent({
     const headerRender = (
       p: BasicLayoutProps & {
         hasSiderMenu: boolean;
-        customHeaderRender: WithFalse<CustomRender>;
+        headerRender: WithFalse<CustomRender>;
         rightContentRender: WithFalse<CustomRender>;
       },
       matchMenuKeys?: string[],
@@ -158,14 +162,18 @@ const ProLayout = defineComponent({
       }
       return <Header {...p} matchMenuKeys={matchMenuKeys || []} />;
     };
-
-    const collapsedButtonRender = getPropsSlot(slots, props, 'collapsedButtonRender');
+    const collapsedButtonRender =
+      props.collapsedButtonRender === false
+        ? false
+        : getPropsSlot(slots, props, 'collapsedButtonRender');
+    const headerContentRender = getPropsSlot(slots, props, 'headerContentRender');
     const rightContentRender = getPropsSlot(slots, props, 'rightContentRender');
     const customHeaderRender = getPropsSlot(slots, props, 'headerRender');
     const menuHeaderRender = getPropsSlot(slots, props, 'menuHeaderRender');
     const footerRender = getPropsSlot(slots, props, 'footerRender');
     // const menuRender = getPropsSlot(slots, props, 'menuRender');
     const breadcrumbRender = props['breadcrumbRender'] || slots['breadcrumbRender'];
+
     const headerDom = computed(() =>
       headerRender(
         {
@@ -177,22 +185,24 @@ const ProLayout = defineComponent({
           onOpenKeys,
           onSelect,
           onMenuHeaderClick,
-          customHeaderRender,
           rightContentRender,
           headerTitleRender: menuHeaderRender,
+          headerContentRender: headerContentRender,
+          headerRender: customHeaderRender,
           theme: (props.navTheme || 'dark').toLocaleLowerCase().includes('dark') ? 'dark' : 'light',
         },
         props.matchMenuKeys,
       ),
     );
 
+    console.log('refProps.breadcrumb', refProps.breadcrumb);
     const routeContext = reactive({
       getPrefixCls,
       // ...props,
       locale: refProps.locale.value || defaultRouteContext.locale,
       breadcrumb: computed(() => {
         return {
-          ...refProps.breadcrumb,
+          ...props.breadcrumb,
           itemRender: breadcrumbRender,
         };
       }),

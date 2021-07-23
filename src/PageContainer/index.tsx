@@ -210,7 +210,7 @@ const defaultPageHeaderRender = (
   }
 
   const breadcrumb = restProps.breadcrumb || {
-    routes: unref(value.breadcrumb?.routes),
+    routes: value.breadcrumb?.routes,
     itemRender: value.breadcrumb?.itemRender,
   };
   // inject value

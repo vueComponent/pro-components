@@ -1,5 +1,5 @@
 <template>
-  <a-config-provider :getPopupContainer="getPopupContainer">
+  <a-config-provider :get-popup-container="getPopupContainer">
     <router-view />
   </a-config-provider>
 </template>
@@ -12,15 +12,14 @@ export default defineComponent({
   setup() {
     const getPopupContainer = (el: Element, dialogContext: any) => {
       if (dialogContext) {
-          return dialogContext.getDialogWrap();
-        } else {
-          return document.body;
-        }
-    }
+        return dialogContext.getDialogWrap();
+      }
+      return document.body;
+    };
     return {
       getPopupContainer,
-    }
-  }
+    };
+  },
 });
 </script>
 

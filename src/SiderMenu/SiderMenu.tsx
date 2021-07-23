@@ -172,7 +172,9 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
       [`${baseClassName}-fixed`]: context.fixSiderbar,
     };
   });
-  const hasSide = computed(() => (props.layout === 'mix' && props.splitMenus) || false);
+  const hasSide = computed(
+    () => ((props.layout === 'mix' || props.layout === 'side') && props.splitMenus) || false,
+  );
   const flatMenuData = computed(() => {
     return (hasSide.value && getMenuFirstChildren(context.menuData, context.selectedKeys[0])) || [];
   });

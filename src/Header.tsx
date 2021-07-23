@@ -58,6 +58,7 @@ export const HeaderView = defineComponent({
     const needFixedHeader = computed(
       () => fixedHeader.value || context.fixedHeader || layout.value === 'mix',
     );
+    const isMix = computed(() => layout.value === 'mix');
     const isTop = computed(() => layout.value === 'top');
     const needSettingWidth = computed(
       () => needFixedHeader.value && hasSiderMenu.value && !isTop.value && !isMobile.value,
@@ -76,7 +77,11 @@ export const HeaderView = defineComponent({
     const renderContent = () => {
       let defaultDom = (
         <GlobalHeader {...props} onCollapse={onCollapse.value} menuData={clearMenuData.value}>
-          {props.headerContentRender && props.headerContentRender(props)}
+          {!isMix.value
+            ? props.headerContentRender && typeof props.headerContentRender === 'function'
+              ? props.headerContentRender(props)
+              : props.headerContentRender
+            : null}
         </GlobalHeader>
       );
       if (isTop.value && !isMobile.value) {

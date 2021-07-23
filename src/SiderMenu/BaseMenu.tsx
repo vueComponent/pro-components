@@ -254,6 +254,7 @@ export default defineComponent({
     }) => {
       emit('click', args);
     };
+    console.log('openKeys', props.openKeys);
     return () => (
       <Menu
         key="Menu"
