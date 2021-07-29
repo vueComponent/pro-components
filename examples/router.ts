@@ -1,26 +1,51 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
 import BasicLayout from './layouts/BasicLayout.vue';
+import RouteView from './layouts/RouteView.vue';
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'index',
-    meta: { title: '' },
+    meta: { title: 'Home' },
     component: BasicLayout,
-    redirect: '/monitor',
+    redirect: '/dashboard',
     children: [
       {
         path: '/dashboard',
         name: 'dashboard',
-        meta: { title: 'Dashboard', icon: 'SettingOutlined' },
-        component: () => import('./views/page1.vue'),
+        meta: { title: 'Dashboard' },
+        redirect: '/dashboard/monitor',
+        component: RouteView,
+        children: [
+          {
+            path: 'workspace',
+            name: 'workspace',
+            meta: { title: 'Dashboard', icon: 'SettingOutlined' },
+            component: () => import('./views/page1.vue'),
+          },
+          {
+            path: 'monitor',
+            name: 'monitor',
+            meta: { title: 'Monitor', icon: 'DatabaseOutlined' },
+            component: () => import('./views/page2.vue'),
+          },
+        ],
       },
       {
-        path: '/monitor',
-        name: 'monitor',
-        meta: { title: 'Monitor', icon: 'DatabaseOutlined' },
-        component: () => import('./views/page2.vue'),
+        path: '/form',
+        name: 'form',
+        meta: { title: 'Form' },
+        redirect: '/form/basic-form',
+        component: RouteView,
+        children: [
+          {
+            path: 'basic-form',
+            name: 'basic-form',
+            meta: { title: 'Basic Form', icon: 'SettingOutlined' },
+            component: () => import('./views/page1.vue'),
+          },
+        ],
       },
     ],
   },
@@ -28,6 +53,5 @@ const routes: RouteRecordRaw[] = [
 
 export default createRouter({
   history: createWebHistory(),
-  routes: routes,
+  routes,
 });
-

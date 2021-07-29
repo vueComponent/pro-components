@@ -9,11 +9,11 @@ import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 import 'ant-design-vue/es/menu/style';
 import Menu from 'ant-design-vue/es/menu';
+import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
 import BaseMenu, { baseMenuProps } from './BaseMenu';
 import { WithFalse, CustomRender } from '../typings';
 import { SiderProps } from './typings';
 import { defaultSettingProps } from '../defaultSettings';
-import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
 import { useRouteContext } from '../RouteContext';
 import { PropTypes, getMenuFirstChildren } from '../utils';
 import './index.less';
@@ -124,7 +124,8 @@ export const defaultRenderLogoAndTitle = (
   if (typeof renderFunction === 'function') {
     // when collapsed, no render title
     return renderFunction(logoDom, props.collapsed ? null : titleDom, props);
-  } else if (Array.isArray(renderFunction)) {
+  }
+  if (Array.isArray(renderFunction)) {
     return <>{renderFunction}</>;
   }
   if (layout === 'mix' && renderKey === 'menuHeaderRender') {
@@ -172,8 +173,11 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
       [`${baseClassName}-fixed`]: context.fixSiderbar,
     };
   });
-  const hasSide = computed(() => (props.layout === 'mix' && props.splitMenus) || false);
+  const hasSide = computed(
+    () => ((props.layout === 'mix' || props.layout === 'side') && props.splitMenus) || false,
+  );
   const flatMenuData = computed(() => {
+    console.log('context.selectedKeys[0]', context.selectedKeys[0]);
     return (hasSide.value && getMenuFirstChildren(context.menuData, context.selectedKeys[0])) || [];
   });
   // call menuHeaderRender

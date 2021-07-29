@@ -1,6 +1,6 @@
 {
   "name": "@ant-design-vue/pro-layout",
-  "version": "3.1.0-alpha.4",
+  "version": "3.1.0-alpha.5",
   "license": "MIT",
   "files": [
     "dist",
@@ -29,7 +29,8 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
-    "build:types": "tsc -b --force tsconfig.esm.json"
+    "build:types": "tsc -b --force tsconfig.esm.json",
+    "prepublish": "yarn build && yarn build:types"
   },
   "peerDependencies": {
     "ant-design-vue": ">=2.2.0",

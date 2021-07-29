@@ -4,9 +4,9 @@ import type { CSSProperties, PropType, ExtractPropTypes } from 'vue';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
 import omit from 'omit.js';
+import { withInstall } from 'ant-design-vue/es/_util/type';
 import useMediaQuery from './hooks/useMediaQuery';
 
-import { withInstall } from 'ant-design-vue/es/_util/type';
 import { defaultSettingProps } from './defaultSettings';
 import { getPrefixCls, defaultRouteContext } from './RouteContext';
 import type { BreadcrumbProps } from './RouteContext';
@@ -56,6 +56,10 @@ export const basicLayoutProps = {
     type: [Object, Function, Boolean] as PropType<WithFalse<BreadcrumbProps['itemRender']>>,
     default: () => {},
   },
+  headerContentRender: {
+    type: [Function, Object, Boolean] as PropType<WithFalse<() => CustomRender>>,
+    default: () => undefined,
+  },
   headerRender: {
     type: [Object, Function, Boolean] as PropType<
       WithFalse<(props: any /* HeaderProps */) => CustomRender>
@@ -76,6 +80,7 @@ export type BasicLayoutProps = Partial<ExtractPropTypes<typeof basicLayoutProps>
 
 const ProLayout = defineComponent({
   name: 'ProLayout',
+  props: basicLayoutProps,
   // inheritAttrs: false,
   emits: [
     'update:collapsed',
@@ -87,7 +92,6 @@ const ProLayout = defineComponent({
     'menuHeaderClick',
     'menuClick',
   ],
-  props: basicLayoutProps,
   setup(props, { emit, slots }) {
     const refProps = toRefs(props);
     const isTop = computed(() => props.layout === 'top');
@@ -149,7 +153,7 @@ const ProLayout = defineComponent({
     const headerRender = (
       p: BasicLayoutProps & {
         hasSiderMenu: boolean;
-        customHeaderRender: WithFalse<CustomRender>;
+        headerRender: WithFalse<CustomRender>;
         rightContentRender: WithFalse<CustomRender>;
       },
       matchMenuKeys?: string[],
@@ -159,14 +163,18 @@ const ProLayout = defineComponent({
       }
       return <Header {...p} matchMenuKeys={matchMenuKeys || []} />;
     };
-
-    const collapsedButtonRender = getPropsSlot(slots, props, 'collapsedButtonRender');
+    const collapsedButtonRender =
+      props.collapsedButtonRender === false
+        ? false
+        : getPropsSlot(slots, props, 'collapsedButtonRender');
+    const headerContentRender = getPropsSlot(slots, props, 'headerContentRender');
     const rightContentRender = getPropsSlot(slots, props, 'rightContentRender');
     const customHeaderRender = getPropsSlot(slots, props, 'headerRender');
     const menuHeaderRender = getPropsSlot(slots, props, 'menuHeaderRender');
     const footerRender = getPropsSlot(slots, props, 'footerRender');
     // const menuRender = getPropsSlot(slots, props, 'menuRender');
-    const breadcrumbRender = props['breadcrumbRender'] || slots['breadcrumbRender'];
+    const breadcrumbRender = props.breadcrumbRender || slots.breadcrumbRender;
+
     const headerDom = computed(() =>
       headerRender(
         {
@@ -178,9 +186,10 @@ const ProLayout = defineComponent({
           onOpenKeys,
           onSelect,
           onMenuHeaderClick,
-          customHeaderRender,
           rightContentRender,
           headerTitleRender: menuHeaderRender,
+          headerContentRender,
+          headerRender: customHeaderRender,
           theme: (props.navTheme || 'dark').toLocaleLowerCase().includes('dark') ? 'dark' : 'light',
         },
         props.matchMenuKeys,
@@ -193,7 +202,7 @@ const ProLayout = defineComponent({
       locale: refProps.locale.value || defaultRouteContext.locale,
       breadcrumb: computed(() => {
         return {
-          ...refProps.breadcrumb,
+          ...props.breadcrumb,
           itemRender: breadcrumbRender,
         };
       }),

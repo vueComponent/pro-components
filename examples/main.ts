@@ -1,11 +1,13 @@
+import 'ant-design-vue/es/style';
+import { ConfigProvider } from 'ant-design-vue';
+
 import { createApp } from 'vue';
 import router from './router';
 import icons from './icons';
 import App from './App.vue';
-import { ConfigProvider }from 'ant-design-vue';
-import ProLayout, { PageContainer } from '../src';
 
-import 'ant-design-vue/es/style';
+import '../dist/style.less';
+import ProLayout, { PageContainer } from '../src'; // '../dist/pro-layout.es';
 
 const app = createApp(App);
 app.use(router);
