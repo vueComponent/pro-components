@@ -4,6 +4,7 @@
     v-model:selectedKeys="baseState.selectedKeys"
     v-model:openKeys="baseState.openKeys"
     v-bind="state"
+    :loading="loading"
     :collapsed-button-render="false"
     :breadcrumb="{ routes: breadcrumb }"
   >
@@ -42,6 +43,7 @@
             un-checked-children="OFF"
           />
         </span>
+        <a-button @click="handlePageLoadingClick">Page Loading</a-button>
         <a-select v-model:value="state.navTheme" style="width: 100px">
           <a-select-option value="light">Light</a-select-option>
           <a-select-option value="dark">Dark</a-select-option>
@@ -57,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, watchEffect } from 'vue';
+import { computed, defineComponent, reactive, ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 import { Button, Switch, Select, Space } from 'ant-design-vue';
 import { getMenuData, clearMenuItem, FooterToolbar } from '@ant-design-vue/pro-layout';
@@ -76,6 +78,8 @@ export default defineComponent({
     [Space.name]: Space,
   },
   setup() {
+    const loading = ref(false);
+
     const router = useRouter();
     const { menuData } = getMenuData(clearMenuItem(router.getRoutes()));
 
@@ -116,12 +120,22 @@ export default defineComponent({
           .map(r => r.path);
       }
     });
+
+    function handlePageLoadingClick() {
+      loading.value = true;
+      setTimeout(() => {
+        loading.value = false;
+      }, 2000);
+    }
+
     return {
       i18n,
       baseState,
       state,
+      loading,
       breadcrumb,
-
+      
+      handlePageLoadingClick,
       handleCollapsed,
     };
   },
