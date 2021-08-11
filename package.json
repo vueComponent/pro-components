@@ -29,8 +29,7 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
-    "build:types": "tsc -b --force tsconfig.esm.json",
-    "prepublish": "yarn build && yarn build:types"
+    "build:types": "tsc -b --force tsconfig.esm.json"
   },
   "peerDependencies": {
     "ant-design-vue": ">=2.2.0",
