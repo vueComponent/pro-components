@@ -4,6 +4,7 @@ import {
   ExtractPropTypes,
   PropType,
   CSSProperties,
+  unref,
 } from 'vue';
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
@@ -161,8 +162,9 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
   const context = useRouteContext();
   const { getPrefixCls } = context;
   const baseClassName = getPrefixCls('sider');
-  // const isMix = computed(() => props.layout === 'mix');
-  // const fixed = computed(() => context.fixSiderbar);
+  const hasSplitMenu = computed(() => props.layout === 'mix' && props.splitMenus);
+  const hasSide = computed(() => props.layout === 'mix' || props.layout === 'side' || false);
+
   const sTheme = computed(() => (props.layout === 'mix' && 'light') || props.navTheme);
   const sSideWidth = computed(() => (props.collapsed ? props.collapsedWidth : props.siderWidth));
   const classNames = computed(() => {
@@ -173,13 +175,18 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
       [`${baseClassName}-fixed`]: context.fixSiderbar,
     };
   });
-  const hasSide = computed(
-    () => ((props.layout === 'mix' || props.layout === 'side') && props.splitMenus) || false,
+  const flatMenuData = computed(
+    () => (hasSide.value && getMenuFirstChildren(context.menuData, context.selectedKeys[0])) || [],
   );
-  const flatMenuData = computed(() => {
-    console.log('context.selectedKeys[0]', context.selectedKeys[0]);
-    return (hasSide.value && getMenuFirstChildren(context.menuData, context.selectedKeys[0])) || [];
-  });
+  const handleSelect = ($event: string[]) => {
+    if (props.onSelect) {
+      if (unref(hasSplitMenu)) {
+        props.onSelect([context.selectedKeys[0], ...$event]);
+        return;
+      }
+      props.onSelect($event);
+    }
+  };
   // call menuHeaderRender
   const headerDom = defaultRenderLogoAndTitle(props);
   const extraDom = menuExtraRender && menuExtraRender(props);
@@ -192,7 +199,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
       locale={props.locale || context.locale}
       theme={sTheme.value === 'realDark' ? 'dark' : sTheme.value}
       mode="inline"
-      menuData={hasSide.value ? flatMenuData.value : context.menuData}
+      menuData={hasSplitMenu.value ? flatMenuData.value : context.menuData}
       collapsed={props.collapsed}
       openKeys={context.openKeys}
       selectedKeys={context.selectedKeys}
@@ -205,7 +212,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
       class={`${baseClassName}-menu`}
       {...{
         'onUpdate:openKeys': ($event: string[]) => onOpenKeys && onOpenKeys($event),
-        'onUpdate:selectedKeys': ($event: string[]) => onSelect && onSelect($event),
+        'onUpdate:selectedKeys': handleSelect,
       }}
     />
   );

@@ -1,4 +1,4 @@
-import { computed, reactive, unref, provide, defineComponent, toRefs, watch } from 'vue';
+import { computed, reactive, unref, provide, defineComponent, toRefs } from 'vue';
 import type { CSSProperties, PropType, ExtractPropTypes } from 'vue';
 
 import 'ant-design-vue/es/layout/style';
@@ -14,12 +14,12 @@ import { default as SiderMenuWrapper, siderMenuProps } from './SiderMenu';
 import { WrapContent } from './WrapContent';
 import globalHeaderProps from './GlobalHeader/headerProps';
 import { HeaderView as Header, headerViewProps } from './Header';
-import { getPropsSlot, PropTypes } from './utils';
+import { getPropsSlot, getPropsSlotfn, PropTypes } from './utils';
 
 import type { CustomRender, FormatMessage, WithFalse } from './typings';
 
 import './BasicLayout.less';
-import PageLoading from '@/PageLoading';
+import PageLoading from './PageLoading';
 
 export const basicLayoutProps = {
   ...defaultSettingProps,
@@ -172,13 +172,20 @@ const ProLayout = defineComponent({
     const customHeaderRender = getPropsSlot(slots, props, 'headerRender');
     const menuHeaderRender = getPropsSlot(slots, props, 'menuHeaderRender');
     const footerRender = getPropsSlot(slots, props, 'footerRender');
-    // const menuRender = getPropsSlot(slots, props, 'menuRender');
-    const breadcrumbRender = props.breadcrumbRender || slots.breadcrumbRender;
+    const breadcrumbRender = getPropsSlotfn(slots, props, 'breadcrumbRender');
+    // menu render
+    const menuItemRender = getPropsSlotfn(slots, props, 'menuItemRender');
+    const subMenuItemRender = getPropsSlotfn(slots, props, 'subMenuItemRender');
+    const menuRenders = {
+      menuItemRender,
+      subMenuItemRender,
+    };
 
     const headerDom = computed(() =>
       headerRender(
         {
           ...props,
+          ...menuRenders,
           hasSiderMenu: !isTop.value,
           menuData: props.menuData,
           isMobile: unref(isMobile),
@@ -235,6 +242,7 @@ const ProLayout = defineComponent({
               {!isTop.value && (
                 <SiderMenuWrapper
                   {...restProps.value}
+                  {...menuRenders}
                   isMobile={isMobile.value}
                   menuHeaderRender={menuHeaderRender}
                   collapsedButtonRender={collapsedButtonRender}

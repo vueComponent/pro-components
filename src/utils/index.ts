@@ -71,6 +71,10 @@ export function getPropsSlot(slots: Slots, props: Record<string, any>, prop = 'd
   return props[prop] || slots[prop]?.();
 }
 
+export function getPropsSlotfn(slots: Slots, props: Record<string, any>, prop = 'default') {
+  return props[prop] || slots[prop];
+}
+
 export const PropRenderType = {
   type: [Function, Boolean],
   default: () => undefined,

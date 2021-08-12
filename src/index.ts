@@ -27,5 +27,3 @@ export type { WaterMarkProps } from './WaterMark';
 export { default } from './BasicLayout';
 // export { default as ProLayout } from './BasicLayout';
 export type { BasicLayoutProps } from './BasicLayout';
-
-export { default as PageLoading } from './Pageloading';

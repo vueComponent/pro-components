@@ -5,7 +5,6 @@
     v-model:openKeys="baseState.openKeys"
     v-bind="state"
     :loading="loading"
-    :collapsed-button-render="false"
     :breadcrumb="{ routes: breadcrumb }"
   >
     <!-- only work layout `Side` -->
@@ -28,6 +27,23 @@
       <router-link v-else :to="{ path: route.path, params }">
         {{ route.breadcrumbName }}
       </router-link>
+    </template>
+    <!-- custom menu-item -->
+    <template #menuItemRender="{ item, icon }">
+      <a-menu-item
+        :key="item.path"
+        :disabled="item.meta?.disabled"
+        :danger="item.meta?.danger"
+        :icon="icon"
+      >
+        <router-link :to="{ path: item.path }">
+          <div class="a-menu-item-title">
+            <a-badge count="5" dot>
+              {{ item.meta.title }}
+            </a-badge>
+          </div>
+        </router-link>
+      </a-menu-item>
     </template>
     <!-- content begin -->
     <router-view />
@@ -61,7 +77,7 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
-import { Button, Switch, Select, Space } from 'ant-design-vue';
+import { Button, Switch, Select, Space, Badge, Menu } from 'ant-design-vue';
 import { getMenuData, clearMenuItem, FooterToolbar } from '@ant-design-vue/pro-layout';
 import type { RouteContextProps } from '@ant-design-vue/pro-layout';
 
@@ -76,6 +92,9 @@ export default defineComponent({
     [Select.name]: Select,
     [Select.Option.displayName!]: Select.Option,
     [Space.name]: Space,
+
+    [Badge.name]: Badge,
+    [Menu.Item.name]: Menu.Item,
   },
   setup() {
     const loading = ref(false);
@@ -134,7 +153,7 @@ export default defineComponent({
       state,
       loading,
       breadcrumb,
-      
+
       handlePageLoadingClick,
       handleCollapsed,
     };

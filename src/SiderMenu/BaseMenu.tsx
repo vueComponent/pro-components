@@ -8,6 +8,7 @@ import {
   PropType,
   isVNode,
   ExtractPropTypes,
+  ConcreteComponent,
 } from 'vue';
 import { createFromIconfontCN } from '@ant-design/icons-vue';
 import 'ant-design-vue/es/menu/style';
@@ -30,8 +31,12 @@ export function useRootSubmenuKeys(menus: MenuDataItem[]): ComputedRef<string[]>
 }
 
 export interface CustomMenuRender {
-  menuItemRender?: WithFalse<(item: MenuDataItem) => CustomRender>;
-  subMenuItemRender?: WithFalse<(item: MenuDataItem, children?: CustomRender[]) => CustomRender>;
+  menuItemRender?: WithFalse<
+    (args: { item: MenuDataItem; title?: JSX.Element; icon?: JSX.Element }) => CustomRender
+  >;
+  subMenuItemRender?: WithFalse<
+    (args: { item: MenuDataItem; children?: CustomRender[] }) => CustomRender
+  >;
 }
 
 // vue props
@@ -130,9 +135,12 @@ LazyIcon.props = {
 
 class MenuUtil {
   props: BaseMenuProps;
+  RouterLink: ConcreteComponent;
 
   constructor(props: BaseMenuProps) {
     this.props = props;
+
+    this.RouterLink = resolveComponent('router-link') as ConcreteComponent;
   }
 
   getNavMenuItems = (menusData: MenuDataItem[] = []) => {
@@ -147,7 +155,10 @@ class MenuUtil {
       !item?.meta?.hideChildrenInMenu
     ) {
       if (this.props.subMenuItemRender) {
-        return this.props.subMenuItemRender(item, this.getNavMenuItems(item.children)) as VNode;
+        return this.props.subMenuItemRender({
+          item,
+          children: this.getNavMenuItems(item.children),
+        }) as VNode;
       }
       const { prefixCls, locale } = this.props;
       const menuTitle = (locale && locale(item.meta?.title)) || item.meta?.title;
@@ -176,7 +187,8 @@ class MenuUtil {
     const [title, icon] = this.getMenuItem(item);
 
     return (
-      ((this.props.menuItemRender && this.props.menuItemRender(item)) as VNode) || (
+      ((this.props.menuItemRender &&
+        this.props.menuItemRender({ item, title, icon })) as VNode) || (
         <Menu.Item
           disabled={item.meta?.disabled}
           danger={item.meta?.danger}
@@ -193,7 +205,7 @@ class MenuUtil {
     const meta = { ...item.meta };
     const target = (meta.target || null) as string | null;
     const hasUrl = isUrl(item.path);
-    const CustomTag: any = (target && 'a') || resolveComponent('router-link');
+    const CustomTag: any = (target && 'a') || this.RouterLink;
     const props = { to: { name: item.name } };
     const attrs = hasUrl || target ? { ...item.meta, href: item.path, target } : {};
 
@@ -209,13 +221,7 @@ class MenuUtil {
       </CustomTag>
     );
 
-    const icon =
-      (item.meta?.icon && (
-        <CustomTag {...attrs} {...props} class={`${prefixCls}-menu-item`}>
-          <LazyIcon icon={item.meta.icon} />
-        </CustomTag>
-      )) ||
-      null;
+    const icon = (item.meta?.icon && <LazyIcon icon={item.meta.icon} />) || undefined;
 
     return [defaultTitle, icon];
   };
