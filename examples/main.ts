@@ -6,7 +6,7 @@ import router from './router';
 import icons from './icons';
 import App from './App.vue';
 
-import '../dist/style.less';
+// import '../dist/style.less';
 import ProLayout, { PageContainer } from '../src'; // '../dist/pro-layout.es';
 
 const app = createApp(App);

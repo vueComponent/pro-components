@@ -40,8 +40,8 @@ export const headerViewProps = {
 export type HeaderViewProps = Partial<ExtractPropTypes<typeof headerViewProps> & GlobalHeaderProps>;
 
 export const HeaderView = defineComponent({
-  inheritAttrs: false,
   name: 'HeaderView',
+  inheritAttrs: false,
   props: headerViewProps,
   setup(props) {
     const {

@@ -8,7 +8,7 @@ const { Content } = Layout;
 
 export interface WrapContentProps {
   style?: CSSProperties;
-  class?: string | string[] | object;
+  class?: string | string[] | any;
   isChildrenLayout?: boolean;
   location?: string | string[] | any;
   contentHeight?: number;

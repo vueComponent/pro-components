@@ -80,8 +80,8 @@ export type BasicLayoutProps = Partial<ExtractPropTypes<typeof basicLayoutProps>
 
 const ProLayout = defineComponent({
   name: 'ProLayout',
+  inheritAttrs: false,
   props: basicLayoutProps,
-  // inheritAttrs: false,
   emits: [
     'update:collapsed',
     'update:open-keys',

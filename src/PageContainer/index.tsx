@@ -9,26 +9,26 @@ import {
   ExtractPropTypes,
 } from 'vue';
 /* replace antd ts define */
+import { withInstall } from 'ant-design-vue/es/_util/type';
+import PageHeader, { pageHeaderProps } from 'ant-design-vue/es/page-header';
+import Tabs from 'ant-design-vue/es/tabs';
+import Affix from 'ant-design-vue/es/affix';
+import Spin from 'ant-design-vue/es/spin';
+import omit from 'omit.js';
 import { TabPaneProps } from './interfaces/TabPane';
 import { TabBarExtraContent, TabsProps } from './interfaces/Tabs';
 import { AffixProps } from './interfaces/Affix';
 /* replace antd ts define end */
 import { RouteContextProps, useRouteContext } from '../RouteContext';
-import { getPropsSlot } from '../utils';
-import { withInstall } from 'ant-design-vue/es/_util/type';
+import { getPropsSlot, PropTypes } from '../utils';
 import 'ant-design-vue/es/affix/style';
-import Affix from 'ant-design-vue/es/affix';
 import 'ant-design-vue/es/page-header/style';
-import PageHeader, { pageHeaderProps } from 'ant-design-vue/es/page-header';
 import 'ant-design-vue/es/tabs/style';
-import Tabs from 'ant-design-vue/es/tabs';
 import 'ant-design-vue/es/spin/style';
-import Spin from 'ant-design-vue/es/spin';
 import GridContent from '../GridContent';
 import FooterToolbar from '../FooterToolbar';
-import { PropTypes } from '../utils';
+
 import { CustomRender, WithFalse } from '../typings';
-import omit from 'omit.js';
 import './index.less';
 
 export interface Tab {
@@ -135,8 +135,14 @@ const renderFooter = (
     'title'
   >,
 ): VNodeChild | JSX.Element => {
-  const { tabList, tabActiveKey, onTabChange, tabBarExtraContent, tabProps, prefixedClassName } =
-    props;
+  const {
+    tabList,
+    tabActiveKey,
+    onTabChange,
+    tabBarExtraContent,
+    tabProps,
+    prefixedClassName,
+  } = props;
   if (tabList && tabList.length) {
     return (
       <Tabs
@@ -233,6 +239,7 @@ const defaultPageHeaderRender = (
 
 const PageContainer = defineComponent({
   name: 'PageContainer',
+  inheritAttrs: false,
   props: pageContainerProps,
   setup(props, { slots }) {
     const { loading, affixProps, ghost } = toRefs(props);
@@ -247,60 +254,65 @@ const PageContainer = defineComponent({
       };
     });
 
-    const tags = getPropsSlot(slots, props, 'tags');
-    const headerContent = getPropsSlot(slots, props, 'content');
-    const extra = getPropsSlot(slots, props, 'extra');
-    const extraContent = getPropsSlot(slots, props, 'extraContent');
-    const footer = getPropsSlot(slots, props, 'footer');
+    const headerDom = computed(() => {
+      const tags = getPropsSlot(slots, props, 'tags');
+      const headerContent = getPropsSlot(slots, props, 'content');
+      const extra = getPropsSlot(slots, props, 'extra');
+      const extraContent = getPropsSlot(slots, props, 'extraContent');
 
-    const headerDom = computed(() => (
-      <div class={`${prefixedClassName.value}-warp`}>
-        {defaultPageHeaderRender(
-          {
-            ...props,
-            tags,
-            content: headerContent,
-            extra,
-            extraContent,
-          },
-          {
-            ...value,
-            prefixCls: undefined,
-            prefixedClassName: prefixedClassName.value,
-          },
-        )}
-      </div>
-    ));
+      return (
+        <div class={`${prefixedClassName.value}-warp`}>
+          {defaultPageHeaderRender(
+            {
+              ...props,
+              tags,
+              content: headerContent,
+              extra,
+              extraContent,
+            },
+            {
+              ...value,
+              prefixCls: undefined,
+              prefixedClassName: prefixedClassName.value,
+            },
+          )}
+        </div>
+      );
+    });
 
-    return () => (
-      <div class={classNames.value}>
-        {value.fixedHeader ? (
-          <Affix offsetTop={value.fixedHeader ? value.headerHeight : 0} {...affixProps.value}>
-            {headerDom.value}
-          </Affix>
-        ) : (
-          headerDom.value
-        )}
-        <GridContent>
-          {loading.value ? (
-            <Spin />
-          ) : slots.default ? (
-            <div>
-              <div class={`${prefixedClassName.value}-children-content`}>{slots.default()}</div>
-              {value.hasFooterToolbar && (
-                <div
-                  style={{
-                    height: 48,
-                    marginTop: 24,
-                  }}
-                />
-              )}
-            </div>
-          ) : null}
-        </GridContent>
-        {value.hasFooterToolbar && <FooterToolbar>{footer}</FooterToolbar>}
-      </div>
-    );
+    return () => {
+      const footer = getPropsSlot(slots, props, 'footer');
+
+      return (
+        <div class={classNames.value}>
+          {value.fixedHeader ? (
+            <Affix offsetTop={value.fixedHeader ? value.headerHeight : 0} {...affixProps.value}>
+              {headerDom.value}
+            </Affix>
+          ) : (
+            headerDom.value
+          )}
+          <GridContent>
+            {loading.value ? (
+              <Spin />
+            ) : slots.default ? (
+              <div>
+                <div class={`${prefixedClassName.value}-children-content`}>{slots.default()}</div>
+                {value.hasFooterToolbar && (
+                  <div
+                    style={{
+                      height: 48,
+                      marginTop: 24,
+                    }}
+                  />
+                )}
+              </div>
+            ) : null}
+          </GridContent>
+          {value.hasFooterToolbar && <FooterToolbar>{footer}</FooterToolbar>}
+        </div>
+      );
+    };
   },
 });
 // <WaterMark content="Pro Layout"></WaterMark>

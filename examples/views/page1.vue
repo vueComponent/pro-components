@@ -1,25 +1,35 @@
 <template>
-  <PageContainer title="Page 1" sub-title="is a sub-title.">
+  <page-container title="Page 1" sub-title="is a sub-title.">
+    <template #content>
+      <div>
+        container.content
+        <h1>{{ text }}</h1>
+      </div>
+    </template>
     <span>page-content</span>
     <a-button @click="handleClick">Button</a-button>
-  </PageContainer>
+  </page-container>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { Button, message } from 'ant-design-vue';
 
 export default defineComponent({
-  components:{
+  components: {
     [Button.name]: Button,
   },
   setup() {
-    const handleClick= () => {
-      message.info('clicked')
-    }
+    const text = ref<string>('1');
+    const handleClick = () => {
+      message.info('clicked');
+      text.value = `${Math.random()}`;
+    };
     return {
       handleClick,
-    }
+
+      text,
+    };
   },
-})
+});
 </script>
