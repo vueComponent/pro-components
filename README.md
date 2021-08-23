@@ -42,9 +42,9 @@ After that, you can use pro-layout in your Vue components as simply as this:
   <pro-layout
     :locale="locale"
     v-bind="state"
-    v-model:openKeys="state.openKeys"
-    v-model:collapsed="state.collapsed"
-    v-model:selectedKeys="state.selectedKeys"
+    v-model:openKeys="base.openKeys"
+    v-model:collapsed="base.collapsed"
+    v-model:selectedKeys="base.selectedKeys"
   >
     <router-view />
   </pro-layout>
@@ -52,30 +52,29 @@ After that, you can use pro-layout in your Vue components as simply as this:
 
 <script>
 import { defineComponent, reactive } from 'vue';
-// import { getMenuData, clearMenuItem } from '@ant-design-vue/pro-layout';
+import { getMenuData, clearMenuItem } from '@ant-design-vue/pro-layout';
 
 const locale = (i18n: string) => i18n;
 
 export default defineComponent({
   setup() {
-    const state = reactive({
-      collapsed: false,
+    const router = useRouter();
+    const { menuData } = getMenuData(clearMenuItem(router.getRoutes()));
+    const base = reactive({
+      collapsed: false, // default value
       openKeys: ['/dashboard'],
       selectedKeys: ['/welcome'],
-
-      isMobile: false,
-      fixSiderbar: false,
-      fixedHeader: false,
-      menuData: [],
-      sideWidth: 208,
-      hasSideMenu: true,
-      hasHeader: true,
-      hasFooterToolbar: false,
-      setHasFooterToolbar: has => (state.hasFooterToolbar = has),
+    })
+    const state = reactive({
+      navTheme: 'dark',
+      layout: 'mix',
+      splitMenus: false,
+      menuData,
     });
 
     return {
       locale,
+      base,
       state,
     };
   },
@@ -93,31 +92,88 @@ import '@ant-design-vue/pro-layout/dist/style.css'; // pro-layout css or style.l
 
 export default defineComponent({
   setup() {
-    const state = reactive({
-      collapsed: false,
-
+    const router = useRouter();
+    const { menuData } = getMenuData(clearMenuItem(router.getRoutes()));
+    const base = reactive({
+      collapsed: false, // default value
       openKeys: ['/dashboard'],
       selectedKeys: ['/welcome'],
-
-      isMobile: false,
-      fixSiderbar: false,
-      fixedHeader: false,
-      menuData: [],
-      sideWidth: 208,
-      hasSideMenu: true,
-      hasHeader: true,
-      hasFooterToolbar: false,
-      setHasFooterToolbar: (has: boolean) => (state.hasFooterToolbar = has),
+    })
+    const state = reactive({
+      navTheme: 'dark',
+      layout: 'mix',
+      splitMenus: false,
+      menuData,
     });
+    const handleCollapse = (collapsed: boolean) => {
+      base.collapsed = collapsed;
+    }
+    const handleSelect = (selectedKeys: string[]) => {
+      base.selectedKeys = selectedKeys;
+    }
+    const handleOpenKeys = (openKeys: string[]) => {
+      base.openKeys = openKeys;
+    }
 
     return () => (
-      <ProLayout {...state} locale={(i18n: string) => i18n}>
+      <ProLayout 
+        {...state}
+        {...base}
+        locale={(i18n: string) => i18n}
+        onCollapse={handleCollapse}
+        onSelect={handleSelect}
+        onOpenKeys={handleOpenKeys}
+      >
         <RouterView />
       </ProLayout>
     );
   },
 });
 ```
+
+
+
+## API
+
+### ProLayout
+
+| Property | Description | Type | Default Value |
+| --- | --- | --- | --- |
+| title | layout in the upper left corner title | VNode \| String | `'Ant Design Pro'` |
+| logo | layout top left logo url | VNode \| render | - |
+| loading | layout loading status | boolean | - |
+| layout | layout menu mode, sidemenu: right navigation, topmenu: top navigation | 'side' \| 'top' \| 'mix' | `'side'` |
+| contentWidth | content mode of layout, Fluid: adaptive, Fixed:  fixed width 1200px | 'Fixed' \| 'Fluid' | `Fluid` |
+| theme | Navigation menu theme | 'light' \| 'dark' | `'light'` |
+| navTheme | Navigation Bar theme | 'light' \|'dark' | `'light'` |
+| menuData | Vue-router `routes` prop | Object | `[{}]` |
+| collapsed | control menu's collapse and expansion | boolean | true |
+| selectedKeys | menu selected keys | string[] | `[]` |
+| openKeys | menu openKeys | string[] | `[]` |
+| isMobile | is mobile | boolean | false |
+| handleCollapse | folding collapse event of menu | (collapsed: boolean) => void | - |
+| menuHeaderRender | render header logo and title | v-slot \| VNode \| (logo,title)=>VNode \| false | - |
+| headerContentRender | custom header render method | `slot` \| (props: BasicLayoutProps) => VNode | - |
+| rightContentRender | header right content render method | `slot` \| (props: HeaderViewProps) => VNode | - |
+| collapsedButtonRender | custom collapsed button method | `slot` \| (collapsed: boolean) => VNode | - |
+| footerRender | custom footer render method | `slot` \| (props: BasicLayoutProps) => VNode | `false` |
+| breadcrumbRender | custom breadcrumb render method | `slot` \| ({ route, params, routes, paths, h }) => VNode[] | - |
+| menuItemRender | custom render Menu.Item | v-slot#menuItemRender="{ item, icon }" \| ({ item, icon }) => VNode | null |
+| locale | i18n | Function (key: string) => string \| `false` | `false` |
+
+
+### PageContainer
+
+| Property | Description | Type | Default Value |
+| --- | --- | --- | --- |
+| content | Content area | VNode \| v-slot | - |
+| extra | Extra content area, on the right side of content | VNode \| v-slot | - |
+| extraContent | Extra content area, on the right side of content | VNode \| v-slot | - |
+| tabList | Tabs title list | `Array<{key: string, tab: sting}>` | - |
+| tab-change | Switch panel callback | (key) => void | - |
+| tab-active-key | The currently highlighted tab item | string | - |
+
+
 
 ## Build project
 
