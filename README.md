@@ -19,6 +19,8 @@ npm i @ant-design-vue/pro-layout@next -S
 
 ## Basic Usage
 
+look [Examples](./examples/)
+
 First, you should add the `@ant-design-vue/pro-layout` that you need into the library.
 
 ```js
@@ -52,7 +54,7 @@ After that, you can use pro-layout in your Vue components as simply as this:
 import { defineComponent, reactive } from 'vue';
 // import { getMenuData, clearMenuItem } from '@ant-design-vue/pro-layout';
 
-const locale=(i18n: string) => i18n;
+const locale = (i18n: string) => i18n;
 
 export default defineComponent({
   setup() {
