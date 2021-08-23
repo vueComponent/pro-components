@@ -14,7 +14,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/dashboard',
         name: 'dashboard',
-        meta: { title: 'Dashboard', icon: 'SettingOutlined' },
+        meta: { title: 'Dashboard', icon: 'DashboardOutlined' },
         redirect: '/dashboard/monitor',
         component: RouteView,
         children: [
@@ -27,7 +27,7 @@ const routes: RouteRecordRaw[] = [
           {
             path: 'monitor',
             name: 'monitor',
-            meta: { title: 'Monitor', icon: 'DatabaseOutlined' },
+            meta: { title: 'Monitor' },
             component: () => import('./views/page2.vue'),
           },
         ],
@@ -35,7 +35,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/form',
         name: 'form',
-        meta: { title: 'Form', icon: 'SettingOutlined' },
+        meta: { title: 'Form', icon: 'FormOutlined' },
         redirect: '/form/basic-form',
         component: RouteView,
         children: [

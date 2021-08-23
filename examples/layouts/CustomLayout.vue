@@ -13,9 +13,17 @@
         <h1>Pro Layout</h1>
       </a>
     </template>
+    <!-- only work layout `Side` -->
+    <template #headerContentRender>
+      <a :style="{ margin: '0 8px', fontSize: '20px' }" @click="handleCollapsed">
+        <MenuUnfoldOutlined v-if="baseState.collapsed" />
+        <MenuFoldOutlined v-else />
+      </a>
+      <span>some..</span>
+    </template>
     <!-- custom right-content -->
     <template #rightContentRender>
-      <span style="color: #0f0; margin-right: 12px"><a-avatar /></span>
+      <span style="color: #0f0">right</span>
     </template>
     <!-- custom breadcrumb itemRender  -->
     <template #breadcrumbRender="{ route, params, routes }">
@@ -25,6 +33,23 @@
       <router-link v-else :to="{ path: route.path, params }">
         {{ route.breadcrumbName }}
       </router-link>
+    </template>
+    <!-- custom menu-item -->
+    <template #menuItemRender="{ item, icon }">
+      <a-menu-item
+        :key="item.path"
+        :disabled="item.meta?.disabled"
+        :danger="item.meta?.danger"
+        :icon="icon"
+      >
+        <router-link :to="{ path: item.path }">
+          <div class="a-menu-item-title">
+            <a-badge count="5" dot>
+              {{ item.meta.title }}
+            </a-badge>
+          </div>
+        </router-link>
+      </a-menu-item>
     </template>
     <!-- content begin -->
     <router-view />
@@ -58,7 +83,7 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
-import { Button, Switch, Select, Avatar, Space, Badge, Menu } from 'ant-design-vue';
+import { Button, Switch, Select, Space, Badge, Menu } from 'ant-design-vue';
 import { getMenuData, clearMenuItem, FooterToolbar } from '@ant-design-vue/pro-layout';
 import type { RouteContextProps } from '@ant-design-vue/pro-layout';
 
@@ -75,7 +100,7 @@ export default defineComponent({
     [Space.name]: Space,
 
     [Badge.name]: Badge,
-    [Avatar.name]: Avatar,
+    [Menu.Item.name]: Menu.Item,
   },
   setup() {
     const loading = ref(false);
