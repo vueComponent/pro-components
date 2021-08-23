@@ -14,14 +14,14 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/dashboard',
         name: 'dashboard',
-        meta: { title: 'Dashboard' },
+        meta: { title: 'Dashboard', icon: 'SettingOutlined' },
         redirect: '/dashboard/monitor',
         component: RouteView,
         children: [
           {
             path: 'workspace',
             name: 'workspace',
-            meta: { title: 'Dashboard', icon: 'SettingOutlined' },
+            meta: { title: 'Workspace' },
             component: () => import('./views/page1.vue'),
           },
           {
@@ -35,17 +35,23 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/form',
         name: 'form',
-        meta: { title: 'Form' },
+        meta: { title: 'Form', icon: 'SettingOutlined' },
         redirect: '/form/basic-form',
         component: RouteView,
         children: [
           {
             path: 'basic-form',
             name: 'basic-form',
-            meta: { title: 'Basic Form', icon: 'SettingOutlined' },
+            meta: { title: 'Basic Form' },
             component: () => import('./views/page1.vue'),
           },
         ],
+      },
+      {
+        path: '/single',
+        name: 'single',
+        meta: { title: 'Single', icon: 'SettingOutlined' },
+        component: () => import('./views/page1.vue'),
       },
     ],
   },

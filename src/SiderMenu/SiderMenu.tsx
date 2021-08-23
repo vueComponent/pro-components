@@ -11,6 +11,7 @@ import Layout from 'ant-design-vue/es/layout';
 import 'ant-design-vue/es/menu/style';
 import Menu from 'ant-design-vue/es/menu';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
+import { warn } from '@/utils/base';
 import BaseMenu, { baseMenuProps } from './BaseMenu';
 import { WithFalse, CustomRender } from '../typings';
 import { SiderProps } from './typings';
@@ -121,6 +122,9 @@ export const defaultRenderLogoAndTitle = (
   }
   const logoDom = defaultRenderLogo(logo, logoStyle);
   const titleDom = <h1>{title}</h1>;
+  if (layout === 'mix' && renderKey === 'menuHeaderRender') {
+    return null;
+  }
   // call menuHeaderRender
   if (typeof renderFunction === 'function') {
     // when collapsed, no render title
@@ -129,9 +133,7 @@ export const defaultRenderLogoAndTitle = (
   if (Array.isArray(renderFunction)) {
     return <>{renderFunction}</>;
   }
-  if (layout === 'mix' && renderKey === 'menuHeaderRender') {
-    return null;
-  }
+
   return (
     <a>
       {logoDom}
@@ -176,7 +178,11 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
     };
   });
   const flatMenuData = computed(
-    () => (hasSide.value && getMenuFirstChildren(context.menuData, context.selectedKeys[0])) || [],
+    () =>
+      (hasSide.value &&
+        hasSplitMenu.value &&
+        getMenuFirstChildren(context.menuData, context.selectedKeys[0])) ||
+      [],
   );
   const handleSelect = ($event: string[]) => {
     if (props.onSelect) {
@@ -190,7 +196,8 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
   // call menuHeaderRender
   const headerDom = defaultRenderLogoAndTitle(props);
   const extraDom = menuExtraRender && menuExtraRender(props);
-  if (hasSide.value && flatMenuData.value.length === 0) {
+
+  if (hasSplitMenu.value && flatMenuData.value.length === 0) {
     return null;
   }
   const defaultMenuDom = (

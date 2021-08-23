@@ -8,14 +8,13 @@ import { withInstall } from 'ant-design-vue/es/_util/type';
 import useMediaQuery from './hooks/useMediaQuery';
 
 import { defaultSettingProps } from './defaultSettings';
-import { getPrefixCls, defaultRouteContext } from './RouteContext';
-import type { BreadcrumbProps } from './RouteContext';
-import { default as SiderMenuWrapper, siderMenuProps } from './SiderMenu';
+import { provideRouteContext, defaultRouteContext, RouteContextProps } from './RouteContext';
+import SiderMenuWrapper, { siderMenuProps } from './SiderMenu';
 import { WrapContent } from './WrapContent';
 import globalHeaderProps from './GlobalHeader/headerProps';
 import { HeaderView as Header, headerViewProps } from './Header';
 import { getPropsSlot, getPropsSlotfn, PropTypes } from './utils';
-
+import type { BreadcrumbProps } from './RouteContext';
 import type { CustomRender, FormatMessage, WithFalse } from './typings';
 
 import './BasicLayout.less';
@@ -49,7 +48,7 @@ export const basicLayoutProps = {
     default: () => null,
   },
   collapsedButtonRender: {
-    type: [Function, Object, Boolean] as PropType<WithFalse<(collapsed?: boolean) => CustomRender>>,
+    type: [Function, Object, Boolean] as PropType<WithFalse<(collapsed?: boolean) => any>>,
     default: () => undefined,
   },
   breadcrumbRender: {
@@ -57,19 +56,15 @@ export const basicLayoutProps = {
     default: () => {},
   },
   headerContentRender: {
-    type: [Function, Object, Boolean] as PropType<WithFalse<() => CustomRender>>,
+    type: [Function, Object, Boolean] as PropType<WithFalse<() => any>>,
     default: () => undefined,
   },
   headerRender: {
-    type: [Object, Function, Boolean] as PropType<
-      WithFalse<(props: any /* HeaderProps */) => CustomRender>
-    >,
+    type: [Object, Function, Boolean] as PropType<WithFalse<(props: any /* HeaderProps */) => any>>,
     default: () => undefined,
   },
   footerRender: {
-    type: [Object, Function, Boolean] as PropType<
-      WithFalse<(props: any /* FooterProps */) => CustomRender>
-    >,
+    type: [Object, Function, Boolean] as PropType<WithFalse<(props: any /* FooterProps */) => any>>,
     default: () => undefined,
   },
   colSize: PropTypes.string,
@@ -93,12 +88,12 @@ const ProLayout = defineComponent({
     'menuClick',
   ],
   setup(props, { emit, slots }) {
-    const refProps = toRefs(props);
+    // const refProps = toRefs(props);
     const isTop = computed(() => props.layout === 'top');
     // const isSide = computed(() => layout === 'side');
     // const isMix = computed(() => layout === 'mix');
-    const pure = computed(() => props.pure);
     const siderWidth = computed(() => (props.collapsed ? props.collapsedWidth : props.siderWidth));
+
     // if on event and @event
     const onCollapse = (collapsed: boolean) => {
       emit('update:collapsed', collapsed);
@@ -163,110 +158,129 @@ const ProLayout = defineComponent({
       }
       return <Header {...p} matchMenuKeys={matchMenuKeys || []} />;
     };
-    const collapsedButtonRender =
-      props.collapsedButtonRender === false
-        ? false
-        : getPropsSlot(slots, props, 'collapsedButtonRender');
-    const headerContentRender = getPropsSlot(slots, props, 'headerContentRender');
-    const rightContentRender = getPropsSlot(slots, props, 'rightContentRender');
-    const customHeaderRender = getPropsSlot(slots, props, 'headerRender');
-    const menuHeaderRender = getPropsSlot(slots, props, 'menuHeaderRender');
-    const footerRender = getPropsSlot(slots, props, 'footerRender');
-    const breadcrumbRender = getPropsSlotfn(slots, props, 'breadcrumbRender');
-    // menu render
-    const menuItemRender = getPropsSlotfn(slots, props, 'menuItemRender');
-    const subMenuItemRender = getPropsSlotfn(slots, props, 'subMenuItemRender');
-    const menuRenders = {
-      menuItemRender,
-      subMenuItemRender,
-    };
 
-    const headerDom = computed(() =>
-      headerRender(
-        {
-          ...props,
-          ...menuRenders,
-          hasSiderMenu: !isTop.value,
-          menuData: props.menuData,
-          isMobile: unref(isMobile),
-          onCollapse,
-          onOpenKeys,
-          onSelect,
-          onMenuHeaderClick,
-          rightContentRender,
-          headerTitleRender: menuHeaderRender,
-          headerContentRender,
-          headerRender: customHeaderRender,
-          theme: (props.navTheme || 'dark').toLocaleLowerCase().includes('dark') ? 'dark' : 'light',
-        },
-        props.matchMenuKeys,
-      ),
-    );
-
-    const routeContext = reactive({
-      getPrefixCls,
-      // ...props,
-      locale: refProps.locale.value || defaultRouteContext.locale,
-      breadcrumb: computed(() => {
-        return {
-          ...props.breadcrumb,
-          itemRender: breadcrumbRender,
-        };
-      }),
-      contentWidth: refProps.contentWidth, // 'Fluid',
-      layout: refProps.layout,
-      navTheme: refProps.navTheme,
-      splitMenus: refProps.splitMenus,
-      fixedHeader: refProps.fixSiderbar,
-      fixSiderbar: refProps.fixSiderbar,
-      sideWidth: siderWidth,
-      headerHeight: refProps.headerHeight,
-      hasFooterToolbar: false,
-      menuData: refProps.menuData,
-      selectedKeys: refProps.selectedKeys,
-      openKeys: refProps.openKeys,
+    // const restProps = computed(() =>
+    //   omit(props, []),
+    // );
+    // provide('route-context', routeContext);
+    // const routeContext = reactive({
+    //   getPrefixCls,
+    //   // ...props,
+    //   locale: refProps.locale.value || defaultRouteContext.locale,
+    //   breadcrumb: computed(() => {
+    //     return {
+    //       ...props.breadcrumb,
+    //       itemRender: breadcrumbRender,
+    //     };
+    //   }),
+    //   contentWidth: refProps.contentWidth, // 'Fluid',
+    //   layout: refProps.layout,
+    //   navTheme: refProps.navTheme,
+    //   splitMenus: refProps.splitMenus,
+    //   fixedHeader: refProps.fixSiderbar,
+    //   fixSiderbar: refProps.fixSiderbar,
+    //   sideWidth: siderWidth,
+    //   headerHeight: refProps.headerHeight,
+    //   hasFooterToolbar: false,
+    //   menuData: refProps.menuData,
+    //   selectedKeys: refProps.selectedKeys,
+    //   openKeys: refProps.openKeys,
+    // });
+    const routeContext = reactive<RouteContextProps>({
+      ...defaultRouteContext,
+      ...(omit(toRefs(props), ['onCollapse', 'onOpenKeys', 'onSelect', 'onMenuClick']) as any),
     });
+    provideRouteContext(routeContext);
+    return () => {
+      // const { onCollapse, onOpenKeys, onSelect, onMenuClick, menuHeaderRender, ...restProps } = props;
 
-    const restProps = computed(() =>
-      omit(props, ['onCollapse', 'onOpenKeys', 'onSelect', 'onMenuClick', 'menuHeaderRender']),
-    );
-    provide('route-context', routeContext);
+      const {
+        pure,
+        onCollapse: propsOnCollapse,
+        onOpenKeys: propsOnOpenKeys,
+        onSelect: propsOnSelect,
+        onMenuClick: propsOnMenuClick,
+        ...restProps
+      } = props;
 
-    return () => (
-      <>
-        {pure.value ? (
-          slots.default?.()
-        ) : (
-          <div class={className.value}>
-            <Layout class={baseClassName.value}>
-              {!isTop.value && (
-                <SiderMenuWrapper
-                  {...restProps.value}
-                  {...menuRenders}
-                  isMobile={isMobile.value}
-                  menuHeaderRender={menuHeaderRender}
-                  collapsedButtonRender={collapsedButtonRender}
-                  onCollapse={onCollapse}
-                  onSelect={onSelect}
-                  onOpenKeys={onOpenKeys}
-                  onMenuClick={onMenuClick}
-                />
-              )}
-              <Layout style={genLayoutStyle}>
-                {headerDom.value}
-                <WrapContent
-                  isChildrenLayout={props.isChildrenLayout}
-                  style={props.disableContentMargin ? undefined : props.contentStyle}
-                >
-                  {props.loading ? <PageLoading /> : slots.default?.()}
-                </WrapContent>
-                {footerRender && footerRender(props)}
+      const collapsedButtonRender =
+        props.collapsedButtonRender === false
+          ? false
+          : getPropsSlot(slots, props, 'collapsedButtonRender');
+      const headerContentRender = getPropsSlot(slots, props, 'headerContentRender');
+      const rightContentRender = getPropsSlot(slots, props, 'rightContentRender');
+      const customHeaderRender = getPropsSlot(slots, props, 'headerRender');
+      const menuHeaderRender = getPropsSlot(slots, props, 'menuHeaderRender');
+      const footerRender = getPropsSlot(slots, props, 'footerRender');
+      const breadcrumbRender = getPropsSlotfn(slots, props, 'breadcrumbRender');
+      // menu render
+      const menuItemRender = getPropsSlotfn(slots, props, 'menuItemRender');
+      const subMenuItemRender = getPropsSlotfn(slots, props, 'subMenuItemRender');
+      const menuRenders = {
+        menuItemRender,
+        subMenuItemRender,
+      };
+
+      const headerDom = computed(() =>
+        headerRender(
+          {
+            ...props,
+            ...menuRenders,
+            hasSiderMenu: !isTop.value,
+            menuData: props.menuData,
+            isMobile: unref(isMobile),
+            onCollapse,
+            onOpenKeys,
+            onSelect,
+            onMenuHeaderClick,
+            rightContentRender,
+            headerTitleRender: menuHeaderRender,
+            headerContentRender,
+            headerRender: customHeaderRender,
+            theme: (props.navTheme || 'dark').toLocaleLowerCase().includes('dark')
+              ? 'dark'
+              : 'light',
+          },
+          props.matchMenuKeys,
+        ),
+      );
+
+      return (
+        <>
+          {pure ? (
+            slots.default?.()
+          ) : (
+            <div class={className.value}>
+              <Layout class={baseClassName.value}>
+                {!isTop.value && (
+                  <SiderMenuWrapper
+                    {...restProps}
+                    {...menuRenders}
+                    isMobile={isMobile.value}
+                    menuHeaderRender={menuHeaderRender}
+                    collapsedButtonRender={collapsedButtonRender}
+                    onCollapse={onCollapse}
+                    onSelect={onSelect}
+                    onOpenKeys={onOpenKeys}
+                    onMenuClick={onMenuClick}
+                  />
+                )}
+                <Layout style={genLayoutStyle}>
+                  {headerDom.value}
+                  <WrapContent
+                    isChildrenLayout={props.isChildrenLayout}
+                    style={props.disableContentMargin ? undefined : props.contentStyle}
+                  >
+                    {props.loading ? <PageLoading /> : slots.default?.()}
+                  </WrapContent>
+                  {footerRender && footerRender(props)}
+                </Layout>
               </Layout>
-            </Layout>
-          </div>
-        )}
-      </>
-    );
+            </div>
+          )}
+        </>
+      );
+    };
   },
 });
 

@@ -7,6 +7,12 @@
     :loading="loading"
     :breadcrumb="{ routes: breadcrumb }"
   >
+    <template #menuHeaderRender>
+      <a>
+        <img src="https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg" />
+        <h1>Pro Layout</h1>
+      </a>
+    </template>
     <!-- only work layout `Side` -->
     <template #headerContentRender>
       <a :style="{ margin: '0 8px', fontSize: '20px' }" @click="handleCollapsed">
@@ -111,9 +117,9 @@ export default defineComponent({
 
     const state = reactive({
       menuData,
-      splitMenus: true,
-      title: 'ProLayout',
-      logo: 'https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg',
+      splitMenus: false,
+      // title: 'ProLayout',
+      // logo: 'https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg',
       navTheme: 'dark',
       layout: 'mix',
     });
@@ -132,7 +138,6 @@ export default defineComponent({
     watchEffect(() => {
       if (router.currentRoute) {
         const matched = router.currentRoute.value.matched.concat();
-        console.log('matched', matched);
         baseState.selectedKeys = matched.filter(r => r.name !== 'index').map(r => r.path);
         baseState.openKeys = matched
           .filter(r => r.path !== router.currentRoute.value.path)

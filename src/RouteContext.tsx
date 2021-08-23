@@ -1,7 +1,8 @@
-import { InjectionKey, reactive } from 'vue';
+import { InjectionKey, provide, reactive, Ref } from 'vue';
 import { createContext, useContext } from './hooks/context';
 import { MenuDataItem, FormatMessage, WithFalse, CustomRender } from './typings';
 import { PureSettings } from './defaultSettings';
+
 export interface Route {
   path: string;
   breadcrumbName: string;
@@ -66,7 +67,6 @@ export const defaultRouteContext = reactive({
   locale: (t: string) => t,
   contentWidth: 'Fluid',
   hasFooterToolbar: false,
-  setHasFooterToolbar: (bool: boolean) => (defaultRouteContext.hasFooterToolbar = bool),
 });
 
 const routeContextInjectKey: InjectionKey<RouteContextProps> = Symbol('route-context');
@@ -74,11 +74,12 @@ const routeContextInjectKey: InjectionKey<RouteContextProps> = Symbol('route-con
 export const createRouteContext = () =>
   createContext<RouteContextProps>(routeContextInjectKey, 'RouteContext.Provider');
 
+export const provideRouteContext = (value: RouteContextProps | Ref<RouteContextProps>) => {
+  provide(routeContextInjectKey, value);
+};
+
 export const useRouteContext = () =>
-  useContext<Required<RouteContextProps>>(
-    'route-context' /* routeContextInjectKey */,
-    defaultRouteContext,
-  );
+  useContext<Required<RouteContextProps>>(routeContextInjectKey, defaultRouteContext);
 
 const Provider = createRouteContext();
 

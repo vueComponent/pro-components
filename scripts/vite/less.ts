@@ -25,7 +25,6 @@ export default (): Plugin => {
       }
       const filePath = id.replace(src, output);
       maps.set(filePath, code);
-      console.log('filepath', filePath);
       return code;
     },
     async closeBundle() {
