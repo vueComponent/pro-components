@@ -135,14 +135,8 @@ const renderFooter = (
     'title'
   >,
 ): VNodeChild | JSX.Element => {
-  const {
-    tabList,
-    tabActiveKey,
-    onTabChange,
-    tabBarExtraContent,
-    tabProps,
-    prefixedClassName,
-  } = props;
+  const { tabList, tabActiveKey, onTabChange, tabBarExtraContent, tabProps, prefixedClassName } =
+    props;
   if (tabList && tabList.length) {
     return (
       <Tabs
@@ -195,7 +189,7 @@ const renderPageHeader = (
 
 const defaultPageHeaderRender = (
   props: PageContainerProps,
-  value: RouteContextProps & { prefixedClassName: string },
+  value: Required<RouteContextProps> & { prefixedClassName: string },
 ): VNodeChild | JSX.Element => {
   const {
     title,
@@ -214,10 +208,11 @@ const defaultPageHeaderRender = (
   if (!title && title !== false) {
     pageHeaderTitle = value.title;
   }
-
+  console.info('value.breadcrumb', value.breadcrumb);
   const breadcrumb = restProps.breadcrumb || {
-    routes: value.breadcrumb?.routes,
-    itemRender: value.breadcrumb?.itemRender,
+    ...(value.breadcrumb || {}),
+    routes: unref(value.breadcrumb?.routes),
+    itemRender: unref(value.breadcrumb?.itemRender),
   };
   // inject value
   return (
@@ -259,7 +254,7 @@ const PageContainer = defineComponent({
       const headerContent = getPropsSlot(slots, props, 'content');
       const extra = getPropsSlot(slots, props, 'extra');
       const extraContent = getPropsSlot(slots, props, 'extraContent');
-
+      console.info('value', value);
       return (
         <div class={`${prefixedClassName.value}-warp`}>
           {defaultPageHeaderRender(
@@ -270,11 +265,12 @@ const PageContainer = defineComponent({
               extra,
               extraContent,
             },
-            {
-              ...value,
-              prefixCls: undefined,
-              prefixedClassName: prefixedClassName.value,
-            },
+            value,
+            // {
+            //   ...value,
+            //   prefixCls: undefined,
+            //   prefixedClassName: prefixedClassName.value,
+            // },
           )}
         </div>
       );

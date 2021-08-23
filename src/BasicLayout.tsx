@@ -158,37 +158,15 @@ const ProLayout = defineComponent({
       }
       return <Header {...p} matchMenuKeys={matchMenuKeys || []} />;
     };
+    const breadcrumb = computed(() => ({
+      ...props.breadcrumb,
+      itemRender: getPropsSlotfn(slots, props, 'breadcrumbRender'),
+    }));
 
-    // const restProps = computed(() =>
-    //   omit(props, []),
-    // );
-    // provide('route-context', routeContext);
-    // const routeContext = reactive({
-    //   getPrefixCls,
-    //   // ...props,
-    //   locale: refProps.locale.value || defaultRouteContext.locale,
-    //   breadcrumb: computed(() => {
-    //     return {
-    //       ...props.breadcrumb,
-    //       itemRender: breadcrumbRender,
-    //     };
-    //   }),
-    //   contentWidth: refProps.contentWidth, // 'Fluid',
-    //   layout: refProps.layout,
-    //   navTheme: refProps.navTheme,
-    //   splitMenus: refProps.splitMenus,
-    //   fixedHeader: refProps.fixSiderbar,
-    //   fixSiderbar: refProps.fixSiderbar,
-    //   sideWidth: siderWidth,
-    //   headerHeight: refProps.headerHeight,
-    //   hasFooterToolbar: false,
-    //   menuData: refProps.menuData,
-    //   selectedKeys: refProps.selectedKeys,
-    //   openKeys: refProps.openKeys,
-    // });
     const routeContext = reactive<RouteContextProps>({
       ...defaultRouteContext,
       ...(omit(toRefs(props), ['onCollapse', 'onOpenKeys', 'onSelect', 'onMenuClick']) as any),
+      breadcrumb: breadcrumb,
     });
     provideRouteContext(routeContext);
     return () => {
@@ -212,7 +190,6 @@ const ProLayout = defineComponent({
       const customHeaderRender = getPropsSlot(slots, props, 'headerRender');
       const menuHeaderRender = getPropsSlot(slots, props, 'menuHeaderRender');
       const footerRender = getPropsSlot(slots, props, 'footerRender');
-      const breadcrumbRender = getPropsSlotfn(slots, props, 'breadcrumbRender');
       // menu render
       const menuItemRender = getPropsSlotfn(slots, props, 'menuItemRender');
       const subMenuItemRender = getPropsSlotfn(slots, props, 'subMenuItemRender');
