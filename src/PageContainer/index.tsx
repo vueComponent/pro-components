@@ -262,13 +262,12 @@ const PageContainer = defineComponent({
               content: headerContent,
               extra,
               extraContent,
+              prefixCls: undefined,
             },
-            value,
-            // {
-            //   ...value,
-            //   prefixCls: undefined,
-            //   prefixedClassName: prefixedClassName.value,
-            // },
+            {
+              ...value,
+              prefixedClassName: prefixedClassName.value,
+            },
           )}
         </div>
       );
