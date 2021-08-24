@@ -1,5 +1,5 @@
 <template>
-  <a-config-provider :get-popup-container="getPopupContainer">
+  <a-config-provider>
     <router-view />
   </a-config-provider>
 </template>

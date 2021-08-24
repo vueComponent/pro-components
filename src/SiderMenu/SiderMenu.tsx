@@ -267,8 +267,13 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
             {headerDom}
           </div>
         )}
-        {extraDom && (
-          <div class={`${baseClassName}-extra ${!headerDom && `${baseClassName}-extra-no-logo`}`}>
+        {extraDom && !props.collapsed && (
+          <div
+            class={{
+              [`${baseClassName}-extra`]: true,
+              [`${baseClassName}-extra-no-logo`]: !headerDom,
+            }}
+          >
             {extraDom}
           </div>
         )}

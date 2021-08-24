@@ -15,7 +15,13 @@
     </template>
     <!-- custom right-content -->
     <template #rightContentRender>
-      <span style="color: #0f0; margin-right: 12px"><a-avatar /></span>
+      <div style="margin-right: 12px">
+        <a-avatar shape="square" size="small">
+          <template #icon>
+            <UserOutlined />
+          </template>
+        </a-avatar>
+      </div>
     </template>
     <!-- custom breadcrumb itemRender  -->
     <template #breadcrumbRender="{ route, params, routes }">
@@ -26,6 +32,35 @@
         {{ route.breadcrumbName }}
       </router-link>
     </template>
+    <template #menuExtraRender="{ collapsed }">
+      <a-input-search v-if="!collapsed" />
+    </template>
+    <template #menuFooterRender>
+      <a
+        :style="{
+          lineHeight: '48rpx',
+          display: 'flex',
+          height: '48px',
+          alignItems: 'center',
+        }"
+        href="https://preview.pro.antdv.com/dashboard/analysis"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <img
+          alt="pro-logo"
+          src="https://procomponents.ant.design/favicon.ico"
+          :style="{
+            width: '16px',
+            height: '16px',
+            margin: '0 16px',
+            marginRight: '10px',
+          }"
+        />
+        <span v-if="!baseState.collapsed">Preview Pro</span>
+      </a>
+    </template>
+
     <!-- content begin -->
     <router-view />
     <!-- content end -->
@@ -58,7 +93,7 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
-import { Button, Switch, Select, Avatar, Space, Badge, Menu } from 'ant-design-vue';
+import { Button, Input, Switch, Select, Avatar, Space, Badge } from 'ant-design-vue';
 import { getMenuData, clearMenuItem, FooterToolbar } from '@ant-design-vue/pro-layout';
 import type { RouteContextProps } from '@ant-design-vue/pro-layout';
 
@@ -69,6 +104,8 @@ export default defineComponent({
   components: {
     FooterToolbar,
     [Button.name]: Button,
+    [Input.name]: Input,
+    [Input.Search.name]: Input.Search,
     [Switch.name]: Switch,
     [Select.name]: Select,
     [Select.Option.displayName!]: Select.Option,
@@ -96,7 +133,8 @@ export default defineComponent({
       // title: 'ProLayout',
       // logo: 'https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg',
       navTheme: 'dark',
-      layout: 'mix',
+      layout: 'side',
+      fixSiderbar: true,
     });
     const breadcrumb = computed(() =>
       router.currentRoute.value.matched.concat().map(item => {

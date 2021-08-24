@@ -188,7 +188,9 @@ const ProLayout = defineComponent({
       const headerContentRender = getPropsSlot(slots, props, 'headerContentRender');
       const rightContentRender = getPropsSlot(slots, props, 'rightContentRender');
       const customHeaderRender = getPropsSlot(slots, props, 'headerRender');
-      const menuHeaderRender = getPropsSlot(slots, props, 'menuHeaderRender');
+      const menuHeaderRender = getPropsSlotfn(slots, props, 'menuHeaderRender');
+      const menuExtraRender = getPropsSlotfn(slots, props, 'menuExtraRender');
+      const menuFooterRender = getPropsSlotfn(slots, props, 'menuFooterRender');
       const footerRender = getPropsSlot(slots, props, 'footerRender');
       // menu render
       const menuItemRender = getPropsSlotfn(slots, props, 'menuItemRender');
@@ -235,6 +237,8 @@ const ProLayout = defineComponent({
                     {...menuRenders}
                     isMobile={isMobile.value}
                     menuHeaderRender={menuHeaderRender}
+                    menuExtraRender={menuExtraRender}
+                    menuFooterRender={menuFooterRender}
                     collapsedButtonRender={collapsedButtonRender}
                     onCollapse={onCollapse}
                     onSelect={onSelect}
