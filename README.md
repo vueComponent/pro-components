@@ -153,12 +153,15 @@ export default defineComponent({
 | isMobile | is mobile | boolean | false |
 | handleCollapse | folding collapse event of menu | (collapsed: boolean) => void | - |
 | menuHeaderRender | render header logo and title | v-slot \| VNode \| (logo,title)=>VNode \| false | - |
+| menuExtraRender | render extra menu item | v-slot \| VNode \| (props)=>VNode \| false | - |
+| menuFooterRender | render footer menu item | v-slot \| VNode \| (props)=>VNode \| false | - |
 | headerContentRender | custom header render method | `slot` \| (props: BasicLayoutProps) => VNode | - |
 | rightContentRender | header right content render method | `slot` \| (props: HeaderViewProps) => VNode | - |
 | collapsedButtonRender | custom collapsed button method | `slot` \| (collapsed: boolean) => VNode | - |
 | footerRender | custom footer render method | `slot` \| (props: BasicLayoutProps) => VNode | `false` |
 | breadcrumbRender | custom breadcrumb render method | `slot` \| ({ route, params, routes, paths, h }) => VNode[] | - |
 | menuItemRender | custom render Menu.Item | v-slot#menuItemRender="{ item, icon }" \| ({ item, icon }) => VNode | null |
+| menuSubItemRender | custom render Menu.SubItem | v-slot#menuSubItemRender="{ item, icon }" \| ({ item, icon }) => VNode | null |
 | locale | i18n | Function (key: string) => string \| `false` | `false` |
 
 
