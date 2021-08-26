@@ -17,6 +17,15 @@ yarn add @ant-design-vue/pro-layout@next
 npm i @ant-design-vue/pro-layout@next -S
 ```
 
+<details>
+   <summary> 💻 <b>Preview layout</b>: </summary>
+   <br />
+   <img src="https://user-images.githubusercontent.com/5404542/130903472-5020f0ff-a1c3-461a-9072-134b5fdd4c0e.jpeg" />
+   <img src="https://user-images.githubusercontent.com/5404542/130903580-def38691-e912-4a05-aa50-8ab112acf9f4.jpeg" />
+   <img src="https://user-images.githubusercontent.com/5404542/130903670-558423f1-987a-446e-ad56-1d7791e9ad5f.jpeg" />
+   <img src="https://user-images.githubusercontent.com/5404542/130903737-f8a6a404-8445-43fd-830b-d72974edc3ff.jpeg" />
+</details>
+
 ## Basic Usage
 
 look [Examples](./examples/)
