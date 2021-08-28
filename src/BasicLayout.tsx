@@ -170,7 +170,6 @@ const ProLayout = defineComponent({
     });
     provideRouteContext(routeContext);
     return () => {
-      // const { onCollapse, onOpenKeys, onSelect, onMenuClick, menuHeaderRender, ...restProps } = props;
 
       const {
         pure,
@@ -181,10 +180,7 @@ const ProLayout = defineComponent({
         ...restProps
       } = props;
 
-      const collapsedButtonRender =
-        props.collapsedButtonRender === false
-          ? false
-          : getPropsSlot(slots, props, 'collapsedButtonRender');
+      const collapsedButtonRender = getPropsSlotfn(slots, props, 'collapsedButtonRender');
       const headerContentRender = getPropsSlot(slots, props, 'headerContentRender');
       const rightContentRender = getPropsSlot(slots, props, 'rightContentRender');
       const customHeaderRender = getPropsSlot(slots, props, 'headerRender');
@@ -213,6 +209,7 @@ const ProLayout = defineComponent({
             onSelect,
             onMenuHeaderClick,
             rightContentRender,
+            collapsedButtonRender,
             headerTitleRender: menuHeaderRender,
             headerContentRender,
             headerRender: customHeaderRender,
@@ -231,7 +228,7 @@ const ProLayout = defineComponent({
           ) : (
             <div class={className.value}>
               <Layout class={baseClassName.value}>
-                {!isTop.value && (
+                {(!isTop.value || isMobile.value) && (
                   <SiderMenuWrapper
                     {...restProps}
                     {...menuRenders}

@@ -196,7 +196,6 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
   // call menuHeaderRender
   const headerDom = defaultRenderLogoAndTitle(props);
   const extraDom = menuExtraRender && menuExtraRender(props);
-
   if (hasSplitMenu.value && flatMenuData.value.length === 0) {
     return null;
   }

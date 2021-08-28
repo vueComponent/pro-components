@@ -30,17 +30,15 @@ const renderLogo = (
   return logoDom;
 };
 
-export const GlobalHeader: FunctionalComponent<GlobalHeaderProps> = (props, { slots }) => {
+export const GlobalHeader: FunctionalComponent<GlobalHeaderProps> = (props, { slots, emit }) => {
   const {
     isMobile,
     logo,
     collapsed,
-    onCollapse,
     collapsedButtonRender = defaultRenderCollapsedButton,
     rightContentRender,
     menuHeaderRender,
     onMenuHeaderClick,
-    // className: propClassName,
     layout,
     headerTheme = 'dark',
     splitMenus,
@@ -78,6 +76,9 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps> = (props, { sl
       <a>{defaultRenderLogo(logo)}</a>
     </span>
   );
+  const onCollapse = () => {
+    emit('collapse', !props.collapsed)
+  }
 
   return (
     <div class={className.value}>
@@ -85,11 +86,7 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps> = (props, { sl
       {isMobile && collapsedButtonRender && (
         <span
           class={`${baseClassName.value}-collapsed-button`}
-          onClick={() => {
-            if (onCollapse) {
-              onCollapse(!collapsed);
-            }
-          }}
+          onClick={onCollapse}
         >
           {collapsedButtonRender(collapsed)}
         </span>
@@ -108,4 +105,5 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps> = (props, { sl
     </div>
   );
 };
+GlobalHeader.inheritAttrs = false
 GlobalHeader.emits = ['menuHeaderClick', 'collapse', 'openKeys', 'select'];

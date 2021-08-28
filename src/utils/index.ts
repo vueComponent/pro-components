@@ -61,6 +61,10 @@ export function getPropsSlot(slots: Slots, props: Record<string, any>, prop = 'd
 }
 
 export function getPropsSlotfn(slots: Slots, props: Record<string, any>, prop = 'default') {
+  if (props[prop] === false) {
+    // force not render
+    return false;
+  }
   return props[prop] || slots[prop];
 }
 

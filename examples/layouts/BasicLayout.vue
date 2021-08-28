@@ -13,6 +13,11 @@
         <h1>Pro Layout</h1>
       </a>
     </template>
+    <!-- custom collapsed button -->
+    <template #collapsedButtonRender="collapsed">
+      <HeartOutlined v-if="collapsed" />
+      <SmileOutlined v-else />
+    </template>
     <!-- custom right-content -->
     <template #rightContentRender>
       <div style="margin-right: 12px">
@@ -133,7 +138,7 @@ export default defineComponent({
       // title: 'ProLayout',
       // logo: 'https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg',
       navTheme: 'dark',
-      layout: 'side',
+      layout: 'top',
       fixSiderbar: true,
     });
     const breadcrumb = computed(() =>
