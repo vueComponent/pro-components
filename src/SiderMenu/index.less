@@ -108,7 +108,12 @@
     z-index: 10;
     min-height: 100%;
     box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
-
+    
+    .@{ant-prefix}-pro-menu-item {
+      > .@{ant-prefix}-badge {
+        color: unset;
+      }
+    }
     span.@{ant-prefix}-pro-menu-item-title {
       transition: none;
     }

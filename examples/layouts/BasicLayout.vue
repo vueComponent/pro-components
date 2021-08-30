@@ -66,6 +66,24 @@
       </a>
     </template>
 
+    <!-- custom menu-item -->
+    <template #menuItemRender="{ item, icon }">
+      <a-menu-item
+        :key="item.path"
+        :disabled="item.meta?.disabled"
+        :danger="item.meta?.danger"
+        :icon="icon"
+      >
+        <router-link :to="{ path: item.path }">
+          <span class="ant-pro-menu-item">
+            <a-badge count="5" dot>
+              <span class="ant-pro-menu-item-title">{{ item.meta.title }}</span>
+            </a-badge>
+          </span>
+        </router-link>
+      </a-menu-item>
+    </template>
+
     <!-- content begin -->
     <router-view />
     <!-- content end -->
@@ -98,7 +116,7 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
-import { Button, Input, Switch, Select, Avatar, Space, Badge } from 'ant-design-vue';
+import { Button, Input, Switch, Select, Avatar, Space, Badge, Menu } from 'ant-design-vue';
 import { getMenuData, clearMenuItem, FooterToolbar } from '@ant-design-vue/pro-layout';
 import type { RouteContextProps } from '@ant-design-vue/pro-layout';
 
@@ -118,6 +136,7 @@ export default defineComponent({
 
     [Badge.name]: Badge,
     [Avatar.name]: Avatar,
+    [Menu.Item.name]: Menu.Item,
   },
   setup() {
     const loading = ref(false);

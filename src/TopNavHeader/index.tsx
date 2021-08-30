@@ -93,6 +93,8 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = props => {
             mode={props.mode}
             collapsed={props.collapsed}
             menuData={menuData}
+            menuItemRender={props.menuItemRender}
+            subMenuItemRender={props.subMenuItemRender}
             openKeys={context.openKeys}
             selectedKeys={context.selectedKeys}
             class={{ 'top-nav-menu': props.mode === 'horizontal' }}

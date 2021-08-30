@@ -174,6 +174,77 @@ export default defineComponent({
 | locale | i18n | Function (key: string) => string \| `false` | `false` |
 
 
+
+### Custom Render
+
+#### Custom rightContentRender
+```vue
+<template #rightContentRender>
+  <div style="margin-right: 12px">
+    <a-avatar shape="square" size="small">
+      <template #icon>
+        <UserOutlined />
+      </template>
+    </a-avatar>
+  </div>
+</template>
+```
+
+#### Custom menu.item
+```vue
+<template #menuItemRender="{ item, icon }">
+  <a-menu-item
+    :key="item.path"
+    :disabled="item.meta?.disabled"
+    :danger="item.meta?.danger"
+    :icon="icon"
+  >
+    <router-link :to="{ path: item.path }">
+      <span class="ant-pro-menu-item">
+        <a-badge count="5" dot>
+          <span class="ant-pro-menu-item-title">{{ item.meta.title }}</span>
+        </a-badge>
+      </span>
+    </router-link>
+  </a-menu-item>
+</template>
+```
+
+#### Custom menuExtraRender
+```vue
+<template #menuExtraRender="{ collapsed }">
+  <a-input-search v-if="!collapsed" />
+</template>
+```
+
+#### Custom menuFooterRender
+```vue
+<template #menuFooterRender>
+  <div>menu footer</div>
+</template>
+```
+
+#### Custom breadcrumbRender
+```vue
+<template #breadcrumbRender="{ route, params, routes }">
+  <span v-if="routes.indexOf(route) === routes.length - 1">
+    {{ route.breadcrumbName }}
+  </span>
+  <router-link v-else :to="{ path: route.path, params }">
+    {{ route.breadcrumbName }}
+  </router-link>
+</template>
+```
+
+#### Custom collapsedButtonRender
+```vue
+<template #collapsedButtonRender="collapsed">
+  <HeartOutlined v-if="collapsed" />
+  <SmileOutlined v-else />
+</template>
+```
+
+
 ### PageContainer
 
 | Property | Description | Type | Default Value |

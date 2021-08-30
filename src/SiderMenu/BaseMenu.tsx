@@ -85,11 +85,11 @@ export const baseMenuProps = {
   },
   menuItemRender: {
     type: [Function, Boolean] as PropType<CustomMenuRender['menuItemRender']>,
-    default: () => false,
+    default: () => undefined,
   },
   subMenuItemRender: {
     type: [Function, Boolean] as PropType<CustomMenuRender['subMenuItemRender']>,
-    default: () => false,
+    default: () => undefined,
   },
 
   onClick: [Function, Object] as PropType<(...args: any) => void>,
@@ -177,6 +177,7 @@ class MenuUtil {
         <MenuComponent
           title={defaultTitle}
           key={item.path}
+          popupClassName={hasGroup ? null : `${prefixCls}-menu-popup`}
           icon={hasGroup ? null : <LazyIcon icon={item.meta?.icon} />}
         >
           {this.getNavMenuItems(item.children)}

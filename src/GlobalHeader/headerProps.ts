@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import type { CustomRender, Theme, MenuDataItem, WithFalse } from '../typings';
 import { defaultSettingProps } from '../defaultSettings';
-import { PropTypes } from '../utils'
+import { PropTypes } from '../utils';
 import { siderMenuProps } from '../SiderMenu/SiderMenu';
 
 export default {
@@ -27,6 +27,8 @@ export default {
     default: () => undefined,
   },
   menuHeaderRender: siderMenuProps.menuHeaderRender,
+  menuItemRender: siderMenuProps.menuItemRender,
+  subMenuItemRender: siderMenuProps.subMenuItemRender,
   rightContentRender: {
     type: [Object, Function] as PropType<WithFalse<(props: any) => CustomRender>>,
     default: () => undefined,
