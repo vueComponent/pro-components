@@ -177,7 +177,7 @@ class MenuUtil {
         <MenuComponent
           title={defaultTitle}
           key={item.path}
-          popupClassName={hasGroup ? null : `${prefixCls}-menu-popup`}
+          popupClassName={hasGroup ? undefined : `${prefixCls}-menu-popup`}
           icon={hasGroup ? null : <LazyIcon icon={item.meta?.icon} />}
         >
           {this.getNavMenuItems(item.children)}
