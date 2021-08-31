@@ -88,6 +88,9 @@
     <router-view />
     <!-- content end -->
     <FooterToolbar>
+      <template #extra>
+        <span>FooterToolbar</span>
+      </template>
       <a-space>
         <span :disabled="state.layout !== 'mix'">
           <span style="margin-right: 8px">SplitMenus:</span>

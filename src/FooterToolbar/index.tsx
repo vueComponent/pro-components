@@ -2,7 +2,7 @@ import './index.less';
 
 import { computed, defineComponent, onBeforeUnmount, onMounted, PropType } from 'vue';
 import { RouteContextProps, useRouteContext } from '../RouteContext';
-import { getMenuFirstChildren } from '../utils';
+import { getMenuFirstChildren, getPropsSlot, getPropsSlotfn } from '../utils';
 import type { CustomRender } from '../typings';
 export interface FooterToolbarProps {
   extra?: CustomRender | JSX.Element;
@@ -30,8 +30,7 @@ const footerToolbarProps = {
 const FooterToolbar = defineComponent({
   name: 'FooterToolbar',
   props: footerToolbarProps,
-  setup(props, ctx) {
-    const { slots } = ctx;
+  setup(props, { slots }) {
     const routeContext = useRouteContext();
     const { getPrefixCls } = routeContext;
     const baseClassName = props.prefixCls || getPrefixCls('footer-bar');
@@ -63,14 +62,6 @@ const FooterToolbar = defineComponent({
       return isMobile ? '100%' : `calc(100% - ${sideWidth}px)`;
     });
 
-    const dom = () => {
-      return (
-        <>
-          <div class={`${baseClassName}-left`}>{props.extra}</div>
-          <div class={`${baseClassName}-right`}>{slots.default?.()}</div>
-        </>
-      );
-    };
     onMounted(() => {
       routeContext.setHasFooterToolbar && routeContext.setHasFooterToolbar(true);
     });
@@ -78,20 +69,33 @@ const FooterToolbar = defineComponent({
       routeContext.setHasFooterToolbar && routeContext.setHasFooterToolbar(false);
     });
 
-    return () => (
-      <div class={baseClassName} style={{ width: width.value }}>
-        {props.renderContent
-          ? props.renderContent(
-              {
-                ...props,
-                ...routeContext,
-                leftWidth: width.value,
-              },
-              dom(),
-            )
-          : dom()}
-      </div>
-    );
+    return () => {
+      const extra = getPropsSlotfn(slots, props, 'extra');
+      const dom = () => {
+        return (
+          <>
+            <div class={`${baseClassName}-left`}>
+              {typeof extra === 'function' ? extra() : extra}
+            </div>
+            <div class={`${baseClassName}-right`}>{slots.default?.()}</div>
+          </>
+        );
+      };
+      return (
+        <div class={baseClassName} style={{ width: width.value }}>
+          {props.renderContent
+            ? props.renderContent(
+                {
+                  ...props,
+                  ...routeContext,
+                  leftWidth: width.value,
+                },
+                dom(),
+              )
+            : dom()}
+        </div>
+      );
+    };
   },
 });
 
