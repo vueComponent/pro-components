@@ -9,11 +9,11 @@ import vueLess from './scripts/vite/less';
 export default defineConfig({
   plugins: [
     vue(),
-    vueJsx(),
+    vueJsx({
+      mergeProps: false,
+      enableObjectSlots: false,
+    }),
     vueLess(),
-    /*     dts({
-      tsConfigFilePath: resolve(__dirname, './tsconfig.json'),
-    }), */
   ],
   resolve: {
     alias: {

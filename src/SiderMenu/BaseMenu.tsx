@@ -9,6 +9,8 @@ import {
   isVNode,
   ExtractPropTypes,
   ConcreteComponent,
+  watchEffect,
+  FunctionalComponent,
 } from 'vue';
 import { createFromIconfontCN } from '@ant-design/icons-vue';
 import 'ant-design-vue/es/menu/style';
@@ -97,15 +99,15 @@ export const baseMenuProps = {
 
 export type BaseMenuProps = ExtractPropTypes<typeof baseMenuProps>;
 
-const IconFont = createFromIconfontCN({
+let IconFont = createFromIconfontCN({
   scriptUrl: defaultSettings.iconfontUrl,
 });
 
-const LazyIcon = (props: {
+const LazyIcon: FunctionalComponent<{
   icon: VNodeChild | string;
   iconPrefixes?: string;
   prefixCls?: string;
-}) => {
+}> = (props) => {
   const { icon, iconPrefixes = 'icon-', prefixCls = 'ant-pro' } = props;
   if (!icon) {
     return null;
@@ -125,13 +127,13 @@ const LazyIcon = (props: {
   return (typeof LazyIcon === 'function' && <DynamicIcon />) || null;
 };
 
-LazyIcon.props = {
-  icon: {
-    type: [String, Function, Object] as PropType<string | Function | VNode | JSX.Element>,
-  },
-  iconPrefixes: String,
-  prefixCls: String,
-};
+// LazyIcon.props = {
+//   icon: {
+//     type: [String, Function, Object] as PropType<string | Function | VNode | JSX.Element>,
+//   },
+//   iconPrefixes: String,
+//   prefixCls: String,
+// };
 
 class MenuUtil {
   props: BaseMenuProps;
@@ -235,6 +237,20 @@ class MenuUtil {
   };
 }
 
+export type MenuOnSelect = {
+  key: string | number;
+  keyPath: string[] | number[];
+  item: VNodeChild | any;
+  domEvent: MouseEvent;
+  selectedKeys: string[];
+}
+
+export type MenuOnClick={
+  item: VNodeChild;
+  key: string | number;
+  keyPath: string | string[] | number | number[];
+}
+
 export default defineComponent({
   name: 'BaseMenu',
   props: baseMenuProps,
@@ -242,42 +258,43 @@ export default defineComponent({
   setup(props, { emit }) {
     const menuUtil = new MenuUtil(props);
 
+    // update iconfontUrl
+    watchEffect(() => {
+      if (props.iconfontUrl) {
+        IconFont = createFromIconfontCN({
+          scriptUrl: props.iconfontUrl,
+        })
+      }
+    })
+
     const handleOpenChange = (openKeys: string[]): void => {
       emit('update:openKeys', openKeys);
     };
-    const handleSelect = (params: {
-      key: string | number;
-      keyPath: string[] | number[];
-      item: VNodeChild | any;
-      domEvent: MouseEvent;
-      selectedKeys: string[];
-    }): void => {
-      emit('update:selectedKeys', params.selectedKeys);
+    const handleSelect = (args: MenuOnSelect): void => {
+      emit('update:selectedKeys', args.selectedKeys);
     };
-    const handleClick = (args: {
-      item: VNodeChild;
-      key: string | number;
-      keyPath: string | string[] | number | number[];
-    }) => {
+    const handleClick = (args: MenuOnClick) => {
       emit('click', args);
     };
-    return () => (
-      <Menu
-        key="Menu"
-        // inlineCollapsed={(isInline.value && props.collapsed) || undefined}
-        inlineIndent={16}
-        mode={props.mode}
-        theme={props.theme as 'dark' | 'light'}
-        openKeys={props.openKeys === false ? [] : props.openKeys}
-        selectedKeys={props.selectedKeys || []}
-        // @ts-ignore
-        onOpenChange={handleOpenChange}
-        onSelect={handleSelect}
-        onClick={handleClick}
-        {...props.menuProps}
-      >
-        {menuUtil.getNavMenuItems(props.menuData)}
-      </Menu>
-    );
+
+
+    return () => {
+      return (
+        <Menu
+          key="Menu"
+          inlineIndent={16}
+          mode={props.mode}
+          theme={props.theme as 'dark' | 'light'}
+          openKeys={props.openKeys === false ? [] : props.openKeys}
+          selectedKeys={props.selectedKeys || []}
+          onOpenChange={handleOpenChange}
+          onSelect={handleSelect}
+          onClick={handleClick}
+          {...props.menuProps}
+        >
+          {menuUtil.getNavMenuItems(props.menuData)}
+        </Menu>
+      )
+    };
   },
 });

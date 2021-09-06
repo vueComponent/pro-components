@@ -1,9 +1,8 @@
-import { computed, reactive, unref, provide, defineComponent, toRefs } from 'vue';
+import { computed, reactive, unref, defineComponent, toRefs } from 'vue';
 import type { CSSProperties, PropType, ExtractPropTypes } from 'vue';
 
 import 'ant-design-vue/es/layout/style';
 import Layout from 'ant-design-vue/es/layout';
-import omit from 'omit.js';
 import { withInstall } from 'ant-design-vue/es/_util/type';
 import useMediaQuery from './hooks/useMediaQuery';
 
@@ -13,12 +12,12 @@ import SiderMenuWrapper, { siderMenuProps } from './SiderMenu';
 import { WrapContent } from './WrapContent';
 import globalHeaderProps from './GlobalHeader/headerProps';
 import { HeaderView as Header, headerViewProps } from './Header';
-import { getPropsSlot, getPropsSlotfn, PropTypes } from './utils';
+import { getPropsSlot, getPropsSlotfn, PropTypes, pick } from './utils';
 import type { BreadcrumbProps } from './RouteContext';
 import type { CustomRender, FormatMessage, WithFalse } from './typings';
 
-import './BasicLayout.less';
 import PageLoading from './PageLoading';
+import './BasicLayout.less';
 
 export const basicLayoutProps = {
   ...defaultSettingProps,
@@ -141,10 +140,6 @@ const ProLayout = defineComponent({
       genLayoutStyle.minHeight = 0;
     }
 
-    // const [collapsed, onCollapse] = useMergedState<boolean>(defaultCollapsed || false, {
-    //   value: props.collapsed,
-    //   onChange: propsOnCollapse,
-    // });
     const headerRender = (
       p: BasicLayoutProps & {
         hasSiderMenu: boolean;
@@ -158,19 +153,41 @@ const ProLayout = defineComponent({
       }
       return <Header {...p} matchMenuKeys={matchMenuKeys || []} />;
     };
-    const breadcrumb = computed(() => ({
+
+    const breadcrumb = computed<BreadcrumbProps>(() => ({
       ...props.breadcrumb,
       itemRender: getPropsSlotfn(slots, props, 'breadcrumbRender'),
     }));
 
-    const routeContext = reactive<RouteContextProps>({
-      ...defaultRouteContext,
-      ...(omit(toRefs(props), ['onCollapse', 'onOpenKeys', 'onSelect', 'onMenuClick']) as any),
-      breadcrumb: breadcrumb,
-    });
-    provideRouteContext(routeContext);
-    return () => {
+    console.log('props', toRefs(props));
 
+    const routeContext = reactive<RouteContextProps>(
+      Object.assign(
+        {...defaultRouteContext},
+        pick(toRefs(props), [
+          'locale',
+          'menuData',
+          'openKeys',
+          'selectedKeys',
+          'contentWidth',
+          'disableMobile',
+          'fixSiderbar',
+          'fixedHeader',
+          // 'hasSideMenu',
+          // 'hasHeader',
+          // 'hasFooter',
+          // 'hasFooterToolbar',
+          // 'setHasFooterToolbar',
+          ]) as any,
+        {
+          isMobile,
+          breadcrumb,
+        }
+      )
+    );
+    provideRouteContext(routeContext);
+
+    return () => {
       const {
         pure,
         onCollapse: propsOnCollapse,

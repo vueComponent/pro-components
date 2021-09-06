@@ -31,9 +31,10 @@
     "serve": "vite preview",
     "build:types": "tsc -b --force tsconfig.esm.json"
   },
+  "types": "./dist",
   "peerDependencies": {
     "ant-design-vue": ">=2.2.0",
-    "vue": ">=3.1.0",
+    "vue": ">=3.2.0",
     "vue-router": "^4.0.3"
   },
   "dependencies": {
@@ -43,14 +44,13 @@
     "vue": "^3.1.0",
     "vue-router": "^4.0.10"
   },
-  "types": "./dist",
   "devDependencies": {
     "@types/lodash-es": "^4.17.4",
     "@types/node": "^16.0.1",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
-    "@vitejs/plugin-vue": "^1.2.4",
-    "@vitejs/plugin-vue-jsx": "^1.1.6",
+    "@vitejs/plugin-vue": "^1.6.0",
+    "@vitejs/plugin-vue-jsx": "^1.1.7",
     "@vue/compiler-sfc": "^3.1.0",
     "@vuedx/typescript-plugin-vue": "^0.7.4",
     "eslint": "^7.30.0",

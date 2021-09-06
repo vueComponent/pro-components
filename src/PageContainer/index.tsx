@@ -208,10 +208,11 @@ const defaultPageHeaderRender = (
   if (!title && title !== false) {
     pageHeaderTitle = value.title;
   }
+  const unrefBreadcrumb = unref(value.breadcrumb || {})
   const breadcrumb = restProps.breadcrumb || {
-    ...(value.breadcrumb || {}),
-    routes: unref(value.breadcrumb?.routes),
-    itemRender: unref(value.breadcrumb?.itemRender),
+    ...(unrefBreadcrumb),
+    routes: unrefBreadcrumb.routes,
+    itemRender: unrefBreadcrumb.itemRender,
   };
   // inject value
   return (

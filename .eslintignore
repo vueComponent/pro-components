@@ -3,3 +3,4 @@ node_modules/
 **/style/
 *.html
 src/icons
+vite.config.ts

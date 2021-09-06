@@ -7,12 +7,6 @@ export interface RenderSetting {
   menuRender?: false;
   menuHeaderRender?: false;
 }
-export interface RenderSetting {
-  headerRender?: false;
-  footerRender?: false;
-  menuRender?: false;
-  menuHeaderRender?: false;
-}
 export interface PureSettings {
   /**
    * theme for nav menu

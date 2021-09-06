@@ -1,6 +1,6 @@
-import { InjectionKey, provide, reactive, Ref } from 'vue';
+import { InjectionKey, provide, reactive, Ref, VNodeChild, ComputedRef } from 'vue';
 import { createContext, useContext } from './hooks/context';
-import { MenuDataItem, FormatMessage, WithFalse, CustomRender } from './typings';
+import { MenuDataItem, FormatMessage, WithFalse } from './typings';
 import { PureSettings } from './defaultSettings';
 
 export interface Route {
@@ -13,13 +13,13 @@ export interface BreadcrumbProps {
   prefixCls?: string;
   routes?: Route[];
   params?: any;
-  separator?: CustomRender;
+  separator?: VNodeChild;
   itemRender?: (opts: {
     route: Route;
     params: any;
     routes: Array<Route>;
     paths: Array<string>;
-  }) => CustomRender;
+  }) => VNodeChild;
 }
 
 export type BreadcrumbListReturn = Pick<
@@ -30,16 +30,14 @@ export type BreadcrumbListReturn = Pick<
 export interface MenuState {
   selectedKeys: string[];
   openKeys: string[];
-  setSelectedKeys?: (key: string[]) => void;
-  setOpenKeys?: (key: string[]) => void;
 }
 
 export interface RouteContextProps extends Partial<PureSettings>, MenuState {
+  menuData: MenuDataItem[];
+
   getPrefixCls?: (suffixCls?: string, customizePrefixCls?: string) => string;
   locale?: WithFalse<FormatMessage>;
-
-  breadcrumb?: BreadcrumbListReturn;
-  menuData: MenuDataItem[];
+  breadcrumb?: BreadcrumbListReturn | ComputedRef<BreadcrumbListReturn>;
   isMobile?: boolean;
   prefixCls?: string;
   collapsed?: boolean;

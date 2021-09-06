@@ -11,7 +11,6 @@ import Layout from 'ant-design-vue/es/layout';
 import 'ant-design-vue/es/menu/style';
 import Menu from 'ant-design-vue/es/menu';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
-import { warn } from '@/utils/base';
 import BaseMenu, { baseMenuProps } from './BaseMenu';
 import { WithFalse, CustomRender } from '../typings';
 import { SiderProps } from './typings';

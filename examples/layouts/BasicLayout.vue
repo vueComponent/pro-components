@@ -156,11 +156,11 @@ export default defineComponent({
 
     const state = reactive({
       menuData,
-      splitMenus: false,
+      splitMenus: true,
       // title: 'ProLayout',
       // logo: 'https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg',
       navTheme: 'dark',
-      layout: 'top',
+      layout: 'mix',
       fixSiderbar: true,
     });
     const breadcrumb = computed(() =>
