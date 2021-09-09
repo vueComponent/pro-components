@@ -28,7 +28,9 @@ npm i @ant-design-vue/pro-layout@next -S
 
 ## Basic Usage
 
-look [Examples](./examples/)
+look [Examples](./examples/) | Use Template https://github.com/sendya/preview-pro
+
+
 
 First, you should add the `@ant-design-vue/pro-layout` that you need into the library.
 
