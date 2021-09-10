@@ -241,7 +241,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
         trigger={null}
         collapsed={collapsed}
         breakpoint={breakpoint || undefined}
-        onCollapse={collapse => {
+        onCollapse={(collapse: boolean) => {
           if (props.isMobile) return;
           onCollapse?.(collapse);
         }}
