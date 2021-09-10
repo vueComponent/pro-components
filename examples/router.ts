@@ -21,13 +21,13 @@ const routes: RouteRecordRaw[] = [
           {
             path: 'workspace',
             name: 'workspace',
-            meta: { title: 'Workspace' },
+            meta: { title: 'Workspace', icon: 'icon-antdesign' },
             component: () => import('./views/page1.vue'),
           },
           {
             path: 'monitor',
             name: 'monitor',
-            meta: { title: 'Monitor' },
+            meta: { title: 'Monitor', icon: 'icon-icon-test' },
             component: () => import('./views/page2.vue'),
           },
         ],

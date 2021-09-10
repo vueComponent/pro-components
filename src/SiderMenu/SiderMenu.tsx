@@ -210,6 +210,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
       selectedKeys={context.selectedKeys}
       menuItemRender={props.menuItemRender}
       subMenuItemRender={props.subMenuItemRender}
+      iconfontUrl={props.iconfontUrl}
       onClick={props.onMenuClick}
       style={{
         width: '100%',

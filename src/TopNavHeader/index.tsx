@@ -92,6 +92,7 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = props => {
             theme={props.theme === 'realDark' ? 'dark' : props.theme}
             mode={props.mode}
             collapsed={props.collapsed}
+            iconfontUrl={props.iconfontUrl}
             menuData={menuData}
             menuItemRender={props.menuItemRender}
             subMenuItemRender={props.subMenuItemRender}

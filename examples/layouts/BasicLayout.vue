@@ -6,6 +6,7 @@
     v-bind="state"
     :loading="loading"
     :breadcrumb="{ routes: breadcrumb }"
+    iconfont-url="//at.alicdn.com/t/font_2804900_26tw52dc2pl.js"
   >
     <template #menuHeaderRender>
       <a>

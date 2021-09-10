@@ -1,10 +1,9 @@
 {
   "name": "@ant-design-vue/pro-layout",
-  "version": "3.1.0-beta.4",
+  "version": "3.1.0-beta.5",
   "license": "MIT",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "style": "./dist/style.css",
   "main": "./dist/pro-layout.umd.js",
@@ -41,7 +40,7 @@
     "ant-design-vue": "^2.2.2",
     "lodash-es": "^4.17.21",
     "omit.js": "^2.0.2",
-    "vue": "^3.1.0",
+    "vue": "^3.2.0",
     "vue-router": "^4.0.10"
   },
   "devDependencies": {
@@ -51,8 +50,7 @@
     "@typescript-eslint/parser": "^4.28.2",
     "@vitejs/plugin-vue": "^1.6.0",
     "@vitejs/plugin-vue-jsx": "^1.1.7",
-    "@vue/compiler-sfc": "^3.1.0",
-    "@vuedx/typescript-plugin-vue": "^0.7.4",
+    "@vue/compiler-sfc": "^3.2.0",
     "eslint": "^7.30.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",

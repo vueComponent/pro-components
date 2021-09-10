@@ -87,10 +87,7 @@ const ProLayout = defineComponent({
     'menuClick',
   ],
   setup(props, { emit, slots }) {
-    // const refProps = toRefs(props);
     const isTop = computed(() => props.layout === 'top');
-    // const isSide = computed(() => layout === 'side');
-    // const isMix = computed(() => layout === 'mix');
     const siderWidth = computed(() => (props.collapsed ? props.collapsedWidth : props.siderWidth));
 
     // if on event and @event
@@ -159,8 +156,6 @@ const ProLayout = defineComponent({
       itemRender: getPropsSlotfn(slots, props, 'breadcrumbRender'),
     }));
 
-    console.log('props', toRefs(props));
-
     const routeContext = reactive<RouteContextProps>(
       Object.assign(
         {...defaultRouteContext},
@@ -202,6 +197,7 @@ const ProLayout = defineComponent({
       const rightContentRender = getPropsSlot(slots, props, 'rightContentRender');
       const customHeaderRender = getPropsSlot(slots, props, 'headerRender');
       const menuHeaderRender = getPropsSlotfn(slots, props, 'menuHeaderRender');
+      const menuContentRender = getPropsSlotfn(slots, props, 'menuContentRender');
       const menuExtraRender = getPropsSlotfn(slots, props, 'menuExtraRender');
       const menuFooterRender = getPropsSlotfn(slots, props, 'menuFooterRender');
       const footerRender = getPropsSlot(slots, props, 'footerRender');
@@ -228,6 +224,7 @@ const ProLayout = defineComponent({
             rightContentRender,
             collapsedButtonRender,
             headerTitleRender: menuHeaderRender,
+            menuContentRender: menuContentRender,
             headerContentRender,
             headerRender: customHeaderRender,
             theme: (props.navTheme || 'dark').toLocaleLowerCase().includes('dark')
@@ -251,6 +248,7 @@ const ProLayout = defineComponent({
                     {...menuRenders}
                     isMobile={isMobile.value}
                     menuHeaderRender={menuHeaderRender}
+                    menuContentRender={menuContentRender}
                     menuExtraRender={menuExtraRender}
                     menuFooterRender={menuFooterRender}
                     collapsedButtonRender={collapsedButtonRender}

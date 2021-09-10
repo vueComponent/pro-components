@@ -10,7 +10,10 @@ import {
   ExtractPropTypes,
   ConcreteComponent,
   watchEffect,
+  withCtx,
+  getCurrentInstance,
   FunctionalComponent,
+  ComponentInternalInstance,
 } from 'vue';
 import { createFromIconfontCN } from '@ant-design/icons-vue';
 import 'ant-design-vue/es/menu/style';
@@ -137,10 +140,12 @@ const LazyIcon: FunctionalComponent<{
 
 class MenuUtil {
   props: BaseMenuProps;
+  ctx: ComponentInternalInstance | null;
   RouterLink: ConcreteComponent;
 
-  constructor(props: BaseMenuProps) {
+  constructor(props: BaseMenuProps, ctx: ComponentInternalInstance | null) {
     this.props = props;
+    this.ctx = ctx;
 
     this.RouterLink = resolveComponent('router-link') as ConcreteComponent;
   }
@@ -157,7 +162,8 @@ class MenuUtil {
       !item?.meta?.hideChildrenInMenu
     ) {
       if (this.props.subMenuItemRender) {
-        return this.props.subMenuItemRender({
+        const subMenuItemRender = withCtx(this.props.subMenuItemRender, this.ctx);
+        return subMenuItemRender({
           item,
           children: this.getNavMenuItems(item.children),
         }) as VNode;
@@ -187,11 +193,12 @@ class MenuUtil {
       );
     }
 
+    const menuItemRender = this.props.menuItemRender && withCtx(this.props.menuItemRender, this.ctx)
+
     const [title, icon] = this.getMenuItem(item);
 
     return (
-      ((this.props.menuItemRender &&
-        this.props.menuItemRender({ item, title, icon })) as VNode) || (
+      (menuItemRender && menuItemRender({ item, title, icon }) as VNode) || (
         <Menu.Item
           disabled={item.meta?.disabled}
           danger={item.meta?.danger}
@@ -256,8 +263,8 @@ export default defineComponent({
   props: baseMenuProps,
   emits: ['update:openKeys', 'update:selectedKeys', 'click'],
   setup(props, { emit }) {
-    const menuUtil = new MenuUtil(props);
-
+    const ctx = getCurrentInstance()
+    const menuUtil = new MenuUtil(props, ctx);
     // update iconfontUrl
     watchEffect(() => {
       if (props.iconfontUrl) {
