@@ -17,7 +17,7 @@ import {
 } from 'vue';
 import { createFromIconfontCN } from '@ant-design/icons-vue';
 import 'ant-design-vue/es/menu/style';
-import Menu from 'ant-design-vue/es/menu';
+import { Menu } from 'ant-design-vue';
 import { defaultSettingProps, defaultSettings } from '../defaultSettings';
 import { isImg, isUrl } from '../utils';
 import { MenuMode } from './typings';

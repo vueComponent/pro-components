@@ -7,9 +7,8 @@ import {
   unref,
 } from 'vue';
 import 'ant-design-vue/es/layout/style';
-import Layout from 'ant-design-vue/es/layout';
 import 'ant-design-vue/es/menu/style';
-import Menu from 'ant-design-vue/es/menu';
+import { Layout, Menu } from 'ant-design-vue';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
 import BaseMenu, { baseMenuProps } from './BaseMenu';
 import { WithFalse, CustomRender } from '../typings';

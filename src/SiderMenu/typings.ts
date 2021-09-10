@@ -1,5 +1,6 @@
-import { VNodeChild, CSSProperties, HTMLAttributes } from 'vue';
-export { MenuMode, MenuTheme } from 'ant-design-vue/es/menu/src/interface';
+import type { VNodeChild, CSSProperties, HTMLAttributes } from 'vue';
+
+export type { MenuMode, MenuTheme } from 'ant-design-vue/es/menu/src/interface';
 
 export interface MenuInfo {
   key: string | number;

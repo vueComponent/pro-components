@@ -2,7 +2,7 @@ import { computed, reactive, unref, defineComponent, toRefs } from 'vue';
 import type { CSSProperties, PropType, ExtractPropTypes } from 'vue';
 
 import 'ant-design-vue/es/layout/style';
-import Layout from 'ant-design-vue/es/layout';
+import { Layout } from 'ant-design-vue';
 import { withInstall } from 'ant-design-vue/es/_util/type';
 import useMediaQuery from './hooks/useMediaQuery';
 

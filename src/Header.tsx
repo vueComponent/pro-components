@@ -2,7 +2,7 @@ import { defineComponent, computed, toRefs } from 'vue';
 import type { PropType, ExtractPropTypes } from 'vue';
 import type { RouteRecordRaw } from 'vue-router';
 import 'ant-design-vue/es/layout/style';
-import Layout from 'ant-design-vue/es/layout';
+import { Layout } from 'ant-design-vue';
 
 import { GlobalHeader } from './GlobalHeader';
 import type { GlobalHeaderProps } from './GlobalHeader';

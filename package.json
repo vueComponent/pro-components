@@ -1,6 +1,6 @@
 {
   "name": "@ant-design-vue/pro-layout",
-  "version": "3.1.0-beta.5",
+  "version": "3.1.0-beta.6",
   "license": "MIT",
   "files": [
     "dist"
@@ -63,10 +63,10 @@
     "tsc": "^2.0.3",
     "tsup": "^4.12.5",
     "typescript": "^4.3.2",
-    "vite": "^2.4.0",
+    "vite": "^2.5.6",
     "vite-dts": "^1.0.3",
     "vite-plugin-dts": "^0.5.2",
-    "vue-tsc": "^0.0.24"
+    "vue-tsc": "^0.3.0"
   },
   "description": "Ant Design Pro Layout of Vue, easy to use pro scaffolding."
 }

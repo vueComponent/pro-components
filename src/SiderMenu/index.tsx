@@ -1,7 +1,7 @@
 import { FunctionalComponent as FC } from 'vue';
 
 import 'ant-design-vue/es/drawer/style';
-import Drawer from 'ant-design-vue/es/drawer';
+import { Drawer } from 'ant-design-vue';
 
 import SiderMenu, { siderMenuProps, SiderMenuProps, PrivateSiderMenuProps } from './SiderMenu';
 

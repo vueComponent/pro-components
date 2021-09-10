@@ -9,12 +9,10 @@ import {
   ExtractPropTypes,
 } from 'vue';
 /* replace antd ts define */
+import omit from 'omit.js';
 import { withInstall } from 'ant-design-vue/es/_util/type';
 import PageHeader, { pageHeaderProps } from 'ant-design-vue/es/page-header';
-import Tabs from 'ant-design-vue/es/tabs';
-import Affix from 'ant-design-vue/es/affix';
-import Spin from 'ant-design-vue/es/spin';
-import omit from 'omit.js';
+import { Tabs, Affix, Spin, } from 'ant-design-vue';
 import { TabPaneProps } from './interfaces/TabPane';
 import { TabBarExtraContent, TabsProps } from './interfaces/Tabs';
 import { AffixProps } from './interfaces/Affix';

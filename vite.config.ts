@@ -19,6 +19,7 @@ export default defineConfig({
     alias: {
       '@ant-design-vue/pro-layout': resolve(__dirname, 'src'),
       '@': resolve(__dirname, 'src'),
+      'vue': 'vue/dist/vue.esm-bundler.js',
     },
   },
   build: {
@@ -27,7 +28,15 @@ export default defineConfig({
       name: 'ProLayout',
     },
     rollupOptions: {
-      external: ['vue', 'vue-router', '@ant-design/icons-vue', 'ant-design-vue', 'antd', 'moment'],
+
+      external: [
+        'vue',
+        'vue-router',
+        '@ant-design/icons-vue',
+        'ant-design-vue',
+        'antd',
+        'moment',
+      ],
       output: {
         exports: 'named',
         // Provide global variables to use in the UMD build
@@ -35,15 +44,16 @@ export default defineConfig({
         globals: {
           vue: 'Vue',
           'vue-router': 'VueRouter',
-          moment: 'moment',
-          'ant-design-vue': 'antd',
+          'ant-design-vue': 'antDesignVue',
           '@ant-design/icons-vue': 'iconsVue',
+          'antd': 'antd',
+          moment: 'moment',
         },
       },
     },
   },
   optimizeDeps: {
-    include: ['ant-design-vue/es', '@ant-design/icons-vue', 'lodash-es'],
+    include: ['ant-design-vue', '@ant-design/icons-vue', 'lodash-es'],
   },
   css: {
     postcss: {},
