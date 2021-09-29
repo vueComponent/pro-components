@@ -39,9 +39,10 @@ import 'ant-design-vue/dist/antd.less'; // antd css
 import '@ant-design-vue/pro-layout/dist/style.css'; // pro-layout css or style.less
 
 import { createApp } from 'vue';
+import App from "./App.vue";
 import ProLayout, { PageContainer } from '@ant-design-vue/pro-layout';
 
-const app = createApp();
+const app = createApp(App);
 
 app.use(ProLayout).use(PageContainer).mount('#app');
 ```
