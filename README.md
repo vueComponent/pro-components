@@ -28,23 +28,26 @@ npm i @ant-design-vue/pro-layout@next -S
 
 ## Basic Usage
 
-look [Examples](./examples/) | Use Template https://github.com/sendya/preview-pro
+Recommend look [Examples](./examples/) | **Use Template https://github.com/sendya/preview-pro **
 
 
+### Simple Usage
 
 First, you should add the `@ant-design-vue/pro-layout` that you need into the library.
 
 ```js
+// main.[js|ts]
 import 'ant-design-vue/dist/antd.less'; // antd css
 import '@ant-design-vue/pro-layout/dist/style.css'; // pro-layout css or style.less
 
 import { createApp } from 'vue';
 import App from "./App.vue";
+import Antd from 'ant-design-vue';
 import ProLayout, { PageContainer } from '@ant-design-vue/pro-layout';
 
 const app = createApp(App);
 
-app.use(ProLayout).use(PageContainer).mount('#app');
+app.use(Antd).use(ProLayout).use(PageContainer).mount('#app');
 ```
 
 After that, you can use pro-layout in your Vue components as simply as this:
@@ -53,94 +56,36 @@ After that, you can use pro-layout in your Vue components as simply as this:
 <template>
   <pro-layout
     :locale="locale"
-    v-bind="state"
-    v-model:openKeys="base.openKeys"
-    v-model:collapsed="base.collapsed"
-    v-model:selectedKeys="base.selectedKeys"
+    v-bind="layoutConf"
+    v-model:openKeys="state.openKeys"
+    v-model:collapsed="state.collapsed"
+    v-model:selectedKeys="state.selectedKeys"
   >
     <router-view />
   </pro-layout>
 </template>
 
-<script>
-import { defineComponent, reactive } from 'vue';
+<script setup lang="ts">
+import { reactive, useRouter } from 'vue';
 import { getMenuData, clearMenuItem } from '@ant-design-vue/pro-layout';
 
 const locale = (i18n: string) => i18n;
+const router = useRouter();
 
-export default defineComponent({
-  setup() {
-    const router = useRouter();
-    const { menuData } = getMenuData(clearMenuItem(router.getRoutes()));
-    const base = reactive({
-      collapsed: false, // default value
-      openKeys: ['/dashboard'],
-      selectedKeys: ['/welcome'],
-    })
-    const state = reactive({
-      navTheme: 'dark',
-      layout: 'mix',
-      splitMenus: false,
-      menuData,
-    });
+const { menuData } = getMenuData(clearMenuItem(router.getRoutes()));
 
-    return {
-      locale,
-      base,
-      state,
-    };
-  },
+const state = reactive({
+  collapsed: false, // default value
+  openKeys: ['/dashboard'],
+  selectedKeys: ['/welcome'],
+})
+const layoutConf = reactive({
+  navTheme: 'dark',
+  layout: 'mix',
+  splitMenus: false,
+  menuData,
 });
 </script>
-```
-
-or `TSX`
-
-```tsx
-import { defineComponent, reactive } from 'vue';
-import { RouterView } from 'vue-router';
-import ProLayout from '@ant-design-vue/pro-layout';
-import '@ant-design-vue/pro-layout/dist/style.css'; // pro-layout css or style.less
-
-export default defineComponent({
-  setup() {
-    const router = useRouter();
-    const { menuData } = getMenuData(clearMenuItem(router.getRoutes()));
-    const base = reactive({
-      collapsed: false, // default value
-      openKeys: ['/dashboard'],
-      selectedKeys: ['/welcome'],
-    })
-    const state = reactive({
-      navTheme: 'dark',
-      layout: 'mix',
-      splitMenus: false,
-      menuData,
-    });
-    const handleCollapse = (collapsed: boolean) => {
-      base.collapsed = collapsed;
-    }
-    const handleSelect = (selectedKeys: string[]) => {
-      base.selectedKeys = selectedKeys;
-    }
-    const handleOpenKeys = (openKeys: string[]) => {
-      base.openKeys = openKeys;
-    }
-
-    return () => (
-      <ProLayout 
-        {...state}
-        {...base}
-        locale={(i18n: string) => i18n}
-        onCollapse={handleCollapse}
-        onSelect={handleSelect}
-        onOpenKeys={handleOpenKeys}
-      >
-        <RouterView />
-      </ProLayout>
-    );
-  },
-});
 ```
 
 
@@ -175,6 +120,38 @@ export default defineComponent({
 | menuItemRender | custom render Menu.Item | v-slot#menuItemRender="{ item, icon }" \| ({ item, icon }) => VNode | null |
 | menuSubItemRender | custom render Menu.SubItem | v-slot#menuSubItemRender="{ item, icon }" \| ({ item, icon }) => VNode | null |
 | locale | i18n | Function (key: string) => string \| `false` | `false` |
+
+### PageContainer
+
+| Property | Description | Type | Default Value |
+| --- | --- | --- | --- |
+| content | Content area | VNode \| v-slot | - |
+| extra | Extra content area, on the right side of content | VNode \| v-slot | - |
+| extraContent | Extra content area, on the right side of content | VNode \| v-slot | - |
+| tabList | Tabs title list | `Array<{key: string, tab: sting}>` | - |
+| tab-change | Switch panel callback | (key) => void | - |
+| tab-active-key | The currently highlighted tab item | string | - |
+
+### WaterMark
+
+| Property      | Description                           | Type              | Default Value          |
+| ------------- | ------------------------------------- | ----------------- | ---------------------- |
+| markStyle     | mark style                            | CSSProperties     | -                      |
+| markClassName | mark class                            | string            | -                      |
+| gapX          | Horizontal spacing between water-mark | number            | 212                    |
+| gapY          | Vertical spacing between watermark    | number            | 222                    |
+| offsetLeft    | Horizontal offset                     | number            | `offsetTop = gapX / 2` |
+| offsetTop     | Vertical offset                       | number            | `offsetTop = gapY / 2` |
+|               |                                       |                   |                        |
+| width         |                                       | number            | 120                    |
+| height        |                                       | number            | 64                     |
+| rotate        | Angle of rotation, unit °             | number            | -22                    |
+| image         | image src                             | string            | -                      |
+| zIndex        | water-mark z-index                    | number            | 9                      |
+| content       | water-mark Content                    | string            | -                      |
+| fontColor     | font-color                            | string            | `rgba(0,0,0,.15)`      |
+| fontSize      | font-size                             | string` | `number | 16                     |
+
 
 
 
@@ -247,17 +224,6 @@ export default defineComponent({
 </template>
 ```
 
-
-### PageContainer
-
-| Property | Description | Type | Default Value |
-| --- | --- | --- | --- |
-| content | Content area | VNode \| v-slot | - |
-| extra | Extra content area, on the right side of content | VNode \| v-slot | - |
-| extraContent | Extra content area, on the right side of content | VNode \| v-slot | - |
-| tabList | Tabs title list | `Array<{key: string, tab: sting}>` | - |
-| tab-change | Switch panel callback | (key) => void | - |
-| tab-active-key | The currently highlighted tab item | string | - |
 
 
 
