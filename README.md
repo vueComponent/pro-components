@@ -164,6 +164,7 @@ export default defineComponent({
 | openKeys | menu openKeys | string[] | `[]` |
 | isMobile | is mobile | boolean | false |
 | handleCollapse | folding collapse event of menu | (collapsed: boolean) => void | - |
+| menuContentRender | render menu content | v-slot \| VNode \| (logo,title)=>VNode \| false | - |
 | menuHeaderRender | render header logo and title | v-slot \| VNode \| (logo,title)=>VNode \| false | - |
 | menuExtraRender | render extra menu item | v-slot \| VNode \| (props)=>VNode \| false | - |
 | menuFooterRender | render footer menu item | v-slot \| VNode \| (props)=>VNode \| false | - |
