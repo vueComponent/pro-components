@@ -64,6 +64,7 @@ After that, you can use pro-layout in your Vue components as simply as this:
 
 <script>
 import { defineComponent, reactive } from 'vue';
+import { useRouter } from "vue-router";
 import { getMenuData, clearMenuItem } from '@ant-design-vue/pro-layout';
 
 const locale = (i18n: string) => i18n;
@@ -98,7 +99,7 @@ or `TSX`
 
 ```tsx
 import { defineComponent, reactive } from 'vue';
-import { RouterView } from 'vue-router';
+import { RouterView, useRouter } from 'vue-router';
 import ProLayout from '@ant-design-vue/pro-layout';
 import '@ant-design-vue/pro-layout/dist/style.css'; // pro-layout css or style.less
 
