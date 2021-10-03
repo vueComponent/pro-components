@@ -224,8 +224,14 @@ const layoutConf = reactive({
 </template>
 ```
 
-
-
+### Use WaterMark
+```vue
+<router-view v-slot="{ Component }">
+  <WaterMark content="Pro Layout">
+    <component :is="Component" />
+  </WaterMark>
+</router-view>
+```
 
 ## Build project
 

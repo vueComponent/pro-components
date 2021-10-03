@@ -68,6 +68,7 @@ const getPixelRatio = (context: any) => {
 }
 
 const WaterMark = defineComponent({
+  name: 'WaterMark',
   props: waterMarkProps,
   setup(props, { slots }) {
     const {
@@ -145,32 +146,34 @@ const WaterMark = defineComponent({
       }
     })
 
-    return (
-      <div
-        style={{
-          position: 'relative',
-        }}
-        class={wrapperCls.value}
-      >
-        {slots.default?.()}
+    return () => {
+      return (
         <div
-          class={waterMakrCls.value}
           style={{
-            zIndex,
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            width: '100%',
-            height: '100%',
-            backgroundSize: `${gapX + width}px`,
-            pointerEvents: 'none',
-            backgroundRepeat: 'repeat',
-            backgroundImage: `url('${base64Url.value}')`,
-            ...markStyle,
+            position: 'relative',
           }}
-        />
-      </div>
-    )
+          class={wrapperCls.value}
+        >
+          {slots.default?.()}
+          <div
+            class={waterMakrCls.value}
+            style={{
+              zIndex,
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              width: '100%',
+              height: '100%',
+              backgroundSize: `${gapX + width}px`,
+              pointerEvents: 'none',
+              backgroundRepeat: 'repeat',
+              backgroundImage: `url('${base64Url.value}')`,
+              ...markStyle,
+            }}
+          />
+        </div>
+      )
+    }
   },
 })
 

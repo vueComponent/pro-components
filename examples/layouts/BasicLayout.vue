@@ -6,7 +6,7 @@
     v-bind="state"
     :loading="loading"
     :breadcrumb="{ routes: breadcrumb }"
-    iconfont-url="//at.alicdn.com/t/font_2804900_26tw52dc2pl.js"
+    iconfont-url="//at.alicdn.com/t/font_2804900_nzigh7z84gc.js"
   >
     <template #menuHeaderRender>
       <a>
@@ -39,7 +39,7 @@
       </router-link>
     </template>
     <template #menuExtraRender="{ collapsed }">
-      <a-input-search v-if="!collapsed" />
+      <a-input-search v-if="!collapsed" @search="handleSearch" />
     </template>
     <template #menuFooterRender>
       <a
@@ -67,26 +67,13 @@
       </a>
     </template>
 
-    <!-- custom menu-item -->
-    <template #menuItemRender="{ item, icon }">
-      <a-menu-item
-        :key="item.path"
-        :disabled="item.meta?.disabled"
-        :danger="item.meta?.danger"
-        :icon="icon"
-      >
-        <router-link :to="{ path: item.path }">
-          <span class="ant-pro-menu-item">
-            <a-badge count="5" dot>
-              <span class="ant-pro-menu-item-title">{{ item.meta.title }}</span>
-            </a-badge>
-          </span>
-        </router-link>
-      </a-menu-item>
-    </template>
-
     <!-- content begin -->
-    <router-view />
+    <router-view v-slot="{ Component }">
+      <WaterMark content="Pro Layout">
+        <component :is="Component" />
+      </WaterMark>
+    </router-view>
+
     <!-- content end -->
     <FooterToolbar>
       <template #extra>
@@ -120,8 +107,8 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
-import { Button, Input, Switch, Select, Avatar, Space, Badge, Menu } from 'ant-design-vue';
-import { getMenuData, clearMenuItem, FooterToolbar } from '@ant-design-vue/pro-layout';
+import { message, Button, Input, Switch, Select, Avatar, Space, Badge, Menu } from 'ant-design-vue';
+import { getMenuData, clearMenuItem, WaterMark, FooterToolbar } from '@ant-design-vue/pro-layout';
 import type { RouteContextProps } from '@ant-design-vue/pro-layout';
 
 const i18n = (t: string) => t;
@@ -130,6 +117,8 @@ export default defineComponent({
   name: 'BasicLayout',
   components: {
     FooterToolbar,
+    WaterMark,
+
     [Button.name]: Button,
     [Input.name]: Input,
     [Input.Search.name]: Input.Search,
@@ -137,7 +126,6 @@ export default defineComponent({
     [Select.name]: Select,
     [Select.Option.displayName!]: Select.Option,
     [Space.name]: Space,
-
     [Badge.name]: Badge,
     [Avatar.name]: Avatar,
     [Menu.Item.name]: Menu.Item,
@@ -161,7 +149,7 @@ export default defineComponent({
       // title: 'ProLayout',
       // logo: 'https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg',
       navTheme: 'dark',
-      layout: 'mix',
+      layout: 'side',
       fixSiderbar: true,
     });
     const breadcrumb = computed(() =>
@@ -202,6 +190,9 @@ export default defineComponent({
 
       handlePageLoadingClick,
       handleCollapsed,
+      handleSearch: () => {
+        message.info('search..');
+      },
     };
   },
 });
