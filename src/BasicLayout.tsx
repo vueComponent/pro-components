@@ -296,7 +296,7 @@ const ProLayout = defineComponent({
             headerTitleRender: menuHeaderRender,
             menuContentRender: menuContentRender,
             headerContentRender,
-            headerRender: customHeaderRender,
+            headerRender: props.headerRender !== false ? customHeaderRender : false,
             theme: (props.navTheme || 'dark')
               .toLocaleLowerCase()
               .includes('dark')
