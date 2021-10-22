@@ -12,7 +12,7 @@ import {
 import omit from 'omit.js';
 import { withInstall } from 'ant-design-vue/es/_util/type';
 import PageHeader, { pageHeaderProps } from 'ant-design-vue/es/page-header';
-import { Tabs, Affix, Spin, } from 'ant-design-vue';
+import { Tabs, Affix, Spin } from 'ant-design-vue';
 import { TabPaneProps } from './interfaces/TabPane';
 import { TabBarExtraContent, TabsProps } from './interfaces/Tabs';
 import { AffixProps } from './interfaces/Affix';
@@ -50,7 +50,7 @@ export const pageHeaderTabConfig = {
    * @name tab 上多余的区域
    */
   tabBarExtraContent: {
-    type: [Object, Function] as PropType<TabBarExtraContent>,
+    type: [Object, Function, Boolean] as PropType<TabBarExtraContent>,
     default: () => undefined,
   },
   /**
@@ -206,9 +206,9 @@ const defaultPageHeaderRender = (
   if (!title && title !== false) {
     pageHeaderTitle = value.title;
   }
-  const unrefBreadcrumb = unref(value.breadcrumb || {})
+  const unrefBreadcrumb = unref(value.breadcrumb || {});
   const breadcrumb = restProps.breadcrumb || {
-    ...(unrefBreadcrumb),
+    ...unrefBreadcrumb,
     routes: unrefBreadcrumb.routes,
     itemRender: unrefBreadcrumb.itemRender,
   };

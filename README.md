@@ -101,8 +101,8 @@ const layoutConf = reactive({
 | loading | layout loading status | boolean | - |
 | layout | layout menu mode, sidemenu: right navigation, topmenu: top navigation | 'side' \| 'top' \| 'mix' | `'side'` |
 | contentWidth | content mode of layout, Fluid: adaptive, Fixed:  fixed width 1200px | 'Fixed' \| 'Fluid' | `Fluid` |
-| theme | Navigation menu theme | 'light' \| 'dark' | `'light'` |
-| navTheme | Navigation Bar theme | 'light' \|'dark' | `'light'` |
+| navTheme | Navigation theme | 'light' \|'dark' | `'light'` |
+| headerTheme | Header Bar theme | 'light' \|'dark' | `'light'` |
 | menuData | Vue-router `routes` prop | Object | `[{}]` |
 | collapsed | control menu's collapse and expansion | boolean | true |
 | selectedKeys | menu selected keys | string[] | `[]` |

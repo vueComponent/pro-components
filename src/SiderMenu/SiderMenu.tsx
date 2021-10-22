@@ -5,24 +5,24 @@ import {
   PropType,
   CSSProperties,
   unref,
-} from 'vue'
-import 'ant-design-vue/es/layout/style'
-import 'ant-design-vue/es/menu/style'
-import { Layout, Menu } from 'ant-design-vue'
-import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue'
-import BaseMenu, { baseMenuProps } from './BaseMenu'
-import { WithFalse, CustomRender } from '../typings'
-import { SiderProps } from './typings'
-import { defaultSettingProps } from '../defaultSettings'
-import { useRouteContext } from '../RouteContext'
-import { PropTypes, getMenuFirstChildren } from '../utils'
-import './index.less'
+} from 'vue';
+import 'ant-design-vue/es/layout/style';
+import 'ant-design-vue/es/menu/style';
+import { Layout, Menu } from 'ant-design-vue';
+import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
+import BaseMenu, { baseMenuProps } from './BaseMenu';
+import { WithFalse, CustomRender } from '../typings';
+import { SiderProps } from './typings';
+import { defaultSettingProps } from '../defaultSettings';
+import { useRouteContext } from '../RouteContext';
+import { PropTypes, getMenuFirstChildren } from '../utils';
+import './index.less';
 
-const { Sider } = Layout
+const { Sider } = Layout;
 
 export type PrivateSiderMenuProps = {
-  matchMenuKeys?: string[]
-}
+  matchMenuKeys?: string[];
+};
 
 export const siderMenuProps = {
   ...defaultSettingProps,
@@ -39,35 +39,27 @@ export const siderMenuProps = {
   headerHeight: PropTypes.number.def(48),
   collapsedWidth: PropTypes.number.def(48),
   menuHeaderRender: {
-    type: [Function, Object] as PropType<
-      WithFalse<
-        (logo: CustomRender, title: CustomRender, props?: any) => CustomRender
-      >
+    type: [Function, Object, Boolean] as PropType<
+      WithFalse<(logo: CustomRender, title: CustomRender, props?: any) => CustomRender>
     >,
     default: () => undefined,
   },
   menuFooterRender: {
-    type: [Function, Object] as PropType<
-      WithFalse<(props?: any) => CustomRender>
-    >,
+    type: [Function, Object, Boolean] as PropType<WithFalse<(props?: any) => CustomRender>>,
     default: () => undefined,
   },
   menuContentRender: {
-    type: [Function, Object] as PropType<
+    type: [Function, Object, Boolean] as PropType<
       WithFalse<(props: any, defaultDom: CustomRender) => CustomRender>
     >,
     default: () => undefined,
   },
   menuExtraRender: {
-    type: [Function, Object] as PropType<
-      WithFalse<(props?: any) => CustomRender>
-    >,
+    type: [Function, Object, Boolean] as PropType<WithFalse<(props?: any) => CustomRender>>,
     default: () => undefined,
   },
   collapsedButtonRender: {
-    type: [Function, Object, Boolean] as PropType<
-      WithFalse<(collapsed?: boolean) => CustomRender>
-    >,
+    type: [Function, Object, Boolean] as PropType<WithFalse<(collapsed?: boolean) => CustomRender>>,
     default: () => undefined,
   },
   breakpoint: {
@@ -95,52 +87,49 @@ export const siderMenuProps = {
   onSelect: {
     type: Function as PropType<(selectedKeys: WithFalse<string[]>) => void>,
   },
-}
+};
 
-export type SiderMenuProps = Partial<ExtractPropTypes<typeof siderMenuProps>>
+export type SiderMenuProps = Partial<ExtractPropTypes<typeof siderMenuProps>>;
 
-export const defaultRenderLogo = (
-  logo?: CustomRender,
-  logoStyle?: CSSProperties
-): CustomRender => {
+export const defaultRenderLogo = (logo?: CustomRender, logoStyle?: CSSProperties): CustomRender => {
   if (!logo) {
-    return null
+    return null;
   }
   if (typeof logo === 'string') {
-    return <img src={logo} alt="logo" style={logoStyle} />
+    return <img src={logo} alt="logo" style={logoStyle} />;
   }
   if (typeof logo === 'function') {
-    return logo()
+    return logo();
   }
-  return logo
-}
+  return logo;
+};
 
 export const defaultRenderLogoAndTitle = (
   props: SiderMenuProps,
-  renderKey: string | undefined = 'menuHeaderRender'
+  renderKey: string | undefined = 'menuHeaderRender',
 ): CustomRender | null => {
   const {
     logo = 'https://gw.alipayobjects.com/zos/antfincdn/PmY%24TNNDBI/logo.svg',
     logoStyle,
     title,
     layout,
-  } = props
-  const renderFunction = (props as any)[renderKey || '']
+  } = props;
+  const renderFunction = (props as any)[renderKey || ''];
   if (renderFunction === false) {
-    return null
+    return null;
   }
-  const logoDom = defaultRenderLogo(logo, logoStyle)
-  const titleDom = <h1>{title}</h1>
+  const logoDom = defaultRenderLogo(logo, logoStyle);
+  const titleDom = <h1>{title}</h1>;
   if (layout === 'mix' && renderKey === 'menuHeaderRender') {
-    return null
+    return null;
   }
   // call menuHeaderRender
   if (typeof renderFunction === 'function') {
     // when collapsed, no render title
-    return renderFunction(logoDom, props.collapsed ? null : titleDom, props)
+    return renderFunction(logoDom, props.collapsed ? null : titleDom, props);
   }
   if (Array.isArray(renderFunction)) {
-    return <>{renderFunction}</>
+    return <>{renderFunction}</>;
   }
 
   return (
@@ -148,12 +137,11 @@ export const defaultRenderLogoAndTitle = (
       {logoDom}
       {props.collapsed ? null : titleDom}
     </a>
-  )
-}
+  );
+};
 
-export const defaultRenderCollapsedButton = (
-  collapsed?: boolean
-): CustomRender => (collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />)
+export const defaultRenderCollapsedButton = (collapsed?: boolean): CustomRender =>
+  collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />;
 
 const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
   const {
@@ -170,42 +158,36 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
     onOpenKeys,
     onSelect,
     onMenuHeaderClick,
-  } = props
-  const context = useRouteContext()
-  const { getPrefixCls } = context
-  const baseClassName = getPrefixCls('sider')
-  const hasSplitMenu = computed(
-    () => props.layout === 'mix' && props.splitMenus
-  )
-  const sTheme = computed(
-    () => (props.layout === 'mix' && 'light') || props.navTheme
-  )
-  const sSideWidth = computed(() =>
-    props.collapsed ? props.collapsedWidth : props.siderWidth
-  )
+  } = props;
+  const context = useRouteContext();
+  const { getPrefixCls } = context;
+  const baseClassName = getPrefixCls('sider');
+  const hasSplitMenu = computed(() => props.layout === 'mix' && props.splitMenus);
+  const sTheme = computed(() => (props.layout === 'mix' && 'light') || props.navTheme);
+  const sSideWidth = computed(() => (props.collapsed ? props.collapsedWidth : props.siderWidth));
   const classNames = computed(() => {
     return {
       [baseClassName]: true,
       [`${baseClassName}-${sTheme.value}`]: true,
       [`${baseClassName}-${props.layout}`]: true,
       [`${baseClassName}-fixed`]: context.fixSiderbar,
-    }
-  })
+    };
+  });
 
   const handleSelect = ($event: string[]) => {
     if (props.onSelect) {
       if (unref(hasSplitMenu)) {
-        props.onSelect([context.selectedKeys[0], ...$event])
-        return
+        props.onSelect([context.selectedKeys[0], ...$event]);
+        return;
       }
-      props.onSelect($event)
+      props.onSelect($event);
     }
-  }
+  };
   // call menuHeaderRender
-  const headerDom = defaultRenderLogoAndTitle(props)
-  const extraDom = menuExtraRender && menuExtraRender(props)
+  const headerDom = defaultRenderLogoAndTitle(props);
+  const extraDom = menuExtraRender && menuExtraRender(props);
   if (hasSplitMenu.value && unref(context.flatMenuData).length === 0) {
-    return null
+    return null;
   }
   const defaultMenuDom = (
     <BaseMenu
@@ -226,12 +208,11 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
       }}
       class={`${baseClassName}-menu`}
       {...{
-        'onUpdate:openKeys': ($event: string[]) =>
-          onOpenKeys && onOpenKeys($event),
+        'onUpdate:openKeys': ($event: string[]) => onOpenKeys && onOpenKeys($event),
         'onUpdate:selectedKeys': handleSelect,
       }}
     />
-  )
+  );
 
   return (
     <>
@@ -253,16 +234,14 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
         collapsed={collapsed}
         breakpoint={breakpoint || undefined}
         onCollapse={(collapse: boolean) => {
-          if (props.isMobile) return
-          onCollapse?.(collapse)
+          if (props.isMobile) return;
+          onCollapse?.(collapse);
         }}
         collapsedWidth={collapsedWidth}
         style={{
           overflow: 'hidden',
           paddingTop:
-            props.layout === 'mix' && !props.isMobile
-              ? `${props.headerHeight}px`
-              : undefined,
+            props.layout === 'mix' && !props.isMobile ? `${props.headerHeight}px` : undefined,
         }}
         width={siderWidth}
         theme={sTheme.value === 'realDark' ? 'dark' : sTheme.value}
@@ -289,8 +268,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
           </div>
         )}
         <div style="flex: 1; overflow: hidden auto;">
-          {(menuContentRender && menuContentRender(props, defaultMenuDom)) ||
-            defaultMenuDom}
+          {(menuContentRender && menuContentRender(props, defaultMenuDom)) || defaultMenuDom}
         </div>
         <div class={`${baseClassName}-links`}>
           {collapsedButtonRender !== false ? (
@@ -304,7 +282,7 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
               // @ts-ignore
               onClick={() => {
                 if (onCollapse) {
-                  onCollapse(!props.collapsed)
+                  onCollapse(!props.collapsed);
                 }
               }}
             >
@@ -313,20 +291,17 @@ const SiderMenu: FC<SiderMenuProps> = (props: SiderMenuProps) => {
                 class={`${baseClassName}-collapsed-button`}
                 title={false}
               >
-                {collapsedButtonRender &&
-                typeof collapsedButtonRender === 'function'
+                {collapsedButtonRender && typeof collapsedButtonRender === 'function'
                   ? collapsedButtonRender(collapsed)
                   : collapsedButtonRender}
               </Menu.Item>
             </Menu>
           ) : null}
         </div>
-        {menuFooterRender && (
-          <div class={`${baseClassName}-footer`}>{menuFooterRender(props)}</div>
-        )}
+        {menuFooterRender && <div class={`${baseClassName}-footer`}>{menuFooterRender(props)}</div>}
       </Sider>
     </>
-  )
-}
+  );
+};
 
-export default SiderMenu
+export default SiderMenu;

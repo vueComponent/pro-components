@@ -21,7 +21,7 @@ export default {
   },
   splitMenus: siderMenuProps.splitMenus,
   menuRender: {
-    type: [Object, Function] as PropType<
+    type: [Object, Function, Boolean] as PropType<
       WithFalse<(props: any /* HeaderViewProps */, defaultDom: CustomRender) => CustomRender>
     >,
     default: () => undefined,
@@ -30,7 +30,7 @@ export default {
   menuItemRender: siderMenuProps.menuItemRender,
   subMenuItemRender: siderMenuProps.subMenuItemRender,
   rightContentRender: {
-    type: [Object, Function] as PropType<WithFalse<(props: any) => CustomRender>>,
+    type: [Object, Function, Boolean] as PropType<WithFalse<(props: any) => CustomRender>>,
     default: () => undefined,
   },
   collapsedButtonRender: siderMenuProps.collapsedButtonRender,
