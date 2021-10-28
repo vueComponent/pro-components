@@ -22,7 +22,10 @@ export default defineComponent({
   name: 'GlobalFooter',
   props: {
     links: [Array, Boolean] as PropType<Links>,
-    copyright: [Object, Function] as PropType<VNodeChild | JSX.Element>,
+    copyright: {
+      type: [Object, Function, Boolean] as PropType<VNodeChild | JSX.Element>,
+      default: () => undefined,
+    },
     prefixCls: {
       type: String,
       default: 'ant-pro',
@@ -35,7 +38,8 @@ export default defineComponent({
         (Array.isArray(props.links) && props.links.length === 0)) &&
       (props.copyright == null || props.copyright === false)
     ) {
-      return null;
+      console.warn('[pro-layout]: GlobalFooter required `links` or `copyright`');
+      return () => null;
     }
 
     const baseClassName = `${props.prefixCls}-global-footer`;

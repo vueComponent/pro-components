@@ -1,33 +1,23 @@
-import { computed, reactive, unref, defineComponent, toRefs } from 'vue'
-import type { CSSProperties, PropType, ExtractPropTypes } from 'vue'
+import { computed, reactive, unref, defineComponent, toRefs } from 'vue';
+import type { CSSProperties, PropType, ExtractPropTypes } from 'vue';
 
-import 'ant-design-vue/es/layout/style'
-import { Layout } from 'ant-design-vue'
-import { withInstall } from 'ant-design-vue/es/_util/type'
-import useMediaQuery from './hooks/useMediaQuery'
+import 'ant-design-vue/es/layout/style';
+import { Layout } from 'ant-design-vue';
+import { withInstall } from 'ant-design-vue/es/_util/type';
+import useMediaQuery from './hooks/useMediaQuery';
 
-import { defaultSettingProps } from './defaultSettings'
-import {
-  provideRouteContext,
-  defaultRouteContext,
-  RouteContextProps,
-} from './RouteContext'
-import SiderMenuWrapper, { siderMenuProps } from './SiderMenu'
-import { WrapContent } from './WrapContent'
-import globalHeaderProps from './GlobalHeader/headerProps'
-import { HeaderView as Header, headerViewProps } from './Header'
-import {
-  getPropsSlot,
-  getPropsSlotfn,
-  PropTypes,
-  getMenuFirstChildren,
-  pick,
-} from './utils'
-import type { BreadcrumbProps } from './RouteContext'
-import type { CustomRender, FormatMessage, WithFalse } from './typings'
+import { defaultSettingProps } from './defaultSettings';
+import { provideRouteContext, defaultRouteContext, RouteContextProps } from './RouteContext';
+import SiderMenuWrapper, { siderMenuProps } from './SiderMenu';
+import { WrapContent } from './WrapContent';
+import globalHeaderProps from './GlobalHeader/headerProps';
+import { HeaderView as Header, headerViewProps } from './Header';
+import { getPropsSlot, getPropsSlotfn, PropTypes, getMenuFirstChildren, pick } from './utils';
+import type { BreadcrumbProps } from './RouteContext';
+import type { CustomRender, FormatMessage, WithFalse } from './typings';
 
-import PageLoading from './PageLoading'
-import './BasicLayout.less'
+import PageLoading from './PageLoading';
+import './BasicLayout.less';
 
 export const basicLayoutProps = {
   ...defaultSettingProps,
@@ -40,7 +30,7 @@ export const basicLayoutProps = {
   locale: {
     type: [Function, Boolean] as PropType<WithFalse<FormatMessage>>,
     default() {
-      return (s: string) => s
+      return (s: string) => s;
     },
   },
   /**
@@ -57,15 +47,11 @@ export const basicLayoutProps = {
     default: () => null,
   },
   collapsedButtonRender: {
-    type: [Function, Object, Boolean] as PropType<
-      WithFalse<(collapsed?: boolean) => any>
-    >,
+    type: [Function, Object, Boolean] as PropType<WithFalse<(collapsed?: boolean) => any>>,
     default: () => undefined,
   },
   breadcrumbRender: {
-    type: [Object, Function, Boolean] as PropType<
-      WithFalse<BreadcrumbProps['itemRender']>
-    >,
+    type: [Object, Function, Boolean] as PropType<WithFalse<BreadcrumbProps['itemRender']>>,
     default: () => {},
   },
   headerContentRender: {
@@ -73,24 +59,18 @@ export const basicLayoutProps = {
     default: () => undefined,
   },
   headerRender: {
-    type: [Object, Function, Boolean] as PropType<
-      WithFalse<(props: any /* HeaderProps */) => any>
-    >,
+    type: [Object, Function, Boolean] as PropType<WithFalse<(props: any /* HeaderProps */) => any>>,
     default: () => undefined,
   },
   footerRender: {
-    type: [Object, Function, Boolean] as PropType<
-      WithFalse<(props: any /* FooterProps */) => any>
-    >,
+    type: [Object, Function, Boolean] as PropType<WithFalse<(props: any /* FooterProps */) => any>>,
     default: () => undefined,
   },
   colSize: PropTypes.string,
   contentStyle: PropTypes.style,
-}
+};
 
-export type BasicLayoutProps = Partial<
-  ExtractPropTypes<typeof basicLayoutProps>
->
+export type BasicLayoutProps = Partial<ExtractPropTypes<typeof basicLayoutProps>>;
 
 const ProLayout = defineComponent({
   name: 'ProLayout',
@@ -107,49 +87,41 @@ const ProLayout = defineComponent({
     'menuClick',
   ],
   setup(props, { emit, slots }) {
-    console.log('props', props)
-    const isTop = computed(() => props.layout === 'top')
-    const hasSide = computed(
-      () => props.layout === 'mix' || props.layout === 'side' || false
-    )
-    const hasSplitMenu = computed(
-      () => props.layout === 'mix' && props.splitMenus
-    )
+    console.log('props', props);
+    const isTop = computed(() => props.layout === 'top');
+    const hasSide = computed(() => props.layout === 'mix' || props.layout === 'side' || false);
+    const hasSplitMenu = computed(() => props.layout === 'mix' && props.splitMenus);
     const hasFlatMenu = computed(() => {
-      return hasSide.value && hasSplitMenu.value
-    })
+      return hasSide.value && hasSplitMenu.value;
+    });
 
-    const siderWidth = computed(() =>
-      props.collapsed ? props.collapsedWidth : props.siderWidth
-    )
+    const siderWidth = computed(() => (props.collapsed ? props.collapsedWidth : props.siderWidth));
 
     // if on event and @event
     const onCollapse = (collapsed: boolean) => {
-      emit('update:collapsed', collapsed)
-      emit('collapse', collapsed)
-    }
+      emit('update:collapsed', collapsed);
+      emit('collapse', collapsed);
+    };
     const onOpenKeys = (openKeys: string[] | false) => {
-      emit('update:open-keys', openKeys)
-      emit('openKeys', openKeys)
-    }
+      emit('update:open-keys', openKeys);
+      emit('openKeys', openKeys);
+    };
     const onSelect = (selectedKeys: string[] | false) => {
-      emit('update:selected-keys', selectedKeys)
-      emit('select', selectedKeys)
-    }
+      emit('update:selected-keys', selectedKeys);
+      emit('select', selectedKeys);
+    };
     const onMenuHeaderClick = (e: MouseEvent) => {
-      emit('menuHeaderClick', e)
-    }
+      emit('menuHeaderClick', e);
+    };
     const onMenuClick = (args: any) => {
-      emit('menuClick', args)
-    }
+      emit('menuClick', args);
+    };
 
-    const colSize = useMediaQuery()
+    const colSize = useMediaQuery();
     const isMobile = computed(
-      () =>
-        (colSize.value === 'sm' || colSize.value === 'xs') &&
-        !props.disableMobile
-    )
-    const baseClassName = computed(() => `${props.prefixCls}-basicLayout`)
+      () => (colSize.value === 'sm' || colSize.value === 'xs') && !props.disableMobile,
+    );
+    const baseClassName = computed(() => `${props.prefixCls}-basicLayout`);
     // gen className
     const className = computed(() => {
       return {
@@ -159,48 +131,45 @@ const ProLayout = defineComponent({
         [`${baseClassName.value}-is-children`]: props.isChildrenLayout,
         [`${baseClassName.value}-fix-siderbar`]: props.fixSiderbar,
         [`${baseClassName.value}-${props.layout}`]: props.layout,
-      }
-    })
+      };
+    });
 
     // siderMenuDom 为空的时候，不需要 padding
     const genLayoutStyle = reactive<CSSProperties>({
       position: 'relative',
-    })
+    });
 
     // if is some layout children, don't need min height
-    if (
-      props.isChildrenLayout ||
-      (props.contentStyle && props.contentStyle.minHeight)
-    ) {
-      genLayoutStyle.minHeight = 0
+    if (props.isChildrenLayout || (props.contentStyle && props.contentStyle.minHeight)) {
+      genLayoutStyle.minHeight = 0;
     }
 
     const headerRender = (
       p: BasicLayoutProps & {
-        hasSiderMenu: boolean
-        headerRender: WithFalse<CustomRender>
-        rightContentRender: WithFalse<CustomRender>
+        hasSiderMenu: boolean;
+        headerRender: WithFalse<CustomRender>;
+        rightContentRender: WithFalse<CustomRender>;
       },
-      matchMenuKeys?: string[]
+      matchMenuKeys?: string[],
     ): CustomRender | null => {
       if (p.headerRender === false || p.pure) {
-        return null
+        return null;
       }
-      return <Header {...p} matchMenuKeys={matchMenuKeys || []} />
-    }
+      return <Header {...p} matchMenuKeys={matchMenuKeys || []} />;
+    };
 
     const breadcrumb = computed<BreadcrumbProps>(() => ({
       ...props.breadcrumb,
       itemRender: getPropsSlotfn(slots, props, 'breadcrumbRender'),
-    }))
+    }));
 
     const flatMenuData = computed(
       () =>
         (hasFlatMenu.value &&
           props.selectedKeys &&
           getMenuFirstChildren(props.menuData, props.selectedKeys[0])) ||
-        []
-    )
+        [],
+    );
 
     const routeContext = reactive<RouteContextProps>(
       Object.assign(
@@ -227,10 +196,10 @@ const ProLayout = defineComponent({
           flatMenuData,
           hasSide,
           flatMenu: hasFlatMenu,
-        }
-      )
-    )
-    provideRouteContext(routeContext)
+        },
+      ),
+    );
+    provideRouteContext(routeContext);
 
     return () => {
       const {
@@ -240,44 +209,24 @@ const ProLayout = defineComponent({
         onSelect: propsOnSelect,
         onMenuClick: propsOnMenuClick,
         ...restProps
-      } = props
+      } = props;
 
-      const collapsedButtonRender = getPropsSlotfn(
-        slots,
-        props,
-        'collapsedButtonRender'
-      )
-      const headerContentRender = getPropsSlot(
-        slots,
-        props,
-        'headerContentRender'
-      )
-      const rightContentRender = getPropsSlot(
-        slots,
-        props,
-        'rightContentRender'
-      )
-      const customHeaderRender = getPropsSlot(slots, props, 'headerRender')
-      const menuHeaderRender = getPropsSlotfn(slots, props, 'menuHeaderRender')
-      const menuContentRender = getPropsSlotfn(
-        slots,
-        props,
-        'menuContentRender'
-      )
-      const menuExtraRender = getPropsSlotfn(slots, props, 'menuExtraRender')
-      const menuFooterRender = getPropsSlotfn(slots, props, 'menuFooterRender')
-      const footerRender = getPropsSlot(slots, props, 'footerRender')
+      const collapsedButtonRender = getPropsSlotfn(slots, props, 'collapsedButtonRender');
+      const headerContentRender = getPropsSlot(slots, props, 'headerContentRender');
+      const rightContentRender = getPropsSlot(slots, props, 'rightContentRender');
+      const customHeaderRender = getPropsSlot(slots, props, 'headerRender');
+      const menuHeaderRender = getPropsSlotfn(slots, props, 'menuHeaderRender');
+      const menuContentRender = getPropsSlotfn(slots, props, 'menuContentRender');
+      const menuExtraRender = getPropsSlotfn(slots, props, 'menuExtraRender');
+      const menuFooterRender = getPropsSlotfn(slots, props, 'menuFooterRender');
+      const footerRender = getPropsSlotfn(slots, props, 'footerRender');
       // menu render
-      const menuItemRender = getPropsSlotfn(slots, props, 'menuItemRender')
-      const subMenuItemRender = getPropsSlotfn(
-        slots,
-        props,
-        'subMenuItemRender'
-      )
+      const menuItemRender = getPropsSlotfn(slots, props, 'menuItemRender');
+      const subMenuItemRender = getPropsSlotfn(slots, props, 'subMenuItemRender');
       const menuRenders = {
         menuItemRender,
         subMenuItemRender,
-      }
+      };
 
       const headerDom = computed(() =>
         headerRender(
@@ -297,15 +246,13 @@ const ProLayout = defineComponent({
             menuContentRender: menuContentRender,
             headerContentRender,
             headerRender: props.headerRender !== false ? customHeaderRender : false,
-            theme: (props.navTheme || 'dark')
-              .toLocaleLowerCase()
-              .includes('dark')
+            theme: (props.navTheme || 'dark').toLocaleLowerCase().includes('dark')
               ? 'dark'
               : 'light',
           },
-          props.matchMenuKeys
-        )
-      )
+          props.matchMenuKeys,
+        ),
+      );
 
       return (
         <>
@@ -334,11 +281,7 @@ const ProLayout = defineComponent({
                   {headerDom.value}
                   <WrapContent
                     isChildrenLayout={props.isChildrenLayout}
-                    style={
-                      props.disableContentMargin
-                        ? undefined
-                        : props.contentStyle
-                    }
+                    style={props.disableContentMargin ? undefined : props.contentStyle}
                   >
                     {props.loading ? <PageLoading /> : slots.default?.()}
                   </WrapContent>
@@ -348,9 +291,9 @@ const ProLayout = defineComponent({
             </div>
           )}
         </>
-      )
-    }
+      );
+    };
   },
-})
+});
 
-export default withInstall(ProLayout)
+export default withInstall(ProLayout);

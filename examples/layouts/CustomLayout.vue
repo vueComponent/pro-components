@@ -28,9 +28,11 @@
     <!-- custom breadcrumb itemRender  -->
     <template #breadcrumbRender="{ route, params, routes }">
       <span v-if="routes.indexOf(route) === routes.length - 1">
+        <SmileOutlined />
         {{ route.breadcrumbName }}
       </span>
       <router-link v-else :to="{ path: route.path, params }">
+        <SmileOutlined />
         {{ route.breadcrumbName }}
       </router-link>
     </template>
@@ -54,29 +56,15 @@
     <!-- content begin -->
     <router-view />
     <!-- content end -->
-    <FooterToolbar>
-      <a-space>
-        <span :disabled="state.layout !== 'mix'">
-          <span style="margin-right: 8px">SplitMenus:</span>
-          <a-switch
-            v-model:checked="state.splitMenus"
-            :disabled="state.layout !== 'mix'"
-            checked-children="ON"
-            un-checked-children="OFF"
-          />
-        </span>
-        <a-button @click="handlePageLoadingClick">Page Loading</a-button>
-        <a-select v-model:value="state.navTheme" style="width: 100px">
-          <a-select-option value="light">Light</a-select-option>
-          <a-select-option value="dark">Dark</a-select-option>
-        </a-select>
-        <a-select v-model:value="state.layout" style="width: 100px">
-          <a-select-option value="side">Side</a-select-option>
-          <a-select-option value="top">Top</a-select-option>
-          <a-select-option value="mix">Mix</a-select-option>
-        </a-select>
-      </a-space>
-    </FooterToolbar>
+    <template #footerRender>
+      <GlobalFooter
+        :links="[
+          { key: 'a link', title: 'Link1', href: 'http://www.baidu.com/', blankTarget: true },
+          { key: 'b link', title: 'Link2', href: 'https://www.google.com/', blankTarget: true },
+        ]"
+        copyright="2021 &copy; Sendya"
+      ></GlobalFooter>
+    </template>
   </pro-layout>
 </template>
 
@@ -84,7 +72,13 @@
 import { computed, defineComponent, reactive, ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 import { Button, Switch, Select, Space, Badge, Menu } from 'ant-design-vue';
-import { getMenuData, clearMenuItem, FooterToolbar } from '@ant-design-vue/pro-layout';
+import {
+  getMenuData,
+  clearMenuItem,
+  FooterToolbar,
+  GlobalFooter,
+} from '@ant-design-vue/pro-layout';
+import { SmileOutlined } from '@ant-design/icons-vue';
 import type { RouteContextProps } from '@ant-design-vue/pro-layout';
 
 const i18n = (t: string) => t;
@@ -101,6 +95,9 @@ export default defineComponent({
 
     [Badge.name]: Badge,
     [Menu.Item.name]: Menu.Item,
+
+    GlobalFooter,
+    SmileOutlined,
   },
   setup() {
     const loading = ref(false);
