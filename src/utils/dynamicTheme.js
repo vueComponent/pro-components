@@ -33,6 +33,6 @@ export const updateTheme = newPrimaryColor => {
 
 export const updateColorWeak = colorWeak => {
   // document.body.className = colorWeak ? 'colorWeak' : '';
-  const app = document.body.querySelector('#app')
+  const app = document.body.querySelector('#app .ant-pro-basicLayout')
   colorWeak ? app.classList.add('colorWeak') : app.classList.remove('colorWeak')
 }

@@ -10,6 +10,7 @@
     :siderWidth="208"
     v-bind="settings"
   >
+    <!--
     <template v-slot:menuRender>
       <ul style="color: white;">
         <li v-for="(menu, key) in menus" :key="key">
@@ -17,10 +18,11 @@
         </li>
       </ul>
     </template>
+    -->
     <template v-slot:menuHeaderRender>
       <div>
         <img src="../assets/logo.svg" />
-        <h1>Pro 1</h1>
+        <h1>Pro Preview</h1>
       </div>
     </template>
     <template v-slot:headerContentRender>

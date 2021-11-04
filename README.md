@@ -2,6 +2,12 @@ English | [简体中文](./README.zh-CN.md)
 
 <h1 align="center">Ant Design Pro Layout</h1>
 
+<div align="center">
+
+[![NPM version](https://img.shields.io/npm/v/@ant-design-vue/pro-layout/latest?style=flat)](https://npmjs.org/package/@ant-design-vue/pro-layout) [![Vue Support](https://img.shields.io/badge/support-Vue2-green?style=flat)](./package.json) [![NPM downloads](http://img.shields.io/npm/dm/@ant-design-vue/pro-layout.svg?style=flat)](https://npmjs.org/package/@ant-design-vue/pro-layout) [![License](https://img.shields.io/github/license/vueComponent/pro-layout)](./LICENSE)
+
+</div>
+
 ## Usage
 
 ```bash

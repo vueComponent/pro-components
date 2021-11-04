@@ -121,7 +121,7 @@ const asyncRouterMap = [
         name: 'remote-baidu',
         meta: {
           title: '百度',
-          icon: 'smile',
+          icon: 'link',
           target: '_blank'
         }
       }

@@ -90,3 +90,6 @@ export {
   default as AlignLeftOutline
 } from '@ant-design/icons/lib/outline/AlignLeftOutline'
 /* MultiTab end */
+export {
+  default as LinkOutline
+} from '@ant-design/icons/lib/outline/LinkOutline'

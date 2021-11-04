@@ -13,7 +13,6 @@
     ],
     "license": "MIT",
     "scripts": {
-        "start": "vc-tools run server",
         "lint": "eslint -c ./.eslintrc --fix --ext .jsx,.js,.vue ./src",
         "compile": "vc-tools run compile --babel-runtime",
         "test": "cross-env NODE_ENV=test jest --config .jest.js",
