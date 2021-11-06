@@ -1,7 +1,7 @@
 import './index.less';
 
-import { WithFalse } from '../typings';
 import { defineComponent, PropType, SetupContext, VNodeChild } from 'vue';
+import { WithFalse } from '../typings';
 
 export type Links = WithFalse<
   {
@@ -61,7 +61,7 @@ export default defineComponent({
             ))}
           </div>
         )}
-        {props.copyright && <div class={`${baseClassName}-copyright`}>{copyright}</div>}
+        {copyright && <div class={`${baseClassName}-copyright`}>{copyright}</div>}
       </footer>
     );
   },

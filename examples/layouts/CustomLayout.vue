@@ -62,8 +62,9 @@
           { key: 'a link', title: 'Link1', href: 'http://www.baidu.com/', blankTarget: true },
           { key: 'b link', title: 'Link2', href: 'https://www.google.com/', blankTarget: true },
         ]"
-        copyright="2021 &copy; Sendya"
-      ></GlobalFooter>
+      >
+        <template #copyright><span>2021 &copy; Sendya</span></template>
+      </GlobalFooter>
     </template>
   </pro-layout>
 </template>
