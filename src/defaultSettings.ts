@@ -46,6 +46,8 @@ export interface PureSettings {
   primaryColor: string;
   colorWeak?: boolean;
   splitMenus?: boolean;
+  showMenu?: boolean;
+  showHeader?: boolean;
 }
 
 export type ProSettings = PureSettings & RenderSetting;
@@ -63,6 +65,8 @@ export const defaultSettings = {
   title: 'Ant Design Pro',
   iconfontUrl: '',
   primaryColor: '#1890ff',
+  showMenu: true,
+  showHeader: true,
 };
 
 export const defaultSettingProps = {
@@ -109,6 +113,14 @@ export const defaultSettingProps = {
   primaryColor: {
     type: String as PropType<PureSettings['primaryColor']>,
     default: () => defaultSettings.primaryColor,
+  },
+  showMenu: {
+    type: Boolean as PropType<PureSettings['showMenu']>,
+    default: () => defaultSettings.showMenu,
+  },
+  showHeader: {
+    type: Boolean as PropType<PureSettings['showHeader']>,
+    default: () => defaultSettings.showHeader,
   },
 };
 

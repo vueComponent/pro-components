@@ -108,6 +108,8 @@ const layoutConf = reactive({
 | selectedKeys | menu selected keys | string[] | `[]` |
 | openKeys | menu openKeys | string[] | `[]` |
 | isMobile | is mobile | boolean | false |
+| showMenu | is menu | boolean | true |
+| showHeader | is header | boolean | true |
 | handleCollapse | folding collapse event of menu | (collapsed: boolean) => void | - |
 | menuHeaderRender | render header logo and title | v-slot \| VNode \| (logo,title)=>VNode \| false | - |
 | menuExtraRender | render extra menu item | v-slot \| VNode \| (props)=>VNode \| false | - |

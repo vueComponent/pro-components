@@ -77,17 +77,14 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps> = (props, { sl
     </span>
   );
   const onCollapse = () => {
-    emit('collapse', !props.collapsed)
-  }
+    emit('collapse', !props.collapsed);
+  };
 
   return (
     <div class={className.value}>
       {isMobile && renderLogo(menuHeaderRender, logoDom)}
       {isMobile && collapsedButtonRender && (
-        <span
-          class={`${baseClassName.value}-collapsed-button`}
-          onClick={onCollapse}
-        >
+        <span class={`${baseClassName.value}-collapsed-button`} onClick={onCollapse}>
           {collapsedButtonRender(collapsed)}
         </span>
       )}
@@ -105,5 +102,5 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps> = (props, { sl
     </div>
   );
 };
-GlobalHeader.inheritAttrs = false
+GlobalHeader.inheritAttrs = false;
 GlobalHeader.emits = ['menuHeaderClick', 'collapse', 'openKeys', 'select'];

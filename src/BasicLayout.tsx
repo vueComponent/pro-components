@@ -171,34 +171,30 @@ const ProLayout = defineComponent({
         [],
     );
 
-    const routeContext = reactive<RouteContextProps>(
-      Object.assign(
-        { ...defaultRouteContext },
-        pick(toRefs(props), [
-          'locale',
-          'menuData',
-          'openKeys',
-          'selectedKeys',
-          'contentWidth',
-          'disableMobile',
-          'fixSiderbar',
-          'fixedHeader',
-          // 'hasSideMenu',
-          // 'hasHeader',
-          // 'hasFooter',
-          // 'hasFooterToolbar',
-          // 'setHasFooterToolbar',
-        ]) as any,
-        {
-          isMobile,
-          siderWidth,
-          breadcrumb,
-          flatMenuData,
-          hasSide,
-          flatMenu: hasFlatMenu,
-        },
-      ),
-    );
+    const routeContext = reactive<RouteContextProps>({
+      ...defaultRouteContext,
+      ...(pick(toRefs(props), [
+        'locale',
+        'menuData',
+        'openKeys',
+        'selectedKeys',
+        'contentWidth',
+        'disableMobile',
+        'fixSiderbar',
+        'fixedHeader',
+        // 'hasSideMenu',
+        // 'hasHeader',
+        // 'hasFooter',
+        // 'hasFooterToolbar',
+        // 'setHasFooterToolbar',
+      ]) as any),
+      isMobile,
+      siderWidth,
+      breadcrumb,
+      flatMenuData,
+      hasSide,
+      flatMenu: hasFlatMenu,
+    });
     provideRouteContext(routeContext);
 
     return () => {
@@ -243,7 +239,7 @@ const ProLayout = defineComponent({
             rightContentRender,
             collapsedButtonRender,
             headerTitleRender: menuHeaderRender,
-            menuContentRender: menuContentRender,
+            menuContentRender,
             headerContentRender,
             headerRender: props.headerRender !== false ? customHeaderRender : false,
             theme: (props.navTheme || 'dark').toLocaleLowerCase().includes('dark')
@@ -261,7 +257,7 @@ const ProLayout = defineComponent({
           ) : (
             <div class={className.value}>
               <Layout class={baseClassName.value}>
-                {(!isTop.value || isMobile.value) && (
+                {props.showMenu && (!isTop.value || isMobile.value) && (
                   <SiderMenuWrapper
                     {...restProps}
                     {...menuRenders}

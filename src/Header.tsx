@@ -113,7 +113,7 @@ export const HeaderView = defineComponent({
     return () => {
       return (
         <>
-          {needFixedHeader.value && (
+          {props.showHeader && needFixedHeader.value && (
             <Header
               style={{
                 height: `${headerHeight.value}px`,
@@ -122,19 +122,21 @@ export const HeaderView = defineComponent({
               }}
             />
           )}
-          <Header
-            style={{
-              padding: 0,
-              height: `${headerHeight.value}px`,
-              lineHeight: `${headerHeight.value}px`,
-              width: width.value,
-              zIndex: layout.value === 'mix' ? 100 : 19,
-              right: right.value,
-            }}
-            class={className.value}
-          >
-            {renderContent()}
-          </Header>
+          {props.showHeader && (
+            <Header
+              style={{
+                padding: 0,
+                height: `${headerHeight.value}px`,
+                lineHeight: `${headerHeight.value}px`,
+                width: width.value,
+                zIndex: layout.value === 'mix' ? 100 : 19,
+                right: right.value,
+              }}
+              class={className.value}
+            >
+              {renderContent()}
+            </Header>
+          )}
         </>
       );
     };
