@@ -28,7 +28,7 @@ npm i @ant-design-vue/pro-layout@next -S
 
 ## Basic Usage
 
-Recommend look [Examples](./examples/) | **Use Template https://github.com/sendya/preview-pro **
+Recommend look [Examples](./examples/) or [Use Template](https://github.com/sendya/preview-pro)
 
 
 ### Simple Usage
@@ -150,7 +150,7 @@ const layoutConf = reactive({
 | zIndex        | water-mark z-index                    | number            | 9                      |
 | content       | water-mark Content                    | string            | -                      |
 | fontColor     | font-color                            | string            | `rgba(0,0,0,.15)`      |
-| fontSize      | font-size                             | string` | `number | 16                     |
+| fontSize      | font-size                             | string` \| `number | 16                     |
 
 
 
