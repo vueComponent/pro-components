@@ -1,5 +1,5 @@
 import type { CSSProperties, PropType, ExtractPropTypes } from 'vue'
-import { defineComponent, computed, ref, watchEffect, toRef } from 'vue'
+import { defineComponent, computed, ref, watchEffect } from 'vue'
 import { useRouteContext } from '../RouteContext'
 
 export type FontStyle = 'none' | 'normal' | 'italic' | 'oblique'
@@ -77,22 +77,10 @@ const WaterMark = defineComponent({
       // antd 内容层 zIndex 基本上在 10 以下 https://github.com/ant-design/ant-design/blob/6192403b2ce517c017f9e58a32d58774921c10cd/components/style/themes/default.less#L335
       zIndex = 9,
       gapX = 212,
-      gapY = 222,
       width = 120,
-      height = 64,
-      rotate = -22, // 默认旋转 -22 度
-      image,
-      offsetLeft,
-      offsetTop,
-      fontStyle = 'normal',
-      fontWeight = 'normal',
-      fontColor = 'rgba(0,0,0,.15)',
-      fontSize = 16,
-      fontFamily = 'sans-serif',
       prefixCls: customizePrefixCls,
     } = props
 
-    const content = toRef(props,'content')
     const { getPrefixCls } = useRouteContext()
     const prefixCls = getPrefixCls('pro-layout-watermark', customizePrefixCls)
     const wrapperCls = computed(() => `${prefixCls}-wrapper`)
@@ -105,6 +93,23 @@ const WaterMark = defineComponent({
     const base64Url = ref('')
 
     watchEffect(() => {
+      const {
+        gapX = 212,
+        gapY = 222,
+        width = 120,
+        height = 64,
+        rotate = -22, // 默认旋转 -22 度
+        image,
+        content,
+        offsetLeft,
+        offsetTop,
+        fontStyle = 'normal',
+        fontWeight = 'normal',
+        fontColor = 'rgba(0,0,0,.15)',
+        fontSize = 16,
+        fontFamily = 'sans-serif',
+      } = props
+
       const canvas = document.createElement('canvas')
       const ctx = canvas.getContext('2d')
       const ratio = getPixelRatio(ctx)
@@ -133,11 +138,11 @@ const WaterMark = defineComponent({
             ctx.drawImage(img, 0, 0, markWidth, markHeight)
             base64Url.value = canvas.toDataURL()
           }
-        } else if (content.value) {
+        } else if (content) {
           const markSize = Number(fontSize) * ratio
           ctx.font = `${fontStyle} normal ${fontWeight} ${markSize}px/${markHeight}px ${fontFamily}`
           ctx.fillStyle = fontColor
-          ctx.fillText(content.value, 0, 0)
+          ctx.fillText(content, 0, 0)
           base64Url.value = canvas.toDataURL()
         }
       } else {
