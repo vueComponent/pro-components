@@ -1,5 +1,5 @@
 import type { CSSProperties, PropType, ExtractPropTypes } from 'vue'
-import { defineComponent, computed, ref, watchEffect } from 'vue'
+import { defineComponent, computed, ref, watchEffect, toRef } from 'vue'
 import { useRouteContext } from '../RouteContext'
 
 export type FontStyle = 'none' | 'normal' | 'italic' | 'oblique'
@@ -82,7 +82,6 @@ const WaterMark = defineComponent({
       height = 64,
       rotate = -22, // 默认旋转 -22 度
       image,
-      content,
       offsetLeft,
       offsetTop,
       fontStyle = 'normal',
@@ -93,6 +92,7 @@ const WaterMark = defineComponent({
       prefixCls: customizePrefixCls,
     } = props
 
+    const content = toRef(props,'content')
     const { getPrefixCls } = useRouteContext()
     const prefixCls = getPrefixCls('pro-layout-watermark', customizePrefixCls)
     const wrapperCls = computed(() => `${prefixCls}-wrapper`)
@@ -133,11 +133,11 @@ const WaterMark = defineComponent({
             ctx.drawImage(img, 0, 0, markWidth, markHeight)
             base64Url.value = canvas.toDataURL()
           }
-        } else if (content) {
+        } else if (content.value) {
           const markSize = Number(fontSize) * ratio
           ctx.font = `${fontStyle} normal ${fontWeight} ${markSize}px/${markHeight}px ${fontFamily}`
           ctx.fillStyle = fontColor
-          ctx.fillText(content, 0, 0)
+          ctx.fillText(content.value, 0, 0)
           base64Url.value = canvas.toDataURL()
         }
       } else {
