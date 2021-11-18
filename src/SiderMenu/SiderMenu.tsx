@@ -15,7 +15,8 @@ import { WithFalse, CustomRender } from '../typings';
 import { SiderProps } from './typings';
 import { defaultSettingProps } from '../defaultSettings';
 import { useRouteContext } from '../RouteContext';
-import { PropTypes, getMenuFirstChildren } from '../utils';
+import PropTypes from 'vue-types';
+
 import './index.less';
 
 const { Sider } = Layout;
@@ -66,15 +67,11 @@ export const siderMenuProps = {
     type: [Object, Boolean] as PropType<SiderProps['breakpoint'] | false>,
     default: () => false,
   },
-  isMobile: PropTypes.looseBool,
-  splitMenus: PropTypes.looseBool,
-  fixed: PropTypes.looseBool,
-  hide: PropTypes.looseBool,
-  matchMenuKeys: {
-    type: Array as PropType<string[]>,
-    default: () => [],
-  },
-
+  isMobile: PropTypes.bool,
+  splitMenus: PropTypes.bool,
+  fixed: PropTypes.bool,
+  hide: PropTypes.bool,
+  matchMenuKeys: PropTypes.array<string>(),
   // events
   onMenuHeaderClick: PropTypes.func,
   onMenuClick: PropTypes.func,

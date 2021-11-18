@@ -21,12 +21,12 @@ specifiers:
   lodash-es: ^4.17.21
   omit.js: ^2.0.2
   prettier: ^2.4.1
-  tsc: ^2.0.3
   typescript: ^4.4.4
   vite: ^2.6.14
   vue: ^3.2.22
   vue-router: ^4.0.12
   vue-tsc: ^0.3.0
+  vue-types: ^4.1.1
 
 dependencies:
   ant-design-vue: 2.2.8_d993d7eb47a5c30940fe6565e4c82216
@@ -34,6 +34,7 @@ dependencies:
   omit.js: 2.0.2
   vue: 3.2.22
   vue-router: 4.0.12_vue@3.2.22
+  vue-types: 4.1.1_vue@3.2.22
 
 devDependencies:
   '@ant-design/icons-vue': 6.0.1_vue@3.2.22
@@ -53,7 +54,6 @@ devDependencies:
   fs-extra: 10.0.0
   less: 4.1.2
   prettier: 2.4.1
-  tsc: 2.0.3
   typescript: 4.4.4
   vite: 2.6.14_less@4.1.2
   vue-tsc: 0.3.0_typescript@4.4.4
@@ -1971,6 +1971,11 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
+  /is-plain-object/5.0.0:
+    resolution: {integrity: sha512-VRSzKkbMm5jMDoKLbltAkFQ5Qr7VDiTFGXxYFXXowVj387GeGNOCsOH6Msy00SGZ3Fp84b1Naa1psqgcCIEP5Q==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
   /is-promise/2.2.2:
     resolution: {integrity: sha512-+lP4/6lKUBfQjZ2pdxThZvLUAafmZb8OAxFb8XXtiQmS35INgr85hdOGoEs124ez1FCnZJt6jau/T+alh58QFQ==}
     dev: true
@@ -2768,11 +2773,6 @@ packages:
     resolution: {integrity: sha1-zCAOqyYT9BZtJ/+a/HylbUnfbrQ=}
     dev: true
 
-  /tsc/2.0.3:
-    resolution: {integrity: sha512-SN+9zBUtrpUcOpaUO7GjkEHgWtf22c7FKbKCA4e858eEM7Qz86rRDpgOU2lBIDf0fLCsEg65ms899UMUIB2+Ow==}
-    hasBin: true
-    dev: true
-
   /tsconfig-paths/3.11.0:
     resolution: {integrity: sha512-7ecdYDnIdmv639mmDwslG6KQg1Z9STTz1j7Gcz0xa+nshh/gKDAHcPxRbWOsA3SPp0tXP2leTcY9Kw+NAkfZzA==}
     dependencies:
@@ -3037,6 +3037,16 @@ packages:
       vue: ^3.0.0
     dependencies:
       is-plain-object: 3.0.1
+      vue: 3.2.22
+    dev: false
+
+  /vue-types/4.1.1_vue@3.2.22:
+    resolution: {integrity: sha512-Jq2GZ/w6rExJbLA/h7nHBFLciu+YNekgox0DB64wN1snZ4IIJMq+qnqp1/vE4fc7vEjZcP5KGhLzkkSjIHLRzw==}
+    engines: {node: '>=12.16.0'}
+    peerDependencies:
+      vue: ^2.0.0 || ^3.0.0
+    dependencies:
+      is-plain-object: 5.0.0
       vue: 3.2.22
     dev: false
 

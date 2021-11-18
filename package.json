@@ -26,7 +26,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vue-tsc --noEmit && vite build && tsc -b --force tsconfig.esm.json",
     "serve": "vite preview",
     "build:types": "tsc -b --force tsconfig.esm.json"
   },
@@ -41,7 +41,8 @@
     "lodash-es": "^4.17.21",
     "omit.js": "^2.0.2",
     "vue": "^3.2.22",
-    "vue-router": "^4.0.12"
+    "vue-router": "^4.0.12",
+    "vue-types": "^4.1.1"
   },
   "devDependencies": {
     "@ant-design/icons-vue": "^6.0.1",
@@ -61,7 +62,6 @@
     "fs-extra": "^10.0.0",
     "less": "^4.1.2",
     "prettier": "^2.4.1",
-    "tsc": "^2.0.3",
     "typescript": "^4.4.4",
     "vite": "^2.6.14",
     "vue-tsc": "^0.3.0"

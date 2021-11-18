@@ -69,7 +69,7 @@
 
     <!-- content begin -->
     <router-view v-slot="{ Component }">
-      <WaterMark content="Pro Layout">
+      <WaterMark :content="watermarkContent">
         <component :is="Component" />
       </WaterMark>
     </router-view>
@@ -105,7 +105,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, ref, watchEffect } from 'vue';
+import { computed, defineComponent, reactive, ref, watchEffect, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { message, Button, Input, Switch, Select, Avatar, Space, Badge, Menu } from 'ant-design-vue';
 import { getMenuData, clearMenuItem, WaterMark, FooterToolbar } from '@ant-design-vue/pro-layout';
@@ -132,7 +132,7 @@ export default defineComponent({
   },
   setup() {
     const loading = ref(false);
-
+    const watermarkContent = ref('Pro Layout');
     const router = useRouter();
     const { menuData } = getMenuData(clearMenuItem(router.getRoutes()));
 
@@ -181,8 +181,15 @@ export default defineComponent({
       }, 2000);
     }
 
+    onMounted(() => {
+      setTimeout(() => {
+        watermarkContent.value = 'New Mark';
+      }, 2000);
+    });
+
     return {
       i18n,
+      watermarkContent,
       baseState,
       state,
       loading,
