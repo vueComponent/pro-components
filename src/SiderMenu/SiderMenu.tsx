@@ -71,7 +71,7 @@ export const siderMenuProps = {
   splitMenus: PropTypes.bool,
   fixed: PropTypes.bool,
   hide: PropTypes.bool,
-  matchMenuKeys: PropTypes.array<string>(),
+  matchMenuKeys: PropTypes.array,
   // events
   onMenuHeaderClick: PropTypes.func,
   onMenuClick: PropTypes.func,
