@@ -23,7 +23,7 @@ export default defineComponent({
   props: {
     links: [Array, Boolean] as PropType<Links>,
     copyright: {
-      type: [Object, Function, Boolean] as PropType<VNodeChild | JSX.Element>,
+      type: [String, Object, Function, Boolean] as PropType<VNodeChild | JSX.Element>,
       default: () => undefined,
     },
     prefixCls: {

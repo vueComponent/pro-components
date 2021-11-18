@@ -87,7 +87,6 @@ const ProLayout = defineComponent({
     'menuClick',
   ],
   setup(props, { emit, slots }) {
-    console.log('props', props);
     const isTop = computed(() => props.layout === 'top');
     const hasSide = computed(() => props.layout === 'mix' || props.layout === 'side' || false);
     const hasSplitMenu = computed(() => props.layout === 'mix' && props.splitMenus);

@@ -42,18 +42,9 @@ const FooterToolbar = defineComponent({
       if (!siderWidth || layout === 'top') {
         return '100%';
       }
-      console.log(
-        'x',
-        unref(siderWidth),
-        'hasFlatMenu',
-        unref(hasFlatMenu),
-        'hasSide',
-        unref(context.hasSide),
-      );
       if (!hasFlatMenu.value && !unref(hasSide)) {
         return '100%';
       }
-      console.log('x2', unref(context.hasSide));
       return isMobile ? '100%' : `calc(100% - ${siderWidth}px)`;
     });
 

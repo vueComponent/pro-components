@@ -121,6 +121,9 @@ const layoutConf = reactive({
 | menuSubItemRender | custom render Menu.SubItem | v-slot#menuSubItemRender="{ item, icon }" \| ({ item, icon }) => VNode | null |
 | locale | i18n | Function (key: string) => string \| `false` | `false` |
 
+> Menu generation requires `getMenuData` and `clearMenuItem` function
+> e.g. `const { menuData } = getMenuData(clearMenuItem(routes))`
+
 ### PageContainer
 
 | Property | Description | Type | Default Value |

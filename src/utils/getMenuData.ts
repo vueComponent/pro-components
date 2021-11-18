@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router';
+
 export { clearMenuItem, flatMap, getMenuFirstChildren } from './index';
 
 export type MenuData = {
@@ -6,7 +7,7 @@ export type MenuData = {
   breadcrumb: Record<string, any>;
 };
 
-const formatRelativePath = (
+export const formatRelativePath = (
   routes: RouteRecordRaw[],
   breadcrumb: Record<string, any>,
   parent?: RouteRecordRaw,
@@ -28,8 +29,17 @@ const formatRelativePath = (
   });
 };
 
-export const getMenuData = (routes: RouteRecordRaw[]): MenuData => {
-  const childrenRoute = routes.find(route => route.path === '/');
+/**
+ *
+ * @param routes all routes
+ * @param child find first route
+ * @returns { childrens, breadcrumb }
+ */
+export const getMenuData = (routes: RouteRecordRaw[], child?: RouteRecordRaw): MenuData => {
+  const childrenRoute = routes.find(
+    route =>
+      (child && (child.name === route.name || child?.path === route.path)) || route.path === '/',
+  );
   const breadcrumb: Record<string, any> = {};
   return {
     menuData: formatRelativePath(childrenRoute?.children || ([] as RouteRecordRaw[]), breadcrumb),
