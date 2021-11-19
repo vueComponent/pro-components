@@ -2,6 +2,7 @@
   <pro-layout
     :menus="menus"
     :collapsed="collapsed"
+    :openOnceKey="false"
     :mediaQuery="query"
     :isMobile="isMobile"
     :handleMediaQuery="handleMediaQuery"
@@ -67,6 +68,11 @@ export default {
       menus: [],
       // 侧栏收起状态
       collapsed: false,
+      // 选中的菜单项
+      selectedKeys: [],
+      // 打开的菜单项
+      openKeys: [],
+
       // 自动隐藏头部栏
       autoHideHeader: false,
       // 媒体查询
@@ -99,9 +105,35 @@ export default {
   },
   created () {
     this.menus = asyncRouterMap.find(item => item.path === '/').children
+
+    this.$watch('$route', () => {
+      this.handleRouteUpdate()
+    })
+  },
+  mounted () {
+    // this.handleRouteUpdate()
+    this.openKeys = ['/dashboard', '/form']
   },
   methods: {
     i18nRender,
+    handleRouteUpdate () {
+      const routes = this.$route.matched.concat()
+      const { hidden } = this.$route.meta
+      if (routes.length >= 3 && hidden) {
+        routes.pop()
+        this.selectedKeys = [routes[routes.length - 1].path]
+      } else {
+        this.selectedKeys = [routes.pop().path]
+      }
+
+      const openKeys = []
+      if (this.layout === 'sidemenu') {
+        routes.forEach(item => {
+          item.path && openKeys.push(item.path)
+        })
+      }
+      this.openKeys = openKeys
+    },
     handleMediaQuery (val) {
       this.query = val
       if (this.isMobile && !val['screen-xs']) {
@@ -115,6 +147,14 @@ export default {
     },
     handleCollapse (val) {
       this.collapsed = val
+    },
+    handleSelect (selectedKeys) {
+      console.log('handleSelect', selectedKeys)
+      this.selectedKeys = selectedKeys
+    },
+    handleOpenChange (openKeys) {
+      console.log('handleOpenChange', openKeys)
+      this.openKeys = openKeys
     },
     handleSettingChange ({ type, value }) {
       console.log('type', type, value)

@@ -15,6 +15,9 @@ export const RouteMenuProps = {
   theme: PropTypes.string.def('dark'),
   mode: PropTypes.string.def('inline'),
   collapsed: PropTypes.bool.def(false),
+  openKeys: PropTypes.array.def(undefined),
+  selectedKeys: PropTypes.array.def(undefined),
+  openOnceKey: PropTypes.bool.def(true),
   i18nRender: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]).def(false),
 }
 
@@ -84,40 +87,42 @@ const RouteMenu = {
   props: RouteMenuProps,
   data () {
     return {
-      openKeys: [],
-      selectedKeys: [],
+      sOpenKeys: [],
+      sSelectedKeys: [],
       cachedOpenKeys: [],
       cachedSelectedKeys: [],
     }
   },
-  render (h) {
-    const { mode, theme, menus, i18nRender } = this
+  render (h, ctx) {
+    const { mode, theme, menus, i18nRender, openOnceKey } = this
     const handleOpenChange = (openKeys) => {
+
       // 在水平模式下时，不再执行后续
       if (mode === 'horizontal') {
-        this.openKeys = openKeys
+        this.sOpenKeys = openKeys
         return
       }
-      const latestOpenKey = openKeys.find(key => !this.openKeys.includes(key))
-      if (!this.rootSubmenuKeys.includes(latestOpenKey)) {
-        this.openKeys = openKeys
+      const latestOpenKey = openKeys.find(key => !this.sOpenKeys.includes(key))
+      if (!openOnceKey) {
+        this.sOpenKeys = openKeys
       } else {
-        this.openKeys = latestOpenKey ? [latestOpenKey] : []
+        this.sOpenKeys = latestOpenKey ? [latestOpenKey] : []
       }
+      this.$emit('openChange', openKeys)
     }
 
     const dynamicProps = {
       props: {
         mode,
         theme,
-        openKeys: this.openKeys,
-        selectedKeys: this.selectedKeys
+        openKeys: this.openKeys || this.sOpenKeys,
+        selectedKeys: this.selectedKeys || this.sSelectedKeys
       },
       on: {
-        select: menu => {
-          this.$emit('select', menu)
-          if (!httpReg.test(menu.key)) {
-            this.selectedKeys = menu.selectedKeys
+        select: args => {
+          this.$emit('select', args.selectedKeys)
+          if (!httpReg.test(args.key)) {
+            this.sSelectedKeys = args.selectedKeys
           }
         },
         openChange: handleOpenChange
@@ -135,13 +140,16 @@ const RouteMenu = {
   methods: {
     updateMenu () {
       const routes = this.$route.matched.concat()
-      const { hidden } = this.$route.meta
-      if (routes.length >= 3 && hidden) {
-        routes.pop()
-        this.selectedKeys = [routes[routes.length - 1].path]
-      } else {
-        this.selectedKeys = [routes.pop().path]
+      if (this.selectedKeys === undefined) {
+        const { hidden } = this.$route.meta
+        if (routes.length >= 3 && hidden) {
+          routes.pop()
+          this.sSelectedKeys = [routes[routes.length - 1].path]
+        } else {
+          this.sSelectedKeys = [routes.pop().path]
+        }
       }
+
       const openKeys = []
       if (this.mode === 'inline') {
         routes.forEach(item => {
@@ -149,13 +157,12 @@ const RouteMenu = {
         })
       }
 
-      this.collapsed ? (this.cachedOpenKeys = openKeys) : (this.openKeys = openKeys)
+      this.collapsed ? (this.cachedOpenKeys = openKeys) : (this.sOpenKeys = openKeys)
     }
   },
   computed: {
     rootSubmenuKeys: vm => {
-      const keys = []
-      vm.menus.forEach(item => keys.push(item.path))
+      const keys =vm.menus.map(item => item.path) || []
       return keys
     }
   },
@@ -166,11 +173,18 @@ const RouteMenu = {
     this.$watch('collapsed', val => {
       if (val) {
         this.cachedOpenKeys = this.openKeys.concat()
-        this.openKeys = []
+        this.sOpenKeys = []
       } else {
-        this.openKeys = this.cachedOpenKeys
+        this.sOpenKeys = this.cachedOpenKeys
       }
     })
+
+    if (this.selectedKeys !== undefined) {
+      this.sSelectedKeys = this.selectedKeys
+    }
+    if (this.openKeys !== undefined) {
+      this.sOpenKeys = this.openKeys
+    }
   },
   mounted () {
     this.updateMenu()

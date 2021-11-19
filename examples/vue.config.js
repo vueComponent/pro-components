@@ -34,7 +34,7 @@ const defaultConfig = {
   configureWebpack: {
     plugins: [
       // Ignore all locale files of moment.js
-      new IgnorePlugin(/^\.\/locale$/, /moment$/)
+      // new IgnorePlugin(/^\.\/locale$/, /moment$/)
     ],
     resolve: {
       alias: {

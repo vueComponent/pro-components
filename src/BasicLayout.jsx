@@ -77,7 +77,7 @@ const BasicLayout = {
   functional: true,
   props: BasicLayoutProps,
   render (h, content) {
-    const { props, children } = content
+    const { props, children, listeners } = content
     const {
       layout,
       // theme,
@@ -113,7 +113,8 @@ const BasicLayout = {
       collapsedButtonRender,
       breadcrumbRender,
       headerContentRender,
-      menuRender
+      menuRender,
+      ...listeners,
     }
 
     return (

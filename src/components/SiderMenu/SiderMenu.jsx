@@ -15,6 +15,9 @@ export const SiderMenuProps = {
   contentWidth: PropTypes.oneOf(['Fluid', 'Fixed']).def('Fluid'),
   collapsible: PropTypes.bool,
   collapsed: PropTypes.bool,
+  openKeys: PropTypes.array.def(undefined),
+  selectedKeys: PropTypes.array.def(undefined),
+  openOnceKey: PropTypes.bool.def(true),
   handleCollapse: PropTypes.func,
   menus: PropTypes.array,
   siderWidth: PropTypes.number.def(256),
@@ -26,6 +29,10 @@ export const SiderMenuProps = {
   // render function or vnode
   menuHeaderRender: PropTypes.oneOfType([PropTypes.func, PropTypes.array, PropTypes.object, PropTypes.bool]),
   menuRender: PropTypes.oneOfType([PropTypes.func, PropTypes.array, PropTypes.object, PropTypes.bool]),
+
+  // listeners
+  openChange: PropTypes.func,
+  select: PropTypes.func,
 }
 
 export const defaultRenderLogo = (h, logo) => {
@@ -75,6 +82,14 @@ const SiderMenu = {
     const {
       collapsible,
       collapsed,
+
+      selectedKeys,
+      openKeys,
+
+      openChange = () => null,
+      select = () => null,
+
+      openOnceKey,
       siderWidth,
       fixSiderbar,
       mode,
@@ -124,7 +139,18 @@ const SiderMenu = {
           && menuRender(h, this.$props)
           || menuRender
       ) || (
-        <BaseMenu collapsed={collapsed} menus={menus} mode={mode} theme={theme} i18nRender={i18nRender} />
+        <BaseMenu
+          collapsed={collapsed}
+          openKeys={openKeys}
+          selectedKeys={selectedKeys}
+          openOnceKey={openOnceKey}
+          onOpenChange={openChange}
+          onSelect={select}
+          menus={menus}
+          mode={mode}
+          theme={theme}
+          i18nRender={i18nRender}
+        />
       )}
     </Sider>)
   }
