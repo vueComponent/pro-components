@@ -96,7 +96,6 @@ const RouteMenu = {
   render (h, ctx) {
     const { mode, theme, menus, i18nRender, openOnceKey } = this
     const handleOpenChange = (openKeys) => {
-
       // 在水平模式下时，不再执行后续
       if (mode === 'horizontal') {
         this.sOpenKeys = openKeys
@@ -156,6 +155,9 @@ const RouteMenu = {
           item.path && openKeys.push(item.path)
         })
       }
+      if (!this.openOnceKey) {
+	this.sOpenKeys.forEach(item => openKeys.push(item))
+      } 
 
       this.collapsed ? (this.cachedOpenKeys = openKeys) : (this.sOpenKeys = openKeys)
     }

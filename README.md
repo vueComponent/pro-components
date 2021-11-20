@@ -140,7 +140,7 @@ export default {
 | i18nRender | i18n | Function (key: string) => string \| `false` | `false` |
 | handleMediaQuery | media matchs callback | (querys: []) => void | - |
 | mediaQuery            | media matchs                                                 | Array                              | -                  |
-
+| openOnceKey           | menu only open root key | `true`     | - |
 
 
 ### PageHeaderWrapper

@@ -137,7 +137,7 @@ export default {
 | i18nRender | 本地化渲染函数 (this.$t) | Function (key: string) => string  \| `false` | `false` |
 | handleMediaQuery | 媒体查询回调 | (querys: []) => void | - |
 | mediaQuery            | ProLayout 当前的媒体查询                        | Array                              | -                  |
-
+| openOnceKey           | Menu菜单最多只打开一个 | `true`  | - |
 
 
 ### PageHeaderWrapper
