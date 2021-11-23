@@ -8,6 +8,10 @@ Ant Design Pro Layout
 
 </div>
 
+## Branch
+- next : Vue3 + ant-design-vue@2.2.x
+- v2   : Vue2 + ant-design-vue@1.7.x
+
 ## Install
 
 ```bash
