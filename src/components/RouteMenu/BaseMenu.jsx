@@ -101,12 +101,8 @@ const RouteMenu = {
         this.sOpenKeys = openKeys
         return
       }
-      const latestOpenKey = openKeys.find(key => !this.sOpenKeys.includes(key))
-      if (!openOnceKey) {
-        this.sOpenKeys = openKeys
-      } else {
-        this.sOpenKeys = latestOpenKey ? [latestOpenKey] : []
-      }
+      // const latestOpenKey = openKeys.find(key => !this.sOpenKeys.includes(key))
+      this.sOpenKeys = openKeys
       this.$emit('openChange', openKeys)
     }
 
@@ -156,8 +152,10 @@ const RouteMenu = {
         })
       }
       if (!this.openOnceKey) {
-	this.sOpenKeys.forEach(item => openKeys.push(item))
-      } 
+	      this.sOpenKeys.forEach(item => {
+          openKeys.push(item)
+        })
+      }
 
       this.collapsed ? (this.cachedOpenKeys = openKeys) : (this.sOpenKeys = openKeys)
     }
@@ -174,7 +172,7 @@ const RouteMenu = {
     })
     this.$watch('collapsed', val => {
       if (val) {
-        this.cachedOpenKeys = this.openKeys.concat()
+        this.cachedOpenKeys = this.sOpenKeys.concat()
         this.sOpenKeys = []
       } else {
         this.sOpenKeys = this.cachedOpenKeys
