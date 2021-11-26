@@ -182,6 +182,7 @@ const ProLayout = defineComponent({
           'disableMobile',
           'fixSiderbar',
           'fixedHeader',
+          'headerHeight',
           // 'hasSideMenu',
           // 'hasHeader',
           // 'hasFooter',

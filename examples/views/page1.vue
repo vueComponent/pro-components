@@ -8,6 +8,7 @@
     </template>
     <span>page-content</span>
     <a-button @click="handleClick">Button</a-button>
+    <p v-for="item in new Array(20)" :key="item">text block...</p>
   </page-container>
 </template>
 

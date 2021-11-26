@@ -6,6 +6,7 @@
     v-bind="state"
     :loading="loading"
     :breadcrumb="{ routes: breadcrumb }"
+    breakpoint="sm"
   >
     <template #menuHeaderRender>
       <a>

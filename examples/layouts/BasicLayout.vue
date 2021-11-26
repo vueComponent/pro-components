@@ -151,6 +151,7 @@ export default defineComponent({
       navTheme: 'dark',
       layout: 'side',
       fixSiderbar: true,
+      fixedHeader: true,
     });
     const breadcrumb = computed(() =>
       router.currentRoute.value.matched.concat().map(item => {

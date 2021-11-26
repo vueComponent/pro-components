@@ -64,7 +64,7 @@ export const siderMenuProps = {
     default: () => undefined,
   },
   breakpoint: {
-    type: [Object, Boolean] as PropType<SiderProps['breakpoint'] | false>,
+    type: [Object, String, Boolean] as PropType<SiderProps['breakpoint'] | false>,
     default: () => false,
   },
   isMobile: PropTypes.bool,
