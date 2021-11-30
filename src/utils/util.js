@@ -23,7 +23,7 @@ export const layoutContentWidth = (contentType) => {
 
 const themeConfig = {
   daybreak: 'daybreak',
-  '#1890ff': 'daybreak',
+  '#1890FF': 'daybreak',
   '#F5222D': 'dust',
   '#FA541C': 'volcano',
   '#FAAD14': 'sunset',

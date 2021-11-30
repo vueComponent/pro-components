@@ -50,18 +50,18 @@ const ThemeColor = {
         <h3 class={`${baseClassName}-title`}>{title}</h3>
         <div class={`${baseClassName}-content`}>
           {colors.map(item => {
-            const themeKey = genThemeToString(item.key)
-            const check = value === item.key || genThemeToString(value) === item.key
+            const themeKey = genThemeToString(item.key.toUpperCase())
+            const check = value.toUpperCase() === item.key.toUpperCase() || genThemeToString(value.toUpperCase()) === item.key.toUpperCase()
             return (
               <Tooltip
-                key={item.color}
-                title={themeKey ? i18n(`app.setting.themecolor.${themeKey}`) : item.key}
+                key={item.color.toUpperCase()}
+                title={themeKey ? i18n(`app.setting.themecolor.${themeKey}`) : item.key.toUpperCase()}
               >
                 <Tag
                   class={`${baseClassName}-block`}
-                  color={item.color}
+                  color={item.color.toUpperCase()}
                   check={check}
-                  onClick={() => handleChange(item.key)}
+                  onClick={() => handleChange(item.key.toUpperCase())}
                 />
               </Tooltip>
             )

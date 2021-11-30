@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import { updateTheme } from '@ant-design-vue/pro-layout'
 import { asyncRouterMap } from '../config/router.config'
 import { i18nRender } from '../locales'
 
@@ -105,6 +106,9 @@ export default {
   },
   created () {
     this.menus = asyncRouterMap.find(item => item.path === '/').children
+
+    // first created, init theme...
+    updateTheme(defaultSettings.primaryColor)
 
     this.$watch('$route', () => {
       this.handleRouteUpdate()
