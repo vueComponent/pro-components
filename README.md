@@ -231,6 +231,28 @@ const layoutConf = reactive({
 </template>
 ```
 
+
+#### Custom footer with slot
+```vue
+<GlobalFooter>
+  <template #links>
+    <a>链接1</a>
+    <a>链接2</a>
+    <a>链接3</a>
+    <a>链接4</a>
+  </template>
+  <template #copyright>
+    <span>Pro Layout &copy; 2021 Sendya.</span>
+  </template>
+</GlobalFooter>
+```
+
+#### Custom footer with props
+```vue
+<GlobalFooter :links="[{ title: 'Link 1', href: '#' }, { title: 'Link 2', href: '#' }]" copyright="Pro Layout &copy; 2021 Sendya." />
+```
+
+
 ### Use WaterMark
 ```vue
 <router-view v-slot="{ Component }">
