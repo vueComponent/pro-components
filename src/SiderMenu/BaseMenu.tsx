@@ -216,7 +216,7 @@ class MenuUtil {
     const target = (meta.target || null) as string | null;
     const hasUrl = isUrl(item.path);
     const CustomTag: any = (target && 'a') || this.RouterLink;
-    const props = { to: { name: item.name } };
+    const props = { to: { name: item.name, ...item.meta } };
     const attrs = hasUrl || target ? { ...item.meta, href: item.path, target } : {};
 
     const { prefixCls, locale } = this.props;

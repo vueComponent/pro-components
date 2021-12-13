@@ -19,13 +19,13 @@ const routes: RouteRecordRaw[] = [
         component: RouteView,
         children: [
           {
-            path: 'workspace',
+            path: '/dashboard/workspace',
             name: 'workspace',
             meta: { title: 'Workspace', icon: 'icon-antdesign' },
             component: () => import('./views/page1.vue'),
           },
           {
-            path: 'monitor',
+            path: '/dashboard/monitor',
             name: 'monitor',
             meta: { title: 'Monitor', icon: 'icon-icon-test' },
             component: () => import('./views/page2.vue'),
@@ -44,6 +44,18 @@ const routes: RouteRecordRaw[] = [
             name: 'basic-form',
             meta: { title: 'Basic Form' },
             component: () => import('./views/page1.vue'),
+          },
+          {
+            path: 'description-form/:id(\\d+)?',
+            name: 'description-form',
+            meta: {
+              title: 'Description',
+              // attach `params` to `$route.params`
+              params: {
+                id: 2,
+              },
+            },
+            component: () => import('./views/dynamic-page.vue'),
           },
         ],
       },

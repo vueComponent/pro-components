@@ -14,11 +14,19 @@ export const formatRelativePath = (
 ): RouteRecordRaw[] => {
   // 计算路由绝对路径
   return routes.map(route => {
-    if (parent) {
-      route.path = `${parent.path || ''}/${route.path}`;
-    } else {
-      route.path = `/${route.path}`;
+    // Note that nested paths that start with / will be treated as a root path.
+    // This allows you to leverage the component nesting without having to use a nested URL.
+    // @ref https://router.vuejs.org/guide/essentials/nested-routes.html#nested-routes
+    const hasRelativePath = route.path.startsWith('/');
+    if (!hasRelativePath) {
+      if (parent) {
+        route.path = `${parent.path || ''}/${route.path}`;
+      } else {
+        route.path = `/${route.path}`;
+      }
     }
+
+    // reformat path
     route.path = route.path.replace('//', '/');
     // format children routes
     if (route.children && route.children.length > 0) {
@@ -42,7 +50,11 @@ export const getMenuData = (routes: RouteRecordRaw[], child?: RouteRecordRaw): M
   );
   const breadcrumb: Record<string, any> = {};
   return {
-    menuData: formatRelativePath(childrenRoute?.children || ([] as RouteRecordRaw[]), breadcrumb),
+    menuData: formatRelativePath(
+      childrenRoute?.children || ([] as RouteRecordRaw[]),
+      breadcrumb,
+      undefined,
+    ),
     breadcrumb,
   };
 };

@@ -10,7 +10,7 @@
   >
     <template #menuHeaderRender>
       <a>
-        <img src="/public/antdv-pro-logo.svg" />
+        <img src="/antdv-pro-logo.svg" />
         <h1>Pro Layout</h1>
       </a>
     </template>
@@ -31,12 +31,8 @@
     </template>
     <!-- custom breadcrumb itemRender  -->
     <template #breadcrumbRender="{ route, params, routes }">
-      <span v-if="routes.indexOf(route) === routes.length - 1">
-        {{ route.breadcrumbName }}
-      </span>
-      <router-link v-else :to="{ path: route.path, params }">
-        {{ route.breadcrumbName }}
-      </router-link>
+      <span v-if="routes.indexOf(route) === routes.length - 1">{{ route.breadcrumbName }}</span>
+      <router-link v-else :to="{ path: route.path, params }">{{ route.breadcrumbName }}</router-link>
     </template>
     <template #menuExtraRender="{ collapsed }">
       <a-input-search v-if="!collapsed" @search="handleSearch" />
@@ -135,6 +131,8 @@ export default defineComponent({
     const watermarkContent = ref('Pro Layout');
     const router = useRouter();
     const { menuData } = getMenuData(clearMenuItem(router.getRoutes()));
+
+    console.log('menuData Paths:', menuData);
 
     const baseState = reactive<Omit<RouteContextProps, 'menuData'>>({
       selectedKeys: [],

@@ -10,7 +10,7 @@
   >
     <template #menuHeaderRender>
       <a>
-        <img src="/public/antdv-pro-logo.svg" />
+        <img src="/antdv-pro-logo.svg" />
         <h1>Pro Layout</h1>
       </a>
     </template>
@@ -47,9 +47,7 @@
       >
         <router-link :to="{ path: item.path }">
           <div class="a-menu-item-title">
-            <a-badge count="5" dot>
-              {{ item.meta.title }}
-            </a-badge>
+            <a-badge count="5" dot>{{ item.meta.title }}</a-badge>
           </div>
         </router-link>
       </a-menu-item>
