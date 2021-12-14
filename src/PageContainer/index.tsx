@@ -275,8 +275,6 @@ const PageContainer = defineComponent({
     return () => {
       const footer = getPropsSlot(slots, props, 'footer');
 
-      //
-      console.log('value.headerHeight', value.headerHeight);
       return (
         <div class={classNames.value}>
           {value.fixedHeader ? (
