@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router';
+import isUrl from './isUrl';
 
 export { clearMenuItem, flatMap, getMenuFirstChildren } from './index';
 
@@ -14,6 +15,11 @@ export const formatRelativePath = (
 ): RouteRecordRaw[] => {
   // 计算路由绝对路径
   return routes.map(route => {
+    // startWith : http | https
+    if (isUrl(route.path)) {
+      return route;
+    }
+
     // Note that nested paths that start with / will be treated as a root path.
     // This allows you to leverage the component nesting without having to use a nested URL.
     // @ref https://router.vuejs.org/guide/essentials/nested-routes.html#nested-routes

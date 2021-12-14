@@ -110,7 +110,7 @@ const LazyIcon: FunctionalComponent<{
   icon: VNodeChild | string;
   iconPrefixes?: string;
   prefixCls?: string;
-}> = (props) => {
+}> = props => {
   const { icon, iconPrefixes = 'icon-', prefixCls = 'ant-pro' } = props;
   if (!icon) {
     return null;
@@ -193,12 +193,13 @@ class MenuUtil {
       );
     }
 
-    const menuItemRender = this.props.menuItemRender && withCtx(this.props.menuItemRender, this.ctx)
+    const menuItemRender =
+      this.props.menuItemRender && withCtx(this.props.menuItemRender, this.ctx);
 
     const [title, icon] = this.getMenuItem(item);
 
     return (
-      (menuItemRender && menuItemRender({ item, title, icon }) as VNode) || (
+      (menuItemRender && (menuItemRender({ item, title, icon }) as VNode)) || (
         <Menu.Item
           disabled={item.meta?.disabled}
           danger={item.meta?.danger}
@@ -250,40 +251,43 @@ export type MenuOnSelect = {
   item: VNodeChild | any;
   domEvent: MouseEvent;
   selectedKeys: string[];
-}
+};
 
-export type MenuOnClick={
+export type MenuOnClick = {
   item: VNodeChild;
   key: string | number;
   keyPath: string | string[] | number | number[];
-}
+};
 
 export default defineComponent({
   name: 'BaseMenu',
   props: baseMenuProps,
   emits: ['update:openKeys', 'update:selectedKeys', 'click'],
   setup(props, { emit }) {
-    const ctx = getCurrentInstance()
+    const ctx = getCurrentInstance();
     const menuUtil = new MenuUtil(props, ctx);
     // update iconfontUrl
     watchEffect(() => {
       if (props.iconfontUrl) {
         IconFont = createFromIconfontCN({
           scriptUrl: props.iconfontUrl,
-        })
+        });
       }
-    })
+    });
 
     const handleOpenChange = (openKeys: string[]): void => {
       emit('update:openKeys', openKeys);
     };
     const handleSelect = (args: MenuOnSelect): void => {
+      // ignore https? link handle selectkeys
+      if (isUrl(args.key as string)) {
+        return;
+      }
       emit('update:selectedKeys', args.selectedKeys);
     };
     const handleClick = (args: MenuOnClick) => {
       emit('click', args);
     };
-
 
     return () => {
       return (
@@ -301,7 +305,7 @@ export default defineComponent({
         >
           {menuUtil.getNavMenuItems(props.menuData)}
         </Menu>
-      )
+      );
     };
   },
 });

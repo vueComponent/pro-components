@@ -65,6 +65,12 @@ const routes: RouteRecordRaw[] = [
         meta: { title: 'Single', icon: 'SettingOutlined' },
         component: () => import('./views/page1.vue'),
       },
+      {
+        path: 'http://www.baidu.com/',
+        name: 'baidu_target',
+        meta: { title: '百度一下', target: '_blank' },
+        component: null,
+      },
     ],
   },
 ];
