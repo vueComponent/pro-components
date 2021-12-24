@@ -21,6 +21,10 @@ module.exports = {
   rules: {
     'import/extensions': 0,
     'import/no-unresolved': 0,
+    'import/no-extraneous-dependencies': [
+      'error',
+      { devDependencies: ['**/*.test.js', '**/*.spec.js', 'scripts/**'] },
+    ],
     'no-param-reassign': 0,
     'consistent-return': 0,
     '@typescript-eslint/no-explicit-any': 0,

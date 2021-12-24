@@ -28,13 +28,14 @@ export default (): Plugin => {
       return code;
     },
     async closeBundle() {
-      for (const [file, code] of maps.entries()) {
-        await fs.mkdir(dirname(file), { recursive: true });
-        await fs.writeFile(normalizePath(file), code, charset);
-      }
+      maps.forEach((code, file) => {
+        fs.mkdirsSync(dirname(file));
+        fs.outputFileSync(normalizePath(file), code, charset);
+      });
 
-      // write style.less
-      await fs.copy(resolve(src, 'index.less'), resolve(output, 'style.less'));
+      // exports .less
+      fs.copySync(resolve(src, 'default.less'), resolve(output, 'default.less'));
+      fs.copySync(resolve(src, 'index.less'), resolve(output, 'style.less'));
     },
   };
 };
