@@ -6,8 +6,6 @@ import {
   CSSProperties,
   unref,
 } from 'vue';
-import 'ant-design-vue/es/layout/style';
-import 'ant-design-vue/es/menu/style';
 import { Layout, Menu } from 'ant-design-vue';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
 import BaseMenu, { baseMenuProps } from './BaseMenu';

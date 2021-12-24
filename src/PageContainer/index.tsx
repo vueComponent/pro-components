@@ -19,10 +19,6 @@ import { AffixProps } from './interfaces/Affix';
 /* replace antd ts define end */
 import { RouteContextProps, useRouteContext } from '../RouteContext';
 import { getPropsSlot, PropTypes } from '../utils';
-import 'ant-design-vue/es/affix/style';
-import 'ant-design-vue/es/page-header/style';
-import 'ant-design-vue/es/tabs/style';
-import 'ant-design-vue/es/spin/style';
 import GridContent from '../GridContent';
 import FooterToolbar from '../FooterToolbar';
 

@@ -1,7 +1,7 @@
 import { Slots } from 'vue';
 import type { RouteRecord, RouteRecordRaw } from 'vue-router';
-// import PropTypes from 'ant-design-vue/es/_util/vue-types';
-import PropTypes from 'vue-types';
+import PropTypes from 'ant-design-vue/es/_util/vue-types';
+// import PropTypes from 'vue-types';
 import { MenuDataItem } from '../typings';
 
 export { default as isUrl } from './isUrl';

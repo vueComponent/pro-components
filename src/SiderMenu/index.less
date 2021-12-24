@@ -1,10 +1,12 @@
-@import '../BasicLayout.less';
+@import '../default.less';
 
 @pro-layout-sider-menu-prefix-cls: ~'@{ant-prefix}-pro-sider';
 
 @nav-header-height: @pro-layout-header-height;
 
-.@{pro-layout-sider-menu-prefix-cls} {
+.@{basicLayout-prefix-cls} {
+
+  .@{pro-layout-sider-menu-prefix-cls} {
   position: relative;
   background-color: @layout-sider-background;
   border-right: 0;
@@ -294,6 +296,10 @@
     transition: opacity 0.3s @ease-in-out, width 0.3s @ease-in-out;
   }
 }
+
+}
+
+
 
 a.@{ant-prefix}-pro-menu-item {
   color: unset;

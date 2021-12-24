@@ -27,7 +27,6 @@ export default defineConfig({
       name: 'ProLayout',
     },
     rollupOptions: {
-
       external: [
         'vue',
         'vue-router',
@@ -44,7 +43,7 @@ export default defineConfig({
         globals: {
           vue: 'Vue',
           'vue-router': 'VueRouter',
-          'ant-design-vue': 'antDesignVue',
+          'ant-design-vue': 'antd',
           '@ant-design/icons-vue': 'iconsVue',
           '@ant-design/icons-svg': 'iconsSvg',
           'antd': 'antd',
@@ -62,6 +61,9 @@ export default defineConfig({
       less: {
         // DO NOT REMOVE THIS LINE
         javascriptEnabled: true,
+        modifyVars: {
+          hack: `true; @import 'ant-design-vue/es/style/themes/default.less'`,
+        }
       },
     },
   },
