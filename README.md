@@ -8,19 +8,6 @@ Ant Design Pro Layout
 
 </div>
 
-## Branch
-- next : Vue3 + ant-design-vue@2.2.x
-- v2   : Vue2 + ant-design-vue@1.7.x
-
-## Install
-
-```bash
-# yarn
-yarn add @ant-design-vue/pro-layout@next
-# npm
-npm i @ant-design-vue/pro-layout@next -S
-```
-
 <details>
    <summary> 💻 <b>Preview layout</b>: </summary>
    <br />
@@ -34,6 +21,19 @@ npm i @ant-design-vue/pro-layout@next -S
 
 Recommend look [Examples](./examples/) or [Use Template](https://github.com/sendya/preview-pro)
 
+
+## Branch
+- next : Vue3 + ant-design-vue@2.2.x
+- v2   : Vue2 + ant-design-vue@1.7.x
+
+## Install
+
+```bash
+# yarn
+yarn add @ant-design-vue/pro-layout@next
+# npm
+npm i @ant-design-vue/pro-layout@next -S
+```
 
 ### Simple Usage
 
