@@ -8,7 +8,7 @@ const excludeRegx = /node_modules/;
 export default (): Plugin => {
   let config: ResolvedConfig;
   let output: string;
-  const src = resolve('./src');
+  const src = normalizePath(resolve('./src'));
   const charset = 'utf-8';
   const maps = new Map<string, string>();
   return {
@@ -17,13 +17,13 @@ export default (): Plugin => {
     apply: 'build',
     configResolved(resolvedConfig: ResolvedConfig) {
       config = resolvedConfig;
-      output = resolve(config.build.outDir);
+      output = normalizePath(resolve(config.build.outDir));
     },
     transform(code: string, id: string) {
       if (!id.endsWith('.less') || excludeRegx.test(id)) {
         return;
       }
-      const filePath = id.replace(src, output);
+      const filePath = `${output}${id.replace(src, '')}`;
       maps.set(filePath, code);
       return code;
     },
