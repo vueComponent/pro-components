@@ -4,9 +4,7 @@
 
 @nav-header-height: @pro-layout-header-height;
 
-.@{basicLayout-prefix-cls} {
-
-  .@{pro-layout-sider-menu-prefix-cls} {
+.@{pro-layout-sider-menu-prefix-cls} {
   position: relative;
   background-color: @layout-sider-background;
   border-right: 0;
@@ -110,7 +108,7 @@
     z-index: 10;
     min-height: 100%;
     box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
-    
+
     .@{ant-prefix}-pro-menu-item {
       > .@{ant-prefix}-badge {
         color: unset;
@@ -203,11 +201,11 @@
     }
   }
 
-  &-fixed {
+  &.@{ant-prefix}-layout-sider.@{pro-layout-sider-menu-prefix-cls}-fixed {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 99;
+    z-index: 100;
     height: 100%;
     overflow: auto;
     overflow-x: hidden;
@@ -228,23 +226,24 @@
   }
 
   &-light {
+    background-color: @component-background;
+    box-shadow: 2px 0 8px 0 rgba(29, 35, 41, 0.05);
+
     .@{ant-prefix}-layout-sider-children {
       ::-webkit-scrollbar-track {
         background: rgba(0, 0, 0, 0.06);
         border-radius: 3px;
-        -webkit-box-shadow: inset 0 0 5px rgba(0, 21, 41, 0.05);
+        box-shadow: inset 0 0 5px rgba(0, 21, 41, 0.05);
       }
 
       /* 滚动条滑块 */
       ::-webkit-scrollbar-thumb {
         background: rgba(0, 0, 0, 0.12);
         border-radius: 3px;
-        -webkit-box-shadow: inset 0 0 5px rgba(0, 21, 41, 0.05);
+        box-shadow: inset 0 0 5px rgba(0, 21, 41, 0.05);
       }
     }
 
-    background-color: @white;
-    box-shadow: 2px 0 8px 0 rgba(29, 35, 41, 0.05);
     .@{pro-layout-sider-menu-prefix-cls}-logo {
       h1 {
         color: @primary-color;
@@ -296,10 +295,6 @@
     transition: opacity 0.3s @ease-in-out, width 0.3s @ease-in-out;
   }
 }
-
-}
-
-
 
 a.@{ant-prefix}-pro-menu-item {
   color: unset;

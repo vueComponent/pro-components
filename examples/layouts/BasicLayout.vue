@@ -32,7 +32,9 @@
     <!-- custom breadcrumb itemRender  -->
     <template #breadcrumbRender="{ route, params, routes }">
       <span v-if="routes.indexOf(route) === routes.length - 1">{{ route.breadcrumbName }}</span>
-      <router-link v-else :to="{ path: route.path, params }">{{ route.breadcrumbName }}</router-link>
+      <router-link v-else :to="{ path: route.path, params }">
+        {{ route.breadcrumbName }}
+      </router-link>
     </template>
     <template #menuExtraRender="{ collapsed }">
       <a-input-search v-if="!collapsed" @search="handleSearch" />
@@ -69,34 +71,6 @@
         <component :is="Component" />
       </WaterMark>
     </router-view>
-
-    <!-- content end -->
-    <FooterToolbar>
-      <template #extra>
-        <span>FooterToolbar</span>
-      </template>
-      <a-space>
-        <span :disabled="state.layout !== 'mix'">
-          <span style="margin-right: 8px">SplitMenus:</span>
-          <a-switch
-            v-model:checked="state.splitMenus"
-            :disabled="state.layout !== 'mix'"
-            checked-children="ON"
-            un-checked-children="OFF"
-          />
-        </span>
-        <a-button @click="handlePageLoadingClick">Page Loading</a-button>
-        <a-select v-model:value="state.navTheme" style="width: 100px">
-          <a-select-option value="light">Light</a-select-option>
-          <a-select-option value="dark">Dark</a-select-option>
-        </a-select>
-        <a-select v-model:value="state.layout" style="width: 100px">
-          <a-select-option value="side">Side</a-select-option>
-          <a-select-option value="top">Top</a-select-option>
-          <a-select-option value="mix">Mix</a-select-option>
-        </a-select>
-      </a-space>
-    </FooterToolbar>
   </pro-layout>
 </template>
 
@@ -132,8 +106,6 @@ export default defineComponent({
     const router = useRouter();
     const { menuData } = getMenuData(clearMenuItem(router.getRoutes()));
 
-    console.log('menuData Paths:', menuData);
-
     const baseState = reactive<Omit<RouteContextProps, 'menuData'>>({
       selectedKeys: [],
       openKeys: [],
@@ -146,7 +118,7 @@ export default defineComponent({
       splitMenus: true,
       // title: 'ProLayout',
       // logo: 'https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg',
-      navTheme: 'dark',
+      navTheme: 'light',
       layout: 'side',
       fixSiderbar: true,
       fixedHeader: true,
