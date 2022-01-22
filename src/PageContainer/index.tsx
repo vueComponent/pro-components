@@ -273,8 +273,8 @@ const PageContainer = defineComponent({
 
       return (
         <div class={classNames.value}>
-          {value.fixedHeader ? (
-            <Affix offsetTop={value.fixedHeader ? value.headerHeight : 0} {...affixProps.value}>
+          {props.fixedHeader ? (
+            <Affix offsetTop={props.fixedHeader ? value.headerHeight : 0} {...affixProps.value}>
               {headerDom.value}
             </Affix>
           ) : (

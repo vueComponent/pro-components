@@ -1,13 +1,13 @@
 import { defineComponent, h } from 'vue';
 import { Spin, SpinProps } from 'ant-design-vue';
-import { getSpinProps } from 'ant-design-vue/es/spin/Spin';
+import { spinProps } from 'ant-design-vue/es/spin/Spin';
 
 export type PageLoadingProps = SpinProps;
 
 const PageLoading = defineComponent({
   name: 'PageLoading',
   props: {
-    ...getSpinProps(),
+    ...spinProps(),
   },
   render() {
     return h(
