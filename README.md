@@ -70,7 +70,8 @@ After that, you can use pro-layout in your Vue components as simply as this:
 </template>
 
 <script setup lang="ts">
-import { reactive, useRouter } from 'vue';
+import { reactive } from 'vue';
+import { useRouter } from 'vue-router';
 import { getMenuData, clearMenuItem } from '@ant-design-vue/pro-layout';
 
 const locale = (i18n: string) => i18n;
