@@ -1,6 +1,0 @@
-node_modules/
-**/*.spec.*
-**/style/
-*.html
-src/icons
-vite.config.ts

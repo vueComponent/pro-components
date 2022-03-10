@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "lib": ["esnext"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "noEmitOnError": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "pretty": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "esnext",
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": false,
+    "declarationDir": ".",
+    "types": ["node"]
+  },
+  "exclude": ["dist", "node_modules", "test/types"],
+  "include": ["src/**/*"]
+}
