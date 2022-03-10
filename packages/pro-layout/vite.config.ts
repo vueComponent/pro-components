@@ -11,7 +11,7 @@ const distDir = fileURLToPath(new URL('./dist', import.meta.url))
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), vueJsx(), lessCopy()],
+  plugins: [vue(), vueJsx()],
   resolve: {
     alias: {
       '@ant-design-vue/pro-layout': srcDir,
@@ -38,6 +38,7 @@ export default defineConfig({
     rollupOptions: {
       external: ['vue', 'vue-router', '@ant-design/icons-vue', '@ant-design/icons-svg', 'ant-design-vue', 'moment'],
       output: {
+        exports: 'named',
         // Provide global variables to use in the UMD build
         // for externalized deps`
         globals: {
@@ -52,9 +53,9 @@ export default defineConfig({
       plugins: [
         typescript({
           target: 'es2020',
-          rootDir: srcDir,
+          rootDir: './src',
           declaration: true,
-          declarationDir: distDir,
+          declarationDir: './dist',
           exclude: 'node_modules/**',
           allowSyntheticDefaultImports: true,
         }),

@@ -1,18 +1,16 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "examples/**/*.vue"],
-  "exclude": ["src/**/__tests__/*", "node_modules"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts"],
   "compilerOptions": {
-    "skipLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"],
-      "@ant-design-vue/pro-layout":["./src/index.ts"]
-    }
+    "declaration": true,
+    "declarationDir": "./dist"
   },
+  "files": [],
   "references": [
     {
       "path": "./tsconfig.vite-config.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
     },
     {
       "path": "./tsconfig.vitest.json"

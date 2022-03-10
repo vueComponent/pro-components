@@ -1,3 +1,6 @@
+import './default.less'
+import './index.less'
+
 export * from './RouteContext'
 export * from './typings'
 export * from './utils/getMenuData'
@@ -26,3 +29,5 @@ export type { WaterMarkProps } from './components/WaterMark'
 
 export { default } from './BasicLayout'
 export type { BasicLayoutProps } from './BasicLayout'
+
+export { default as ProLayout } from './BasicLayout'
