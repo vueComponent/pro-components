@@ -1,5 +1,5 @@
 {
-  "name": "pro-layout",
+  "name": "@ant-design-vue/pro-layout",
   "version": "3.2.0-alpha.1",
   "scripts": {
     "dev": "vite",

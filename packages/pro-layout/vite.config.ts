@@ -11,7 +11,7 @@ const distDir = fileURLToPath(new URL('./dist', import.meta.url))
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), vueJsx()],
+  plugins: [vue(), vueJsx(), lessCopy()],
   resolve: {
     alias: {
       '@ant-design-vue/pro-layout': srcDir,
