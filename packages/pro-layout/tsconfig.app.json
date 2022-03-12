@@ -4,11 +4,9 @@
   "exclude": ["src/**/__tests__/*", "node_modules"],
   "compilerOptions": {
     "composite": true,
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@ant-design-vue/pro-layout":["./src/index.ts"]
-
     }
   }
 }

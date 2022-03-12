@@ -1,8 +1,7 @@
 {
-  "include": ["src/**/*.ts", "src/**/*.d.ts"],
   "compilerOptions": {
-    "declaration": true,
-    "declarationDir": "./dist"
+    "baseUrl": ".",
+    "preserveSymlinks": true
   },
   "files": [],
   "references": [

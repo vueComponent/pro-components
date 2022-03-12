@@ -36,7 +36,15 @@ export default defineConfig({
       name: 'ProLayout',
     },
     rollupOptions: {
-      external: ['vue', 'vue-router', '@ant-design/icons-vue', '@ant-design/icons-svg', 'ant-design-vue', 'moment'],
+      external: [
+        'vue',
+        'vue-router',
+        '@ant-design/icons-vue',
+        '@ant-design/icons-svg',
+        'ant-design-vue',
+        'moment',
+        'vue-types',
+      ],
       output: {
         exports: 'named',
         // Provide global variables to use in the UMD build
@@ -47,17 +55,20 @@ export default defineConfig({
           'ant-design-vue': 'antd',
           '@ant-design/icons-vue': 'iconsVue',
           '@ant-design/icons-svg': 'iconsSvg',
+          'vue-types': 'vueTypes',
           moment: 'moment',
         },
       },
       plugins: [
         typescript({
+          tsconfig: './tsconfig.esm.json',
           target: 'es2020',
-          rootDir: './src',
-          declaration: true,
-          declarationDir: './dist',
-          exclude: 'node_modules/**',
-          allowSyntheticDefaultImports: true,
+          emitDeclarationOnly: true,
+          // outDir: 'dist',
+          // declaration: true,
+          // declarationDir: '.',
+          // exclude: 'node_modules/**',
+          // allowSyntheticDefaultImports: true,
         }),
       ],
     },

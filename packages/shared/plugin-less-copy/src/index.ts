@@ -22,9 +22,10 @@ function createPlugin(): Plugin {
 
     generateBundle() {
       maps.forEach((code, file) => {
+        const filename = file.replace(srcDir, '').substring(1)
         this.emitFile({
           type: 'asset',
-          fileName: file.replace(srcDir, '').substring(1),
+          fileName: filename,
           source: code,
         })
       })

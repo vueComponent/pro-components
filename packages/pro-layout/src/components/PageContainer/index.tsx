@@ -47,7 +47,7 @@ export const pageHeaderTabConfig = {
   /**
    * @name 当前选中 tab 的 key
    */
-  tabActiveKey: PropTypes.string,
+  tabActiveKey: String, //PropTypes.string,
   /**
    * @name tab 上多余的区域
    */
@@ -59,22 +59,25 @@ export const pageHeaderTabConfig = {
    * @name tabs 的其他配置
    */
   tabProps: {
-    type: Object as PropType<TabsProps>,
+    type: Object, //as PropType<TabsProps>,
     default: () => undefined,
   },
   /**
    * @name 固定 PageHeader 到页面顶部
    */
-  fixedHeader: PropTypes.looseBool,
+  fixedHeader: Boolean,//PropTypes.looseBool,
   // events
-  onTabChange: PropTypes.func,
+  onTabChange: Function,//PropTypes.func,
 }
 export type PageHeaderTabConfig = Partial<ExtractPropTypes<typeof pageHeaderTabConfig>>
 
 export const pageContainerProps = {
   ...pageHeaderTabConfig,
   ...pageHeaderProps,
-  prefixCls: PropTypes.string.def('ant-pro'),
+  prefixCls: {
+    type: String,
+    default: 'ant-pro',
+  },//PropTypes.string.def('ant-pro'),
   title: {
     type: [Object, String, Boolean, Function] as PropType<DefaultPropRender>,
     default: () => null,
@@ -105,8 +108,14 @@ export const pageContainerProps = {
   affixProps: {
     type: [Object, Function] as PropType<AffixProps>,
   },
-  ghost: PropTypes.looseBool,
-  loading: PropTypes.looseBool,
+  ghost: {
+    type: Boolean,
+    default: () => undefined,
+  },//PropTypes.looseBool,
+  loading: {
+    type: Boolean,
+    default: () => undefined,
+  }, //PropTypes.looseBool,
 }
 
 export type PageContainerProps = Partial<ExtractPropTypes<typeof pageContainerProps>>
