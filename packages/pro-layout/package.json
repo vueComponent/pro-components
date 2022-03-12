@@ -1,6 +1,6 @@
 {
   "name": "@ant-design-vue/pro-layout",
-  "version": "3.2.0-alpha.1",
+  "version": "3.2.0-alpha.2",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -13,14 +13,17 @@
   "files": [
     "dist"
   ],
+  "types": "./dist",
+  "style": "./dist/style.css",
   "main": "./dist/pro-layout.umd.js",
   "module": "./dist/pro-layout.es.js",
-  "typings": "./dist/main.d.ts",
   "exports": {
     ".": {
       "import": "./dist/pro-layout.es.js",
       "require": "./dist/pro-layout.umd.js"
-    }
+    },
+    "./dist/style.css": "./dist/style.css",
+    "./dist/style.less": "./dist/style.less"
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.0.1",

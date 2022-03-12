@@ -6,7 +6,8 @@
     "composite": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@ant-design-vue/pro-layout":["./src/index.ts"]
+      "@ant-design-vue/pro-layout":["./src/index.ts"],
+      "vue-types": ["../../node_modules/vue-types"],
     }
   }
 }

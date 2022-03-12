@@ -1,5 +1,5 @@
 import './default.less'
-import './index.less'
+import './style.less'
 
 export * from './RouteContext'
 export * from './typings'

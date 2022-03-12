@@ -4,10 +4,13 @@ import {
   unref,
   defineComponent,
   toRefs,
+  provide,
   type App,
+  type Plugin,
   type CSSProperties,
   type PropType,
   type ExtractPropTypes,
+  type DefineComponent,
 } from 'vue'
 
 import 'ant-design-vue/es/layout/style'
@@ -15,7 +18,7 @@ import { Layout } from 'ant-design-vue'
 import useMediaQuery from './hooks/useMediaQuery'
 
 import { defaultSettingProps } from './defaultSettings'
-import { provideRouteContext, defaultRouteContext, type RouteContextProps } from './RouteContext'
+import { routeContextInjectKey, defaultRouteContext, type RouteContextProps } from './RouteContext'
 import SiderMenuWrapper, { siderMenuProps } from './components/SiderMenu'
 import { WrapContent } from './WrapContent'
 import { HeaderView as Header, headerViewProps } from './Header'
@@ -232,7 +235,7 @@ const ProLayout = defineComponent({
       hasSide,
       flatMenu: hasFlatMenu,
     })
-    provideRouteContext(routeContext)
+    provide(routeContextInjectKey, routeContext)
 
     return () => {
       const {
@@ -329,4 +332,4 @@ ProLayout.install = (app: App) => {
   return app
 }
 
-export default ProLayout
+export default ProLayout as DefineComponent<BasicLayoutProps> & Plugin

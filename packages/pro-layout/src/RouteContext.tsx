@@ -61,7 +61,7 @@ export const defaultRouteContext = reactive({
   hasFooterToolbar: false,
 })
 
-const routeContextInjectKey: InjectionKey<RouteContextProps> = Symbol('route-context')
+export const routeContextInjectKey: InjectionKey<RouteContextProps> = Symbol('route-context')
 
 export const createRouteContext = () => createContext<RouteContextProps>(routeContextInjectKey, 'RouteContext.Provider')
 
