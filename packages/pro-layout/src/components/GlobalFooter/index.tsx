@@ -26,7 +26,7 @@ export default defineComponent({
       required: true,
     },
     copyright: {
-      type: [Object, Function] as PropType<CustomRender>,
+      type: [Object, Function, String, Boolean] as PropType<WithFalse<CustomRender>>,
       default: () => undefined,
     },
     prefixCls: {

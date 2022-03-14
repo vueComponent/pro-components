@@ -14,7 +14,7 @@ import omit from 'omit.js'
 import PageHeader, { pageHeaderProps } from 'ant-design-vue/es/page-header'
 import { Tabs, Affix, Spin } from 'ant-design-vue'
 import type { TabPaneProps } from './interfaces/TabPane'
-import type { TabBarExtraContent, TabsProps } from './interfaces/Tabs'
+import type { TabBarExtraContent /*, TabsProps */ } from './interfaces/Tabs'
 import type { AffixProps } from './interfaces/Affix'
 /* replace antd ts define end */
 import { type RouteContextProps, useRouteContext } from '../../RouteContext'
@@ -25,7 +25,6 @@ import 'ant-design-vue/es/tabs/style'
 import 'ant-design-vue/es/spin/style'
 import GridContent from '../GridContent'
 import FooterToolbar from '../FooterToolbar'
-import PropTypes from 'ant-design-vue/es/_util/vue-types'
 import { withInstall } from 'ant-design-vue/es/_util/type'
 import type { CustomRender } from '../../typings'
 import type { DefaultPropRender, PageHeaderRender } from '../../RenderTypings'
@@ -65,9 +64,9 @@ export const pageHeaderTabConfig = {
   /**
    * @name 固定 PageHeader 到页面顶部
    */
-  fixedHeader: Boolean,//PropTypes.looseBool,
+  fixedHeader: Boolean, //PropTypes.looseBool,
   // events
-  onTabChange: Function,//PropTypes.func,
+  onTabChange: Function, //PropTypes.func,
 }
 export type PageHeaderTabConfig = Partial<ExtractPropTypes<typeof pageHeaderTabConfig>>
 
@@ -77,7 +76,7 @@ export const pageContainerProps = {
   prefixCls: {
     type: String,
     default: 'ant-pro',
-  },//PropTypes.string.def('ant-pro'),
+  }, //PropTypes.string.def('ant-pro'),
   title: {
     type: [Object, String, Boolean, Function] as PropType<DefaultPropRender>,
     default: () => null,
@@ -111,7 +110,7 @@ export const pageContainerProps = {
   ghost: {
     type: Boolean,
     default: () => undefined,
-  },//PropTypes.looseBool,
+  }, //PropTypes.looseBool,
   loading: {
     type: Boolean,
     default: () => undefined,

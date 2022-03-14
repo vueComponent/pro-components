@@ -1,4 +1,4 @@
-import 'ant-design-vue/dist/antd.less'
+import '@ant-design-vue/pro-layout/style.less'
 
 import { createApp } from 'vue'
 import ProLayout, { PageContainer } from '@ant-design-vue/pro-layout'

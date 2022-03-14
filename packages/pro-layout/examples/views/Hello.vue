@@ -16,6 +16,9 @@
 
 <script lang="ts" setup>
 import { Result as AResult, Button as AButton, message } from 'ant-design-vue'
+import 'ant-design-vue/es/result/style'
+import 'ant-design-vue/es/button/style'
+import 'ant-design-vue/es/message/style'
 
 const handleClick = () => {
   console.log('info')

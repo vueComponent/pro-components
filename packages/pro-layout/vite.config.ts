@@ -6,15 +6,12 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import typescript from '@rollup/plugin-typescript'
 import lessCopy from '@shared/vite-plugin-less-copy'
 
-const srcDir = fileURLToPath(new URL('./src', import.meta.url))
-const distDir = fileURLToPath(new URL('./dist', import.meta.url))
-
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue(), vueJsx(), lessCopy()],
   resolve: {
     alias: {
-      '@ant-design-vue/pro-layout': srcDir,
+      '@ant-design-vue/pro-layout': fileURLToPath(new URL('./src', import.meta.url)),
       '@': fileURLToPath(new URL('./examples', import.meta.url)),
     },
   },
