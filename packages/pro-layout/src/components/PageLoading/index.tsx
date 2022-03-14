@@ -1,3 +1,5 @@
+import 'ant-design-vue/es/spin/style'
+
 import { defineComponent, h } from 'vue'
 import { Spin, type SpinProps } from 'ant-design-vue'
 import { spinProps } from 'ant-design-vue/es/spin/Spin'
