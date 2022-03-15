@@ -86,19 +86,7 @@ const WaterMark = defineComponent({
       // antd 内容层 zIndex 基本上在 10 以下 https://github.com/ant-design/ant-design/blob/6192403b2ce517c017f9e58a32d58774921c10cd/components/style/themes/default.less#L335
       zIndex = 9,
       gapX = 212,
-      gapY = 222,
       width = 120,
-      height = 64,
-      rotate = -22, // 默认旋转 -22 度
-      image,
-      content,
-      offsetLeft,
-      offsetTop,
-      fontStyle = 'normal',
-      fontWeight = 'normal',
-      fontColor = 'rgba(0,0,0,.15)',
-      fontSize = 16,
-      fontFamily = 'sans-serif',
       prefixCls: customizePrefixCls,
     } = props;
 
@@ -114,6 +102,23 @@ const WaterMark = defineComponent({
     const base64Url = ref('');
 
     watchEffect(() => {
+      const { 
+        gapX = 212,
+        gapY = 222,
+        width = 120,
+        height = 64, 
+        rotate = -22, // 默认旋转 -22 度
+        image,
+        content, 
+        offsetLeft,
+        offsetTop,
+        fontStyle = 'normal',
+        fontWeight = 'normal',
+        fontColor = 'rgba(0,0,0,.15)',
+        fontSize = 16,
+        fontFamily = 'sans-serif',
+      } = props
+
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
       const ratio = getPixelRatio(ctx);
