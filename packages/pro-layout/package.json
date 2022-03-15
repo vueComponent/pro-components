@@ -1,6 +1,6 @@
 {
   "name": "@ant-design-vue/pro-layout",
-  "version": "3.2.0-alpha.5",
+  "version": "3.2.0-rc.0",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.0.1",
-    "ant-design-vue": "^3.0.0-beta.13",
+    "ant-design-vue": "^3.1.0-rc.0",
     "omit.js": "^2.0.2",
     "vue": "^3.2.31",
     "vue-router": "^4.0.12"
