@@ -3,21 +3,20 @@ import {
   defineComponent,
   unref,
   toRefs,
+  type FunctionalComponent,
   type VNode,
   type VNodeChild,
   type PropType,
   type ExtractPropTypes,
 } from 'vue'
 /* replace antd ts define */
-import omit from 'omit.js'
-
 import PageHeader, { pageHeaderProps } from 'ant-design-vue/es/page-header'
 import { Tabs, Affix, Spin } from 'ant-design-vue'
 import type { TabPaneProps } from './interfaces/TabPane'
 import type { TabBarExtraContent /*, TabsProps */ } from './interfaces/Tabs'
 import type { AffixProps } from './interfaces/Affix'
 /* replace antd ts define end */
-import { type RouteContextProps, useRouteContext } from '../../RouteContext'
+import { useRouteContext } from '../../RouteContext'
 import { getSlot, getSlotVNode } from '../../utils'
 import 'ant-design-vue/es/affix/style'
 import 'ant-design-vue/es/page-header/style'
@@ -104,13 +103,14 @@ export const pageContainerProps = {
   },
   pageHeaderRender: {
     type: [Object, Function, Boolean] as PropType<PageHeaderRender>,
+    default: () => undefined,
   },
   affixProps: {
     type: [Object, Function] as PropType<AffixProps>,
   },
   ghost: {
     type: Boolean,
-    default: () => undefined,
+    default: () => false,
   }, //PropTypes.looseBool,
   loading: {
     type: Boolean,
@@ -177,41 +177,58 @@ const renderPageHeader = (
   )
 }
 
-const defaultPageHeaderRender = (
-  props: PageContainerProps,
-  value: Required<RouteContextProps> & { prefixedClassName: string }
-) => {
-  const { title, tabList, tabActiveKey, content, pageHeaderRender, header, extraContent, ...restProps } = omit(props, [
-    'prefixCls',
-  ])
-  if (pageHeaderRender) {
-    return pageHeaderRender({ ...props, ...value })
+const ProPageHeader: FunctionalComponent<PageContainerProps & { prefixedClassName: string }> = (props) => {
+  const {
+    title,
+    tabList,
+    tabActiveKey,
+    content,
+    pageHeaderRender,
+    header,
+    extraContent,
+    prefixedClassName,
+    prefixCls,
+    ...restProps
+  } = props
+  const value = useRouteContext()
+
+  if (pageHeaderRender === false) {
+    return null
   }
+  if (pageHeaderRender) {
+    return pageHeaderRender({ ...props })
+  }
+
   let pageHeaderTitle = title
   if (!title && title !== false) {
     pageHeaderTitle = value.title
   }
+
   const unrefBreadcrumb = unref(value.breadcrumb || {})
   const breadcrumb = restProps.breadcrumb || {
     ...unrefBreadcrumb,
     routes: unrefBreadcrumb.routes,
     itemRender: unrefBreadcrumb.itemRender,
   }
-  // inject value
+
   return (
-    <PageHeader
-      {...restProps}
-      title={pageHeaderTitle}
-      breadcrumb={breadcrumb}
-      footer={renderFooter({
-        ...restProps,
-        tabList,
-        tabActiveKey,
-        prefixedClassName: value.prefixedClassName,
-      })}
-    >
-      {header || renderPageHeader(content, extraContent, value.prefixedClassName)}
-    </PageHeader>
+    <div class={`${prefixedClassName}-wrap`}>
+      <PageHeader
+        {...restProps}
+        {...value}
+        title={pageHeaderTitle}
+        breadcrumb={breadcrumb}
+        footer={renderFooter({
+          ...restProps,
+          tabList,
+          tabActiveKey,
+          prefixedClassName,
+        })}
+        prefixCls={prefixCls}
+      >
+        {header || renderPageHeader(content, extraContent, prefixedClassName)}
+      </PageHeader>
+    </div>
   )
 }
 
@@ -231,39 +248,42 @@ const PageContainer = defineComponent({
         [`${prefixCls}-page-container-ghost`]: ghost.value,
       }
     })
-
     const headerDom = computed(() => {
       const tags = getSlotVNode<DefaultPropRender>(slots, props, 'tags')
       const headerContent = getSlotVNode<DefaultPropRender>(slots, props, 'content')
       const extra = getSlotVNode<DefaultPropRender>(slots, props, 'extra')
       const extraContent = getSlotVNode<DefaultPropRender>(slots, props, 'extraContent')
+      // {
+      //   ...props,
+      //   tags,
+      //   content: headerContent,
+      //   extra,
+      //   extraContent,
+      //   prefixCls: undefined,
+      //   prefixedClassName: prefixedClassName.value,
+      // }
       return (
-        <div class={`${prefixedClassName.value}-warp`}>
-          {defaultPageHeaderRender(
-            {
-              ...props,
-              tags,
-              content: headerContent,
-              extra,
-              extraContent,
-              prefixCls: undefined,
-            },
-            {
-              ...value,
-              prefixedClassName: prefixedClassName.value,
-            }
-          )}
-        </div>
+        <ProPageHeader
+          {...props}
+          prefixCls={undefined}
+          prefixedClassName={prefixedClassName.value}
+          ghost={ghost.value}
+          content={headerContent}
+          tags={tags}
+          extra={extra}
+          extraContent={extraContent}
+        />
       )
     })
 
     return () => {
+      const { fixedHeader } = props
       const footer = getSlot(slots, props, 'footer')
 
       return (
         <div class={classNames.value}>
-          {value.fixedHeader ? (
-            <Affix offsetTop={value.fixedHeader ? value.headerHeight : 0} {...affixProps.value}>
+          {fixedHeader && headerDom.value ? (
+            <Affix {...affixProps.value} offsetTop={value.hasHeader && value.fixedHeader ? value.headerHeight : 0}>
               {headerDom.value}
             </Affix>
           ) : (

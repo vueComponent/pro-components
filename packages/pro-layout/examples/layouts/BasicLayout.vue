@@ -115,7 +115,7 @@ export default defineComponent({
       splitMenus: true,
       // title: 'ProLayout',
       // logo: 'https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg',
-      navTheme: 'dark',
+      navTheme: 'light',
       layout: 'side',
       fixSiderbar: true,
       fixedHeader: true,
