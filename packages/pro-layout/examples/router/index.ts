@@ -110,6 +110,12 @@ const routes: RouteRecordRaw[] = [
         meta: { title: 'Ant Design Vue 官网', icon: 'link-outlined', target: '_blank' },
         component: null,
       },
+      {
+        path: '/nested',
+        name: 'nested',
+        meta: { title: 'Nested Layout', icon: 'icon-antdesign' },
+        component: () => import('../views/NestedLayout.vue'),
+      },
     ],
   },
 ]

@@ -4,6 +4,8 @@
     v-model:selectedKeys="baseState.selectedKeys"
     v-model:openKeys="baseState.openKeys"
     v-bind="state"
+    disable-content-margin
+    style="height: 100vh"
     :loading="loading"
     :breadcrumb="{ routes: breadcrumb }"
     iconfont-url="//at.alicdn.com/t/font_2804900_nzigh7z84gc.js"
@@ -64,9 +66,9 @@
 
     <!-- content begin -->
     <router-view v-slot="{ Component }">
-      <WaterMark :content="watermarkContent">
-        <component :is="Component" />
-      </WaterMark>
+      <!-- <WaterMark :content="watermarkContent"> -->
+      <component :is="Component" />
+      <!-- </WaterMark> -->
     </router-view>
   </pro-layout>
 </template>
@@ -115,8 +117,8 @@ export default defineComponent({
       splitMenus: true,
       // title: 'ProLayout',
       // logo: 'https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg',
-      navTheme: 'light',
-      layout: 'side',
+      navTheme: 'dark',
+      layout: 'mix',
       fixSiderbar: true,
       fixedHeader: true,
     })

@@ -11,10 +11,12 @@ import {
   type PropType,
   type ExtractPropTypes,
   type DefineComponent,
+  watchEffect,
 } from 'vue'
 
 import 'ant-design-vue/es/layout/style'
 import { Layout } from 'ant-design-vue'
+import useConfigInject from 'ant-design-vue/es/_util/hooks/useConfigInject'
 import useMediaQuery from './hooks/useMediaQuery'
 
 import { defaultSettingProps } from './defaultSettings'
@@ -131,7 +133,9 @@ const ProLayout = defineComponent({
     'menuHeaderClick',
     'menuClick',
   ],
-  setup(props, { emit, slots }) {
+  setup(props, { emit, attrs, slots }) {
+    const { prefixCls } = useConfigInject('layout', {})
+
     const isTop = computed(() => props.layout === 'top')
     const hasSide = computed(() => props.layout === 'mix' || props.layout === 'side' || false)
     const hasSplitMenu = computed(() => props.layout === 'mix' && props.splitMenus)
@@ -182,9 +186,11 @@ const ProLayout = defineComponent({
     })
 
     // if is some layout children, don't need min height
-    if (props.isChildrenLayout || (props.contentStyle && props.contentStyle.minHeight)) {
-      genLayoutStyle.minHeight = 0
-    }
+    watchEffect(() => {
+      if (props.isChildrenLayout || (props.contentStyle && props.contentStyle.minHeight)) {
+        genLayoutStyle.minHeight = 0
+      }
+    })
 
     const headerRender = (
       p: BasicLayoutProps & {
@@ -286,11 +292,13 @@ const ProLayout = defineComponent({
         )
       )
 
-      const contentClassName = {
-        [`${baseClassName.value}-content`]: true,
-        [`${baseClassName.value}-has-header`]: headerDom,
-        [`${baseClassName.value}-content-disable-margin`]: props.disableContentMargin,
-      }
+      const contentClassName = computed(() => {
+        return {
+          [`${baseClassName.value}-content`]: true,
+          [`${baseClassName.value}-has-header`]: headerDom,
+          [`${baseClassName.value}-content-disable-margin`]: props.disableContentMargin,
+        }
+      })
 
       return (
         <>
@@ -298,7 +306,12 @@ const ProLayout = defineComponent({
             slots.default?.()
           ) : (
             <div class={className.value}>
-              <Layout class={baseClassName.value}>
+              <Layout
+                style={{
+                  minHeight: '100%',
+                  ...((attrs.style as CSSProperties) || {}),
+                }}
+              >
                 {(!isTop.value || isMobile.value) && (
                   <SiderMenuWrapper
                     {...restProps}
@@ -316,17 +329,17 @@ const ProLayout = defineComponent({
                     onMenuClick={onMenuClick}
                   />
                 )}
-                <Layout style={genLayoutStyle}>
+                <div style={genLayoutStyle} class={prefixCls.value}>
                   {headerDom.value}
                   <WrapContent
                     isChildrenLayout={props.isChildrenLayout}
-                    class={contentClassName}
-                    style={props.disableContentMargin ? undefined : props.contentStyle}
+                    class={contentClassName.value}
+                    style={props.contentStyle}
                   >
                     {props.loading ? <PageLoading /> : slots.default?.()}
                   </WrapContent>
                   {footerRender && footerRender(props)}
-                </Layout>
+                </div>
               </Layout>
             </div>
           )}

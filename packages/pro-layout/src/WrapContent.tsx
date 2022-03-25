@@ -16,23 +16,19 @@ export interface WrapContentProps {
 }
 
 export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slots, attrs }) => {
-  if (props.isChildrenLayout) {
-    return slots.default?.()
-  }
-  const { getPrefixCls } = toRefs(useRouteContext())
-  const prefixCls = getPrefixCls.value('basicLayout')
-  const classNames = computed(() => {
-    return {
-      [`${prefixCls}-content`]: true,
-      [`${prefixCls}-has-header`]: true,
-    }
-  })
+  // if (props.isChildrenLayout) {
+  //   return slots.default?.()
+  // }
+  // const { getPrefixCls } = toRefs(useRouteContext())
+  // const prefixCls = getPrefixCls.value('basicLayout')
+  // const classNames = computed(() => {
+  //   return {
+  //     [`${prefixCls}-content`]: true,
+  //     [`${prefixCls}-has-header`]: true,
+  //   }
+  // })
 
-  return (
-    <Content class={classNames.value} {...attrs}>
-      {slots.default?.()}
-    </Content>
-  )
+  return <Content {...attrs}>{slots.default?.()}</Content>
 }
 
 WrapContent.inheritAttrs = false

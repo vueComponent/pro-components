@@ -162,9 +162,9 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
   const classNames = computed(() => {
     return {
       [baseClassName]: true,
-      [`${baseClassName}-${sTheme.value}`]: true,
-      [`${baseClassName}-${props.layout}`]: true,
       [`${baseClassName}-fixed`]: context.fixSiderbar,
+      [`${baseClassName}-${sTheme.value}`]: true, // theme !== 'dark'
+      [`${baseClassName}-layout-${props.layout}`]: props.layout && !props.isMobile,
     }
   })
 
