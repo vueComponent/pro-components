@@ -82,11 +82,11 @@ export const baseMenuProps = {
     default: () => null,
   },
   menuItemRender: {
-    type: [Function, Boolean] as PropType<MenuItemRender>,
+    type: [Object, Function, Boolean] as PropType<MenuItemRender>,
     default: () => undefined,
   },
   subMenuItemRender: {
-    type: [Function, Boolean] as PropType<SubMenuItemRender>,
+    type: [Object, Function, Boolean] as PropType<SubMenuItemRender>,
     default: () => undefined,
   },
 

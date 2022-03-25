@@ -7,7 +7,7 @@
     "node": ">=12.2.0"
   },
   "scripts": {
-    "build": "pnpm run build --filter ./packages -- --stub",
+    "build": "pnpm run build --filter ./packages",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "TIMING=1 eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "preinstall": "npx only-allow pnpm"

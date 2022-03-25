@@ -47,19 +47,19 @@ export const siderMenuProps = {
   headerHeight: PropTypes.number.def(48),
   collapsedWidth: PropTypes.number.def(48),
   menuHeaderRender: {
-    type: [Function, Object] as PropType<MenuHeaderRender>,
+    type: [Function, Object, Boolean] as PropType<MenuHeaderRender>,
     default: () => undefined,
   },
   menuFooterRender: {
-    type: [Function, Object] as PropType<MenuFooterRender>,
+    type: [Function, Object, Boolean] as PropType<MenuFooterRender>,
     default: () => undefined,
   },
   menuContentRender: {
-    type: [Function, Object] as PropType<MenuContentRender>,
+    type: [Function, Object, Boolean] as PropType<MenuContentRender>,
     default: () => undefined,
   },
   menuExtraRender: {
-    type: [Function, Object] as PropType<MenuExtraRender>,
+    type: [Function, Object, Boolean] as PropType<MenuExtraRender>,
     default: () => undefined,
   },
   collapsedButtonRender: {

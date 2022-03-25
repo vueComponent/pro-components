@@ -276,6 +276,7 @@ const ProLayout = defineComponent({
             rightContentRender,
             collapsedButtonRender,
             headerTitleRender: menuHeaderRender,
+            menuExtraRender,
             menuContentRender,
             headerContentRender,
             headerRender: customHeaderRender,
@@ -297,9 +298,11 @@ const ProLayout = defineComponent({
                     {...restProps}
                     isMobile={isMobile.value}
                     menuHeaderRender={menuHeaderRender}
-                    menuContentRender={menuContentRender}
                     menuExtraRender={menuExtraRender}
+                    menuContentRender={menuContentRender}
                     menuFooterRender={menuFooterRender}
+                    menuItemRender={menuItemRender}
+                    subMenuItemRender={subMenuItemRender}
                     collapsedButtonRender={collapsedButtonRender}
                     onCollapse={onCollapse}
                     onSelect={onSelect}
