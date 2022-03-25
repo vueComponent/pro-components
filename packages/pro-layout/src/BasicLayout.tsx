@@ -286,6 +286,12 @@ const ProLayout = defineComponent({
         )
       )
 
+      const contentClassName = {
+        [`${baseClassName.value}-content`]: true,
+        [`${baseClassName.value}-has-header`]: headerDom,
+        [`${baseClassName.value}-content-disable-margin`]: props.disableContentMargin,
+      }
+
       return (
         <>
           {pure ? (
@@ -314,6 +320,7 @@ const ProLayout = defineComponent({
                   {headerDom.value}
                   <WrapContent
                     isChildrenLayout={props.isChildrenLayout}
+                    class={contentClassName}
                     style={props.disableContentMargin ? undefined : props.contentStyle}
                   >
                     {props.loading ? <PageLoading /> : slots.default?.()}
