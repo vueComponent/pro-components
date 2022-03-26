@@ -4,10 +4,10 @@
     v-model:selectedKeys="baseState.selectedKeys"
     v-model:openKeys="baseState.openKeys"
     v-bind="state"
-    disable-content-margin
-    style="height: 100vh"
     :loading="loading"
     :breadcrumb="{ routes: breadcrumb }"
+    disable-content-margin
+    style="height: 100vh"
     iconfont-url="//at.alicdn.com/t/font_2804900_nzigh7z84gc.js"
   >
     <template #menuHeaderRender>

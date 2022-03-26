@@ -1,10 +1,11 @@
 <template>
   <pro-layout
     nav-theme="light"
+    layout="mix"
     :header-render="false"
+    :fix-siderbar="true"
     :split-menus="false"
     :sider-width="160"
-    :menu-header-render="false"
     :menu-data="menuData"
   >
     <p>11111111111111sfnuisdfbui</p>
