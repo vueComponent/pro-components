@@ -16,15 +16,15 @@ import PropTypes from 'ant-design-vue/es/_util/vue-types'
 export const headerViewProps = {
   ...globalHeaderProps,
   headerRender: {
-    type: [Object, Function] as PropType<WithFalse<(props: any, defaultDom: CustomRender) => CustomRender>>,
+    type: [Object, Function, Boolean] as PropType<WithFalse<(props: any, defaultDom: CustomRender) => CustomRender>>,
     default: () => undefined,
   },
   headerTitleRender: {
-    type: [Object, Function] as PropType<WithFalse<(props: any, defaultDom: CustomRender) => CustomRender>>,
+    type: [Object, Function, Boolean] as PropType<WithFalse<(props: any, defaultDom: CustomRender) => CustomRender>>,
     default: () => undefined,
   },
   headerContentRender: {
-    type: [Object, Function] as PropType<WithFalse<(props: any) => CustomRender>>,
+    type: [Object, Function, Boolean] as PropType<WithFalse<(props: any) => CustomRender>>,
     default: () => undefined,
   },
   hasSiderMenu: PropTypes.looseBool,

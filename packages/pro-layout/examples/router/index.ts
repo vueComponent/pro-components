@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
-import BasicLayout from '../layouts/BasicLayout.vue'
+import NestedLayout from '../layouts/NestedLayout.vue'
 import BlankLayout from '../layouts/BlankLayout.vue'
 import WelcomePage from '../views/Hello.vue'
 
@@ -9,7 +9,7 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     name: 'index',
     meta: { title: 'Home' },
-    component: BasicLayout,
+    component: NestedLayout,
     redirect: '/welcome',
     children: [
       {
@@ -109,12 +109,6 @@ const routes: RouteRecordRaw[] = [
         name: 'baidu_target',
         meta: { title: 'Ant Design Vue 官网', icon: 'link-outlined', target: '_blank' },
         component: null,
-      },
-      {
-        path: '/nested',
-        name: 'nested',
-        meta: { title: 'Nested Layout', icon: 'icon-antdesign' },
-        component: () => import('../views/NestedLayout.vue'),
       },
     ],
   },
