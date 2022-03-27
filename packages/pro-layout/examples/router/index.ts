@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
-import NestedLayout from '../layouts/NestedLayout.vue'
+import BasicLayout from '../layouts/BasicLayout.vue'
 import BlankLayout from '../layouts/BlankLayout.vue'
 import WelcomePage from '../views/Hello.vue'
 
@@ -9,7 +9,7 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     name: 'index',
     meta: { title: 'Home' },
-    component: NestedLayout,
+    component: BasicLayout,
     redirect: '/welcome',
     children: [
       {
