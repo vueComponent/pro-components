@@ -8,31 +8,31 @@ import {
   type VNodeChild,
   type PropType,
   type ExtractPropTypes,
-} from 'vue'
+} from 'vue';
 /* replace antd ts define */
-import PageHeader, { pageHeaderProps } from 'ant-design-vue/es/page-header'
-import { Tabs, Affix, Spin } from 'ant-design-vue'
-import type { TabPaneProps } from './interfaces/TabPane'
-import type { TabBarExtraContent /*, TabsProps */ } from './interfaces/Tabs'
-import type { AffixProps } from './interfaces/Affix'
+import PageHeader, { pageHeaderProps } from 'ant-design-vue/es/page-header';
+import { Tabs, Affix, Spin } from 'ant-design-vue';
+import type { TabPaneProps } from './interfaces/TabPane';
+import type { TabBarExtraContent /*, TabsProps */ } from './interfaces/Tabs';
+import type { AffixProps } from './interfaces/Affix';
 /* replace antd ts define end */
-import { useRouteContext } from '../../RouteContext'
-import { getSlot, getSlotVNode } from '../../utils'
-import 'ant-design-vue/es/affix/style'
-import 'ant-design-vue/es/page-header/style'
-import 'ant-design-vue/es/breadcrumb/style'
-import 'ant-design-vue/es/tabs/style'
-import 'ant-design-vue/es/spin/style'
-import GridContent from '../GridContent'
-import FooterToolbar from '../FooterToolbar'
-import { withInstall } from 'ant-design-vue/es/_util/type'
-import type { CustomRender } from '../../typings'
-import type { DefaultPropRender, PageHeaderRender } from '../../RenderTypings'
-import './index.less'
+import { useRouteContext } from '../../RouteContext';
+import { getSlot, getSlotVNode } from '../../utils';
+import 'ant-design-vue/es/affix/style';
+import 'ant-design-vue/es/page-header/style';
+import 'ant-design-vue/es/breadcrumb/style';
+import 'ant-design-vue/es/tabs/style';
+import 'ant-design-vue/es/spin/style';
+import GridContent from '../GridContent';
+import FooterToolbar from '../FooterToolbar';
+import { withInstall } from 'ant-design-vue/es/_util/type';
+import type { CustomRender } from '../../typings';
+import type { DefaultPropRender, PageHeaderRender } from '../../RenderTypings';
+import './index.less';
 
 export interface Tab {
-  key: string
-  tab: string | VNode | JSX.Element
+  key: string;
+  tab: string | VNode | JSX.Element;
 }
 
 export const pageHeaderTabConfig = {
@@ -67,8 +67,8 @@ export const pageHeaderTabConfig = {
   fixedHeader: Boolean, //PropTypes.looseBool,
   // events
   onTabChange: Function, //PropTypes.func,
-}
-export type PageHeaderTabConfig = Partial<ExtractPropTypes<typeof pageHeaderTabConfig>>
+};
+export type PageHeaderTabConfig = Partial<ExtractPropTypes<typeof pageHeaderTabConfig>>;
 
 export const pageContainerProps = {
   ...pageHeaderTabConfig,
@@ -116,19 +116,19 @@ export const pageContainerProps = {
     type: Boolean,
     default: () => undefined,
   }, //PropTypes.looseBool,
-}
+};
 
-export type PageContainerProps = Partial<ExtractPropTypes<typeof pageContainerProps>>
+export type PageContainerProps = Partial<ExtractPropTypes<typeof pageContainerProps>>;
 
 const renderFooter = (
   props: Omit<
     PageContainerProps & {
-      prefixedClassName: string
+      prefixedClassName: string;
     },
     'title'
   >
 ): VNodeChild | JSX.Element => {
-  const { tabList, tabActiveKey, onTabChange, tabBarExtraContent, tabProps, prefixedClassName } = props
+  const { tabList, tabActiveKey, onTabChange, tabBarExtraContent, tabProps, prefixedClassName } = props;
   if (tabList && tabList.length) {
     return (
       <Tabs
@@ -136,7 +136,7 @@ const renderFooter = (
         activeKey={tabActiveKey}
         onChange={(key: string | number) => {
           if (onTabChange) {
-            onTabChange(key)
+            onTabChange(key);
           }
         }}
         tabBarExtraContent={tabBarExtraContent}
@@ -146,10 +146,10 @@ const renderFooter = (
           <Tabs.TabPane {...item} tab={item.tab} key={item.key} />
         ))}
       </Tabs>
-    )
+    );
   }
-  return null
-}
+  return null;
+};
 
 const renderPageHeader = (
   content: CustomRender,
@@ -157,7 +157,7 @@ const renderPageHeader = (
   prefixedClassName: string
 ): VNodeChild | JSX.Element | null => {
   if (!content && !extraContent) {
-    return null
+    return null;
   }
   return (
     <div class={`${prefixedClassName}-detail`}>
@@ -174,8 +174,8 @@ const renderPageHeader = (
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const ProPageHeader: FunctionalComponent<PageContainerProps & { prefixedClassName: string }> = (props) => {
   const {
@@ -189,27 +189,27 @@ const ProPageHeader: FunctionalComponent<PageContainerProps & { prefixedClassNam
     prefixedClassName,
     prefixCls,
     ...restProps
-  } = props
-  const value = useRouteContext()
+  } = props;
+  const value = useRouteContext();
 
   if (pageHeaderRender === false) {
-    return null
+    return null;
   }
   if (pageHeaderRender) {
-    return pageHeaderRender({ ...props })
+    return pageHeaderRender({ ...props });
   }
 
-  let pageHeaderTitle = title
+  let pageHeaderTitle = title;
   if (!title && title !== false) {
-    pageHeaderTitle = value.title
+    pageHeaderTitle = value.title;
   }
 
-  const unrefBreadcrumb = unref(value.breadcrumb || {})
+  const unrefBreadcrumb = unref(value.breadcrumb || {});
   const breadcrumb = restProps.breadcrumb || {
     ...unrefBreadcrumb,
     routes: unrefBreadcrumb.routes,
     itemRender: unrefBreadcrumb.itemRender,
-  }
+  };
 
   return (
     <div class={`${prefixedClassName}-wrap`}>
@@ -229,30 +229,30 @@ const ProPageHeader: FunctionalComponent<PageContainerProps & { prefixedClassNam
         {header || renderPageHeader(content, extraContent, prefixedClassName)}
       </PageHeader>
     </div>
-  )
-}
+  );
+};
 
 const PageContainer = defineComponent({
   name: 'PageContainer',
   inheritAttrs: false,
   props: pageContainerProps,
   setup(props, { slots }) {
-    const { loading, affixProps, ghost } = toRefs(props)
-    const value = useRouteContext()
-    const { getPrefixCls } = value
-    const prefixCls = props.prefixCls || getPrefixCls()
-    const prefixedClassName = computed(() => `${prefixCls}-page-container`)
+    const { loading, affixProps, ghost } = toRefs(props);
+    const value = useRouteContext();
+    const { getPrefixCls } = value;
+    const prefixCls = props.prefixCls || getPrefixCls();
+    const prefixedClassName = computed(() => `${prefixCls}-page-container`);
     const classNames = computed(() => {
       return {
         [prefixedClassName.value]: true,
         [`${prefixCls}-page-container-ghost`]: ghost.value,
-      }
-    })
+      };
+    });
     const headerDom = computed(() => {
-      const tags = getSlotVNode<DefaultPropRender>(slots, props, 'tags')
-      const headerContent = getSlotVNode<DefaultPropRender>(slots, props, 'content')
-      const extra = getSlotVNode<DefaultPropRender>(slots, props, 'extra')
-      const extraContent = getSlotVNode<DefaultPropRender>(slots, props, 'extraContent')
+      const tags = getSlotVNode<DefaultPropRender>(slots, props, 'tags');
+      const headerContent = getSlotVNode<DefaultPropRender>(slots, props, 'content');
+      const extra = getSlotVNode<DefaultPropRender>(slots, props, 'extra');
+      const extraContent = getSlotVNode<DefaultPropRender>(slots, props, 'extraContent');
       // {
       //   ...props,
       //   tags,
@@ -273,12 +273,12 @@ const PageContainer = defineComponent({
           extra={extra}
           extraContent={extraContent}
         />
-      )
-    })
+      );
+    });
 
     return () => {
-      const { fixedHeader } = props
-      const footer = getSlot(slots, props, 'footer')
+      const { fixedHeader } = props;
+      const footer = getSlot(slots, props, 'footer');
 
       return (
         <div class={classNames.value}>
@@ -308,9 +308,9 @@ const PageContainer = defineComponent({
           </GridContent>
           {value.hasFooterToolbar && <FooterToolbar>{footer}</FooterToolbar>}
         </div>
-      )
-    }
+      );
+    };
   },
-})
+});
 // <WaterMark content="Pro Layout"></WaterMark>
-export default withInstall(PageContainer)
+export default withInstall(PageContainer);

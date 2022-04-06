@@ -1,17 +1,17 @@
-import type { CSSProperties, FunctionalComponent } from 'vue'
-import 'ant-design-vue/es/layout/style'
-import Layout from 'ant-design-vue/es/layout'
-import type { ContentWidth } from './typings'
+import type { CSSProperties, FunctionalComponent } from 'vue';
+import 'ant-design-vue/es/layout/style';
+import Layout from 'ant-design-vue/es/layout';
+import type { ContentWidth } from './typings';
 
-const { Content } = Layout
+const { Content } = Layout;
 
 export interface WrapContentProps {
-  style?: CSSProperties
-  class?: string | string[] | any
-  isChildrenLayout?: boolean
-  location?: string | string[] | any
-  contentHeight?: number
-  contentWidth?: ContentWidth
+  style?: CSSProperties;
+  class?: string | string[] | any;
+  isChildrenLayout?: boolean;
+  location?: string | string[] | any;
+  contentHeight?: number;
+  contentWidth?: ContentWidth;
 }
 
 export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slots, attrs }) => {
@@ -27,8 +27,8 @@ export const WrapContent: FunctionalComponent<WrapContentProps> = (props, { slot
   //   }
   // })
 
-  return <Content {...attrs}>{slots.default?.()}</Content>
-}
+  return <Content {...attrs}>{slots.default?.()}</Content>;
+};
 
-WrapContent.inheritAttrs = false
-WrapContent.displayName = 'wrap-content'
+WrapContent.inheritAttrs = false;
+WrapContent.displayName = 'wrap-content';

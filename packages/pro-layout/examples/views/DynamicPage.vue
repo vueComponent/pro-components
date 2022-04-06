@@ -13,24 +13,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { Button, message } from 'ant-design-vue'
+import { defineComponent, ref } from 'vue';
+import { Button, message } from 'ant-design-vue';
 
 export default defineComponent({
   components: {
     [Button.name]: Button,
   },
   setup() {
-    const text = ref<string>('1')
+    const text = ref<string>('1');
     const handleClick = () => {
-      message.info('clicked')
-      text.value = `${Math.random()}`
-    }
+      message.info('clicked');
+      text.value = `${Math.random()}`;
+    };
     return {
       handleClick,
 
       text,
-    }
+    };
   },
-})
+});
 </script>

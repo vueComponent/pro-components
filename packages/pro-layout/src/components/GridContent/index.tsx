@@ -1,19 +1,19 @@
-import './index.less'
+import './index.less';
 
-import type { FunctionalComponent, CSSProperties } from 'vue'
-import type { PureSettings } from '../../defaultSettings'
-import { useRouteContext } from '../../RouteContext'
+import type { FunctionalComponent, CSSProperties } from 'vue';
+import type { PureSettings } from '../../defaultSettings';
+import { useRouteContext } from '../../RouteContext';
 
 export interface GridContentProps {
-  contentWidth?: PureSettings['contentWidth']
-  prefixCls?: string
-  style?: CSSProperties
+  contentWidth?: PureSettings['contentWidth'];
+  prefixCls?: string;
+  style?: CSSProperties;
 }
 
 const GridContent: FunctionalComponent<GridContentProps> = (props, { slots }) => {
-  const { contentWidth, getPrefixCls } = useRouteContext()
-  const customPrefixCls = props.prefixCls || getPrefixCls()
-  const customContentWidth = props.contentWidth || contentWidth
+  const { contentWidth, getPrefixCls } = useRouteContext();
+  const customPrefixCls = props.prefixCls || getPrefixCls();
+  const customContentWidth = props.contentWidth || contentWidth;
   return (
     <div
       class={{
@@ -23,7 +23,7 @@ const GridContent: FunctionalComponent<GridContentProps> = (props, { slots }) =>
     >
       <div class={`${customPrefixCls}-grid-content-children`}>{slots.default?.()}</div>
     </div>
-  )
-}
+  );
+};
 
-export default GridContent
+export default GridContent;

@@ -15,13 +15,13 @@
 </template>
 
 <script lang="ts" setup>
-import { Result as AResult, Button as AButton, message } from 'ant-design-vue'
-import 'ant-design-vue/es/result/style'
-import 'ant-design-vue/es/button/style'
-import 'ant-design-vue/es/message/style'
+import { Result as AResult, Button as AButton, message } from 'ant-design-vue';
+import 'ant-design-vue/es/result/style';
+import 'ant-design-vue/es/button/style';
+import 'ant-design-vue/es/message/style';
 
 const handleClick = () => {
-  console.log('info')
-  message.info('BackHome button clicked!')
-}
+  console.log('info');
+  message.info('BackHome button clicked!');
+};
 </script>

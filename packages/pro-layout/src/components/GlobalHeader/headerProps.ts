@@ -1,9 +1,9 @@
-import type { PropType } from 'vue'
-import type { Theme, CustomRender, MenuDataItem, ProProps, WithFalse } from '../../typings'
-import { defaultSettingProps } from '../../defaultSettings'
-import { siderMenuProps } from '../SiderMenu/SiderMenu'
-import PropTypes from 'ant-design-vue/es/_util/vue-types'
-import type { RightContentRender } from '../../RenderTypings'
+import type { PropType } from 'vue';
+import type { Theme, CustomRender, MenuDataItem, ProProps, WithFalse } from '../../typings';
+import { defaultSettingProps } from '../../defaultSettings';
+import { siderMenuProps } from '../SiderMenu/SiderMenu';
+import PropTypes from 'ant-design-vue/es/_util/vue-types';
+import type { RightContentRender } from '../../RenderTypings';
 
 export default {
   ...defaultSettingProps,
@@ -42,4 +42,4 @@ export default {
   onCollapse: siderMenuProps.onCollapse,
   onOpenKeys: siderMenuProps.onOpenKeys,
   onSelect: siderMenuProps.onSelect,
-}
+};

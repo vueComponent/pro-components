@@ -1,10 +1,10 @@
-import { fileURLToPath, URL } from 'url'
+import { fileURLToPath, URL } from 'url';
 
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import vueJsx from '@vitejs/plugin-vue-jsx'
-import typescript from '@rollup/plugin-typescript'
-import lessCopy from '@shared/vite-plugin-less-copy'
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx';
+import typescript from '@rollup/plugin-typescript';
+import lessCopy from '@shared/vite-plugin-less-copy';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -70,4 +70,4 @@ export default defineConfig({
       ],
     },
   },
-})
+});

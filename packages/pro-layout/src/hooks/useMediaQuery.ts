@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 export const MediaQueryEnum /* : {
   [key: string]: {
@@ -35,9 +35,9 @@ export const MediaQueryEnum /* : {
     minWidth: 1600,
     matchMedia: '(min-width: 1600px)',
   },
-}
+};
 
-export type MediaQueryKey = keyof typeof MediaQueryEnum
+export type MediaQueryKey = keyof typeof MediaQueryEnum;
 
 /**
  * loop query screen className
@@ -46,39 +46,39 @@ export type MediaQueryKey = keyof typeof MediaQueryEnum
  * So should use Array.forEach
  */
 export const getScreenClassName = () => {
-  let className: MediaQueryKey = 'md'
+  let className: MediaQueryKey = 'md';
   // support ssr
   if (typeof window === 'undefined') {
-    return className
+    return className;
   }
   const mediaQueryKey = (Object.keys(MediaQueryEnum) as MediaQueryKey[]).find((key) => {
-    const { matchMedia } = MediaQueryEnum[key]
+    const { matchMedia } = MediaQueryEnum[key];
     if (window.matchMedia(matchMedia).matches) {
-      return true
+      return true;
     }
-    return false
-  })
-  className = mediaQueryKey as unknown as MediaQueryKey
-  return className
-}
+    return false;
+  });
+  className = mediaQueryKey as unknown as MediaQueryKey;
+  return className;
+};
 
 const useMedia = () => {
-  const colSpan = ref<string>(getScreenClassName())
+  const colSpan = ref<string>(getScreenClassName());
 
   Object.keys(MediaQueryEnum).forEach((key) => {
-    const { matchMedia } = MediaQueryEnum[key as MediaQueryKey]
-    const query = window.matchMedia(matchMedia)
+    const { matchMedia } = MediaQueryEnum[key as MediaQueryKey];
+    const query = window.matchMedia(matchMedia);
     if (query.matches) {
-      colSpan.value = key
+      colSpan.value = key;
     }
     query.onchange = (e) => {
       if (e.matches) {
-        colSpan.value = key
+        colSpan.value = key;
       }
-    }
-  })
+    };
+  });
 
-  return colSpan
-}
+  return colSpan;
+};
 
-export default useMedia
+export default useMedia;

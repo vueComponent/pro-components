@@ -1,7 +1,7 @@
 export interface AffixProps {
-  offsetBottom: number
-  offsetTop: number
-  target?: () => HTMLElement
+  offsetBottom: number;
+  offsetTop: number;
+  target?: () => HTMLElement;
 
-  onChange?: (affixed: boolean) => void
+  onChange?: (affixed: boolean) => void;
 }

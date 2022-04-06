@@ -1,8 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import type { RouteRecordRaw } from 'vue-router'
-import BasicLayout from '../layouts/BasicLayout.vue'
-import BlankLayout from '../layouts/BlankLayout.vue'
-import WelcomePage from '../views/Hello.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import type { RouteRecordRaw } from 'vue-router';
+import BasicLayout from '../layouts/BasicLayout.vue';
+import BlankLayout from '../layouts/BlankLayout.vue';
+import WelcomePage from '../views/Hello.vue';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -112,11 +112,11 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
-]
+];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
-})
+});
 
-export default router
+export default router;

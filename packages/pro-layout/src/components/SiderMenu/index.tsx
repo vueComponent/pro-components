@@ -1,18 +1,18 @@
-import type { FunctionalComponent } from 'vue'
+import type { FunctionalComponent } from 'vue';
 
-import 'ant-design-vue/es/drawer/style'
-import { Drawer } from 'ant-design-vue'
+import 'ant-design-vue/es/drawer/style';
+import { Drawer } from 'ant-design-vue';
 
 import SiderMenu, {
   siderMenuProps,
   defaultRenderLogoAndTitle,
   type SiderMenuProps,
   type PrivateSiderMenuProps,
-} from './SiderMenu'
+} from './SiderMenu';
 
-export { default as BaseMenu } from './BaseMenu'
+export { default as BaseMenu } from './BaseMenu';
 
-export type SiderMenuWrapperProps = Partial<SiderMenuProps> & Partial<PrivateSiderMenuProps>
+export type SiderMenuWrapperProps = Partial<SiderMenuProps> & Partial<PrivateSiderMenuProps>;
 
 const SiderMenuWrapper: FunctionalComponent<SiderMenuWrapperProps> = (props, { attrs }) => {
   return props.isMobile ? (
@@ -37,17 +37,17 @@ const SiderMenuWrapper: FunctionalComponent<SiderMenuWrapperProps> = (props, { a
     </Drawer>
   ) : (
     <SiderMenu {...attrs} {...props} />
-  )
-}
+  );
+};
 
-SiderMenuWrapper.inheritAttrs = false
-SiderMenuWrapper.displayName = 'SiderMenuWrapper'
+SiderMenuWrapper.inheritAttrs = false;
+SiderMenuWrapper.displayName = 'SiderMenuWrapper';
 
 export {
   SiderMenu,
   // vue props
   siderMenuProps,
   defaultRenderLogoAndTitle,
-}
+};
 
-export default SiderMenuWrapper
+export default SiderMenuWrapper;

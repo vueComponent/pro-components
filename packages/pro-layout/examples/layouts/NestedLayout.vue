@@ -65,23 +65,23 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref, watchEffect, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { Avatar as AAvatar, Breadcrumb as ABreadcrumb, BreadcrumbItem as ABreadcrumbItem } from 'ant-design-vue'
-import { getMenuData, clearMenuItem, WaterMark } from '@ant-design-vue/pro-layout'
-import type { RouteContextProps } from '@ant-design-vue/pro-layout'
+import { computed, reactive, ref, watchEffect, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { Avatar as AAvatar, Breadcrumb as ABreadcrumb, BreadcrumbItem as ABreadcrumbItem } from 'ant-design-vue';
+import { getMenuData, clearMenuItem, WaterMark } from '@ant-design-vue/pro-layout';
+import type { RouteContextProps } from '@ant-design-vue/pro-layout';
 
-const loading = ref(false)
-const watermarkContent = ref('Pro Layout')
-const router = useRouter()
-const { menuData } = getMenuData(clearMenuItem(router.getRoutes()))
+const loading = ref(false);
+const watermarkContent = ref('Pro Layout');
+const router = useRouter();
+const { menuData } = getMenuData(clearMenuItem(router.getRoutes()));
 
 const routes = menuData.map((item) => {
   return {
     ...item,
     children: null,
-  }
-})
+  };
+});
 
 const baseState = reactive<Omit<RouteContextProps, 'menuData'>>({
   selectedKeys: ['/dashboard'],
@@ -90,7 +90,7 @@ const baseState = reactive<Omit<RouteContextProps, 'menuData'>>({
   childrenSelectedKeys: [],
   childrenOpenKeys: [],
   collapsed: false,
-})
+});
 
 const breadcrumb = computed(() =>
   router.currentRoute.value.matched.concat().map((item) => {
@@ -99,21 +99,21 @@ const breadcrumb = computed(() =>
       icon: item.meta.icon,
       params: item.meta?.params,
       breadcrumbName: item.meta.title || '',
-    }
+    };
   })
-)
+);
 
 watchEffect(() => {
   if (router.currentRoute) {
-    const matched = router.currentRoute.value.matched.concat()
-    baseState.childrenSelectedKeys = matched.filter((r) => r.name !== 'index').map((r) => r.path)
-    baseState.childrenOpenKeys = matched.filter((r) => r.path !== router.currentRoute.value.path).map((r) => r.path)
+    const matched = router.currentRoute.value.matched.concat();
+    baseState.childrenSelectedKeys = matched.filter((r) => r.name !== 'index').map((r) => r.path);
+    baseState.childrenOpenKeys = matched.filter((r) => r.path !== router.currentRoute.value.path).map((r) => r.path);
   }
-})
+});
 
 onMounted(() => {
   setTimeout(() => {
-    watermarkContent.value = 'New Mark'
-  }, 2000)
-})
+    watermarkContent.value = 'New Mark';
+  }, 2000);
+});
 </script>

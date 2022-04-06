@@ -1,30 +1,30 @@
-import { computed, type FunctionalComponent, type ExtractPropTypes } from 'vue'
-import type { RouteRecordRaw } from 'vue-router'
-import type { CustomRender } from '../../typings'
+import { computed, type FunctionalComponent, type ExtractPropTypes } from 'vue';
+import type { RouteRecordRaw } from 'vue-router';
+import type { CustomRender } from '../../typings';
 import {
   defaultRenderLogo,
   defaultRenderLogoAndTitle,
   defaultRenderCollapsedButton,
   type SiderMenuProps,
-} from '../SiderMenu/SiderMenu'
-import { TopNavHeader } from '../TopNavHeader'
-import { clearMenuItem } from '../../utils'
-import { useRouteContext } from '../../RouteContext'
-import type headerProps from './headerProps'
+} from '../SiderMenu/SiderMenu';
+import { TopNavHeader } from '../TopNavHeader';
+import { clearMenuItem } from '../../utils';
+import { useRouteContext } from '../../RouteContext';
+import type headerProps from './headerProps';
 
-import './index.less'
+import './index.less';
 
-export type GlobalHeaderProps = ExtractPropTypes<typeof headerProps>
+export type GlobalHeaderProps = ExtractPropTypes<typeof headerProps>;
 
 const renderLogo = (menuHeaderRender: SiderMenuProps['menuHeaderRender'], logoDom: CustomRender) => {
   if (menuHeaderRender === false) {
-    return null
+    return null;
   }
   if (menuHeaderRender) {
-    return menuHeaderRender(logoDom, null)
+    return menuHeaderRender(logoDom, null);
   }
-  return logoDom
-}
+  return logoDom;
+};
 
 export const GlobalHeader: FunctionalComponent<GlobalHeaderProps> = (props, { slots, emit }) => {
   const {
@@ -40,22 +40,22 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps> = (props, { sl
     splitMenus,
     menuData,
     prefixCls: customPrefixCls,
-  } = props
-  const { getPrefixCls } = useRouteContext()
-  const prefixCls = customPrefixCls || getPrefixCls()
-  const baseClassName = computed(() => `${prefixCls}-global-header`)
+  } = props;
+  const { getPrefixCls } = useRouteContext();
+  const prefixCls = customPrefixCls || getPrefixCls();
+  const baseClassName = computed(() => `${prefixCls}-global-header`);
   const className = computed(() => {
     return {
       [baseClassName.value]: true,
       [`${baseClassName.value}-layout-${layout}`]: layout && headerTheme === 'dark',
-    }
-  })
+    };
+  });
   if (layout === 'mix' && !isMobile && splitMenus) {
     const noChildrenMenuData = (menuData || []).map((item) => ({
       ...item,
       children: undefined,
-    })) as RouteRecordRaw[]
-    const clearMenuData = clearMenuItem(noChildrenMenuData)
+    })) as RouteRecordRaw[];
+    const clearMenuData = clearMenuItem(noChildrenMenuData);
     return (
       <TopNavHeader
         mode="horizontal"
@@ -64,17 +64,17 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps> = (props, { sl
         menuData={clearMenuData}
         theme={headerTheme as 'light' | 'dark'}
       />
-    )
+    );
   }
 
   const logoDom = (
     <span class={`${baseClassName.value}-logo`} key="logo">
       <a>{defaultRenderLogo(logo)}</a>
     </span>
-  )
+  );
   const onCollapse = () => {
-    emit('collapse', !props.collapsed)
-  }
+    emit('collapse', !props.collapsed);
+  };
 
   return (
     <div class={className.value}>
@@ -94,7 +94,7 @@ export const GlobalHeader: FunctionalComponent<GlobalHeaderProps> = (props, { sl
       <div style={{ flex: 1 }}>{slots.default?.()}</div>
       {rightContentRender && typeof rightContentRender === 'function' ? rightContentRender(props) : rightContentRender}
     </div>
-  )
-}
-GlobalHeader.inheritAttrs = false
-GlobalHeader.emits = ['menuHeaderClick', 'collapse', 'openKeys', 'select']
+  );
+};
+GlobalHeader.inheritAttrs = false;
+GlobalHeader.emits = ['menuHeaderClick', 'collapse', 'openKeys', 'select'];

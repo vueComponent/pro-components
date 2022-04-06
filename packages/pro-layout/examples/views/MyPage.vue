@@ -21,8 +21,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { Button, Tag, Result } from 'ant-design-vue'
+import { defineComponent } from 'vue';
+import { Button, Tag, Result } from 'ant-design-vue';
 
 export default defineComponent({
   components: {
@@ -31,7 +31,7 @@ export default defineComponent({
     [Result.name]: Result,
   },
   setup() {
-    return {}
+    return {};
   },
-})
+});
 </script>

@@ -1,18 +1,18 @@
-import { ref, computed, type FunctionalComponent, type ExtractPropTypes } from 'vue'
-import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer'
-import globalHeaderProps from '../GlobalHeader/headerProps'
-import { BaseMenu, siderMenuProps, defaultRenderLogoAndTitle } from '../SiderMenu'
-import type { SiderMenuProps } from '../SiderMenu/SiderMenu'
-import { useRouteContext } from '../../RouteContext'
+import { ref, computed, type FunctionalComponent, type ExtractPropTypes } from 'vue';
+import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer';
+import globalHeaderProps from '../GlobalHeader/headerProps';
+import { BaseMenu, siderMenuProps, defaultRenderLogoAndTitle } from '../SiderMenu';
+import type { SiderMenuProps } from '../SiderMenu/SiderMenu';
+import { useRouteContext } from '../../RouteContext';
 
-import './index.less'
+import './index.less';
 
-export const topNavHeaderProps = { ...siderMenuProps, ...globalHeaderProps }
+export const topNavHeaderProps = { ...siderMenuProps, ...globalHeaderProps };
 
-export type TopNavHeaderProps = Partial<ExtractPropTypes<typeof topNavHeaderProps>> & Partial<SiderMenuProps>
+export type TopNavHeaderProps = Partial<ExtractPropTypes<typeof topNavHeaderProps>> & Partial<SiderMenuProps>;
 
 const RightContent: FunctionalComponent<TopNavHeaderProps> = ({ rightContentRender, ...props }) => {
-  const rightSize = ref<number | string>('auto')
+  const rightSize = ref<number | string>('auto');
 
   return (
     <div
@@ -27,7 +27,7 @@ const RightContent: FunctionalComponent<TopNavHeaderProps> = ({ rightContentRend
       >
         <ResizeObserver
           onResize={({ width }: { width: number }) => {
-            rightSize.value = width
+            rightSize.value = width;
           }}
         >
           {rightContentRender && typeof rightContentRender === 'function' ? (
@@ -42,11 +42,11 @@ const RightContent: FunctionalComponent<TopNavHeaderProps> = ({ rightContentRend
         </ResizeObserver>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = (props) => {
-  const headerRef = ref()
+  const headerRef = ref();
   const {
     prefixCls: propPrefixCls,
     onMenuHeaderClick,
@@ -56,21 +56,21 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = (props) => {
     rightContentRender,
     layout,
     menuData,
-  } = props
-  const context = useRouteContext()
-  const prefixCls = `${propPrefixCls || 'ant-pro'}-top-nav-header`
+  } = props;
+  const context = useRouteContext();
+  const prefixCls = `${propPrefixCls || 'ant-pro'}-top-nav-header`;
   const headerDom = defaultRenderLogoAndTitle(
     { ...props, collapsed: false } as SiderMenuProps,
     // REMARK:: Any time render header title
     // layout === 'mix' ? 'headerTitleRender' : undefined,
     layout !== 'side' ? 'headerTitleRender' : undefined
-  )
+  );
   const className = computed(() => {
     return {
       [prefixCls]: true,
       light: props.theme === 'light',
-    }
-  })
+    };
+  });
   return (
     <div class={className.value}>
       <div ref={headerRef} class={`${prefixCls}-main ${contentWidth === 'Fixed' ? 'wide' : ''}`}>
@@ -104,7 +104,7 @@ export const TopNavHeader: FunctionalComponent<TopNavHeaderProps> = (props) => {
         {rightContentRender && <RightContent rightContentRender={rightContentRender} {...props} />}
       </div>
     </div>
-  )
-}
+  );
+};
 
-TopNavHeader.inheritAttrs = false
+TopNavHeader.inheritAttrs = false;

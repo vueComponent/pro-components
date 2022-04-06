@@ -1,21 +1,21 @@
-import './index.less'
+import './index.less';
 
-import { defineComponent, type PropType, type SetupContext } from 'vue'
-import type { WithFalse, CustomRender } from '../../typings'
+import { defineComponent, type PropType, type SetupContext } from 'vue';
+import type { WithFalse, CustomRender } from '../../typings';
 
 export type Links = WithFalse<
   {
-    key?: string
-    title: CustomRender
-    href: string
-    blankTarget?: boolean
+    key?: string;
+    title: CustomRender;
+    href: string;
+    blankTarget?: boolean;
   }[]
->
+>;
 
 export interface GlobalFooterProps {
-  links?: Links
-  copyright?: CustomRender
-  prefixCls?: string
+  links?: Links;
+  copyright?: CustomRender;
+  prefixCls?: string;
 }
 
 export default defineComponent({
@@ -39,12 +39,12 @@ export default defineComponent({
       (props.links == null || props.links === false || (Array.isArray(props.links) && props.links.length === 0)) &&
       (props.copyright == null || props.copyright === false)
     ) {
-      return null
+      return null;
     }
 
     return () => {
-      const baseClassName = `${props.prefixCls}-global-footer`
-      const copyright = props.copyright || (slots.copyright && slots.copyright())
+      const baseClassName = `${props.prefixCls}-global-footer`;
+      const copyright = props.copyright || (slots.copyright && slots.copyright());
 
       return (
         <footer class={baseClassName}>
@@ -59,7 +59,7 @@ export default defineComponent({
           )}
           {props.copyright && <div class={`${baseClassName}-copyright`}>{copyright}</div>}
         </footer>
-      )
-    }
+      );
+    };
   },
-})
+});
