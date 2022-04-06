@@ -35,16 +35,15 @@ export default defineComponent({
     },
   },
   setup(props: GlobalFooterProps, { slots }: SetupContext) {
+    const copyright = props.copyright || (slots.copyright && slots.copyright());
     if (
-      (props.links == null || props.links === false || (Array.isArray(props.links) && props.links.length === 0)) &&
-      (props.copyright == null || props.copyright === false)
+      (props.links == null || props.links === false || (Array.isArray(props.links) && props.links.length === 0)) && !copyright 
     ) {
       return null;
     }
 
     return () => {
       const baseClassName = `${props.prefixCls}-global-footer`;
-      const copyright = props.copyright || (slots.copyright && slots.copyright());
 
       return (
         <footer class={baseClassName}>
