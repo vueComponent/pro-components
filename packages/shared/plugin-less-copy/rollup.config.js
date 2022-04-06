@@ -1,10 +1,10 @@
 // import { fileURLToPath, URL } from 'url'
 
-import resolve from '@rollup/plugin-node-resolve'
-import typescript from '@rollup/plugin-typescript'
-import commonjs from '@rollup/plugin-commonjs'
+import resolve from '@rollup/plugin-node-resolve';
+import typescript from '@rollup/plugin-typescript';
+import commonjs from '@rollup/plugin-commonjs';
 
-import pkg from './package.json'
+import pkg from './package.json';
 
 export default {
   input: 'src/index.ts',
@@ -21,4 +21,4 @@ export default {
       sourceMap: false,
     }),
   ],
-}
+};

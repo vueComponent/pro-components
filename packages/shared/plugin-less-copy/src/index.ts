@@ -1,11 +1,11 @@
-import { resolve } from 'path'
-import { normalizePath, type Plugin } from 'vite'
+import { resolve } from 'path';
+import { normalizePath, type Plugin } from 'vite';
 
-const excludeRegx = /node_modules/
+const excludeRegx = /node_modules/;
 
 function createPlugin(): Plugin {
-  const maps = new Map<string, string>()
-  const srcDir = normalizePath(resolve('./src/'))
+  const maps = new Map<string, string>();
+  const srcDir = normalizePath(resolve('./src/'));
 
   return {
     name: 'vite-plugin-less-copy',
@@ -13,24 +13,24 @@ function createPlugin(): Plugin {
     apply: 'build',
     transform(code: string, id: string) {
       if (!id.endsWith('.less') || excludeRegx.test(id)) {
-        return
+        return;
       }
 
-      maps.set(id, code)
-      return code
+      maps.set(id, code);
+      return code;
     },
 
     generateBundle() {
       maps.forEach((code, file) => {
-        const filename = file.replace(srcDir, '').substring(1)
+        const filename = file.replace(srcDir, '').substring(1);
         this.emitFile({
           type: 'asset',
           fileName: filename,
           source: code,
-        })
-      })
+        });
+      });
     },
-  }
+  };
 }
 
-export default createPlugin
+export default createPlugin;
