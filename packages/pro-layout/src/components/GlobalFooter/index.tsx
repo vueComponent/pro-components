@@ -35,30 +35,32 @@ export default defineComponent({
     },
   },
   setup(props: GlobalFooterProps, { slots }: SetupContext) {
-    const copyright = props.copyright || (slots.copyright && slots.copyright());
-    if (
-      (props.links == null || props.links === false || (Array.isArray(props.links) && props.links.length === 0)) && !copyright 
-    ) {
-      return null;
-    }
+
 
     return () => {
       const baseClassName = `${props.prefixCls}-global-footer`;
+      const copyright = props.copyright || (slots.copyright && slots.copyright());
+      if (
+        (props.links == null || props.links === false || (Array.isArray(props.links) && props.links.length === 0)) && !copyright
+      ) {
+        return null;
+      } else {
+        return (
+          <footer class={baseClassName}>
+            {props.links && (
+              <div class={`${baseClassName}-links`}>
+                {props.links.map((link) => (
+                  <a key={link.key} title={link.key} target={link.blankTarget ? '_blank' : '_self'} href={link.href}>
+                    {link.title}
+                  </a>
+                ))}
+              </div>
+            )}
+            {props.copyright && <div class={`${baseClassName}-copyright`}>{copyright}</div>}
+          </footer>
+        );
+      }
 
-      return (
-        <footer class={baseClassName}>
-          {props.links && (
-            <div class={`${baseClassName}-links`}>
-              {props.links.map((link) => (
-                <a key={link.key} title={link.key} target={link.blankTarget ? '_blank' : '_self'} href={link.href}>
-                  {link.title}
-                </a>
-              ))}
-            </div>
-          )}
-          {props.copyright && <div class={`${baseClassName}-copyright`}>{copyright}</div>}
-        </footer>
-      );
     };
   },
 });
