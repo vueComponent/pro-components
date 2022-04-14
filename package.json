@@ -16,7 +16,7 @@
         "lint": "eslint -c ./.eslintrc --fix --ext .jsx,.js,.vue ./src",
         "compile": "vc-tools run compile --babel-runtime",
         "test": "cross-env NODE_ENV=test jest --config .jest.js",
-        "prepublishOnly": "npm run lint && npm run test && npm run compile && np --no-cleanup --yolo --no-publish"
+        "prepublishOnly": "pnpm run lint && pnpm run compile && np --no-cleanup --yolo --no-publish"
     },
     "files": [
         "es",
