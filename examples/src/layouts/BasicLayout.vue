@@ -2,7 +2,6 @@
   <pro-layout
     :menus="menus"
     :collapsed="collapsed"
-    :openOnceKey="false"
     :mediaQuery="query"
     :isMobile="isMobile"
     :handleMediaQuery="handleMediaQuery"
@@ -49,12 +48,14 @@
         This is SettingDrawer custom footer content.
       </div>
     </setting-drawer>
-    <router-view />
+    <WaterMark content="Sendya <18x@loacg.com>">
+      <router-view />
+    </WaterMark>
   </pro-layout>
 </template>
 
 <script>
-import { updateTheme } from '@ant-design-vue/pro-layout'
+import { WaterMark, updateTheme } from '@ant-design-vue/pro-layout'
 import { asyncRouterMap } from '../config/router.config'
 import { i18nRender } from '../locales'
 
@@ -63,6 +64,9 @@ import { CONTENT_WIDTH_TYPE } from '@/store/mutation-types'
 
 export default {
   name: 'BasicLayout',
+  components: {
+    WaterMark
+  },
   data () {
     return {
       // base

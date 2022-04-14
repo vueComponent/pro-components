@@ -20,7 +20,7 @@ export const SiderMenuProps = {
   openOnceKey: PropTypes.bool.def(true),
   handleCollapse: PropTypes.func,
   menus: PropTypes.array,
-  siderWidth: PropTypes.number.def(256),
+  siderWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def(256),
   isMobile: PropTypes.bool,
   layout: PropTypes.string.def('inline'),
   fixSiderbar: PropTypes.bool,
