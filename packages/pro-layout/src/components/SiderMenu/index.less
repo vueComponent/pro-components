@@ -8,6 +8,8 @@
   position: relative;
   background-color: @layout-sider-background;
   border-right: 0;
+  // FIXME: 临时修正(可能不会做兼容)
+  z-index: 20;
 
   // 这里关掉了动画，不然使用无法兼容
   .@{ant-prefix}-menu {

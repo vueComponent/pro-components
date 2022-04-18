@@ -6,8 +6,7 @@
     v-bind="state"
     :loading="loading"
     :breadcrumb="{ routes: breadcrumb }"
-    disable-content-margin
-    style="height: 100vh"
+    style="min-height: 100vh"
     iconfont-url="//at.alicdn.com/t/font_2804900_nzigh7z84gc.js"
   >
     <template #menuHeaderRender>
@@ -110,12 +109,12 @@ export default defineComponent({
 
     const state = reactive({
       menuData,
-      splitMenus: true,
+      splitMenus: false,
       // title: 'ProLayout',
       // logo: 'https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg',
-      navTheme: 'dark',
-      layout: 'side',
-      fixSiderbar: true,
+      navTheme: 'light',
+      layout: 'top',
+      fixSiderbar: false,
       fixedHeader: true,
     });
     const breadcrumb = computed(() =>
