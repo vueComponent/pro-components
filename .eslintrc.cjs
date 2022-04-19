@@ -14,6 +14,7 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': ['error', { semi: true, singleQuote: true, printWidth: 120 }],
+    '@typescript-eslint/no-unused-vars': ['error', { "ignoreRestSiblings": true }],
     // 临时关掉
     '@typescript-eslint/no-explicit-any': 'off',
   },
