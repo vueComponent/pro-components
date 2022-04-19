@@ -245,10 +245,10 @@ const ProLayout = defineComponent({
     return () => {
       const {
         pure,
-        // onCollapse: propsOnCollapse,
-        // onOpenKeys: propsOnOpenKeys,
-        // onSelect: propsOnSelect,
-        // onMenuClick: propsOnMenuClick,
+        onCollapse: propsOnCollapse,
+        onOpenKeys: propsOnOpenKeys,
+        onSelect: propsOnSelect,
+        onMenuClick: propsOnMenuClick,
         ...restProps
       } = props;
 
