@@ -6,6 +6,9 @@ const getPopupContainer = (triggerNode?: HTMLElement): HTMLElement => {
   // if (dialogContext) {
   //   return dialogContext.getDialogWrap()
   // }
+  if (triggerNode) {
+    return (triggerNode?.parentNode as HTMLElement) || document.body;
+  }
   return document.body;
 };
 </script>

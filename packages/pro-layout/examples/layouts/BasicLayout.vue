@@ -113,7 +113,7 @@ export default defineComponent({
       // title: 'ProLayout',
       // logo: 'https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg',
       navTheme: 'light',
-      layout: 'top',
+      layout: 'side',
       fixSiderbar: false,
       fixedHeader: true,
     });
@@ -126,8 +126,9 @@ export default defineComponent({
       })
     );
 
-    const handleCollapsed = () => {
-      baseState.collapsed = !baseState.collapsed;
+    const handleCollapsed = (collapsed?: boolean) => {
+      console.log('collapsed', collapsed);
+      baseState.collapsed = collapsed;
     };
     watchEffect(() => {
       if (router.currentRoute) {

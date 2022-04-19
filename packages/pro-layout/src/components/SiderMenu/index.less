@@ -26,6 +26,8 @@
     }
   }
 
+
+
   &-logo {
     position: relative;
     display: flex;
@@ -185,6 +187,13 @@
   }
   .drawer .drawer-content {
     background: @layout-sider-background;
+  }
+}
+
+// 修正菜单 collapsed 时，icon 与 title 的间距
+.@{ant-prefix}-pro-menu-item {
+  .anticon + .@{ant-prefix}-pro-menu-item-title {
+    margin-left: 10px;
   }
 }
 
