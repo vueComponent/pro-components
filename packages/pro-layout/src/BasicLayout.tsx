@@ -227,6 +227,7 @@ const ProLayout = defineComponent({
         'disableMobile',
         'fixSiderbar',
         'fixedHeader',
+        'headerHeight',
         // 'hasSideMenu',
         // 'hasHeader',
         // 'hasFooter',
@@ -238,6 +239,7 @@ const ProLayout = defineComponent({
       breadcrumb,
       flatMenuData,
       hasSide,
+      hasHeader: true,
       flatMenu: hasFlatMenu,
     });
     provide(routeContextInjectKey, routeContext);
@@ -291,6 +293,8 @@ const ProLayout = defineComponent({
           props.matchMenuKeys
         )
       );
+
+      routeContext.hasHeader = !!headerDom.value;
 
       const contentClassName = computed(() => {
         return {

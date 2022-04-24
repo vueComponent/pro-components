@@ -1,10 +1,10 @@
 <template>
-  <PageContainer :title="$route.meta.title">
+  <PageContainer fixed-header :title="(route.meta.title as string)">
     <template #tags>
-      <a-tag>tag1</a-tag>
-      <a-tag color="pink">tag2</a-tag>
+      <Tag>tag1</Tag>
+      <Tag color="pink">tag2</Tag>
     </template>
-    <a-result
+    <Result
       status="404"
       :style="{
         height: '100%',
@@ -14,24 +14,17 @@
       sub-title="Sorry, you are not authorized to access this page."
     >
       <template #extra>
-        <a-button type="primary">Back Home</a-button>
+        <Button type="primary">Back Home</Button>
       </template>
-    </a-result>
+    </Result>
   </PageContainer>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
 import { Button, Tag, Result } from 'ant-design-vue';
+import { PageContainer } from '@ant-design-vue/pro-layout';
 
-export default defineComponent({
-  components: {
-    [Button.name]: Button,
-    [Tag.name]: Tag,
-    [Result.name]: Result,
-  },
-  setup() {
-    return {};
-  },
-});
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 </script>

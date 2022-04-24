@@ -68,103 +68,70 @@
   </pro-layout>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, reactive, ref, watchEffect, onMounted } from 'vue';
+<script setup lang="ts">
+import { computed, reactive, ref, watchEffect, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { message, Button, Input, Switch, Select, Avatar, Space, Badge, Menu } from 'ant-design-vue';
-import { getMenuData, clearMenuItem, WaterMark, FooterToolbar } from '@ant-design-vue/pro-layout';
-import type { RouteContextProps } from '@ant-design-vue/pro-layout';
+import { getMenuData, clearMenuItem, type RouteContextProps } from '@ant-design-vue/pro-layout';
 
 const i18n = (t: string) => t;
 
-export default defineComponent({
-  name: 'BasicLayout',
-  components: {
-    FooterToolbar,
-    WaterMark,
+const watermarkContent = ref('Pro Layout');
+const loading = ref(false);
+const router = useRouter();
+const { menuData } = getMenuData(clearMenuItem(router.getRoutes()));
 
-    [Button.name]: Button,
-    [Input.name]: Input,
-    [Input.Search.name]: Input.Search,
-    [Switch.name]: Switch,
-    [Select.name]: Select,
-    ['a-slect-option']: Select.Option,
-    [Space.name]: Space,
-    [Badge.name]: Badge,
-    [Avatar.name]: Avatar,
-    [Menu.Item.name]: Menu.Item,
-  },
-  setup() {
-    const loading = ref(false);
-    const watermarkContent = ref('Pro Layout');
-    const router = useRouter();
-    const { menuData } = getMenuData(clearMenuItem(router.getRoutes()));
-
-    const baseState = reactive<Omit<RouteContextProps, 'menuData'>>({
-      selectedKeys: [],
-      openKeys: [],
-      // default
-      collapsed: false,
-    });
-
-    const state = reactive({
-      menuData,
-      splitMenus: false,
-      // title: 'ProLayout',
-      // logo: 'https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg',
-      navTheme: 'light',
-      layout: 'side',
-      fixSiderbar: false,
-      fixedHeader: true,
-    });
-    const breadcrumb = computed(() =>
-      router.currentRoute.value.matched.concat().map((item) => {
-        return {
-          path: item.path,
-          breadcrumbName: item.meta.title || '',
-        };
-      })
-    );
-
-    const handleCollapsed = (collapsed?: boolean) => {
-      console.log('collapsed', collapsed);
-      baseState.collapsed = collapsed;
-    };
-    watchEffect(() => {
-      if (router.currentRoute) {
-        const matched = router.currentRoute.value.matched.concat();
-        baseState.selectedKeys = matched.filter((r) => r.name !== 'index').map((r) => r.path);
-        baseState.openKeys = matched.filter((r) => r.path !== router.currentRoute.value.path).map((r) => r.path);
-      }
-    });
-
-    function handlePageLoadingClick() {
-      loading.value = true;
-      setTimeout(() => {
-        loading.value = false;
-      }, 2000);
-    }
-
-    onMounted(() => {
-      setTimeout(() => {
-        watermarkContent.value = 'New Mark';
-      }, 2000);
-    });
-
-    return {
-      i18n,
-      watermarkContent,
-      baseState,
-      state,
-      loading,
-      breadcrumb,
-
-      handlePageLoadingClick,
-      handleCollapsed,
-      handleSearch: () => {
-        message.info('search..');
-      },
-    };
-  },
+const baseState = reactive<Omit<RouteContextProps, 'menuData'>>({
+  selectedKeys: [],
+  openKeys: [],
+  // default
+  collapsed: false,
 });
+
+const state = reactive({
+  menuData,
+  splitMenus: false,
+  // title: 'ProLayout',
+  // logo: 'https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg',
+  navTheme: 'light',
+  layout: 'mix',
+  fixSiderbar: true,
+  fixedHeader: true,
+});
+const breadcrumb = computed(() =>
+  router.currentRoute.value.matched.concat().map((item) => {
+    return {
+      path: item.path,
+      breadcrumbName: item.meta.title || '',
+    };
+  })
+);
+
+watchEffect(() => {
+  if (router.currentRoute) {
+    const matched = router.currentRoute.value.matched.concat();
+    baseState.selectedKeys = matched.filter((r) => r.name !== 'index').map((r) => r.path);
+    baseState.openKeys = matched.filter((r) => r.path !== router.currentRoute.value.path).map((r) => r.path);
+  }
+});
+
+const handleCollapsed = (collapsed?: boolean) => {
+  baseState.collapsed = collapsed;
+};
+const handlePageLoadingClick = () => {
+  loading.value = true;
+  setTimeout(() => {
+    loading.value = false;
+  }, 2000);
+};
+
+onMounted(() => {
+  setTimeout(() => {
+    watermarkContent.value = 'New Mark';
+  }, 2000);
+});
+
+const handleSearch = () => {
+  message.info('search..');
+};
 </script>

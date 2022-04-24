@@ -188,6 +188,7 @@ const ProPageHeader: FunctionalComponent<PageContainerProps & { prefixedClassNam
     extraContent,
     prefixedClassName,
     prefixCls,
+    fixedHeader: _,
     ...restProps
   } = props;
   const value = useRouteContext();
@@ -215,7 +216,7 @@ const ProPageHeader: FunctionalComponent<PageContainerProps & { prefixedClassNam
     <div class={`${prefixedClassName}-wrap`}>
       <PageHeader
         {...restProps}
-        {...value}
+        // {...value}
         title={pageHeaderTitle}
         breadcrumb={breadcrumb}
         footer={renderFooter({
@@ -279,7 +280,6 @@ const PageContainer = defineComponent({
     return () => {
       const { fixedHeader } = props;
       const footer = getSlot(slots, props, 'footer');
-
       return (
         <div class={classNames.value}>
           {fixedHeader && headerDom.value ? (

@@ -1,6 +1,6 @@
 {
   "name": "@ant-design-vue/pro-layout",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",

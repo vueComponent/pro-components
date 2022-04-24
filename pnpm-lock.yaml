@@ -54,7 +54,7 @@ importers:
       '@vue/eslint-config-typescript': ^10.0.0
       '@vue/test-utils': ^2.0.0-rc.20
       '@vue/tsconfig': ^0.1.3
-      ant-design-vue: ^3.1.1
+      ant-design-vue: ^3.2.0
       eslint: ^8.13.0
       eslint-plugin-prettier: ^4.0.0
       eslint-plugin-vue: ^8.6.0
@@ -70,7 +70,7 @@ importers:
       vue-tsc: ^0.34.7
     dependencies:
       '@ant-design/icons-vue': 6.1.0_vue@3.2.33
-      ant-design-vue: 3.1.1_vue@3.2.33
+      ant-design-vue: 3.2.0_vue@3.2.33
       omit.js: 2.0.2
       vue: 3.2.33
       vue-router: 4.0.14_vue@3.2.33
@@ -1090,8 +1090,8 @@ packages:
       color-convert: 2.0.1
     dev: true
 
-  /ant-design-vue/3.1.1_vue@3.2.33:
-    resolution: {integrity: sha512-QcnESmPllfyPy4SavOlf1jml/bdmzCIcCgYWRwl0WKG5jbuuOQ0vhgfUCC2rI6R+84gb/qf4/0qoZnWcEyQziA==}
+  /ant-design-vue/3.2.0_vue@3.2.33:
+    resolution: {integrity: sha512-qY9f/kF9YqfzV/vJ9/GKj7s1wmpCuNwWVRyQ3qsG8P4Was/u5WTKG5hz9huUY/cNle2nBTDacvMBIOkfxPeUiQ==}
     peerDependencies:
       vue: '>=3.2.0'
     dependencies:

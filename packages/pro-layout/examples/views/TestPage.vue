@@ -1,5 +1,5 @@
 <template>
-  <page-container title="Page 1" sub-title="is a sub-title.">
+  <page-container fixed-header title="Page 1" sub-title="is a sub-title.">
     <template #content>
       <div>
         container.content
