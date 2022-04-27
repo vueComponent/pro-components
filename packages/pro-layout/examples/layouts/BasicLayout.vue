@@ -7,12 +7,19 @@
     :loading="loading"
     :breadcrumb="{ routes: breadcrumb }"
     style="min-height: 100vh"
+    :sider-width="220"
+    :collapsed-width="64"
     iconfont-url="//at.alicdn.com/t/font_2804900_nzigh7z84gc.js"
   >
     <template #menuHeaderRender>
       <a>
-        <img src="/favicon.svg" />
-        <h1>Pro Layout</h1>
+        <template v-if="baseState.collapsed">
+          <img src="https://procomponents.ant.design/favicon.ico" />
+        </template>
+        <template v-else>
+          <img src="/favicon.svg" />
+          <h1>Pro Layout</h1>
+        </template>
       </a>
     </template>
 

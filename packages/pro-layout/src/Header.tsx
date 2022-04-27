@@ -90,7 +90,7 @@ export const HeaderView = defineComponent({
      */
     const width = computed(() => {
       return layout.value !== 'mix' && needSettingWidth.value
-        ? `calc(100% - ${props.collapsed ? 48 : props.siderWidth}px)`
+        ? `calc(100% - ${context.siderWidth}px)`
         : '100%';
     });
     const right = computed(() => (needFixedHeader.value ? 0 : undefined));
