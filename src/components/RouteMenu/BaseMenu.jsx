@@ -121,8 +121,6 @@ const RouteMenu = {
       return 0
     }
 
-    console.log(calcMarginLeft(collapsed, collapsedWidth))
-
     const dynamicProps = {
       props: {
         mode,
