@@ -15,6 +15,7 @@ export const SiderMenuProps = {
   contentWidth: PropTypes.oneOf(['Fluid', 'Fixed']).def('Fluid'),
   collapsible: PropTypes.bool,
   collapsed: PropTypes.bool,
+  collapsedWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def(80),
   openKeys: PropTypes.array.def(undefined),
   selectedKeys: PropTypes.array.def(undefined),
   openOnceKey: PropTypes.bool.def(true),
@@ -71,6 +72,14 @@ export const defaultRenderLogoAntTitle = (h, props) => {
   )
 }
 
+const adaptWidth = collapsedWidth => {
+  if (collapsedWidth >= 32 && collapsedWidth <= 80) {
+    return collapsedWidth
+  } else {
+    return 80
+  }
+}
+
 const SiderMenu = {
   name: 'SiderMenu',
   model: {
@@ -82,6 +91,7 @@ const SiderMenu = {
     const {
       collapsible,
       collapsed,
+      collapsedWidth,
 
       selectedKeys,
       openKeys,
@@ -114,6 +124,14 @@ const SiderMenu = {
       logo, title, menuHeaderRender, collapsed
     })
 
+    // 用户的logo图片宽度无法动态获取，暂时写死32，后续有更好的方案再修改
+    const logoPaddingLeft = (collapsed, collapsedWidth) => {
+      if (collapsed) {
+        return `${collapsedWidth ? Math.abs((collapsedWidth - 32) / 2) : 0}px`
+      }
+      return 32
+    }
+
     return (<Sider
       class={siderCls}
       breakpoint={'lg'}
@@ -122,11 +140,13 @@ const SiderMenu = {
       theme={theme}
       collapsible={collapsible}
       collapsed={collapsed}
+      collapsedWidth={adaptWidth(collapsedWidth)}
     >
       {headerDom && (
         <div
           class="ant-pro-sider-menu-logo"
           onClick={onMenuHeaderClick}
+          style={{paddingLeft: logoPaddingLeft(collapsed, adaptWidth(collapsedWidth))}}
           id="logo"
         >
           <router-link to={{ path: '/' }}>
@@ -141,6 +161,7 @@ const SiderMenu = {
       ) || (
         <BaseMenu
           collapsed={collapsed}
+          collapsedWidth={adaptWidth(collapsedWidth)}
           openKeys={openKeys}
           selectedKeys={selectedKeys}
           openOnceKey={openOnceKey}

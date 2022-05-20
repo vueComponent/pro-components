@@ -69,6 +69,7 @@ const HeaderView = {
       isMobile,
       layout,
       collapsed,
+      collapsedWidth,
       siderWidth,
       fixedHeader,
       autoHideHeader,
@@ -84,6 +85,8 @@ const HeaderView = {
       'ant-pro-top-menu': isTop,
     }
 
+    const calcWidth = collapsed ? collapsedWidth ? collapsedWidth: 80 : siderWidth
+
     // 没有 <></> 暂时代替写法
     return (
       visible ? (
@@ -93,7 +96,7 @@ const HeaderView = {
             style={{
               padding: 0,
               width: needSettingWidth
-                ? `calc(100% - ${collapsed ? 80 : siderWidth}px)`
+                ? `calc(100% - ${calcWidth}px)`
                 : '100%',
               zIndex: 9,
               right: fixedHeader ? 0 : undefined
