@@ -15,6 +15,7 @@ export const RouteMenuProps = {
   theme: PropTypes.string.def('dark'),
   mode: PropTypes.string.def('inline'),
   collapsed: PropTypes.bool.def(false),
+  collapsedWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def(80),
   openKeys: PropTypes.array.def(undefined),
   selectedKeys: PropTypes.array.def(undefined),
   openOnceKey: PropTypes.bool.def(true),
@@ -94,7 +95,7 @@ const RouteMenu = {
     }
   },
   render (h, ctx) {
-    const { mode, theme, menus, i18nRender, openOnceKey } = this
+    const { mode, theme, menus, i18nRender, openOnceKey, collapsed, collapsedWidth } = this
     const handleOpenChange = (openKeys) => {
       // 在水平模式下时，不再执行后续
       if (mode === 'horizontal') {
@@ -105,6 +106,22 @@ const RouteMenu = {
       this.sOpenKeys = openKeys
       this.$emit('openChange', openKeys)
     }
+
+    const calcWidth = (collapsed, collapsedWidth) => {
+      if (collapsed) {
+        return `${collapsedWidth ? collapsedWidth: 80}px`
+      }
+      return '100%'
+    }
+
+    const calcMarginLeft = (collapsed, collapsedWidth) => {
+      if (collapsed) {
+        return `-${collapsedWidth ? Math.abs(32 - (collapsedWidth - 16) / 2) : 0}px`
+      }
+      return 0
+    }
+
+    console.log(calcMarginLeft(collapsed, collapsedWidth))
 
     const dynamicProps = {
       props: {
@@ -121,6 +138,10 @@ const RouteMenu = {
           }
         },
         openChange: handleOpenChange
+      },
+      style: {
+        width: calcWidth(collapsed, collapsedWidth),
+        marginLeft: calcMarginLeft(collapsed, collapsedWidth)
       }
     }
 

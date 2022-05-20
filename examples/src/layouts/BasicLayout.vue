@@ -7,7 +7,8 @@
     :handleMediaQuery="handleMediaQuery"
     :handleCollapse="handleCollapse"
     :i18nRender="i18nRender"
-    :siderWidth="208"
+    :siderWidth="240"
+    :collapsedWidth="64"
     v-bind="settings"
   >
     <!--

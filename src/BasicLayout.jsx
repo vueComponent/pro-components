@@ -55,10 +55,11 @@ const MediaQueryEnum = {
 const getPaddingLeft = (
   hasLeftPadding,
   collapsed = undefined,
+  collapsedWidth,
   siderWidth
 ) => {
   if (hasLeftPadding) {
-    return collapsed ? 80 : siderWidth
+    return collapsed ? collapsedWidth ? collapsedWidth: 80 : siderWidth
   }
   return 0
 }
@@ -83,6 +84,7 @@ const BasicLayout = {
       // theme,
       isMobile,
       collapsed,
+      collapsedWidth,
       mediaQuery,
       handleMediaQuery,
       handleCollapse,
@@ -132,7 +134,7 @@ const BasicLayout = {
             />
             <Layout class={[layout]} style={{
               paddingLeft: hasSiderMenu
-                ? `${getPaddingLeft(!!hasLeftPadding, collapsed, siderWidth)}px`
+                ? `${getPaddingLeft(!!hasLeftPadding, collapsed, collapsedWidth, siderWidth)}px`
                 : undefined,
               minHeight: '100vh'
             }}>
