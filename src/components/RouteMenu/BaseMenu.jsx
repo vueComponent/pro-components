@@ -24,17 +24,17 @@ export const RouteMenuProps = {
 
 const httpReg = /(http|https|ftp):\/\/([\w.]+\/?)\S*/
 
-const renderMenu = (h, item, i18nRender) => {
+const renderMenu = (h, item, i18nRender, collapsed, collapsedWidth) => {
   if (item && !item.hidden) {
     const bool = item.children && !item.hideChildrenInMenu
-    return bool ? renderSubMenu(h, item, i18nRender) : renderMenuItem(h, item, i18nRender)
+    return bool ? renderSubMenu(h, item, i18nRender, collapsed, collapsedWidth) : renderMenuItem(h, item, i18nRender, collapsed, collapsedWidth)
   }
   return null
 }
 
-const renderSubMenu = (h, item, i18nRender) => {
+const renderSubMenu = (h, item, i18nRender, collapsed, collapsedWidth) => {
   return (
-    <SubMenu key={item.path} title={(
+    <SubMenu key={item.path} style={{marginLeft: calcMarginLeft(collapsed, collapsedWidth)}} title={(
       <span>
         {renderIcon(h, item.meta.icon)}
         <span>{renderTitle(h, item.meta.title, i18nRender)}</span>
@@ -45,7 +45,7 @@ const renderSubMenu = (h, item, i18nRender) => {
   )
 }
 
-const renderMenuItem = (h, item, i18nRender) => {
+const renderMenuItem = (h, item, i18nRender, collapsed, collapsedWidth) => {
   const meta = Object.assign({}, item.meta)
   const target = meta.target || null
   const hasRemoteUrl = httpReg.test(item.path)
@@ -61,13 +61,20 @@ const renderMenuItem = (h, item, i18nRender) => {
     })
   }
   return (
-    <MenuItem key={item.path}>
+    <MenuItem key={item.path} style={{marginLeft: calcMarginLeft(collapsed, collapsedWidth)}}>
       <CustomTag {...{ props, attrs }}>
         {renderIcon(h, meta.icon)}
         {renderTitle(h, meta.title, i18nRender)}
       </CustomTag>
     </MenuItem>
   )
+}
+
+const calcMarginLeft = (collapsed, collapsedWidth) => {
+  if (collapsed) {
+    return `-${collapsedWidth ? Math.abs(32 - (collapsedWidth - 16) / 2) : 0}px`
+  }
+  return 0
 }
 
 const renderIcon = (h, icon) => {
@@ -114,13 +121,6 @@ const RouteMenu = {
       return '100%'
     }
 
-    const calcMarginLeft = (collapsed, collapsedWidth) => {
-      if (collapsed) {
-        return `-${collapsedWidth ? Math.abs(32 - (collapsedWidth - 16) / 2) : 0}px`
-      }
-      return 0
-    }
-
     const dynamicProps = {
       props: {
         mode,
@@ -138,8 +138,7 @@ const RouteMenu = {
         openChange: handleOpenChange
       },
       style: {
-        width: calcWidth(collapsed, collapsedWidth),
-        marginLeft: calcMarginLeft(collapsed, collapsedWidth)
+        width: calcWidth(collapsed, collapsedWidth)
       }
     }
 
@@ -147,7 +146,7 @@ const RouteMenu = {
       if (item.hidden) {
         return null
       }
-      return renderMenu(h, item, i18nRender)
+      return renderMenu(h, item, i18nRender, collapsed, collapsedWidth)
     })
     return <Menu {...dynamicProps}>{menuItems}</Menu>
   },
