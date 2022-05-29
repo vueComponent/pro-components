@@ -34,6 +34,7 @@ export const SiderMenuProps = {
   // listeners
   openChange: PropTypes.func,
   select: PropTypes.func,
+  menuClick: PropTypes.func,
 }
 
 export const defaultRenderLogo = (h, logo) => {
@@ -98,6 +99,7 @@ const SiderMenu = {
 
       openChange = () => null,
       select = () => null,
+      menuClick = () => null,
 
       openOnceKey,
       siderWidth,
@@ -167,6 +169,7 @@ const SiderMenu = {
           openOnceKey={openOnceKey}
           onOpenChange={openChange}
           onSelect={select}
+          onClick={menuClick}
           menus={menus}
           mode={mode}
           theme={theme}

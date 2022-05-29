@@ -135,6 +135,9 @@ const RouteMenu = {
             this.sSelectedKeys = args.selectedKeys
           }
         },
+        click: args => {
+          this.$emit('click', args)
+        },
         openChange: handleOpenChange
       },
       style: {
