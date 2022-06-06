@@ -122,7 +122,7 @@ const layoutConf = reactive({
 | footerRender | custom footer render method | `slot` \| (props: BasicLayoutProps) => VNode | `false` |
 | breadcrumbRender | custom breadcrumb render method | `slot` \| ({ route, params, routes, paths, h }) => VNode[] | - |
 | menuItemRender | custom render Menu.Item | v-slot#menuItemRender="{ item, icon }" \| ({ item, icon }) => VNode | null |
-| menuSubItemRender | custom render Menu.SubItem | v-slot#menuSubItemRender="{ item, icon }" \| ({ item, icon }) => VNode | null |
+| subMenuItemRender | custom render Menu.SubItem | v-slot#subMenuItemRender="{ item, icon }" \| ({ item, icon }) => VNode | null |
 | locale | i18n | Function (key: string) => string \| `false` | `false` |
 
 > Menu generation requires `getMenuData` and `clearMenuItem` function
