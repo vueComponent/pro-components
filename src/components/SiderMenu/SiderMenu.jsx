@@ -1,4 +1,5 @@
 import './index.less'
+import variables from './index.less'
 
 import PropTypes from 'ant-design-vue/es/_util/vue-types'
 import 'ant-design-vue/es/layout/style'
@@ -27,10 +28,11 @@ export const SiderMenuProps = {
   fixSiderbar: PropTypes.bool,
   logo: PropTypes.any,
   title: PropTypes.string.def(''),
+  menuFooterHeight: PropTypes.number,
   // render function or vnode
   menuHeaderRender: PropTypes.oneOfType([PropTypes.func, PropTypes.array, PropTypes.object, PropTypes.bool]),
   menuRender: PropTypes.oneOfType([PropTypes.func, PropTypes.array, PropTypes.object, PropTypes.bool]),
-
+  menuFooterRender: PropTypes.oneOfType([PropTypes.func, PropTypes.array, PropTypes.object, PropTypes.bool]),
   // listeners
   openChange: PropTypes.func,
   select: PropTypes.func,
@@ -112,7 +114,9 @@ const SiderMenu = {
       onMenuHeaderClick = () => null,
       i18nRender,
       menuHeaderRender,
-      menuRender
+      menuRender,
+      menuFooterRender,
+      menuFooterHeight
     } = this
     const siderCls = ['ant-pro-sider-menu-sider']
     if (fixSiderbar) siderCls.push('fix-sider-bar')
@@ -173,9 +177,11 @@ const SiderMenu = {
           menus={menus}
           mode={mode}
           theme={theme}
+          style={fixSiderbar ? {height: `calc(100vh - ${variables.navHeight} - ${menuFooterHeight}px)`} : {}}
           i18nRender={i18nRender}
         />
       )}
+      {menuFooterRender && <div style={fixSiderbar ? {position: "absolute", bottom: 0, width: '100%', height: menuFooterHeight + 'px', left: 0, background: 'green'} : {height: menuFooterHeight + 'px'}}>{(isFun(menuFooterRender) && menuFooterRender(h, this.$props)) || menuFooterRender}</div>}
     </Sider>)
   }
 }

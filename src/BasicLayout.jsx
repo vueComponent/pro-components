@@ -100,6 +100,7 @@ const BasicLayout = {
     const breadcrumbRender = getComponentFromProp(content, 'breadcrumbRender')
     const headerContentRender = getComponentFromProp(content, 'headerContentRender')
     const menuRender = getComponentFromProp(content, 'menuRender')
+    const menuFooterRender = getComponentFromProp(content, 'menuFooterRender')
 
     const isTopMenu = layout === 'topmenu'
     const hasSiderMenu = !isTopMenu
@@ -116,6 +117,7 @@ const BasicLayout = {
       breadcrumbRender,
       headerContentRender,
       menuRender,
+      menuFooterRender,
       ...listeners,
     }
 
