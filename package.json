@@ -1,15 +1,14 @@
 {
-    "name": "@ant-design-vue/pro-layout",
+    "name": "ttarigo-pro-layout",
     "version": "1.0.12",
     "main": "./lib/index.js",
     "module": "./es/index.js",
     "repository": {
         "type": "git",
-        "url": "https://github.com/vueComponent/pro-layout"
+        "url": "https://github.com/ttarigo/ant-design-vue-pro.git"
     },
     "contributors": [
-        "tangjinzhou <415800467@qq.com>",
-        "Sendya <yladmxa@gmail.com>"
+        "ttarigo <lidc227@163.com>"
     ],
     "license": "MIT",
     "scripts": {
