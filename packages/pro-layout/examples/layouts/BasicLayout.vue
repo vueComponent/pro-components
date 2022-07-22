@@ -90,10 +90,10 @@ const baseState = reactive<Omit<RouteContextProps, 'menuData'>>({
 
 const state = reactive({
   menuData,
-  splitMenus: false,
+  splitMenus: true,
   // title: 'ProLayout',
   // logo: 'https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg',
-  navTheme: 'light',
+  navTheme: 'realDark',
   layout: 'mix',
   fixSiderbar: true,
   fixedHeader: true,
