@@ -4,7 +4,7 @@ Ant Design Pro Layout
 
 <div align="center">
 
-[![NPM version](https://img.shields.io/npm/v/@ant-design-vue/pro-layout/next?style=flat)](https://npmjs.org/package/@ant-design-vue/pro-layout) [![Vue Support](https://img.shields.io/badge/support-Vue3-green?style=flat)](./package.json) [![Vue Grammar Level](https://img.shields.io/badge/full-Composition%20API-blue?style=flat)](https://v3.vuejs.org/guide/composition-api-introduction.html) [![NPM downloads](http://img.shields.io/npm/dm/@ant-design-vue/pro-layout.svg?style=flat)](https://npmjs.org/package/@ant-design-vue/pro-layout) [![License](https://img.shields.io/github/license/vueComponent/pro-layout)](./LICENSE)
+[![NPM version](https://img.shields.io/npm/v/@ant-design-vue/pro-layout/latest?style=flat)](https://npmjs.org/package/@ant-design-vue/pro-layout) [![Vue Support](https://img.shields.io/badge/support-Vue3-green?style=flat)](./package.json) [![Vue Grammar Level](https://img.shields.io/badge/full-Composition%20API-blue?style=flat)](https://v3.vuejs.org/guide/composition-api-introduction.html) [![NPM downloads](http://img.shields.io/npm/dm/@ant-design-vue/pro-layout.svg?style=flat)](https://npmjs.org/package/@ant-design-vue/pro-layout) [![License](https://img.shields.io/github/license/vueComponent/pro-layout)](./LICENSE)
 
 </div>
 
@@ -23,7 +23,7 @@ Recommend look [Examples](./examples/) or [Use Template](https://github.com/send
 
 
 ## Branch
-- next : Vue3 + ant-design-vue@3.x (beta)
+- next : Vue3 + ant-design-vue@3.x (latest)
 - v3.1 : Vue3 + ant-design-vue@2.2.x (release LTS)
 - v2   : Vue2 + ant-design-vue@1.7.x
 
@@ -31,9 +31,9 @@ Recommend look [Examples](./examples/) or [Use Template](https://github.com/send
 
 ```bash
 # yarn
-yarn add @ant-design-vue/pro-layout@next
+yarn add @ant-design-vue/pro-layout
 # npm
-npm i @ant-design-vue/pro-layout@next -S
+npm i @ant-design-vue/pro-layout -S
 ```
 
 ### Simple Usage
@@ -122,7 +122,7 @@ const layoutConf = reactive({
 | footerRender | custom footer render method | `slot` \| (props: BasicLayoutProps) => VNode | `false` |
 | breadcrumbRender | custom breadcrumb render method | `slot` \| ({ route, params, routes, paths, h }) => VNode[] | - |
 | menuItemRender | custom render Menu.Item | v-slot#menuItemRender="{ item, icon }" \| ({ item, icon }) => VNode | null |
-| menuSubItemRender | custom render Menu.SubItem | v-slot#menuSubItemRender="{ item, icon }" \| ({ item, icon }) => VNode | null |
+| subMenuItemRender | custom render Menu.SubItem | v-slot#subMenuItemRender="{ item, icon }" \| ({ item, icon }) => VNode | null |
 | locale | i18n | Function (key: string) => string \| `false` | `false` |
 
 > Menu generation requires `getMenuData` and `clearMenuItem` function
