@@ -157,7 +157,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
   const { getPrefixCls } = context;
   const baseClassName = getPrefixCls('sider');
   const hasSplitMenu = computed(() => props.layout === 'mix' && props.splitMenus);
-  const sTheme = computed(() => ((props.layout === 'mix' && props.navTheme !== 'realDark') && 'light') || props.navTheme);
+  const sTheme = computed(() => (props.layout === 'mix' && props.navTheme !== 'realDark' && 'light') || props.navTheme);
   const sSideWidth = computed(() => (props.collapsed ? props.collapsedWidth : props.siderWidth));
   const classNames = computed(() => {
     return {
