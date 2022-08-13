@@ -105,6 +105,21 @@ const routes: RouteRecordRaw[] = [
         ],
       },
       {
+        path: '/form',
+        name: 'form',
+        meta: { title: '表单页面', icon: 'CrownOutlined' },
+        redirect: '/form/query-filter',
+        component: BlankLayout,
+        children: [
+          {
+            path: '/form/query-filter',
+            name: 'query-filter',
+            meta: { title: '表单页面' },
+            component: () => import('../views/QueryFilter.vue'),
+          },
+        ],
+      },
+      {
         path: 'https://next.antdv.com/',
         name: 'baidu_target',
         meta: { title: 'Ant Design Vue 官网', icon: 'link-outlined', target: '_blank' },

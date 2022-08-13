@@ -5,12 +5,21 @@ import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import typescript from '@rollup/plugin-typescript';
 import lessCopy from '@shared/vite-plugin-less-copy';
+import { createStyleImportPlugin, AndDesignVueResolve } from 'vite-plugin-style-import';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), vueJsx(), lessCopy()],
+  plugins: [
+    vue(),
+    vueJsx(),
+    lessCopy(),
+    createStyleImportPlugin({
+      resolves: [AndDesignVueResolve()],
+    }),
+  ],
   resolve: {
     alias: {
+      '@ant-design-vue/pro-form': fileURLToPath(new URL('./src', import.meta.url)),
       '@': fileURLToPath(new URL('./examples', import.meta.url)),
     },
   },
@@ -29,7 +38,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
-      name: 'ProLayout',
+      name: 'ProForm',
     },
     rollupOptions: {
       external: [
