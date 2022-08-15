@@ -1,12 +1,12 @@
 <template>
-  <QueryFilter :model="formModel" split @finish="handleSubmit" @collapsed="onCollapsed">
+  <QueryFilter :model="formModel" @finish="handleSubmit" @collapsed="onCollapsed">
     <FormItem name="name" label="应用名称" required>
-      <Input v-model:value="formModel.name" placeholder="请输入" />
+      <Input v-model:value="formModel.name" placeholder="请输入" allow-clear />
     </FormItem>
-    <FormItem name="creater" label="创建人">
+    <FormItem name="creater" label="创建人" required>
       <Input v-model:value="formModel.creater" placeholder="请输入" />
     </FormItem>
-    <FormItem name="sex" label="性别">
+    <FormItem name="sex" label="性别" required>
       <Select v-model:value="formModel.sex">
         <SelectOption v-for="item in sex" :key="item.value" :value="item.value">{{ item.label }}</SelectOption>
       </Select>
@@ -15,16 +15,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import { QueryFilter } from '@ant-design-vue/pro-form';
 import { FormItem, Input, Select, SelectOption } from 'ant-design-vue';
 
-const formModel = ref({
+const formModel = reactive({
   name: '123',
-  creater: '',
+  creater: '11',
   sex: '男',
 });
-
 const sex = ref([
   {
     value: '男',

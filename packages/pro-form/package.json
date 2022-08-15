@@ -29,41 +29,39 @@
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
     "@types/lodash": "^4.14.182",
-    "ant-design-vue": "^3.2.0",
-    "omit.js": "^2.0.2",
-    "vue": "^3.2.33",
-    "vue-router": "^4.0.14"
+    "ant-design-vue": "^3.2.10",
+    "vue": "^3.2.37",
+    "vue-router": "^4.1.3"
   },
   "devDependencies": {
     "@ant-design-vue/pro-layout": "workspace:^3.2.3",
     "@ant-design-vue/pro-utils": "workspace:^0.0.0",
-    "@rollup/plugin-typescript": "^8.3.2",
-    "@rushstack/eslint-patch": "^1.1.3",
+    "@rollup/plugin-typescript": "^8.3.4",
+    "@rushstack/eslint-patch": "^1.1.4",
     "@shared/vite-plugin-less-copy": "workspace:^0.0.0",
-    "@types/jsdom": "^16.2.14",
-    "@types/node": "^16.11.27",
-    "@vitejs/plugin-vue": "^2.3.1",
+    "@types/jsdom": "^16.2.15",
+    "@types/node": "^16.11.48",
+    "@vitejs/plugin-vue": "^2.3.4",
     "@vitejs/plugin-vue-jsx": "^1.3.10",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^10.0.0",
-    "@vue/test-utils": "^2.0.0-rc.20",
+    "@vue/test-utils": "^2.0.2",
     "@vue/tsconfig": "^0.1.3",
     "consola": "^2.15.3",
-    "eslint": "^8.13.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-vue": "^8.6.0",
+    "eslint": "^8.22.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^8.7.1",
     "jsdom": "^19.0.0",
-    "less": "^4.1.2",
-    "prettier": "^2.6.2",
+    "less": "^4.1.3",
+    "prettier": "^2.7.1",
     "typescript": "~4.5.5",
-    "vite": "^2.9.5",
+    "vite": "^2.9.15",
     "vite-plugin-style-import": "^2.0.0",
     "vitest": "^0.5.9",
-    "vue-tsc": "^0.34.7"
+    "vue-tsc": "^0.34.17"
   },
   "contributors": [
-    "tangjinzhou <415800467@qq.com>",
-    "Sendya <18x@loacg.com>"
+    "sunshineLixun <1261142605@qq.com>"
   ],
-  "description": "Ant Design Pro Layout of Vue, easy to use pro scaffolding."
+  "description": "Ant Design Pro Form of Vue, easy to use pro scaffolding."
 }

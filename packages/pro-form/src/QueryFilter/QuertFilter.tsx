@@ -10,6 +10,7 @@ const QueryFilter = defineComponent({
   name: 'QueryFilter',
   inheritAttrs: false,
   props: queryFilterProps,
+  emits: ['collapsed'],
   setup(props, { attrs, expose, slots, emit }) {
     const state = useQueryFilterState({ props, attrs, slots });
 
@@ -17,7 +18,6 @@ const QueryFilter = defineComponent({
 
     const onCollapsed = (_collapsed: boolean) => {
       if (typeof props.onCollapsed === 'function') {
-        // eslint-disable-next-line vue/require-explicit-emits
         emit('collapsed', _collapsed);
       }
       collapsed.value = _collapsed;
@@ -52,6 +52,7 @@ const QueryFilter = defineComponent({
         </ResizeObserver>
       );
     };
+
     return () => {
       return (
         <BaseForm
@@ -59,7 +60,7 @@ const QueryFilter = defineComponent({
           v-slots={{
             default: FormContent,
           }}
-          {...getFormProps.value}
+          {...unref(getFormProps)}
         ></BaseForm>
       );
     };

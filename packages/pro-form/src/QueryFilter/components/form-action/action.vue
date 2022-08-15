@@ -27,7 +27,7 @@ import { Space, Button } from 'ant-design-vue';
 import type { CSSProperties } from '@vue/runtime-dom';
 import { SearchOutlined, UndoOutlined, DownOutlined, UpOutlined } from '@ant-design/icons-vue';
 import { useFormInstance } from '../../../BaseForm/hooks/useFormInstance';
-import { Submitter } from '../../../BaseForm/components/submitter';
+import { Submitter } from '../../../BaseForm/components/Submitter';
 import type { ButtonProps } from 'ant-design-vue/es/button';
 
 type ActionsProps = {
