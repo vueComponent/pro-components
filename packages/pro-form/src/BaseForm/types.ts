@@ -1,5 +1,6 @@
 import type { PropType, ExtractPropTypes, VNode } from 'vue';
 import { formProps, type FormProps } from 'ant-design-vue/es/form';
+import type { Options } from 'scroll-into-view-if-needed';
 import type BaseFrom from './BaseForm';
 import type { SubmitterProps } from './components/Submitter/types';
 import { isObject } from '@ant-design-vue/pro-utils';
@@ -8,9 +9,9 @@ import type { Recordable } from '../typings';
 /** baseForm基础props */
 export const commonFormProps = {
   ...formProps(),
-  layout: {
-    type: String as PropType<FormProps['layout']>,
-    default: 'horizontal',
+  /**提交失败自动滚动到第一个错误字段 */
+  scrollToFirstError: {
+    type: [Boolean, Object] as PropType<boolean | Options | FormProps['scrollToFirstError']>,
   },
   submitter: {
     type: Object as PropType<false | SubmitterProps>,

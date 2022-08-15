@@ -1,4 +1,4 @@
-import { defineComponent, type App, type Plugin, type DefineComponent } from 'vue';
+import { defineComponent, unref, type App, type Plugin, type DefineComponent } from 'vue';
 import { Form } from 'ant-design-vue';
 import { baseFormProps, baseFormEmit, type BaseFormPropsType } from './types';
 import { useFormState } from './hooks/useFormState';
@@ -10,6 +10,7 @@ import './BaseForm.less';
 
 const BaseForm = defineComponent({
   name: 'BaseForm',
+  inheritAttrs: false,
   props: baseFormProps,
   emits: baseFormEmit,
   setup(props, { attrs, emit, expose, slots }) {
@@ -31,7 +32,7 @@ const BaseForm = defineComponent({
     expose(instance);
     return () => {
       return (
-        <Form ref={formInstanceRef} {...getFormProps} model={model}>
+        <Form ref={formInstanceRef} {...unref(getFormProps)} model={unref(model)}>
           {slots?.default?.()}
         </Form>
       );
