@@ -3,7 +3,7 @@ import { Row, Col, Form } from 'ant-design-vue';
 import Action from './components/form-action/action.vue';
 import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer';
 import { BaseForm } from '../BaseForm';
-import { useQueryFilterState } from './hooks/useTableFromState';
+import { useQueryFilterState } from './hooks/useQueryFilterState';
 import { queryFilterProps, type QueryFilterProps } from './types';
 
 const QueryFilter = defineComponent({

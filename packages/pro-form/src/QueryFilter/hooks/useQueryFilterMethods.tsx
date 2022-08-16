@@ -1,5 +1,5 @@
 import type { SetupContext } from 'vue';
-import type { UseTableFromState } from './useTableFromState';
+import type { UseTableFromState } from './useQueryFilterState';
 
 type UseTableFormMethodsParams = {
   slots: SetupContext['slots'];
