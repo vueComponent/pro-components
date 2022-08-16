@@ -6,8 +6,6 @@ import { useFromEvents } from './hooks/useFormEvents';
 import { useFormMethods } from './hooks/useFormMethods';
 import { createFromInstance } from './hooks/useFormInstance';
 
-import './BaseForm.less';
-
 const BaseForm = defineComponent({
   name: 'BaseForm',
   inheritAttrs: false,

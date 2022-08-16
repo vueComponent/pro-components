@@ -1,6 +1,6 @@
 import { defineComponent, unref, type App, type Plugin, type DefineComponent } from 'vue';
 import { Row, Col, Form } from 'ant-design-vue';
-import Action from './components/form-action/action.vue';
+import { Action } from './components/form-action/action';
 import { default as ResizeObserver } from 'ant-design-vue/es/vc-resize-observer';
 import { BaseForm } from '../BaseForm';
 import { useQueryFilterState } from './hooks/useQueryFilterState';
