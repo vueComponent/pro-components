@@ -77,10 +77,10 @@ export const useQueryFilterState = ({ props, attrs, slots }: UseTableFormStatePa
     const formItems = children.map(
       (child, index): { itemDom: VNode | null; colSpan: number; hidden: boolean; key?: VNodeProps['key'] } => {
         const colSize = isValidElement(child) ? child.props?.colSize ?? 1 : 1;
-        const colSpan = Math.min(unref(spanSize).span * colSize, 24);
+        const colSpan = Math.min(unref(spanSize).span * (colSize || 1), 24);
 
-        totalSize += colSize;
         totalSpan += colSpan;
+        totalSize += colSize;
 
         if (index === 0) {
           // 如果第一个form.item占满24 并且不是隐藏
@@ -88,7 +88,7 @@ export const useQueryFilterState = ({ props, attrs, slots }: UseTableFormStatePa
         }
         // 如果totalSize长度超过了 要显示的个数
         // 如果totalSpan位置超过了24
-        const hidden =
+        const hidden: boolean =
           child.props?.hidden ||
           (unref(collapsed) && (firstRowFull || totalSize > unref(showLength) - 1) && !!index && totalSpan >= 24);
 

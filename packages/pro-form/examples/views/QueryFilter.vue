@@ -1,5 +1,5 @@
 <template>
-  <QueryFilter :model="formModel" :span="8" @finish="handleSubmit" @collapsed="onCollapsed">
+  <QueryFilter :model="formModel" :span="4" @finish="handleSubmit" @collapsed="onCollapsed">
     <FormItem name="name" label="应用名称" required>
       <Input v-model:value="formModel.name" placeholder="请输入" allow-clear />
     </FormItem>
