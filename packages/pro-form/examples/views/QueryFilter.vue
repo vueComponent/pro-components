@@ -1,5 +1,5 @@
 <template>
-  <QueryFilter :model="formModel" @finish="handleSubmit" @collapsed="onCollapsed">
+  <QueryFilter :model="formModel" :span="8" @finish="handleSubmit" @collapsed="onCollapsed">
     <FormItem name="name" label="应用名称" required>
       <Input v-model:value="formModel.name" placeholder="请输入" allow-clear />
     </FormItem>
@@ -11,18 +11,31 @@
         <SelectOption v-for="item in sex" :key="item.value" :value="item.value">{{ item.label }}</SelectOption>
       </Select>
     </FormItem>
+    <FormItem name="status" label="应用状态">
+      <Input v-model:value="formModel.status" placeholder="请输入" />
+    </FormItem>
+    <FormItem name="startDate" label="响应日期">
+      <DatePicker v-model:value="formModel.startDate" placeholder="请输入" />
+    </FormItem>
+    <FormItem name="create" label="创建时间">
+      <RangePicker v-model:value="formModel.create" :placeholder="['开始时间', '结束时间']" />
+    </FormItem>
   </QueryFilter>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
 import { QueryFilter } from '@ant-design-vue/pro-form';
-import { FormItem, Input, Select, SelectOption } from 'ant-design-vue';
+import dayjs, { type Dayjs } from 'dayjs';
+import { FormItem, Input, Select, SelectOption, RangePicker, DatePicker } from 'ant-design-vue';
 
 const formModel = reactive({
   name: '123',
   creater: '11',
   sex: '男',
+  status: '',
+  startDate: '',
+  create: [dayjs('2015/01/01', 'YYYY/MM/DD'), dayjs('2016/01/01', 'YYYY/MM/DD')] as [Dayjs, Dayjs],
 });
 const sex = ref([
   {

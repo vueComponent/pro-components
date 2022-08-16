@@ -1,4 +1,4 @@
-import type { PropType, ExtractPropTypes, VNode } from 'vue';
+import type { PropType, ExtractPropTypes } from 'vue';
 import { formProps, type FormProps } from 'ant-design-vue/es/form';
 import type { Options } from 'scroll-into-view-if-needed';
 import type BaseFrom from './BaseForm';
@@ -32,14 +32,14 @@ export const commonFormProps = {
 
 export const baseFormProps = {
   ...commonFormProps,
-  contentRender: {
-    type: Function as PropType<(items: VNode[], submitter: SubmitterProps | undefined) => VNode>,
-  },
-  /** 是否回车提交 默认为true */
-  isKeyPressSubmit: {
-    type: Boolean as PropType<boolean>,
-    default: true,
-  },
+  // contentRender: {
+  //   type: Function as PropType<(items: VNode[], submitter: SubmitterProps | undefined) => VNode>,
+  // },
+  // /** 是否回车提交 默认为true */
+  // isKeyPressSubmit: {
+  //   type: Boolean as PropType<boolean>,
+  //   default: true,
+  // },
 };
 
 export const baseFormEmit = {

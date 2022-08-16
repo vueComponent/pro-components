@@ -56,6 +56,7 @@ const QueryFilter = defineComponent({
     return () => {
       return (
         <BaseForm
+          style={props.style}
           ref={baseFromRef}
           v-slots={{
             default: FormContent,
