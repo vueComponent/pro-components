@@ -28,6 +28,11 @@ npm i @ant-design-vue/pro-form -S
 
 ### Simple Usage
 
+```js
+// main.[js|ts]
+import "@ant-design-vue/pro-form/dist/style.css"; // pro-form css or style.less
+```
+
 ```vue
 <template>
   <QueryFilter
