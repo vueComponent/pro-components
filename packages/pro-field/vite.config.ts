@@ -37,8 +37,8 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
-      name: 'ProForm',
+      entry: fileURLToPath(new URL('./src/index.tsx', import.meta.url)),
+      name: 'ProField',
     },
     rollupOptions: {
       external: [
