@@ -49,6 +49,7 @@ importers:
       '@shared/vite-plugin-less-copy': workspace:^0.0.0
       '@types/jsdom': ^16.2.15
       '@types/lodash': ^4.14.182
+      '@types/lodash-es': ^4.17.6
       '@types/node': ^16.11.48
       '@vitejs/plugin-vue': ^2.3.4
       '@vitejs/plugin-vue-jsx': ^1.3.10
@@ -75,6 +76,7 @@ importers:
     dependencies:
       '@ant-design/icons-vue': 6.1.0_vue@3.2.37
       '@types/lodash': 4.14.182
+      '@types/lodash-es': 4.17.6
       ant-design-vue: 3.2.11_vue@3.2.37
       dayjs: 1.11.5
       vue: 3.2.37
@@ -255,8 +257,11 @@ importers:
       '@rollup/plugin-commonjs': ^21.0.1
       '@rollup/plugin-node-resolve': ^13.1.3
       '@rollup/plugin-typescript': ^8.3.0
+      ant-design-vue: ^3.2.10
       rollup: ^2.67.3
       typescript: ^4.5.5
+    dependencies:
+      ant-design-vue: 3.2.11
     devDependencies:
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.78.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.78.0
@@ -282,6 +287,15 @@ packages:
 
   /@ant-design/icons-svg/4.2.1:
     resolution: {integrity: sha512-EB0iwlKDGpG93hW8f85CTJTs4SvMX7tt5ceupvhALp1IF44SeUFOMhKUOYqpsoYWQKAOuTRDMqn75rEaKDp0Xw==}
+    dev: false
+
+  /@ant-design/icons-vue/6.1.0:
+    resolution: {integrity: sha512-EX6bYm56V+ZrKN7+3MT/ubDkvJ5rK/O2t380WFRflDcVFgsvl3NLH7Wxeau6R8DbrO5jWR6DSTC3B6gYFp77AA==}
+    peerDependencies:
+      vue: '>=3.0.3'
+    dependencies:
+      '@ant-design/colors': 6.0.0
+      '@ant-design/icons-svg': 4.2.1
     dev: false
 
   /@ant-design/icons-vue/6.1.0_vue@3.2.37:
@@ -846,6 +860,12 @@ packages:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
     dev: true
 
+  /@types/lodash-es/4.17.6:
+    resolution: {integrity: sha512-R+zTeVUKDdfoRxpAryaQNRKk3105Rrgx2CFRClIgRGaqDTdjsm8h6IYA8ir584W3ePzkZfst5xIgDwYrlh9HLg==}
+    dependencies:
+      '@types/lodash': 4.14.182
+    dev: false
+
   /@types/lodash/4.14.182:
     resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==}
     dev: false
@@ -1291,6 +1311,31 @@ packages:
     dependencies:
       color-convert: 2.0.1
     dev: true
+
+  /ant-design-vue/3.2.11:
+    resolution: {integrity: sha512-QKCAcOY5EJF0PepiVGA4X5PzUetYUvG5qALmA+2TON40pc2+brOEiVTwr3kjF9N+f7q4MpyiLPu4pIErwoajOQ==}
+    engines: {node: '>=12.22.0'}
+    peerDependencies:
+      vue: '>=3.2.0'
+    dependencies:
+      '@ant-design/colors': 6.0.0
+      '@ant-design/icons-vue': 6.1.0
+      '@babel/runtime': 7.18.9
+      '@ctrl/tinycolor': 3.4.1
+      '@simonwep/pickr': 1.8.2
+      array-tree-filter: 2.1.0
+      async-validator: 4.2.5
+      dayjs: 1.11.5
+      dom-align: 1.12.3
+      dom-scroll-into-view: 2.0.1
+      lodash: 4.17.21
+      lodash-es: 4.17.21
+      resize-observer-polyfill: 1.5.1
+      scroll-into-view-if-needed: 2.2.29
+      shallow-equal: 1.2.1
+      vue-types: 3.0.2
+      warning: 4.0.3
+    dev: false
 
   /ant-design-vue/3.2.11_vue@3.2.37:
     resolution: {integrity: sha512-QKCAcOY5EJF0PepiVGA4X5PzUetYUvG5qALmA+2TON40pc2+brOEiVTwr3kjF9N+f7q4MpyiLPu4pIErwoajOQ==}
@@ -3410,6 +3455,15 @@ packages:
       '@volar/vue-typescript': 0.34.17
       typescript: 4.5.5
     dev: true
+
+  /vue-types/3.0.2:
+    resolution: {integrity: sha512-IwUC0Aq2zwaXqy74h4WCvFCUtoV0iSWr0snWnE9TnU18S66GAQyqQbRf2qfJtUuiFsBf6qp0MEwdonlwznlcrw==}
+    engines: {node: '>=10.15.0'}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      is-plain-object: 3.0.1
+    dev: false
 
   /vue-types/3.0.2_vue@3.2.37:
     resolution: {integrity: sha512-IwUC0Aq2zwaXqy74h4WCvFCUtoV0iSWr0snWnE9TnU18S66GAQyqQbRf2qfJtUuiFsBf6qp0MEwdonlwznlcrw==}

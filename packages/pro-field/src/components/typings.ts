@@ -4,6 +4,10 @@ import type { ProFieldFCMode, VueNode } from '@ant-design-vue/pro-utils';
 
 // BaseProFieldProps
 export const baseProFieldFC = {
+  /** 值的类型 */
+  text: {
+    type: String as PropType<VueNode>,
+  },
   fieldProps: {
     type: Object as PropType<InputProps>,
   },
@@ -30,14 +34,27 @@ export const proFieldFC = {
   ...proRenderFieldPropsType,
 };
 
+export const proFieldFCRenderProps = {
+  ...baseProFieldFC,
+  mode: {
+    type: String as PropType<ProFieldFCMode>,
+  },
+  readonly: {
+    type: Boolean as PropType<boolean>,
+  },
+  placeholder: {
+    type: String as PropType<string | string[]>,
+  },
+  onChange: {
+    type: Function as PropType<(...rest: any[]) => void>,
+  },
+  value: {
+    type: Object as PropType<any>,
+  },
+};
+
 // RenderProps
-export type ProFieldFCRenderProps = {
-  mode?: ProFieldFCMode;
-  readonly?: boolean;
-  placeholder?: string | string[];
-  value?: any;
-  onChange?: (...rest: any[]) => void;
-} & BaseProFieldFC;
+export type ProFieldFCRenderProps = Partial<ExtractPropTypes<typeof proFieldFCRenderProps>>;
 
 export type ProFieldFC = Partial<ExtractPropTypes<typeof proFieldFC>>;
 

@@ -1,5 +1,9 @@
 import type { Slot, VNode, VNodeChild } from 'vue';
 
+import type { ProFieldValueType, ProFieldValueTypeWithFieldProps } from './types';
+
+export { ProFieldValueType, ProFieldValueTypeWithFieldProps };
+
 // Node
 export type VueNode =
   | Slot

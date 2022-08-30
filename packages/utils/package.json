@@ -9,7 +9,9 @@
     "build": "set NODE_ENV=production && rollup -c",
     "prepare": "pnpm build"
   },
-  "dependencies": {},
+  "dependencies": {
+    "ant-design-vue": "^3.2.10"
+  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.1.3",
