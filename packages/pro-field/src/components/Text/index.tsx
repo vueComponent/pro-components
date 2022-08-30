@@ -15,7 +15,7 @@ const FieldText = defineComponent({
         const dom = (
           <>
             {props.fieldProps?.prefix}
-            {props.text ?? props.emptyText}
+            {props.text ?? (props.emptyText || '-')}
             {props.fieldProps?.suffix}
           </>
         );

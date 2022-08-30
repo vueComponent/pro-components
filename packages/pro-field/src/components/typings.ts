@@ -1,7 +1,9 @@
 import type { InputProps } from 'ant-design-vue/es/input/inputProps';
-import type { PropType, ExtractPropTypes } from 'vue';
+import type { PropType, ExtractPropTypes, VNodeChild, VNode } from 'vue';
 
 export type ProFieldFCMode = 'read' | 'edit' | 'update';
+
+export type VueNode = VNodeChild | VNode | JSX.Element;
 
 export const baseProFieldFC = {
   fieldProps: {
@@ -25,11 +27,11 @@ export type ProFieldFCRenderProps = {
 export const proRenderFieldPropsType = {
   render: {
     type: Function as PropType<
-      (text: any, props: Omit<ProFieldFCRenderProps, 'value' | 'onChange'>, dom: JSX.Element) => JSX.Element
+      (text: any, props: Omit<ProFieldFCRenderProps, 'value' | 'onChange'>, dom: VueNode) => VueNode
     >,
   },
   renderFormItem: {
-    type: Function as PropType<(text: any, props: ProFieldFCRenderProps, dom: JSX.Element) => JSX.Element>,
+    type: Function as PropType<(text: any, props: ProFieldFCRenderProps, dom: VueNode) => VueNode>,
   },
 };
 

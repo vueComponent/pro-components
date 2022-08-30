@@ -1,6 +1,7 @@
 import { defineComponent } from 'vue';
 import FieldText from './components/Text';
 
+import './default.less';
 import './style.less';
 
 const ProField = defineComponent({

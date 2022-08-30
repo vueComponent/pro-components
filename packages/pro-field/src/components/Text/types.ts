@@ -1,6 +1,6 @@
-import type { PropType, ExtractPropTypes, VNodeChild, VNode } from 'vue';
+import type { PropType, ExtractPropTypes } from 'vue';
 import type { InputProps } from 'ant-design-vue/es/input/inputProps';
-import { proFieldFC } from '../types';
+import { proFieldFC, type VueNode } from '../typings';
 
 export const textFieldPorps = {
   ...proFieldFC,
@@ -12,7 +12,7 @@ export const textFieldPorps = {
     default: 'text',
   },
   emptyText: {
-    type: [String, Object] as PropType<VNodeChild | VNode | JSX.Element>,
+    type: [String, Object] as PropType<VueNode>,
   },
 };
 
