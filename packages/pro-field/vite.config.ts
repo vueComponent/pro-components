@@ -37,7 +37,7 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: fileURLToPath(new URL('./src/index.tsx', import.meta.url)),
+      entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
       name: 'ProField',
     },
     rollupOptions: {
@@ -67,13 +67,13 @@ export default defineConfig({
       plugins: [
         typescript({
           tsconfig: './tsconfig.esm.json',
-          target: 'es2020',
           emitDeclarationOnly: true,
-          // outDir: 'dist',
-          // declaration: true,
+          target: 'es2020',
+          outDir: 'dist',
+          declaration: true,
           // declarationDir: '.',
-          // exclude: 'node_modules/**',
-          // allowSyntheticDefaultImports: true,
+          exclude: 'node_modules/**',
+          allowSyntheticDefaultImports: true,
         }),
       ],
     },

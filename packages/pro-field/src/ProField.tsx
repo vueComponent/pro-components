@@ -1,5 +1,5 @@
-import { defineComponent, PropType, ExtractPropTypes, VNode } from 'vue';
-import { pickProProps } from '@ant-design-vue/pro-utils';
+import { defineComponent, PropType, ExtractPropTypes, VNode, type App, type Plugin, type DefineComponent } from 'vue';
+import { pickProProps, omitUndefined } from '@ant-design-vue/pro-utils';
 import { isValidElement } from 'ant-design-vue/es/_util/props-util';
 import { cloneVNodes } from 'ant-design-vue/es/_util/vnode';
 import { omit } from 'lodash-es';
@@ -13,12 +13,7 @@ import type {
   ProFieldRequestData,
   VueNode,
 } from '@ant-design-vue/pro-utils';
-import { omitUndefined } from '@ant-design-vue/pro-utils';
 import { proFieldFCRenderProps, proRenderFieldPropsType, type ProRenderFieldPropsType } from './components/typings';
-
-// style
-import './default.less';
-import './style.less';
 
 export const renderProps = {
   ...omit(proFieldFCRenderProps, 'text'),
@@ -63,6 +58,8 @@ const defaultRenderText = (
 };
 
 const ProField = defineComponent({
+  name: 'ProField',
+  inheritAttrs: false,
   props: proFieldPropsType,
   setup(props) {
     return () => {
@@ -108,6 +105,9 @@ const ProField = defineComponent({
   },
 });
 
-export { FieldText };
+ProField.install = (app: App) => {
+  app.component(ProField.name, ProField);
+  return app;
+};
 
-export default ProField;
+export default ProField as DefineComponent<ProFieldPropsType> & Plugin;

@@ -9,7 +9,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@ant-design-vue/pro-field":["src/index.tsx"],
+      "@ant-design-vue/pro-field":["src/index.ts"],
       "vue-types": ["../../node_modules/vue-types"],
     },
     "preserveValueImports": false,
