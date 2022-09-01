@@ -12,6 +12,8 @@ export {
 } from './BaseForm/types';
 export { BaseForm } from './BaseForm/index';
 
+export * from './components';
+
 export { submitterProps, type SubmitterProps } from './BaseForm/components/Submitter/types';
 export { Submitter } from './BaseForm/components/Submitter/index';
 

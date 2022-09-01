@@ -8,6 +8,7 @@ const FieldText = defineComponent({
   props: textFieldPorps,
   slots: ['render', 'renderFormItem'],
   setup(props, { slots }) {
+    console.log('FieldText', props);
     return () => {
       const render = props.render ?? slots?.render;
       const renderFormItem = props.renderFormItem ?? slots?.renderFormItem;

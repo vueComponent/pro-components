@@ -1,13 +1,9 @@
 import { defineComponent, ExtractPropTypes, PropType } from 'vue';
 import { formItemProps } from 'ant-design-vue/es/form';
-import { FormItem, Col } from 'ant-design-vue';
-import type { ColProps } from 'ant-design-vue/es/col';
+import { FormItem } from 'ant-design-vue';
 
 export const proFormItemProps = {
-  ...formItemProps,
-  colProps: {
-    type: Object as PropType<ColProps>,
-  },
+  ...formItemProps(),
   proFormFieldKey: {
     type: String as PropType<string>,
   },
@@ -20,11 +16,9 @@ const ProFormItem = defineComponent({
   setup(props, { slots }) {
     return () => {
       return (
-        <Col {...props.colProps}>
-          <FormItem key={props.proFormFieldKey} {...props}>
-            {slots?.default?.()}
-          </FormItem>
-        </Col>
+        <FormItem key={props.proFormFieldKey} {...props}>
+          {slots?.default?.()}
+        </FormItem>
       );
     };
   },

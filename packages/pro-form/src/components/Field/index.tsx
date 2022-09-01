@@ -1,12 +1,20 @@
 import { defineComponent } from 'vue';
-import { ProField } from '@ant-design-vue/pro-field';
+import ProField, { type ProFieldPropsType } from '@ant-design-vue/pro-field';
+import type { InputProps } from 'ant-design-vue/es/input/inputProps';
 import ProFormItem from '../FormItem';
+import type { ProFormFieldItemProps } from '../../typings';
 
-const BaseProFormField = defineComponent({
-  setup() {
+export type ProFormFieldProps = ProFormFieldItemProps<InputProps> & Pick<ProFieldPropsType, 'valueType'>;
+
+const ProFormField = defineComponent<ProFormFieldProps>({
+  name: 'BaseProFormField',
+  inheritAttrs: false,
+  props: ['valueType', 'fieldProps', 'filedConfig', 'formItemProps'] as any,
+  setup(props, { attrs }) {
     return () => {
+      const valueType = props.valueType || 'text';
       const BaseProFormField = () => {
-        return <ProField />;
+        return <ProField valueType={valueType} fieldProps={props.fieldProps} {...attrs} />;
       };
 
       return (
@@ -14,10 +22,11 @@ const BaseProFormField = defineComponent({
           v-slots={{
             default: BaseProFormField,
           }}
+          {...attrs}
         ></ProFormItem>
       );
     };
   },
 });
 
-export { BaseProFormField };
+export default ProFormField;

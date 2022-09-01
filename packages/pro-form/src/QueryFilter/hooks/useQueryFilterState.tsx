@@ -76,7 +76,8 @@ export const useQueryFilterState = ({ props, attrs, slots }: UseTableFormStatePa
     currentSpan.value = 0;
     const formItems = children.map(
       (child, index): { itemDom: VNode | null; colSpan: number; hidden: boolean; key?: VNodeProps['key'] } => {
-        const colSize = isValidElement(child) ? child.props?.colSize ?? 1 : 1;
+        // colSize 在template中是中划线
+        const colSize = isValidElement(child) ? (child.props?.colSize || child.props?.['col-size']) ?? 1 : 1;
         const colSpan = Math.min(unref(spanSize).span * (colSize || 1), 24);
 
         totalSpan += colSpan;

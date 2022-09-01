@@ -4,15 +4,15 @@
   "exclude": ["src/**/__tests__/*", "node_modules"],
   "compilerOptions": {
     "composite": true,
-		"module": "esnext",
-		"moduleResolution": "node",
+    "module": "esnext",
+    "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@ant-design-vue/pro-field":["src/index.ts"],
-      "vue-types": ["../../node_modules/vue-types"],
+      "@ant-design-vue/pro-field": ["src/index.tsx"],
+      "vue-types": ["../../node_modules/vue-types"]
     },
     "preserveValueImports": false,
-		"useUnknownInCatchVariables": true
+    "useUnknownInCatchVariables": true
   }
 }

@@ -37,19 +37,11 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
+      entry: fileURLToPath(new URL('./src/index.tsx', import.meta.url)),
       name: 'ProField',
     },
     rollupOptions: {
-      external: [
-        'vue',
-        'vue-router',
-        '@ant-design/icons-vue',
-        '@ant-design/icons-svg',
-        'ant-design-vue',
-        'moment',
-        'vue-types',
-      ],
+      external: ['vue', 'vue-router', 'ant-design-vue', 'vue-types'],
       output: {
         exports: 'named',
         // Provide global variables to use in the UMD build
@@ -58,10 +50,7 @@ export default defineConfig({
           vue: 'Vue',
           'vue-router': 'VueRouter',
           'ant-design-vue': 'antd',
-          '@ant-design/icons-vue': 'iconsVue',
-          '@ant-design/icons-svg': 'iconsSvg',
           'vue-types': 'vueTypes',
-          moment: 'moment',
         },
       },
       plugins: [
@@ -69,11 +58,11 @@ export default defineConfig({
           tsconfig: './tsconfig.esm.json',
           emitDeclarationOnly: true,
           target: 'es2020',
-          outDir: 'dist',
-          declaration: true,
+          // outDir: 'dist',
+          // declaration: true,
           // declarationDir: '.',
-          exclude: 'node_modules/**',
-          allowSyntheticDefaultImports: true,
+          // exclude: 'node_modules/**',
+          // allowSyntheticDefaultImports: true,
         }),
       ],
     },

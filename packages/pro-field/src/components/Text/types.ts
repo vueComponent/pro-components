@@ -5,9 +5,7 @@ import { proFieldFC } from '../typings';
 
 export const textFieldPorps = {
   ...proFieldFC,
-  text: {
-    type: String as PropType<string>,
-  },
+  // 这里预留一个原生的input type属性
   type: {
     type: String as PropType<InputProps['type']>,
     default: 'text',

@@ -16,6 +16,18 @@ export const baseProFieldFC = {
     type: String as PropType<ProFieldFCMode>,
     default: 'edit',
   },
+  /** 简约模式 */
+  plain: {
+    type: Boolean as PropType<boolean>,
+  },
+  /** 轻量模式 */
+  light: {
+    type: Boolean as PropType<boolean>,
+  },
+  /** Label */
+  label: {
+    type: String as PropType<VueNode>,
+  },
 };
 
 export const proRenderFieldPropsType = {
@@ -41,15 +53,6 @@ export const proFieldFCRenderProps = {
   },
   readonly: {
     type: Boolean as PropType<boolean>,
-  },
-  placeholder: {
-    type: String as PropType<string | string[]>,
-  },
-  onChange: {
-    type: Function as PropType<(...rest: any[]) => void>,
-  },
-  value: {
-    type: Object as PropType<any>,
   },
 };
 
