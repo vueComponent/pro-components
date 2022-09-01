@@ -62,11 +62,11 @@ export type ProFieldPropsType = Partial<ExtractPropTypes<typeof proFieldProps>>;
 const defaultRenderText = (
   dataValue: ProFieldTextType,
   valueType: ProFieldValueType | ProFieldValueObjectType,
-  props: RenderProps,
-  valueTypeMap: Record<string, ProRenderFieldPropsType>
+  props: RenderProps
+  // valueTypeMap: Record<string, ProRenderFieldPropsType>
 ): VueNode => {
-  console.log(props, valueType, valueTypeMap);
-  return <FieldText {...props} text={dataValue as string} {...props} />;
+  //TODO: 这里可以在优化下
+  return <FieldText {...props} text={dataValue as string} />;
 };
 
 const ProField = defineComponent({
@@ -96,8 +96,7 @@ const ProField = defineComponent({
                   }
                 : undefined,
               fieldProps: pickProProps(fieldProps || {}),
-            },
-            {}
+            }
           )}
         </>
       );
