@@ -28,7 +28,6 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
-    "@types/lodash": "^4.14.184",
     "@types/lodash-es": "^4.17.6",
     "ant-design-vue": "^3.2.11",
     "dayjs": "^1.11.5",
