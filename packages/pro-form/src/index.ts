@@ -19,3 +19,5 @@ export { Submitter } from './BaseForm/components/Submitter/index';
 
 export { queryFilterProps, type QueryFilterProps, type QueryFilternstance } from './QueryFilter/types';
 export { QueryFilter } from './QueryFilter/index';
+
+export { proFormPorps, type ProFormPorps, ProForm } from './ProForm';
