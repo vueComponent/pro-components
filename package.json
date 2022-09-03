@@ -10,7 +10,10 @@
     "build": "pnpm run build --filter ./packages",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "TIMING=1 eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:serve": "vitepress serve docs"
   },
   "keywords": [
     "antd",
@@ -46,12 +49,21 @@
     "prettier": "^2.6.2",
     "typescript": "~4.5.5",
     "vite": "^2.9.5",
+    "vitepress": "1.0.0-alpha.13",
     "vitest": "^0.5.9",
+    "vue": "^3.2.38",
     "vue-tsc": "^0.34.7"
   },
   "lint-staged": {
     "*.{js,ts,vue,json}": [
       "pnpm lint"
     ]
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@algolia/client-search"
+      ]
+    }
   }
 }

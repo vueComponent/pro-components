@@ -2,9 +2,13 @@
 Ant Design Pro Layout
 </h1>
 
-<div align="center">
+<div class="tip">
 
-[![NPM version](https://img.shields.io/npm/v/@ant-design-vue/pro-layout/latest?style=flat)](https://npmjs.org/package/@ant-design-vue/pro-layout) [![Vue Support](https://img.shields.io/badge/support-Vue3-green?style=flat)](./package.json) [![Vue Grammar Level](https://img.shields.io/badge/full-Composition%20API-blue?style=flat)](https://v3.vuejs.org/guide/composition-api-introduction.html) [![NPM downloads](http://img.shields.io/npm/dm/@ant-design-vue/pro-layout.svg?style=flat)](https://npmjs.org/package/@ant-design-vue/pro-layout) [![License](https://img.shields.io/github/license/vueComponent/pro-layout)](./LICENSE)
+[![NPM version](https://img.shields.io/npm/v/@ant-design-vue/pro-layout/latest?style=flat)](https://npmjs.org/package/@ant-design-vue/pro-layout)
+[![Vue Support](https://img.shields.io/badge/support-Vue3-green?style=flat)](https://github.com/vueComponent/pro-components/blob/next/package.json)
+[![Vue Grammar Level](https://img.shields.io/badge/full-Composition%20API-blue?style=flat)](https://v3.vuejs.org/guide/composition-api-introduction.html)
+[![NPM downloads](http://img.shields.io/npm/dm/@ant-design-vue/pro-layout.svg?style=flat)](https://npmjs.org/package/@ant-design-vue/pro-layout)
+[![License](https://img.shields.io/github/license/vueComponent/pro-layout)](https://github.com/vueComponent/pro-components/blob/next/LICENSE)
 
 </div>
 
@@ -19,7 +23,7 @@ Ant Design Pro Layout
 
 ## Basic Usage
 
-Recommend look [Examples](./examples/) or [Use Template](https://github.com/sendya/preview-pro)
+Recommend look [Examples](https://github.com/vueComponent/pro-components/tree/next/packages/pro-layout/examples) or [Use Template](https://github.com/sendya/preview-pro)
 
 ## Branch
 
@@ -275,3 +279,13 @@ const layoutConf = reactive({
 ```bash
 pnpm build # Build library and .d.ts
 ```
+
+<style type="text/css" rel="stylesheet">
+.tip p { 
+  display: flex
+}
+
+.tip p a {
+  margin-right: 10px
+}
+</style>
