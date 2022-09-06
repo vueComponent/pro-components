@@ -1,7 +1,8 @@
 import { defineComponent, type App, DefineComponent, Plugin, ExtractPropTypes } from 'vue';
+import { Form } from 'ant-design-vue';
 import { commonFormProps } from '../BaseForm/types';
 import { BaseForm } from '../BaseForm/index';
-import { Action } from '../QueryFilter/components/form-action/action';
+import { ProFormItem } from '../components';
 
 export const proFormPorps = {
   ...commonFormProps,
@@ -16,14 +17,28 @@ const ProForm = defineComponent({
   setup(props, { slots }) {
     return () => {
       return (
-        <BaseForm {...props} layout={'vertical'}>
+        <BaseForm
+          {...props}
+          layout={props.layout || 'vertical'}
+          submitter={{}}
+          contentRender={(items, submitter) => {
+            return (
+              <>
+                {items}
+                {submitter}
+              </>
+            );
+          }}
+        >
           {slots?.default?.()}
-          <Action collapseRender={false} />
         </BaseForm>
       );
     };
   },
 });
+
+ProForm.useForm = Form.useForm;
+ProForm.Item = ProFormItem;
 
 ProForm.install = (app: App) => {
   app.component(ProForm.name, ProForm);

@@ -1,4 +1,4 @@
-import type { EmitsOptions, SetupContext, CSSProperties } from 'vue';
+import type { EmitsOptions, SetupContext, CSSProperties, PropType, ExtractPropTypes } from 'vue';
 import type { VueNode, ProFieldValueType } from '@ant-design-vue/pro-utils';
 import type { ProFormItemProps } from './components/FormItem';
 import type { ProFieldPropsType } from '@ant-design-vue/pro-field';
@@ -75,19 +75,27 @@ export type Recordable<T = any> = Record<string, T>;
 //   type: String as PropType<ProFieldValueType | ProFieldValueObjectType>,
 // },
 
-export type ProFormGridConfig = {
-  grid?: boolean;
+export const proFormGridConfig = {
+  grid: {
+    type: Boolean as PropType<boolean>,
+  },
   /**
    * @default
    * { xs: 24 }
    */
-  colProps?: ColProps;
+  colProps: {
+    type: Object as PropType<ColProps>,
+  },
   /**
    * @default
    * { gutter: 8 }
    */
-  rowProps?: RowProps;
+  rowProps: {
+    type: Object as PropType<RowProps>,
+  },
 };
+
+export type ProFormGridConfig = Partial<ExtractPropTypes<typeof proFormGridConfig>>;
 
 // 暴露给外部使用的ProField属性
 export interface ProFieldProps {

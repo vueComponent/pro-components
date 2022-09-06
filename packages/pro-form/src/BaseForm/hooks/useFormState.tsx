@@ -1,7 +1,7 @@
-import { ref, computed, type SetupContext } from 'vue';
+import { ref, computed, unref, type SetupContext } from 'vue';
 import type { FormInstance } from 'ant-design-vue';
 import type { BaseFormPropsType } from '../types';
-import { cloneDeep } from 'lodash';
+import { useGridHelpers } from '../../helpers';
 
 export type FormState = ReturnType<typeof useFormState>;
 
@@ -11,9 +11,16 @@ export type useFormStateParams = {
 };
 
 export const useFormState = ({ props, attrs }: useFormStateParams) => {
-  const formPropsRef = ref<BaseFormPropsType>(cloneDeep(props));
-  const model = ref(props.model);
+  const formPropsRef = ref<BaseFormPropsType>(props);
+  const model = ref(props.model || {});
   const formInstanceRef = ref<FormInstance>();
+
+  const { RowWrapper } = unref(
+    useGridHelpers({
+      grid: unref(formPropsRef).grid,
+      rowProps: unref(formPropsRef).rowProps,
+    })
+  );
 
   const getFormProps = computed(() => {
     return {
@@ -25,5 +32,6 @@ export const useFormState = ({ props, attrs }: useFormStateParams) => {
     model,
     formInstanceRef,
     getFormProps,
+    RowWrapper,
   };
 };

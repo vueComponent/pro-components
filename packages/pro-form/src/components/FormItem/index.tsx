@@ -12,6 +12,8 @@ export const proFormItemProps = {
 export type ProFormItemProps = Partial<ExtractPropTypes<typeof proFormItemProps>>;
 
 const ProFormItem = defineComponent({
+  name: 'ProFormItem',
+  inheritAttrs: false,
   props: proFormItemProps,
   setup(props, { slots }) {
     return () => {

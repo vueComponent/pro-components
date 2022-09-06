@@ -65,7 +65,6 @@ const defaultRenderText = (
   props: RenderProps
   // valueTypeMap: Record<string, ProRenderFieldPropsType>
 ): VueNode => {
-  //TODO: 这里可以在优化下
   return <FieldText {...props} text={dataValue as string} />;
 };
 
@@ -74,8 +73,9 @@ const ProField = defineComponent({
   inheritAttrs: false,
   props: proFieldProps,
   setup(props) {
+    const fieldProps = omitUndefined(props?.fieldProps || {});
+    console.log(fieldProps);
     return () => {
-      const fieldProps = omitUndefined(props?.fieldProps || {});
       return (
         <>
           {defaultRenderText(

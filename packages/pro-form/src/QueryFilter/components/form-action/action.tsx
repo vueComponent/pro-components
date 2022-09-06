@@ -46,6 +46,9 @@ export const Action = defineComponent({
             submitButtonProps={props.submitButtonProps || {}}
             onSubmit={submit}
             onReset={resetForm}
+            searchConfig={{
+              submitText: '查询',
+            }}
             v-slots={{
               submitIcon: () => <SearchOutlined />,
               resetIcon: () => <UndoOutlined />,

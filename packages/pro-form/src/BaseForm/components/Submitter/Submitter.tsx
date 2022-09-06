@@ -63,7 +63,7 @@ const Submitter = defineComponent({
         if (doms.length === 1) {
           return doms[0];
         }
-        return <Space>{doms}</Space>;
+        return <Space wrap>{doms}</Space>;
       }
       return doms;
     };

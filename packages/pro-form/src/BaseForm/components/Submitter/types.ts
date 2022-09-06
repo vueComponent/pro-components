@@ -1,11 +1,12 @@
 import type { PropType, ExtractPropTypes } from 'vue';
+// import type { VueNode } from '@ant-design-vue/pro-utils';
 import type { ButtonProps } from 'ant-design-vue';
 
 type SearchConfig = {
   /**  提交按钮文案 */
-  submitText: string;
+  submitText?: string;
   /** 重置按钮文案 */
-  resetText: string;
+  resetText?: string;
 };
 
 export const submitterProps = {
@@ -30,6 +31,18 @@ export const submitterProps = {
     type: [Boolean, Object] as PropType<false | (ButtonProps & { preventDefault?: boolean })>,
     default: false,
   },
+  // render: {
+  //   type: [Function, Boolean] as PropType<
+  //     | false
+  //     | ((
+  //         props: SubmitterProps & {
+  //           submit: () => void;
+  //           reset: () => void;
+  //         },
+  //         dom: VueNode[]
+  //       ) => VueNode)
+  //   >,
+  // },
 };
 
 export type SubmitterProps = Partial<ExtractPropTypes<typeof submitterProps>>;

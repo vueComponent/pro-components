@@ -1,7 +1,7 @@
-import { provide, inject } from 'vue';
+import { provide, inject, type InjectionKey } from 'vue';
 import type { BaseFormType } from './index';
 
-const key = Symbol('base-form');
+const key = Symbol('base-form') as InjectionKey<BaseFormType>;
 
 export const createFromInstance = (instance: BaseFormType) => {
   provide(key, instance);
