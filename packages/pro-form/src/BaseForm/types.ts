@@ -17,7 +17,20 @@ export const commonFormProps = {
     type: [Boolean, Object] as PropType<boolean | Options | FormProps['scrollToFirstError']>,
   },
   submitter: {
-    type: Object as PropType<false | SubmitterProps>,
+    type: Object as PropType<
+      | false
+      | (SubmitterProps & {
+          render?:
+            | ((
+                props: SubmitterProps & {
+                  submit: () => void;
+                  reset: () => void;
+                },
+                dom: VueNode
+              ) => VueNode)
+            | false;
+        })
+    >,
   },
   /**表单提交 */
   onFinish: {

@@ -1,15 +1,28 @@
 import { defineComponent } from 'vue';
-import { submitterProps } from './types';
-import { Button, Space } from 'ant-design-vue';
+import { Button, Space, type ButtonProps } from 'ant-design-vue';
+import type { SubmitterProps } from './types';
+import type { VueNode } from '@ant-design-vue/pro-utils';
 
-const Submitter = defineComponent({
-  props: submitterProps,
+const Submitter = defineComponent<
+  SubmitterProps & {
+    render?:
+      | ((
+          props: SubmitterProps & {
+            submit: () => void;
+            reset: () => void;
+          },
+          dom: VueNode
+        ) => VueNode)
+      | false;
+  }
+>({
   slots: ['submitIcon', 'resetIcon'],
+  props: ['onSubmit', 'onReset', 'searchConfig', 'submitButtonProps', 'resetButtonProps', 'render'] as any,
   setup(props, { slots }) {
     return () => {
-      const { onSubmit, onReset, searchConfig, submitButtonProps, resetButtonProps = {} } = props;
+      const { onSubmit, onReset } = props;
 
-      const { submitText = '提交', resetText = '重置' } = searchConfig || {};
+      const { submitText = '提交', resetText = '重置' } = props.searchConfig || {};
 
       const submit = () => {
         onSubmit?.();
@@ -18,19 +31,20 @@ const Submitter = defineComponent({
         onReset?.();
       };
 
-      const doms: JSX.Element[] = [];
-      if (submitButtonProps !== false) {
+      const doms: VueNode = [];
+      if (props.submitButtonProps !== false) {
         doms.push(
           <Button
             type={'primary'}
             key="submit"
-            {...submitButtonProps}
-            icon={submitButtonProps.icon || slots.submitIcon?.()}
+            {...props.submitButtonProps}
+            icon={props.submitButtonProps?.icon || slots.submitIcon?.()}
             onClick={(e) => {
-              if (!submitButtonProps.preventDefault) {
+              // 用any顶一下
+              if (!(props.resetButtonProps as any)?.preventDefault) {
                 submit();
               }
-              submitButtonProps?.onClick?.(e);
+              (props.submitButtonProps as ButtonProps)?.onClick?.(e);
             }}
           >
             {submitText}
@@ -38,34 +52,38 @@ const Submitter = defineComponent({
         );
       }
 
-      if (resetButtonProps !== false) {
+      if (props.resetButtonProps !== false) {
         doms.push(
           <Button
             key="reset"
-            {...resetButtonProps}
-            icon={resetButtonProps.icon || slots.resetIcon?.()}
+            {...props.resetButtonProps}
+            icon={props.resetButtonProps?.icon || slots.resetIcon?.()}
             onClick={(e) => {
-              if (!resetButtonProps.preventDefault) {
+              // 用any顶一下
+              if (!(props.resetButtonProps as any)?.preventDefault) {
                 reset();
               }
-              resetButtonProps.onClick?.(e);
+              (props.resetButtonProps as ButtonProps)?.onClick?.(e);
             }}
           >
             {resetText}
           </Button>
         );
       }
-
-      if (Array.isArray(doms)) {
-        if (doms.length === 0) {
+      const renderDom = props.render ? props.render({ ...props, submit, reset }, doms) : doms;
+      if (!renderDom) {
+        return null;
+      }
+      if (Array.isArray(renderDom)) {
+        if (renderDom.length === 0) {
           return undefined;
         }
-        if (doms.length === 1) {
-          return doms[0];
+        if (renderDom.length === 1) {
+          return renderDom[0];
         }
-        return <Space wrap>{doms}</Space>;
+        return <Space wrap>{renderDom}</Space>;
       }
-      return doms;
+      return renderDom;
     };
   },
 });
