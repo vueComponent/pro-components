@@ -1,5 +1,5 @@
 export default {
-  base: "/docs/",
+  base: "/pro-components/",
   description: "中后台重型组件",
   themeConfig: {
     logo: "./favicon.svg",
