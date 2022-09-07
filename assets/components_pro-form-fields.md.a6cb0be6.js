@@ -1,0 +1,14 @@
+import{_ as s,c as a,o as n,d as e}from"./app.cd8571fe.js";const C=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[{"level":3,"title":"ProFormText","slug":"proformtext","link":"#proformtext","children":[]},{"level":2,"title":"\u66F4\u591A\u539F\u5B50\u5316\u7EC4\u4EF6\u5F00\u53D1\u4E2D...","slug":"\u66F4\u591A\u539F\u5B50\u5316\u7EC4\u4EF6\u5F00\u53D1\u4E2D","link":"#\u66F4\u591A\u539F\u5B50\u5316\u7EC4\u4EF6\u5F00\u53D1\u4E2D","children":[]}],"relativePath":"components/pro-form-fields.md"}'),o={name:"components/pro-form-fields.md"},l=e(`<h1 align="center"> ProFormFields \u8868\u5355\u9879 </h1><h3 id="proformtext" tabindex="-1">ProFormText <a class="header-anchor" href="#proformtext" aria-hidden="true">#</a></h3><p>ProFormText \u662F FormItem + Input \u7684\u4EA7\u7269</p><div class="language-vue"><button class="copy"></button><span class="lang">vue</span><pre><code><span class="line"><span style="color:#A6ACCD;">&lt;ProFormItem&gt;</span></span>
+<span class="line"><span style="color:#A6ACCD;">  &lt;Input v-model:value=&quot;value&quot; /&gt;</span></span>
+<span class="line"><span style="color:#A6ACCD;">&lt;/ProFormItem&gt;</span></span>
+<span class="line"></span></code></pre></div><div class="warning custom-block"><p class="custom-block-title">WARNING</p><p>ProFormText \u8BBE\u7F6E\u7684 props \u5176\u5B9E\u662F Form.Item \u7684\uFF0CfieldProps \u624D\u662F\u5305\u542B\u7684\u7EC4\u4EF6\u7684</p></div><p>demo</p><div class="language-vue"><button class="copy"></button><span class="lang">vue</span><pre><code><span class="line"><span style="color:#A6ACCD;">&lt;ProFormText</span></span>
+<span class="line"><span style="color:#A6ACCD;">  v-model:value=&quot;formModel.name&quot;</span></span>
+<span class="line"><span style="color:#A6ACCD;">  name=&quot;name&quot;</span></span>
+<span class="line"><span style="color:#A6ACCD;">  label=&quot;\u5E94\u7528\u540D\u79F0&quot;</span></span>
+<span class="line"><span style="color:#A6ACCD;">  :field-props=&quot;{</span></span>
+<span class="line"><span style="color:#A6ACCD;">    allowClear: true,</span></span>
+<span class="line"><span style="color:#A6ACCD;">    placeholder: &#39;\u8BF7\u8F93\u5165&#39;,</span></span>
+<span class="line"><span style="color:#A6ACCD;">  }&quot;</span></span>
+<span class="line"><span style="color:#A6ACCD;">  required</span></span>
+<span class="line"><span style="color:#A6ACCD;">/&gt;</span></span>
+<span class="line"></span></code></pre></div><h2 id="\u66F4\u591A\u539F\u5B50\u5316\u7EC4\u4EF6\u5F00\u53D1\u4E2D" tabindex="-1">\u66F4\u591A\u539F\u5B50\u5316\u7EC4\u4EF6\u5F00\u53D1\u4E2D... <a class="header-anchor" href="#\u66F4\u591A\u539F\u5B50\u5316\u7EC4\u4EF6\u5F00\u53D1\u4E2D" aria-hidden="true">#</a></h2>`,8),t=[l];function p(r,c,i,d,m,u){return n(),a("div",null,t)}const _=s(o,[["render",p]]);export{C as __pageData,_ as default};
