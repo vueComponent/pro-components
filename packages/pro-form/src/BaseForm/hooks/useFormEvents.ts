@@ -26,7 +26,6 @@ export const useFromEvents = (params: EventsParams) => {
    * 表单提交
    */
   const handleSubmit = async () => {
-    console.log(123)
     if (!unref(formInstanceRef)) {
       return;
     }

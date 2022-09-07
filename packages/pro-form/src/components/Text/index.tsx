@@ -6,6 +6,7 @@ import { useFormInstance } from '../../BaseForm/hooks/useFormInstance';
 
 // 防止在fieldProps中写入value
 export type ProFieldPropsType = ProFormFieldItemProps<Omit<InputProps, 'value'>>;
+type NameType = string | number;
 
 const ProFormText = defineComponent<ProFieldPropsType>({
   name: 'ProFormText',
@@ -19,9 +20,9 @@ const ProFormText = defineComponent<ProFieldPropsType>({
           valueType={'text'}
           fieldProps={{
             ...props.fieldProps,
-            value: formContext.model.value[props.name as string],
+            value: formContext.model.value[props.name as NameType],
             'onUpdate:value'(value) {
-              formContext.model.value[props.name as string] = value;
+              formContext.model.value[props.name as NameType] = value;
             },
           }}
           filedConfig={{ valueType: 'text' }}

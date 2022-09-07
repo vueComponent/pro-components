@@ -1,4 +1,5 @@
 export default {
+  base: "/docs/",
   description: "中后台重型组件",
   themeConfig: {
     logo: "./favicon.svg",
