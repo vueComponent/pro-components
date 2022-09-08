@@ -1,6 +1,8 @@
-import { defineComponent, type App, type Plugin, type DefineComponent } from 'vue';
+import { defineComponent, type App, type Plugin, type DefineComponent, ref } from 'vue';
 import { Input } from 'ant-design-vue';
 import { textFieldPorps, type TextFieldPorps } from './types';
+
+type NameType = string | number;
 
 const FieldText = defineComponent({
   name: 'FieldText',
@@ -10,6 +12,7 @@ const FieldText = defineComponent({
   setup(props, { slots }) {
     const render = props.render ?? slots?.render;
     const renderFormItem = props.renderFormItem ?? slots?.renderFormItem;
+    const inputValue = ref((props.formItemProps?.model || {})[props.formItemProps?.name as NameType]);
     return () => {
       if (props.mode === 'read') {
         const dom = (
@@ -26,7 +29,16 @@ const FieldText = defineComponent({
       }
       if (props.mode === 'edit' || props.mode === 'update') {
         const dom = (
-          <Input placeholder={props.fieldProps?.placeholder} type={props.type} allowClear {...props.fieldProps} />
+          <Input
+            type={props.type}
+            allowClear
+            {...props.fieldProps}
+            value={inputValue.value}
+            onChange={(e) => {
+              const value = e.target.value;
+              inputValue.value = value;
+            }}
+          />
         );
 
         if (renderFormItem) {

@@ -74,7 +74,7 @@ const ProField = defineComponent({
   props: proFieldProps,
   setup(props) {
     const fieldProps = omitUndefined(props?.fieldProps || {});
-    console.log(fieldProps);
+    const formItemProps = omitUndefined(props?.formItemProps || {});
     return () => {
       return (
         <>
@@ -96,6 +96,7 @@ const ProField = defineComponent({
                   }
                 : undefined,
               fieldProps: pickProProps(fieldProps || {}),
+              formItemProps: pickProProps(formItemProps || {}),
             }
           )}
         </>

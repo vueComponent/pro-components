@@ -1,34 +1,40 @@
-import { defineComponent, type App, Plugin, DefineComponent } from 'vue';
+import { defineComponent, type App, DefineComponent, Plugin } from 'vue';
 import type { InputProps } from 'ant-design-vue/es/input/inputProps';
-import ProField from '../Field';
+import ProFormField from '../Field';
 import type { ProFormFieldItemProps } from '../../typings';
 import { useFormInstance } from '../../BaseForm/hooks/useFormInstance';
 
-// 防止在fieldProps中写入value
 export type ProFieldPropsType = ProFormFieldItemProps<Omit<InputProps, 'value'>>;
 type NameType = string | number;
 
 const ProFormText = defineComponent<ProFieldPropsType>({
   name: 'ProFormText',
   inheritAttrs: false,
-  props: ['name', 'fieldProps', 'formItemProps', 'colProps'] as any,
+  props: ['fieldProps', 'colProps', 'name'] as any,
   setup(props, { attrs }) {
     const formContext = useFormInstance();
+    const formItemProps = {
+      ...attrs,
+      name: props.name,
+    };
     return () => {
       return (
-        <ProField
+        <ProFormField
           valueType={'text'}
           fieldProps={{
             ...props.fieldProps,
-            value: formContext.model.value[props.name as NameType],
             'onUpdate:value'(value) {
-              formContext.model.value[props.name as NameType] = value;
+              // 更新form的model数据
+              formContext.model.value[formItemProps.name as NameType] = value;
             },
           }}
           filedConfig={{ valueType: 'text' }}
-          name={props.name}
           colProps={props.colProps}
-          {...attrs}
+          formItemProps={{
+            ...formItemProps,
+            model: formContext.model.value,
+          }}
+          {...formItemProps}
         />
       );
     };

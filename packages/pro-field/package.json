@@ -36,9 +36,9 @@
   },
   "devDependencies": {
     "@ant-design-vue/pro-utils": "workspace:^0.0.0",
+    "@shared/vite-plugin-less-copy": "workspace:^0.0.0",
     "@rollup/plugin-typescript": "^8.4.0",
     "@rushstack/eslint-patch": "^1.1.4",
-    "@shared/vite-plugin-less-copy": "workspace:^0.0.0",
     "@types/jsdom": "^16.2.15",
     "@types/node": "^16.11.56",
     "@vitejs/plugin-vue": "^2.3.4",

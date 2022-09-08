@@ -1,6 +1,7 @@
 import type { InputProps } from 'ant-design-vue/es/input/inputProps';
 import type { PropType, ExtractPropTypes } from 'vue';
 import type { ProFieldFCMode, VueNode } from '@ant-design-vue/pro-utils';
+import type { FormItemProps, FormProps } from 'ant-design-vue';
 
 // BaseProFieldProps
 export const baseProFieldFC = {
@@ -27,6 +28,14 @@ export const baseProFieldFC = {
   /** Label */
   label: {
     type: String as PropType<VueNode>,
+  },
+  // 预留formItemProps口子
+  formItemProps: {
+    type: Object as PropType<
+      FormItemProps & {
+        model?: FormProps['model'];
+      }
+    >,
   },
 };
 
