@@ -44,6 +44,7 @@ MIT
 
 由于 VitePress 暂不支持渲染 demo, 文档无法及时查看 demo, 使用方式可以查看代码片段或者源码中的 examples 文件夹。
 类似的 VitePress demo 插件可参考[vitepress-for-components](https://github.com/dewfall123/ruabick)
+[dumi](https://github.com/umijs/dumi/issues/836#issuecomment-1185173237) 预计后续会支持 Vue 组件 doc，到时应该会迁移到 dumi。
 
 <style type="text/css" rel="stylesheet">
 .tip p { 
