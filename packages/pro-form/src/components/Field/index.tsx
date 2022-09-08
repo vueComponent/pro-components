@@ -18,7 +18,7 @@ const ProFormField = defineComponent<ProFormFieldProps>({
         return (
           <ProFormItem
             v-slots={{
-              default: () => <ProField {...props} valueType={valueType} {...attrs} />,
+              default: () => <ProField {...props} {...attrs} valueType={valueType} />,
             }}
             {...attrs}
           />

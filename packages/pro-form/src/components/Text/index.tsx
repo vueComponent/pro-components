@@ -25,7 +25,7 @@ const ProFormText = defineComponent<ProFieldPropsType>({
             ...props.fieldProps,
             'onUpdate:value'(value) {
               // 更新form的model数据
-              formContext.model.value[formItemProps.name as NameType] = value;
+              (formContext.model.value || {})[formItemProps.name as NameType] = value;
             },
           }}
           filedConfig={{ valueType: 'text' }}
