@@ -1,6 +1,8 @@
-// style
-import './default.less';
-import './style.less';
+import { defineComponent, PropType, ExtractPropTypes, VNode, type App, type Plugin, type DefineComponent } from 'vue';
+import { pickProProps, omitUndefined } from '@ant-design-vue/pro-utils';
+import { isValidElement } from 'ant-design-vue/es/_util/props-util';
+import { cloneVNodes } from 'ant-design-vue/es/_util/vnode';
+import { omit } from 'lodash-es';
 
 import {
   baseProFieldFC,
@@ -24,18 +26,21 @@ export {
   type ProRenderFieldPropsType,
 };
 
+// pro-field
 import { textFieldPorps, type TextFieldPorps } from './components/Text/types';
 import FieldText from './components/Text';
 export { FieldText, textFieldPorps, type TextFieldPorps };
 
-import { defineComponent, PropType, ExtractPropTypes, VNode, type App, type Plugin, type DefineComponent } from 'vue';
-import { pickProProps, omitUndefined } from '@ant-design-vue/pro-utils';
-import { isValidElement } from 'ant-design-vue/es/_util/props-util';
-import { cloneVNodes } from 'ant-design-vue/es/_util/vnode';
-import { omit } from 'lodash-es';
+import { passwordTextProps, type PasswordTextProps } from './components/Password/types';
+import FieldPassword from './components/Password';
+export { FieldPassword, passwordTextProps, type PasswordTextProps };
 
-// type
+// utils-type
 import type { ProFieldTextType, ProFieldValueType, ProFieldValueObjectType, VueNode } from '@ant-design-vue/pro-utils';
+
+// style
+import './default.less';
+import './style.less';
 
 export const renderProps = {
   ...omit(proFieldFCRenderProps, 'text'),
@@ -65,6 +70,9 @@ const defaultRenderText = (
   props: RenderProps
   // valueTypeMap: Record<string, ProRenderFieldPropsType>
 ): VueNode => {
+  if (valueType === 'password') {
+    return <FieldPassword {...props} text={dataValue as string} />;
+  }
   return <FieldText {...props} text={dataValue as string} />;
 };
 
