@@ -14,5 +14,4 @@ import '@ant-design-vue/pro-layout/dist/style.css';
 const app = createApp(App);
 
 app.use(router);
-
 app.use(ProLayout).use(PageContainer).use(icons).mount('#app');

@@ -3,9 +3,9 @@ import type { ButtonProps } from 'ant-design-vue';
 
 type SearchConfig = {
   /**  提交按钮文案 */
-  submitText: string;
+  submitText?: string;
   /** 重置按钮文案 */
-  resetText: string;
+  resetText?: string;
 };
 
 export const submitterProps = {

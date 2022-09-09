@@ -1,5 +1,15 @@
 <template>
   <QueryFilter :model="formModel" @finish="handleSubmit" @collapsed="onCollapsed">
+    <ProFormText
+      v-model:value="formModel.name2"
+      name="name2"
+      label="应用名称2"
+      :field-props="{
+        allowClear: true,
+        placeholder: '请输入',
+      }"
+      required
+    />
     <FormItem name="name" label="应用名称" required>
       <Input v-model:value="formModel.name" placeholder="请输入" allow-clear />
     </FormItem>
@@ -25,11 +35,12 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
-import { QueryFilter } from '@ant-design-vue/pro-form';
 import dayjs, { type Dayjs } from 'dayjs';
+import { QueryFilter, ProFormText } from '@ant-design-vue/pro-form';
 import { FormItem, Input, Select, SelectOption, RangePicker, DatePicker } from 'ant-design-vue';
 
 const formModel = reactive({
+  name2: '456',
   name: '123',
   creater: '11',
   sex: '男',

@@ -1,0 +1,67 @@
+{
+  "name": "@ant-design-vue/pro-field",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "vars": "lessc --js ./src/style.less modifyed.css",
+    "types": "vue-tsc --declaration --emitDeclarationOnly",
+    "preview": "vite preview --port 5050",
+    "test:unit": "vitest --environment jsdom",
+    "typecheck": "vue-tsc --noEmit && vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
+    "lint": "TIMING=1 eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+  },
+  "files": [
+    "dist"
+  ],
+  "types": "./dist",
+  "style": "./dist/style.css",
+  "main": "./dist/pro-field.umd.js",
+  "module": "./dist/pro-field.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/pro-field.es.js",
+      "require": "./dist/pro-field.umd.js"
+    },
+    "./dist/style.css": "./dist/style.css",
+    "./dist/style.less": "./dist/style.less"
+  },
+  "dependencies": {
+    "@ant-design/icons-vue": "^6.1.0",
+    "@types/lodash-es": "^4.17.6",
+    "ant-design-vue": "^3.2.11",
+    "dayjs": "^1.11.5",
+    "vue": "^3.2.38",
+    "vue-router": "^4.1.5"
+  },
+  "devDependencies": {
+    "@ant-design-vue/pro-utils": "workspace:^0.0.0",
+    "@shared/vite-plugin-less-copy": "workspace:^0.0.0",
+    "@rollup/plugin-typescript": "^8.4.0",
+    "@rushstack/eslint-patch": "^1.1.4",
+    "@types/jsdom": "^16.2.15",
+    "@types/node": "^16.11.56",
+    "@vitejs/plugin-vue": "^2.3.4",
+    "@vitejs/plugin-vue-jsx": "^1.3.10",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "@vue/eslint-config-typescript": "^10.0.0",
+    "@vue/test-utils": "^2.0.2",
+    "@vue/tsconfig": "^0.1.3",
+    "consola": "^2.15.3",
+    "eslint": "^8.23.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^8.7.1",
+    "jsdom": "^19.0.0",
+    "less": "^4.1.3",
+    "prettier": "^2.7.1",
+    "typescript": "~4.5.5",
+    "vite": "^2.9.15",
+    "vite-plugin-style-import": "^2.0.0",
+    "vitest": "^0.5.9",
+    "vue-tsc": "^0.34.17"
+  },
+  "contributors": [
+    "sunshineLixun <1261142605@qq.com>"
+  ],
+  "description": "Ant Design Pro Field of Vue, easy to use pro scaffolding."
+}
