@@ -80,6 +80,15 @@
       }"
       required
     />
+    <pro-form-password
+      name="password"
+      label="密码"
+      :field-props="{
+        allowClear: true,
+        placeholder: '请输入',
+      }"
+      required
+    />
   </pro-form>
 </template>
 
@@ -87,7 +96,7 @@
 import { reactive, ref } from 'vue';
 import { RadioGroup, RadioButton, Switch } from 'ant-design-vue';
 import type { FormLayout } from 'ant-design-vue/es/form/Form';
-import { ProForm, ProFormText } from '@ant-design-vue/pro-form';
+import { ProForm, ProFormText, ProFormPassword } from '@ant-design-vue/pro-form';
 
 const layouts = ['horizontal', 'vertical', 'inline'];
 
@@ -99,6 +108,7 @@ const formModel = reactive({
   name5: '',
   name6: '',
   name7: '',
+  password: '111',
 });
 
 const formLayoutType = ref<FormLayout>('horizontal');
