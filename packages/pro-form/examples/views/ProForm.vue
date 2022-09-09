@@ -86,8 +86,8 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
 import { RadioGroup, RadioButton, Switch } from 'ant-design-vue';
-import { ProForm, ProFormText } from '@ant-design-vue/pro-form';
 import type { FormLayout } from 'ant-design-vue/es/form/Form';
+import { ProForm, ProFormText } from '@ant-design-vue/pro-form';
 
 const layouts = ['horizontal', 'vertical', 'inline'];
 

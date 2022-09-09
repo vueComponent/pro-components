@@ -1,5 +1,3 @@
-import ProFormText from './Text';
-import ProFormItem from './FormItem';
-import ProFormField from './Field';
+import ProFormText, { type ProFieldPropsType } from './Text';
 
-export { ProFormText, ProFormItem, ProFormField };
+export { ProFormText, ProFieldPropsType };

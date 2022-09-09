@@ -2,6 +2,8 @@ import { defineComponent, type App, type Plugin, type DefineComponent, ref } fro
 import { Input } from 'ant-design-vue';
 import { textFieldPorps, type TextFieldPorps } from './types';
 
+import 'ant-design-vue/es/input/style/index.less';
+
 type NameType = string | number;
 
 const FieldText = defineComponent({

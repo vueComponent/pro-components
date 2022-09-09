@@ -2,7 +2,7 @@ import { defineComponent, type App, DefineComponent, Plugin, ExtractPropTypes } 
 import { Form } from 'ant-design-vue';
 import { commonFormProps } from '../BaseForm/types';
 import { BaseForm } from '../BaseForm/index';
-import { ProFormItem } from '../components';
+import ProFormItem from '../components/FormItem';
 
 export const proFormPorps = {
   ...commonFormProps,

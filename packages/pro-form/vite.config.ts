@@ -27,11 +27,10 @@ export default defineConfig({
     postcss: {},
     preprocessorOptions: {
       less: {
-        // DO NOT REMOVE THIS LINE
         javascriptEnabled: true,
-        // modifyVars: {
-        //   hack: `true; @import 'ant-design-vue/es/style/themes/default.less'`,
-        // }
+        modifyVars: {
+          hack: `true; @import 'ant-design-vue/es/style/themes/default.less'`,
+        },
       },
     },
   },

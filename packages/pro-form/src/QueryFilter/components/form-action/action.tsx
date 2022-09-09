@@ -5,8 +5,7 @@ import { SearchOutlined, UndoOutlined, DownOutlined, UpOutlined } from '@ant-des
 import { useFormInstance } from '../../../BaseForm/hooks/useFormInstance';
 import { Submitter } from '../../../BaseForm/components/Submitter';
 import type { ButtonProps } from 'ant-design-vue/es/button';
-import styles from './action.module.less';
-import './action.module.less';
+import './action.less';
 
 export const Action = defineComponent({
   inheritAttrs: false,
@@ -31,6 +30,10 @@ export const Action = defineComponent({
       type: Object as PropType<ButtonProps>,
       default: undefined,
     },
+    prefixCls: {
+      type: String as PropType<string>,
+      default: 'ant-pro',
+    },
   },
   emits: ['collapsed'],
   setup(props, { emit }) {
@@ -40,7 +43,7 @@ export const Action = defineComponent({
     };
     return () => {
       return (
-        <Space style={props.style} class={styles['query-filter-btn-search']}>
+        <Space style={props.style} class={`${props.prefixCls}-form-query-filter-btn-search`}>
           <Submitter
             resetButtonProps={{}}
             submitButtonProps={props.submitButtonProps || {}}
