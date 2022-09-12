@@ -5,13 +5,18 @@
   </div>
   <br />
   <div>
+    只读
+    <Switch v-model:checked="readonly" />
+  </div>
+  <br />
+  <div>
     标签布局
     <RadioGroup v-model:value="formLayoutType">
       <RadioButton v-for="layout in layouts" :key="layout" :value="layout">{{ layout }}</RadioButton>
     </RadioGroup>
   </div>
   <br />
-  <pro-form v-model:model="formModel" :layout="formLayoutType" :grid="grid" @finish="handleSubmit">
+  <pro-form v-model:model="formModel" :readonly="readonly" :layout="formLayoutType" :grid="grid" @finish="handleSubmit">
     <pro-form-text
       name="name"
       label="应用名称"
@@ -113,6 +118,7 @@ const formModel = reactive({
 
 const formLayoutType = ref<FormLayout>('horizontal');
 const grid = ref(true);
+const readonly = ref(false);
 
 const handleSubmit = (value: any) => {
   console.log(value);

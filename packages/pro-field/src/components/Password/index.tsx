@@ -2,7 +2,6 @@ import { ref, defineComponent, type App, DefineComponent, Plugin } from 'vue';
 import { Space, InputPassword } from 'ant-design-vue';
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons-vue';
 import { passwordTextProps, type PasswordTextProps } from './types';
-import type { NameType } from '../typings';
 
 const FieldPassword = defineComponent({
   name: 'FieldPassword',
@@ -15,7 +14,6 @@ const FieldPassword = defineComponent({
       const renderFormItem = props.renderFormItem ?? slots?.renderFormItem;
 
       const visible = ref(props.visible);
-      const inputValue = ref((props.formItemProps?.model || {})[props.formItemProps?.name as NameType]);
 
       if (props.mode === 'read') {
         let dom = <>-</>;
@@ -35,16 +33,7 @@ const FieldPassword = defineComponent({
         return dom;
       }
       if (props.mode === 'edit' || props.mode === 'update') {
-        const dom = (
-          <InputPassword
-            {...props.fieldProps}
-            value={inputValue.value}
-            onChange={(e) => {
-              const value = e.target.value;
-              inputValue.value = value;
-            }}
-          />
-        );
+        const dom = <InputPassword allowClear {...props.fieldProps} />;
         if (renderFormItem) {
           return renderFormItem(props.text, { mode: props.mode, ...props.fieldProps }, dom);
         }

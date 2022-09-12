@@ -32,6 +32,13 @@ export const commonFormProps = {
         })
     >,
   },
+  /**
+   *  @name 是否只读模式，对所有表单项生效
+   *  @description 优先低于表单项的 readonly
+   */
+  readonly: {
+    type: Boolean as PropType<boolean>,
+  },
   /**表单提交 */
   onFinish: {
     type: Function as PropType<(fromModel: Recordable<any>) => void>,
