@@ -1,8 +1,19 @@
-import { defineComponent, PropType, ExtractPropTypes, VNode, type App, type Plugin, type DefineComponent } from 'vue';
+import {
+  ref,
+  defineComponent,
+  PropType,
+  ExtractPropTypes,
+  VNode,
+  type App,
+  type Plugin,
+  type DefineComponent,
+} from 'vue';
 import { pickProProps, omitUndefined } from '@ant-design-vue/pro-utils';
 import { isValidElement } from 'ant-design-vue/es/_util/props-util';
 import { cloneVNodes } from 'ant-design-vue/es/_util/vnode';
 import { omit } from 'lodash-es';
+import type { NameType } from './components/typings';
+import type { ChangeEvent } from 'ant-design-vue/es/_util/EventInterface';
 
 import {
   baseProFieldFC,
@@ -81,9 +92,18 @@ const ProField = defineComponent({
   inheritAttrs: false,
   props: proFieldProps,
   setup(props) {
-    const fieldProps = omitUndefined(props?.fieldProps || {});
+    const inputValue = ref((props.formItemProps?.model || {})[props.formItemProps?.name as NameType]);
     const formItemProps = omitUndefined(props?.formItemProps || {});
     return () => {
+      // TODO：待优化
+      const fieldProps = omitUndefined({
+        ...props?.fieldProps,
+        value: inputValue.value,
+        onChange(e: ChangeEvent) {
+          const value = e.target.value;
+          inputValue.value = value;
+        },
+      });
       return (
         <>
           {defaultRenderText(
