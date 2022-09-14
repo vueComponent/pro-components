@@ -13,7 +13,6 @@ import { isValidElement } from 'ant-design-vue/es/_util/props-util';
 import { cloneVNodes } from 'ant-design-vue/es/_util/vnode';
 import { omit } from 'lodash-es';
 import type { NameType } from './components/typings';
-import type { ChangeEvent } from 'ant-design-vue/es/_util/EventInterface';
 
 import {
   baseProFieldFC,
@@ -45,6 +44,10 @@ export { FieldText, textFieldPorps, type TextFieldPorps };
 import { passwordTextProps, type PasswordTextProps } from './components/Password/types';
 import FieldPassword from './components/Password';
 export { FieldPassword, passwordTextProps, type PasswordTextProps };
+
+import { searchSelectProps, type SearchSelectProps } from './components/Select/SearchSelect/types';
+import FieldSelect from './components/Select/SearchSelect';
+export { FieldSelect, searchSelectProps, type SearchSelectProps };
 
 // utils-type
 import type { ProFieldTextType, ProFieldValueType, ProFieldValueObjectType, VueNode } from '@ant-design-vue/pro-utils';
@@ -81,6 +84,9 @@ const defaultRenderText = (
   props: RenderProps
   // valueTypeMap: Record<string, ProRenderFieldPropsType>
 ): VueNode => {
+  if (valueType === 'select') {
+    return <FieldSelect text={dataValue as string} />;
+  }
   if (valueType === 'password') {
     return <FieldPassword {...props} text={dataValue as string} />;
   }
@@ -99,9 +105,9 @@ const ProField = defineComponent({
       const fieldProps = omitUndefined({
         ...props?.fieldProps,
         value: inputValue.value,
-        onChange(e: ChangeEvent) {
-          const value = e.target.value;
+        'onUpdate:value'(value: string) {
           inputValue.value = value;
+          props.fieldProps?.['onUpdate:value']?.(value);
         },
       });
       return (

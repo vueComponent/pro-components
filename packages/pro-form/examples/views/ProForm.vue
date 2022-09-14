@@ -94,6 +94,7 @@
       }"
       required
     />
+    <pro-form-select />
   </pro-form>
 </template>
 
@@ -101,7 +102,7 @@
 import { reactive, ref } from 'vue';
 import { RadioGroup, RadioButton, Switch } from 'ant-design-vue';
 import type { FormLayout } from 'ant-design-vue/es/form/Form';
-import { ProForm, ProFormText, ProFormPassword } from '@ant-design-vue/pro-form';
+import { ProForm, ProFormText, ProFormPassword, ProFormSelect } from '@ant-design-vue/pro-form';
 
 const layouts = ['horizontal', 'vertical', 'inline'];
 
