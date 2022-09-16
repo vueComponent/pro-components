@@ -30,6 +30,9 @@
 | 组件       | 下载量                                                                                                                              | 版本                                                                                                                                                                        |
 | ---------- | ----------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | pro-layout | [![layout](https://img.shields.io/npm/dw/@ant-design-vue/pro-layout.svg)](https://www.npmjs.com/package/@ant-design-vue/pro-layout) | [![npm package](https://img.shields.io/npm/v/@ant-design-vue/pro-layout.svg?style=flat-square?style=flat-square)](https://www.npmjs.com/package/@ant-design-vue/pro-layout) |
+| pro-form | [![layout](https://img.shields.io/npm/dw/@ant-design-vue/pro-form.svg)](https://www.npmjs.com/package/@ant-design-vue/pro-form) | [![npm package](https://img.shields.io/npm/v/@ant-design-vue/pro-form.svg?style=flat-square?style=flat-square)](https://www.npmjs.com/package/@ant-design-vue/pro-form) |
+| pro-field | [![layout](https://img.shields.io/npm/dw/@ant-design-vue/pro-field.svg)](https://www.npmjs.com/package/@ant-design-vue/pro-field) | [![npm package](https://img.shields.io/npm/v/@ant-design-vue/pro-field.svg?style=flat-square?style=flat-square)](https://www.npmjs.com/package/@ant-design-vue/pro-field) |
+
 
 ## LICENSE
 
