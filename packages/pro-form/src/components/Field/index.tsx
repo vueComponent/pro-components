@@ -1,6 +1,5 @@
 import { unref, defineComponent, FunctionalComponent } from 'vue';
 import ProField, { type ProFieldPropsType } from '@ant-design-vue/pro-field';
-import type { InputProps } from 'ant-design-vue/es/input/inputProps';
 import ProFormItem from '../FormItem';
 import type { ProFormFieldItemProps } from '../../typings';
 import { useGridHelpers } from '../../helpers';
@@ -8,7 +7,8 @@ import { useFormInstance } from '../../BaseForm/hooks/useFormInstance';
 
 type NameType = string | number;
 
-export type ProFormFieldProps = ProFormFieldItemProps<InputProps> & Pick<ProFieldPropsType, 'valueType'>;
+export type ProFormFieldProps<FiledProps = Record<string, any>> = ProFormFieldItemProps<FiledProps> &
+  Pick<ProFieldPropsType, 'valueType'>;
 
 const ProFormField = defineComponent<ProFormFieldProps>({
   name: 'BaseProFormField',

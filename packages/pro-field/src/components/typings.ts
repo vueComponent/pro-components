@@ -1,4 +1,3 @@
-import type { InputProps } from 'ant-design-vue/es/input/inputProps';
 import type { PropType, ExtractPropTypes } from 'vue';
 import type { ProFieldFCMode, VueNode } from '@ant-design-vue/pro-utils';
 import type { FormItemProps, FormProps } from 'ant-design-vue';
@@ -12,7 +11,7 @@ export const baseProFieldFC = {
     type: String as PropType<VueNode>,
   },
   fieldProps: {
-    type: Object as PropType<InputProps>,
+    type: Object as PropType<any>,
   },
   /** 模式类型 */
   mode: {
@@ -43,9 +42,7 @@ export const baseProFieldFC = {
 
 export const proRenderFieldPropsType = {
   render: {
-    type: Function as PropType<
-      (text: VueNode, props: Omit<ProFieldFCRenderProps, 'value' | 'onChange'>, dom: VueNode) => VueNode
-    >,
+    type: Function as PropType<(text: VueNode, props: ProFieldFCRenderProps, dom: VueNode) => VueNode>,
   },
   renderFormItem: {
     type: Function as PropType<(text: VueNode, props: ProFieldFCRenderProps, dom: VueNode) => VueNode>,

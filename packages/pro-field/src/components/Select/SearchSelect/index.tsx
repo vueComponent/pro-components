@@ -28,14 +28,7 @@ const SearchSelect = defineComponent({
         }
 
         return (
-          <Option
-            {...item}
-            value={value}
-            key={value || label?.toString()}
-            disabled={itemDisable}
-            data-item={item}
-            label={label}
-          >
+          <Option {...item} value={value} key={value || label?.toString()} disabled={itemDisable} title={label}>
             {props.optionItemRender?.(item as any) || label}
           </Option>
         );
@@ -43,7 +36,7 @@ const SearchSelect = defineComponent({
     };
     return () => {
       return (
-        <Select allowClear autoClearSearchValue={props.autoClearSearchValue}>
+        <Select {...props} allowClear autoClearSearchValue={props.autoClearSearchValue}>
           {renderOptions(props.options || [])}
         </Select>
       );

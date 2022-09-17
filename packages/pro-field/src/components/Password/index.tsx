@@ -28,7 +28,7 @@ const FieldPassword = defineComponent({
           );
         }
         if (render) {
-          return render(props.text, { mode: props.mode, ...props.fieldProps }, dom);
+          return render(props.text, { mode: props.mode, fieldProps: props.fieldProps }, dom);
         }
         return dom;
       }

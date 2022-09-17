@@ -46,7 +46,7 @@ import FieldPassword from './components/Password';
 export { FieldPassword, passwordTextProps, type PasswordTextProps };
 
 import { searchSelectProps, type SearchSelectProps } from './components/Select/SearchSelect/types';
-import FieldSelect from './components/Select/SearchSelect';
+import FieldSelect from './components/Select';
 export { FieldSelect, searchSelectProps, type SearchSelectProps };
 
 // utils-type
@@ -85,7 +85,7 @@ const defaultRenderText = (
   // valueTypeMap: Record<string, ProRenderFieldPropsType>
 ): VueNode => {
   if (valueType === 'select') {
-    return <FieldSelect text={dataValue as string} />;
+    return <FieldSelect {...props} text={dataValue as string} />;
   }
   if (valueType === 'password') {
     return <FieldPassword {...props} text={dataValue as string} />;

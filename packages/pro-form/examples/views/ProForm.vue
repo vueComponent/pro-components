@@ -94,7 +94,16 @@
       }"
       required
     />
-    <pro-form-select />
+    <pro-form-select
+      name="gender"
+      label="性别"
+      :field-props="{
+        allowClear: true,
+        placeholder: '请选择',
+        options: sex,
+      }"
+      required
+    />
   </pro-form>
 </template>
 
@@ -115,7 +124,19 @@ const formModel = reactive({
   name6: '',
   name7: '',
   password: '111',
+  gender: '',
 });
+
+const sex = ref([
+  {
+    value: '男',
+    label: '男',
+  },
+  {
+    value: '女',
+    label: '女',
+  },
+]);
 
 const formLayoutType = ref<FormLayout>('horizontal');
 const grid = ref(true);
