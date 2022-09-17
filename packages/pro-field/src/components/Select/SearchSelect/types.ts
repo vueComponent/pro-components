@@ -1,9 +1,8 @@
 import type { PropType, ExtractPropTypes } from 'vue';
 import { selectProps, type LabeledValue } from 'ant-design-vue/es/select';
 import type { RequestOptionsType, VueNode } from '@ant-design-vue/pro-utils';
-import { omit } from 'lodash-es';
 
-const omitSelectProps = omit(selectProps(), 'options');
+const omitSelectProps = selectProps();
 
 // 支持 key, value, label，兼容 UserSearch 中只填写了 key 的情况。
 export type KeyLabel = Partial<LabeledValue> & RequestOptionsType;
