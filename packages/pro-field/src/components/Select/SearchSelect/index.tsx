@@ -4,14 +4,15 @@ import { searchSelectProps } from './types';
 
 const SearchSelect = defineComponent({
   props: searchSelectProps,
-  setup(props) {
+  slots: ['option'],
+  setup(props, { slots }) {
     return () => {
       return (
         <Select
-          v-slots={{
-            option: props.option,
-          }}
           {...props}
+          v-slots={{
+            option: props.option || slots.option,
+          }}
           allowClear
         />
       );

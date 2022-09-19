@@ -94,7 +94,12 @@
       }"
       required
     />
-    <pro-form-select name="gender" label="性别" :options="sex" required />
+    <pro-form-select name="gender" label="性别" :options="sex" required>
+      <template #option="{ value: val, label, icon }">
+        <span role="img" :aria-label="val">{{ icon }}</span>
+        &nbsp;&nbsp;{{ label }}
+      </template>
+    </pro-form-select>
   </pro-form>
 </template>
 
@@ -122,10 +127,12 @@ const sex = ref([
   {
     value: '男',
     label: '男',
+    icon: '🇨🇳',
   },
   {
     value: '女',
     label: '女',
+    icon: '🇺🇸',
   },
 ]);
 
