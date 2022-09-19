@@ -9,7 +9,7 @@ export const ProFormSelect = defineComponent<ProFormSelectProps>({
   name: 'ProFormSelect',
   inheritAttrs: false,
   props: ['fieldProps', 'colProps', 'name'] as any,
-  setup(props, attrs) {
+  setup(props, { attrs }) {
     const formItemProps = {
       ...attrs,
       name: props.name,

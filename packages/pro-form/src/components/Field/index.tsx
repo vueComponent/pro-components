@@ -16,6 +16,7 @@ const ProFormField = defineComponent<ProFormFieldProps>({
   props: ['valueType', 'fieldProps', 'filedConfig', 'formItemProps', 'colProps'] as any,
   setup(props, { attrs }) {
     const formContext = useFormInstance();
+    console.log(props);
     return () => {
       const valueType = props.valueType || 'text';
       const FormItem: FunctionalComponent = () => {
@@ -30,7 +31,7 @@ const ProFormField = defineComponent<ProFormFieldProps>({
                   mode={formContext.getFormProps.value.readonly ? 'read' : 'edit'}
                   fieldProps={{
                     ...props.fieldProps,
-                    'onUpdate:value'(value) {
+                    'onUpdate:value'(value: any) {
                       // 更新form的model数据
                       (formContext.model.value || {})[props.formItemProps?.name as NameType] = value;
                     },

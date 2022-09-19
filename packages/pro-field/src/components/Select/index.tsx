@@ -24,16 +24,7 @@ const FieldSelect = defineComponent({
       }
       if (props.mode === 'edit' || props.mode === 'update') {
         const renderDom = () => {
-          return (
-            <SearchSelect
-            // TODO: 处理options
-            // options={[] as any}
-            // optionItemRender={(item) => {
-            //   return item.label;
-            // }}
-            // {...props.fieldProps}
-            />
-          );
+          return <SearchSelect {...props.fieldProps} />;
         };
         const dom = renderDom();
         if (props.renderFormItem) {
