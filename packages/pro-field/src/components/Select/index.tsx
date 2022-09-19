@@ -24,7 +24,14 @@ const FieldSelect = defineComponent({
       }
       if (props.mode === 'edit' || props.mode === 'update') {
         const renderDom = () => {
-          return <SearchSelect {...props.fieldProps} />;
+          return (
+            <SearchSelect
+              style={{
+                minWidth: 100,
+              }}
+              {...props.fieldProps}
+            />
+          );
         };
         const dom = renderDom();
         if (props.renderFormItem) {

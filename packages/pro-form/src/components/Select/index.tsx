@@ -1,24 +1,44 @@
-import { defineComponent } from 'vue';
+import { defineComponent, type App, DefineComponent, Plugin, PropType, ExtractPropTypes } from 'vue';
+import { omit, pick } from 'lodash-es';
+import { proFieldProps } from '@ant-design-vue/pro-field';
 import type { SelectProps } from 'ant-design-vue/es/select';
 import ProFormField from '../Field';
-import type { ProFormFieldItemProps } from '../../typings';
+import { proFormGridConfig, extendsProps } from '../../typings';
+import { proFormItemProps } from '../FormItem';
 
-export type ProFormSelectProps = ProFormFieldItemProps<SelectProps>;
+const props = {
+  ...omit(proFieldProps, 'valueType'),
+  ...pick(proFormGridConfig, 'colProps'),
+  ...proFormItemProps,
+  ...extendsProps,
+  fieldProps: {
+    type: Object as PropType<Omit<SelectProps, 'value' | 'options'>>,
+  },
+  options: {
+    type: Array as PropType<SelectProps['options']>,
+  },
+};
 
-export const ProFormSelect = defineComponent<ProFormSelectProps>({
+export type ProFormSelectProps = Partial<ExtractPropTypes<typeof props>>;
+
+export const ProFormSelect = defineComponent({
   name: 'ProFormSelect',
   inheritAttrs: false,
-  props: ['fieldProps', 'colProps', 'name'] as any,
-  setup(props, { attrs }) {
+  props,
+  slots: ['option'],
+  setup(props) {
     const formItemProps = {
-      ...attrs,
-      name: props.name,
+      ...props.formItemProps,
+      ...pick(props, Object.keys(proFormItemProps)),
     };
     return () => {
       return (
         <ProFormField
           valueType={'select'}
-          fieldProps={props.fieldProps}
+          fieldProps={{
+            ...props.fieldProps,
+            options: props.options,
+          }}
           filedConfig={{ valueType: 'select' }}
           colProps={props.colProps}
           formItemProps={formItemProps}
@@ -28,3 +48,10 @@ export const ProFormSelect = defineComponent<ProFormSelectProps>({
     };
   },
 });
+
+ProFormSelect.install = (app: App) => {
+  app.component(ProFormSelect.name, ProFormSelect);
+  return app;
+};
+
+export default ProFormSelect as DefineComponent<ProFormSelectProps> & Plugin;
