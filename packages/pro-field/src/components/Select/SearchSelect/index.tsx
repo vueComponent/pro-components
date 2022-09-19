@@ -6,7 +6,15 @@ const SearchSelect = defineComponent({
   props: searchSelectProps,
   setup(props) {
     return () => {
-      return <Select {...props} allowClear />;
+      return (
+        <Select
+          v-slots={{
+            option: props.option,
+          }}
+          {...props}
+          allowClear
+        />
+      );
     };
   },
 });

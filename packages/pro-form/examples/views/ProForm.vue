@@ -94,16 +94,7 @@
       }"
       required
     />
-    <pro-form-select
-      name="gender"
-      label="性别"
-      :field-props="{
-        allowClear: true,
-        placeholder: '请选择',
-        options: sex,
-      }"
-      required
-    />
+    <pro-form-select name="gender" label="性别" :options="sex" required />
   </pro-form>
 </template>
 

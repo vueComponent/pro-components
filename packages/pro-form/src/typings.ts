@@ -116,13 +116,19 @@ export type ProFormItemCreateConfig = {
   valueType?: ProFieldValueType;
 } & ProFormItemProps;
 
-export type ExtendsProps = {
+export const extendsProps = {
   /**
    * 表单占用格子数
    */
-  colSize?: number;
-  filedConfig?: ProFormItemCreateConfig;
+  colSize: {
+    type: Number,
+  },
+  filedConfig: {
+    type: Object as PropType<ProFormItemCreateConfig>,
+  },
 };
+
+export type ExtendsProps = Partial<ExtractPropTypes<typeof extendsProps>>;
 
 export type ProFormFieldItemProps<T = Record<string, any>> = {
   /**
