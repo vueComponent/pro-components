@@ -124,7 +124,7 @@ const formModel = reactive({
   name6: '',
   name7: '',
   password: '111',
-  gender: '',
+  gender: '女',
 });
 
 const sex = ref([
