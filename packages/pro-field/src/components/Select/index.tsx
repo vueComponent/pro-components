@@ -1,18 +1,20 @@
 import { defineComponent, type App, DefineComponent, Plugin, PropType, ExtractPropTypes } from 'vue';
 import type { SelectProps } from 'ant-design-vue';
 import SearchSelect from './SearchSelect';
+import type { SearchSelectProps } from './SearchSelect/types';
 import { proFieldFC } from '../typings';
 
 export const fieldSelectProps = {
   ...proFieldFC,
   fieldProps: {
-    type: Object as PropType<SelectProps>,
+    type: Object as PropType<SelectProps & { option: SearchSelectProps['option'] }>,
   },
 };
 export type FieldSelectProps = Partial<ExtractPropTypes<typeof fieldSelectProps>>;
 
 const FieldSelect = defineComponent({
   props: fieldSelectProps,
+  slots: ['option'],
   setup(props) {
     const children = () => {
       if (props.mode === 'read') {

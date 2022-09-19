@@ -1,7 +1,8 @@
 import { defineComponent, type App, DefineComponent, Plugin, PropType, ExtractPropTypes } from 'vue';
+import type { VueNode } from '@ant-design-vue/pro-utils';
 import { omit, pick } from 'lodash-es';
 import { proFieldProps } from '@ant-design-vue/pro-field';
-import type { SelectProps } from 'ant-design-vue/es/select';
+import type { SelectProps, DefaultOptionType } from 'ant-design-vue/es/select';
 import ProFormField from '../Field';
 import { proFormGridConfig, extendsProps } from '../../typings';
 import { proFormItemProps } from '../FormItem';
@@ -17,6 +18,9 @@ const props = {
   options: {
     type: Array as PropType<SelectProps['options']>,
   },
+  option: {
+    type: Function as PropType<(props: DefaultOptionType) => VueNode>,
+  },
 };
 
 export type ProFormSelectProps = Partial<ExtractPropTypes<typeof props>>;
@@ -26,7 +30,7 @@ export const ProFormSelect = defineComponent({
   inheritAttrs: false,
   props,
   slots: ['option'],
-  setup(props) {
+  setup(props, { slots }) {
     const formItemProps = {
       ...props.formItemProps,
       ...pick(props, Object.keys(proFormItemProps)),
@@ -38,6 +42,7 @@ export const ProFormSelect = defineComponent({
           fieldProps={{
             ...props.fieldProps,
             options: props.options,
+            option: props.option || slots.option,
           }}
           filedConfig={{ valueType: 'select' }}
           colProps={props.colProps}
