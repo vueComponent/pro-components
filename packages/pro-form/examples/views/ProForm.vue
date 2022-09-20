@@ -16,11 +16,19 @@
     </RadioGroup>
   </div>
   <br />
-  <pro-form v-model:model="formModel" :readonly="readonly" :layout="formLayoutType" :grid="grid" @finish="handleSubmit">
+  <pro-form
+    v-model:model="formModel"
+    :readonly="readonly"
+    :layout="formLayoutType"
+    :grid="grid"
+    :col-props="{
+      span: 8,
+    }"
+    @finish="handleSubmit"
+  >
     <pro-form-text
       name="name"
       label="应用名称"
-      :col-props="{ md: 12, xl: 8 }"
       :field-props="{
         allowClear: true,
         placeholder: '请输入',
@@ -94,18 +102,35 @@
       }"
       required
     />
-    <pro-form-select name="gender" label="性别" :options="sex" required>
+    <pro-form-select
+      name="gender"
+      label="性别"
+      :options="sex"
+      :field-props="{
+        placeholder: '请选择',
+      }"
+      required
+    >
       <template #option="{ value: val, label, icon }">
         <span role="img" :aria-label="val">{{ icon }}</span>
         &nbsp;&nbsp;{{ label }}
       </template>
     </pro-form-select>
+    <pro-form-select
+      name="girlName"
+      label="Girl姓名"
+      :options="girlNameoptions"
+      :field-props="{
+        placeholder: '请选择',
+      }"
+      required
+    />
   </pro-form>
 </template>
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
-import { RadioGroup, RadioButton, Switch } from 'ant-design-vue';
+import { RadioGroup, RadioButton, Switch, type SelectProps } from 'ant-design-vue';
 import type { FormLayout } from 'ant-design-vue/es/form/Form';
 import { ProForm, ProFormText, ProFormPassword, ProFormSelect } from '@ant-design-vue/pro-form';
 
@@ -121,6 +146,7 @@ const formModel = reactive({
   name7: '',
   password: '111',
   gender: '女',
+  girlName: undefined,
 });
 
 const sex = ref([
@@ -133,6 +159,31 @@ const sex = ref([
     value: '女',
     label: '女',
     icon: '🇺🇸',
+  },
+]);
+
+const girlNameoptions = ref<SelectProps['options']>([
+  {
+    label: 'Manager',
+    options: [
+      {
+        value: 'jack',
+        label: 'Jack',
+      },
+      {
+        value: 'lucy',
+        label: 'Lucy',
+      },
+    ],
+  },
+  {
+    label: 'Engineer',
+    options: [
+      {
+        value: 'yiminghe',
+        label: 'Yiminghe',
+      },
+    ],
   },
 ]);
 

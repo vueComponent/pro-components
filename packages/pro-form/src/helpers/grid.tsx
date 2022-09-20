@@ -24,7 +24,6 @@ export const gridHelpers: (config: ProFormGridConfig & CommonProps) => GridHelpe
     if (!grid) {
       return Wrapper ? <Wrapper>{children}</Wrapper> : (children as any);
     }
-
     return (
       <Row gutter={8} {...rowProps} {...props}>
         {children}
@@ -50,8 +49,7 @@ export const gridHelpers: (config: ProFormGridConfig & CommonProps) => GridHelpe
     if (!grid) {
       return Wrapper ? <Wrapper>{children}</Wrapper> : children;
     }
-
-    return (<Col {...props}>{children}</Col>) as any;
+    return (<Col {...props.value}>{children}</Col>) as any;
   },
 });
 
