@@ -1,18 +1,25 @@
-import { defineComponent, type App, DefineComponent, Plugin } from 'vue';
+import { defineComponent, type App, DefineComponent, Plugin, PropType, ExtractPropTypes } from 'vue';
+import { pick } from 'lodash-es';
 import type { InputProps } from 'ant-design-vue/es/input/inputProps';
-import ProFormField from '../Field';
-import type { ProFormFieldItemProps } from '../../typings';
+import ProFormField, { proFormFieldProps } from '../Field';
+import { proFormItemProps } from '../FormItem';
 
-export type ProFieldPropsType = ProFormFieldItemProps<Omit<InputProps, 'value'>>;
+export const proFormTextProps = {
+  ...proFormFieldProps,
+  fieldProps: {
+    type: Object as PropType<Omit<InputProps, 'value'>>,
+  },
+};
+export type ProFieldPropsType = Partial<ExtractPropTypes<typeof proFormTextProps>>;
 
-const ProFormText = defineComponent<ProFieldPropsType>({
+const ProFormText = defineComponent({
   name: 'ProFormText',
   inheritAttrs: false,
-  props: ['fieldProps', 'colProps', 'name'] as any,
-  setup(props, { attrs }) {
+  props: proFormTextProps,
+  setup(props) {
     const formItemProps = {
-      ...attrs,
-      name: props.name,
+      ...props.formItemProps,
+      ...pick(props, Object.keys(proFormItemProps)),
     };
     return () => {
       return (
