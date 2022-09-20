@@ -9,6 +9,7 @@ const FieldPassword = defineComponent({
   props: passwordTextProps,
   slots: ['render', 'renderFormItem'],
   setup(props, { slots }) {
+    const renderDom = <InputPassword allowClear {...props.fieldProps} />;
     return () => {
       const render = props.render ?? slots.render;
       const renderFormItem = props.renderFormItem ?? slots?.renderFormItem;
@@ -33,11 +34,10 @@ const FieldPassword = defineComponent({
         return dom;
       }
       if (props.mode === 'edit' || props.mode === 'update') {
-        const dom = <InputPassword allowClear {...props.fieldProps} />;
         if (renderFormItem) {
-          return renderFormItem(props.text, { mode: props.mode, ...props.fieldProps }, dom);
+          return renderFormItem(props.text, { mode: props.mode, ...props.fieldProps }, renderDom);
         }
-        return dom;
+        return renderDom;
       }
       return null;
     };
