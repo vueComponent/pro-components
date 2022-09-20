@@ -122,14 +122,25 @@
       :options="girlNameoptions"
       :field-props="{
         placeholder: '请选择',
+        mode: 'multiple',
       }"
       required
-    />
+    >
+      <template #dropdownRender="{ menuNode: menu }">
+        <v-nodes :vnodes="menu" />
+        <a-divider style="margin: 4px 0" />
+        <div style="padding: 4px 8px; cursor: pointer" @mousedown="(e) => e.preventDefault()" @click="addItem">
+          <plus-outlined />
+          Add item
+        </div>
+      </template>
+    </pro-form-select>
   </pro-form>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
+import { reactive, ref, FunctionalComponent } from 'vue';
+import { PlusOutlined } from '@ant-design/icons-vue';
 import { RadioGroup, RadioButton, Switch, type SelectProps } from 'ant-design-vue';
 import type { FormLayout } from 'ant-design-vue/es/form/Form';
 import { ProForm, ProFormText, ProFormPassword, ProFormSelect } from '@ant-design-vue/pro-form';
@@ -193,5 +204,17 @@ const readonly = ref(false);
 
 const handleSubmit = (value: any) => {
   console.log(value);
+};
+
+const VNodes: FunctionalComponent = (_, { attrs }) => {
+  return attrs.vnodes;
+};
+
+let index = 0;
+const addItem = () => {
+  girlNameoptions.value?.[1].options.push({
+    value: index++,
+    label: `Item${index++}`,
+  });
 };
 </script>

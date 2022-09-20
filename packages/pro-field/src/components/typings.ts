@@ -8,7 +8,7 @@ export type NameType = string | number;
 export const baseProFieldFC = {
   /** 值的类型 */
   text: {
-    type: String as PropType<VueNode>,
+    type: [String, Array] as PropType<VueNode>,
   },
   fieldProps: {
     type: Object as PropType<any>,

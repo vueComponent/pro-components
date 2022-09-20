@@ -11,7 +11,7 @@ const FieldText = defineComponent({
   setup(props, { slots }) {
     const render = props.render ?? slots?.render;
     const renderFormItem = props.renderFormItem ?? slots?.renderFormItem;
-    const renderDom = <Input type={props.type} allowClear {...props.fieldProps} />;
+
     return () => {
       if (props.mode === 'read') {
         const dom = (
@@ -27,6 +27,7 @@ const FieldText = defineComponent({
         return dom;
       }
       if (props.mode === 'edit' || props.mode === 'update') {
+        const renderDom = <Input type={props.type} allowClear {...props.fieldProps} />;
         if (renderFormItem) {
           return renderFormItem(props.text, { mode: props.mode, fieldProps: props.fieldProps }, renderDom);
         }

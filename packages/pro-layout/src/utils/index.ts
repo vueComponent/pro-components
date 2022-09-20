@@ -1,10 +1,12 @@
-import type { Slots } from 'vue';
 import type { RouteRecord, RouteRecordRaw } from 'vue-router';
 import type { MenuDataItem } from '../typings';
+import { getSlot, getSlotVNode } from '@ant-design-vue/pro-utils';
 
 export { default as isUrl } from './isUrl';
 export { default as isImg } from './isImg';
 export { default as isNil } from './isNil';
+
+export { getSlot, getSlotVNode };
 
 export function clearMenuItem(menusData: RouteRecord[] | RouteRecordRaw[]): RouteRecordRaw[] {
   return menusData
@@ -50,21 +52,6 @@ export function flatMap(menusData: RouteRecord[]): MenuDataItem[] {
 
 export function getMenuFirstChildren(menus: MenuDataItem[], key?: string) {
   return key === undefined ? [] : (menus[menus.findIndex((menu) => menu.path === key)] || {}).children || [];
-}
-
-export function getSlotVNode<T>(slots: Slots, props: Record<string, unknown>, prop = 'default'): T | false {
-  if (props[prop] === false) {
-    return false;
-  }
-  return (props[prop] || slots[prop]?.()) as T;
-}
-
-export function getSlot<T>(slots: Slots, props: Record<string, unknown>, prop = 'default'): T | false {
-  if (props[prop] === false) {
-    // force not render
-    return false;
-  }
-  return (props[prop] || slots[prop]) as T;
 }
 
 export const PropRenderType = {

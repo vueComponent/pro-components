@@ -47,7 +47,8 @@ export { FieldPassword, passwordTextProps, type PasswordTextProps };
 
 import { searchSelectProps, type SearchSelectProps } from './components/Select/SearchSelect/types';
 import FieldSelect from './components/Select';
-export { FieldSelect, searchSelectProps, type SearchSelectProps };
+import { slots as searchSelectSlots } from './components/Select/SearchSelect';
+export { FieldSelect, searchSelectProps, searchSelectSlots, type SearchSelectProps };
 
 // utils-type
 import type { ProFieldTextType, ProFieldValueType, ProFieldValueObjectType, VueNode } from '@ant-design-vue/pro-utils';
@@ -85,7 +86,13 @@ const defaultRenderText = (
   // valueTypeMap: Record<string, ProRenderFieldPropsType>
 ): VueNode => {
   if (valueType === 'select') {
-    return <FieldSelect {...props} text={dataValue as string} />;
+    let text = '';
+    if (dataValue instanceof Array) {
+      text = dataValue.join(',');
+    } else {
+      text = dataValue as string;
+    }
+    return <FieldSelect {...props} text={text} />;
   }
   if (valueType === 'password') {
     return <FieldPassword {...props} text={dataValue as string} />;

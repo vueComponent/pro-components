@@ -30,7 +30,7 @@
     "@ant-design/icons-vue": "^6.1.0",
     "ant-design-vue": "^3.2.10",
     "omit.js": "^2.0.2",
-    "vue": "^3.2.33",
+    "vue": "^3.2.39",
     "vue-router": "^4.0.14"
   },
   "devDependencies": {

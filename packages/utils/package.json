@@ -10,7 +10,8 @@
     "prepare": "pnpm build"
   },
   "dependencies": {
-    "ant-design-vue": "^3.2.10"
+    "ant-design-vue": "^3.2.10",
+    "vue": "^3.2.39"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
