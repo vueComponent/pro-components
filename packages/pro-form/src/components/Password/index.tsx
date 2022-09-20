@@ -1,18 +1,26 @@
-import { defineComponent, type App, DefineComponent, Plugin } from 'vue';
+import { defineComponent, type App, DefineComponent, Plugin, PropType, ExtractPropTypes } from 'vue';
+import { pick } from 'lodash-es';
 import type { InputProps } from 'ant-design-vue/es/input/inputProps';
-import ProFormField from '../Field';
-import type { ProFormFieldItemProps } from '../../typings';
+import ProFormField, { proFormFieldProps } from '../Field';
+import { proFormItemProps } from '../FormItem';
 
-export type ProFieldPasswordPropsType = ProFormFieldItemProps<Omit<InputProps, 'value'>>;
+export const proFormPasswordProps = {
+  ...proFormFieldProps,
+  fieldProps: {
+    type: Object as PropType<Omit<InputProps, 'value'>>,
+  },
+};
 
-const ProFormPassword = defineComponent<ProFieldPasswordPropsType>({
+export type ProFieldPasswordPropsType = Partial<ExtractPropTypes<typeof proFormPasswordProps>>;
+
+const ProFormPassword = defineComponent({
   name: 'ProFormPassword',
   inheritAttrs: false,
-  props: ['fieldProps', 'colProps', 'name'] as any,
-  setup(props, { attrs }) {
+  props: proFormPasswordProps,
+  setup(props) {
     const formItemProps = {
-      ...attrs,
-      name: props.name,
+      ...props.formItemProps,
+      ...pick(props, Object.keys(proFormItemProps)),
     };
     return () => {
       return (

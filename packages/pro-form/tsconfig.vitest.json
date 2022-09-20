@@ -2,6 +2,7 @@
   "extends": "./tsconfig.app.json",
   "exclude": [],
   "compilerOptions": {
+    "jsx": "react",
     "composite": true,
     "lib": [],
     "types": ["node", "jsdom"]

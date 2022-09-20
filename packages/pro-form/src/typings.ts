@@ -107,10 +107,16 @@ export interface ProFieldProps {
   readonly?: boolean;
 }
 
-export type FieldProps = {
-  style?: CSSProperties;
-  width?: string;
+export const fieldProps = {
+  style: {
+    type: Object as PropType<CSSProperties>,
+  },
+  width: {
+    type: String,
+  },
 };
+
+export type FieldProps = Partial<ExtractPropTypes<typeof fieldProps>>;
 
 export type ProFormItemCreateConfig = {
   valueType?: ProFieldValueType;

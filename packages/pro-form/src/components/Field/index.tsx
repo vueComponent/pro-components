@@ -1,20 +1,32 @@
-import { unref, defineComponent, FunctionalComponent } from 'vue';
-import ProField, { type ProFieldPropsType } from '@ant-design-vue/pro-field';
+import { unref, defineComponent, FunctionalComponent, type PropType, ExtractPropTypes } from 'vue';
+import ProField from '@ant-design-vue/pro-field';
 import ProFormItem from '../FormItem';
-import type { ProFormFieldItemProps } from '../../typings';
 import { useGridHelpers } from '../../helpers';
 import { useFormInstance } from '../../BaseForm/hooks/useFormInstance';
+import { pick } from 'lodash-es';
+import { proFieldProps } from '@ant-design-vue/pro-field';
+import { proFormGridConfig, extendsProps, type FieldProps } from '../../typings';
+import { proFormItemProps } from '../FormItem';
 
 type NameType = string | number;
 
-export type ProFormFieldProps<FiledProps = Record<string, any>> = ProFormFieldItemProps<FiledProps> &
-  Pick<ProFieldPropsType, 'valueType'>;
+export const proFormFieldProps = {
+  ...proFieldProps,
+  ...pick(proFormGridConfig, 'colProps'),
+  ...proFormItemProps,
+  ...extendsProps,
+  fieldProps: {
+    type: Object as PropType<FieldProps & Record<string, any>>,
+  },
+};
 
-const ProFormField = defineComponent<ProFormFieldProps>({
+export type ProFormFieldProps = Partial<ExtractPropTypes<typeof proFormFieldProps>>;
+
+const ProFormField = defineComponent({
   name: 'BaseProFormField',
   inheritAttrs: false,
-  props: ['valueType', 'fieldProps', 'filedConfig', 'formItemProps', 'colProps'] as any,
-  setup(props, { attrs }) {
+  props: proFormFieldProps,
+  setup(props) {
     const formContext = useFormInstance();
     return () => {
       const valueType = props.valueType || 'text';
@@ -25,7 +37,6 @@ const ProFormField = defineComponent<ProFormFieldProps>({
               default: () => (
                 <ProField
                   {...props}
-                  {...attrs}
                   valueType={valueType}
                   mode={formContext.getFormProps.value.readonly ? 'read' : 'edit'}
                   fieldProps={{
@@ -42,7 +53,7 @@ const ProFormField = defineComponent<ProFormFieldProps>({
                 />
               ),
             }}
-            {...attrs}
+            {...props.formItemProps}
           />
         );
       };

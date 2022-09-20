@@ -1,17 +1,12 @@
 import { defineComponent, type App, DefineComponent, Plugin, PropType, ExtractPropTypes } from 'vue';
 import type { VueNode } from '@ant-design-vue/pro-utils';
-import { omit, pick } from 'lodash-es';
-import { proFieldProps } from '@ant-design-vue/pro-field';
+import { pick } from 'lodash-es';
 import type { SelectProps, DefaultOptionType } from 'ant-design-vue/es/select';
-import ProFormField from '../Field';
-import { proFormGridConfig, extendsProps } from '../../typings';
+import ProFormField, { proFormFieldProps } from '../Field';
 import { proFormItemProps } from '../FormItem';
 
 const props = {
-  ...omit(proFieldProps, 'valueType'),
-  ...pick(proFormGridConfig, 'colProps'),
-  ...proFormItemProps,
-  ...extendsProps,
+  ...proFormFieldProps,
   fieldProps: {
     type: Object as PropType<Omit<SelectProps, 'value' | 'options'>>,
   },
