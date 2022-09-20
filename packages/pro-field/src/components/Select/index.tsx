@@ -14,18 +14,7 @@ export type FieldSelectProps = Partial<ExtractPropTypes<typeof fieldSelectProps>
 
 const FieldSelect = defineComponent({
   props: fieldSelectProps,
-  slots: ['option'],
   setup(props) {
-    const renderDom = () => {
-      return (
-        <SearchSelect
-          style={{
-            minWidth: 100,
-          }}
-          {...props.fieldProps}
-        />
-      );
-    };
     const children = () => {
       if (props.mode === 'read') {
         const dom = <>{props.text}</>;
@@ -35,6 +24,16 @@ const FieldSelect = defineComponent({
         return dom;
       }
       if (props.mode === 'edit' || props.mode === 'update') {
+        const renderDom = () => {
+          return (
+            <SearchSelect
+              style={{
+                minWidth: 100,
+              }}
+              {...props.fieldProps}
+            />
+          );
+        };
         const dom = renderDom();
         if (props.renderFormItem) {
           return props.renderFormItem(props.text, { mode: props.mode, fieldProps: props.fieldProps }, dom) || null;

@@ -1,5 +1,6 @@
 import { defineComponent, type App, DefineComponent, Plugin, PropType, ExtractPropTypes } from 'vue';
-import type { VueNode } from '@ant-design-vue/pro-utils';
+import { searchSelectSlots } from '@ant-design-vue/pro-field';
+import { getSlot, type VueNode } from '@ant-design-vue/pro-utils';
 import { pick } from 'lodash-es';
 import type { SelectProps, DefaultOptionType } from 'ant-design-vue/es/select';
 import ProFormField, { proFormFieldProps } from '../Field';
@@ -24,12 +25,25 @@ export const ProFormSelect = defineComponent({
   name: 'ProFormSelect',
   inheritAttrs: false,
   props,
-  slots: ['option'],
+  slots: searchSelectSlots,
   setup(props, { slots }) {
     const formItemProps = {
       ...props.formItemProps,
       ...pick(props, Object.keys(proFormItemProps)),
     };
+
+    const notFoundContent = getSlot(slots, props, 'notFoundContent');
+    const suffixIcon = getSlot(slots, props, 'suffixIcon');
+    const itemIcon = getSlot(slots, props, 'itemIcon');
+    const removeIcon = getSlot(slots, props, 'removeIcon');
+    const clearIcon = getSlot(slots, props, 'clearIcon');
+    const dropdownRender = getSlot(slots, props, 'dropdownRender');
+    const option = getSlot(slots, props, 'option');
+    const placeholder = getSlot(slots, props, 'placeholder');
+    const tagRender = getSlot(slots, props, 'tagRender');
+    const maxTagPlaceholder = getSlot(slots, props, 'maxTagPlaceholder');
+    const optionLabel = getSlot(slots, props, 'optionLabel');
+
     return () => {
       return (
         <ProFormField
@@ -37,7 +51,17 @@ export const ProFormSelect = defineComponent({
           fieldProps={{
             ...props.fieldProps,
             options: props.options,
-            option: props.option || slots.option,
+            notFoundContent,
+            suffixIcon,
+            itemIcon,
+            removeIcon,
+            clearIcon,
+            dropdownRender,
+            option,
+            placeholder,
+            tagRender,
+            maxTagPlaceholder,
+            optionLabel,
           }}
           filedConfig={{ valueType: 'select' }}
           colProps={props.colProps}
