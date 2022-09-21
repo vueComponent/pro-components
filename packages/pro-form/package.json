@@ -1,6 +1,6 @@
 {
   "name": "@ant-design-vue/pro-form",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
