@@ -85,7 +85,7 @@
       required
     />
     <pro-form-text
-      name="name7"
+      name="name79"
       label="应用名称7"
       :field-props="{
         allowClear: true,
@@ -119,16 +119,16 @@
     <pro-form-select
       name="girlName"
       label="Girl姓名"
-      :options="girlNameoptions"
       :field-props="{
         placeholder: '请选择',
         mode: 'multiple',
+        options: girlNameoptions,
       }"
       required
     >
       <template #dropdownRender="{ menuNode: menu }">
         <v-nodes :vnodes="menu" />
-        <a-divider style="margin: 4px 0" />
+        <Divider style="margin: 4px 0" />
         <div style="padding: 4px 8px; cursor: pointer" @mousedown="(e) => e.preventDefault()" @click="addItem">
           <plus-outlined />
           Add item
@@ -141,7 +141,7 @@
 <script lang="ts" setup>
 import { reactive, ref, FunctionalComponent } from 'vue';
 import { PlusOutlined } from '@ant-design/icons-vue';
-import { RadioGroup, RadioButton, Switch, type SelectProps } from 'ant-design-vue';
+import { RadioGroup, RadioButton, Switch, Divider, type SelectProps } from 'ant-design-vue';
 import type { FormLayout } from 'ant-design-vue/es/form/Form';
 import { ProForm, ProFormText, ProFormPassword, ProFormSelect } from '@ant-design-vue/pro-form';
 

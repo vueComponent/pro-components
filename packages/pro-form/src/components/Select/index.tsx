@@ -1,4 +1,4 @@
-import { defineComponent, type App, DefineComponent, Plugin, PropType, ExtractPropTypes } from 'vue';
+import { defineComponent, computed, unref, type App, DefineComponent, Plugin, PropType, ExtractPropTypes } from 'vue';
 import { searchSelectSlots } from '@ant-design-vue/pro-field';
 import { getSlot, type VueNode } from '@ant-design-vue/pro-utils';
 import { pick } from 'lodash-es';
@@ -9,7 +9,7 @@ import { proFormItemProps } from '../FormItem';
 const props = {
   ...proFormFieldProps,
   fieldProps: {
-    type: Object as PropType<Omit<SelectProps, 'value' | 'options'>>,
+    type: Object as PropType<Omit<SelectProps, 'value'>>,
   },
   options: {
     type: Array as PropType<SelectProps['options']>,
@@ -44,13 +44,17 @@ export const ProFormSelect = defineComponent({
     const maxTagPlaceholder = getSlot(slots, props, 'maxTagPlaceholder');
     const optionLabel = getSlot(slots, props, 'optionLabel');
 
+    const options = computed(() => {
+      return props.options || props.fieldProps?.options;
+    });
+
     return () => {
       return (
         <ProFormField
           valueType={'select'}
           fieldProps={{
             ...props.fieldProps,
-            options: props.options,
+            options: unref(options),
             notFoundContent,
             suffixIcon,
             itemIcon,

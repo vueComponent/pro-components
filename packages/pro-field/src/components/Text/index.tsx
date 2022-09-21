@@ -9,27 +9,27 @@ const FieldText = defineComponent({
   props: textFieldPorps,
   slots: ['render', 'renderFormItem'],
   setup(props, { slots }) {
-    const render = props.render ?? slots?.render;
-    const renderFormItem = props.renderFormItem ?? slots?.renderFormItem;
-
     return () => {
-      if (props.mode === 'read') {
+      const { type, mode, text, emptyText, fieldProps } = props;
+      const render = props.render ?? slots?.render;
+      const renderFormItem = props.renderFormItem ?? slots?.renderFormItem;
+      if (mode === 'read') {
         const dom = (
           <>
-            {props.fieldProps?.prefix}
-            {props.text ?? (props.emptyText || '-')}
-            {props.fieldProps?.suffix}
+            {fieldProps?.prefix}
+            {text ?? (emptyText || '-')}
+            {fieldProps?.suffix}
           </>
         );
         if (render) {
-          return render(props.text, { mode: props.mode, fieldProps: props.fieldProps }, dom) ?? props.emptyText;
+          return render(text, { mode, fieldProps }, dom) ?? emptyText;
         }
         return dom;
       }
-      if (props.mode === 'edit' || props.mode === 'update') {
-        const renderDom = <Input type={props.type} allowClear {...props.fieldProps} />;
+      if (mode === 'edit' || mode === 'update') {
+        const renderDom = <Input type={type} allowClear {...fieldProps} />;
         if (renderFormItem) {
-          return renderFormItem(props.text, { mode: props.mode, fieldProps: props.fieldProps }, renderDom);
+          return renderFormItem(text, { mode, fieldProps }, renderDom);
         }
         return renderDom;
       }

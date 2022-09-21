@@ -1,7 +1,8 @@
 import {
-  ref,
+  unref,
   defineComponent,
   PropType,
+  ref,
   ExtractPropTypes,
   VNode,
   type App,
@@ -11,6 +12,7 @@ import {
 import { pickProProps, omitUndefined } from '@ant-design-vue/pro-utils';
 import { isValidElement } from 'ant-design-vue/es/_util/props-util';
 import { cloneVNodes } from 'ant-design-vue/es/_util/vnode';
+import { warning } from 'ant-design-vue/es/vc-util/warning';
 import { omit } from 'lodash-es';
 import type { NameType } from './components/typings';
 
@@ -105,39 +107,55 @@ const ProField = defineComponent({
   inheritAttrs: false,
   props: proFieldProps,
   setup(props) {
-    const inputValue = ref((props.formItemProps?.model || {})[props.formItemProps?.name as NameType]);
-    const formItemProps = omitUndefined(props?.formItemProps || {});
     return () => {
+      const { readonly, mode, text, valueType, formItemProps, fieldProps, renderFormItem } = props;
+      const formItemName = formItemProps?.name as NameType;
+      const formModel = formItemProps?.model;
+      if (!formModel) {
+        warning(false, 'model is required for validateFields to work.');
+        return Promise.reject('Form `model` is required for validateFields to work.');
+      }
+      const modelValue = formModel[formItemName];
+
+      if (!(formItemName in Object.keys(formModel))) {
+        warning(
+          false,
+          `The ${formItemName} attribute was not found in the model of the Form, Please set the name attribute of the form item correctly`
+        );
+      }
+      const inputValue = ref(modelValue);
+      const omitFormItemProps = omitUndefined(formItemProps || {});
+
       // TODO：待优化
-      const fieldProps = omitUndefined({
-        ...props?.fieldProps,
-        value: inputValue.value,
+      const omitFieldProps = omitUndefined({
+        ...fieldProps,
+        value: unref(inputValue),
         'onUpdate:value'(value: string) {
           inputValue.value = value;
-          props.fieldProps?.['onUpdate:value']?.(value);
+          fieldProps?.['onUpdate:value']?.(value);
         },
       });
       return (
         <>
           {defaultRenderText(
-            props.mode === 'edit' ? fieldProps?.value ?? props.text ?? '' : props.text ?? fieldProps?.value ?? '',
-            props.valueType || 'text',
+            mode === 'edit' ? omitFieldProps?.value ?? text ?? '' : text ?? omitFieldProps?.value ?? '',
+            valueType || 'text',
             {
               ...props,
-              mode: props.readonly ? 'read' : props.mode,
-              renderFormItem: props.renderFormItem
+              mode: readonly ? 'read' : mode,
+              renderFormItem: renderFormItem
                 ? (...restProps) => {
-                    const newDom = props.renderFormItem?.(...restProps) as VNode | JSX.Element;
+                    const newDom = renderFormItem?.(...restProps) as VNode | JSX.Element;
                     if (isValidElement(newDom))
                       return cloneVNodes(newDom, {
-                        ...fieldProps,
+                        ...omitFieldProps,
                         ...((newDom.props as any) || {}),
                       });
                     return newDom;
                   }
                 : undefined,
-              fieldProps: pickProProps(fieldProps || {}),
-              formItemProps: pickProProps(formItemProps || {}),
+              fieldProps: pickProProps(omitFieldProps || {}),
+              formItemProps: pickProProps(omitFormItemProps || {}),
             }
           )}
         </>
