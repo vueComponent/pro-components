@@ -10,17 +10,18 @@ const FieldPassword = defineComponent({
   slots: ['render', 'renderFormItem'],
   setup(props, { slots }) {
     return () => {
+      const { mode, text, fieldProps } = props;
       const render = props.render ?? slots.render;
       const renderFormItem = props.renderFormItem ?? slots?.renderFormItem;
 
       const visible = ref(props.visible);
 
-      if (props.mode === 'read') {
+      if (mode === 'read') {
         let dom = <>-</>;
-        if (props.text) {
+        if (text) {
           dom = (
             <Space>
-              <span>{visible.value ? props.text : '＊ ＊ ＊ ＊ ＊'}</span>
+              <span>{visible.value ? text : '＊ ＊ ＊ ＊ ＊'}</span>
               <a onClick={() => (visible.value = !visible.value)}>
                 {visible.value ? <EyeOutlined /> : <EyeInvisibleOutlined />}
               </a>
@@ -28,14 +29,14 @@ const FieldPassword = defineComponent({
           );
         }
         if (render) {
-          return render(props.text, { mode: props.mode, fieldProps: props.fieldProps }, dom);
+          return render(text, { mode, fieldProps }, dom);
         }
         return dom;
       }
-      if (props.mode === 'edit' || props.mode === 'update') {
+      if (mode === 'edit' || mode === 'update') {
         const renderDom = <InputPassword allowClear {...props.fieldProps} />;
         if (renderFormItem) {
-          return renderFormItem(props.text, { mode: props.mode, ...props.fieldProps }, renderDom);
+          return renderFormItem(text, { mode, fieldProps }, renderDom);
         }
         return renderDom;
       }
