@@ -132,6 +132,10 @@ export const extendsProps = {
   filedConfig: {
     type: Object as PropType<ProFormItemCreateConfig>,
   },
+  // 请求参数
+  params: {
+    type: Object as PropType<Recordable>,
+  },
 };
 
 export type ExtendsProps = Partial<ExtractPropTypes<typeof extendsProps>>;

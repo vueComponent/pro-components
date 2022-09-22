@@ -1,4 +1,4 @@
-import { unref, defineComponent, FunctionalComponent, isProxy, type PropType, ExtractPropTypes } from 'vue';
+import { unref, defineComponent, FunctionalComponent, type PropType, ExtractPropTypes } from 'vue';
 import ProField from '@ant-design-vue/pro-field';
 import ProFormItem from '../FormItem';
 import { useGridHelpers } from '../../helpers';

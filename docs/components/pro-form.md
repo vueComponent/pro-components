@@ -15,93 +15,228 @@ yarn add @ant-design-vue/pro-form
 npm i @ant-design-vue/pro-form -S
 ```
 
-### Simple Usage
+### Demo
 
-::: details 显示代码
-
-```html
-<template>
-  <QueryFilter
-    :model="formModel"
-    @finish="handleSubmit"
-    @collapsed="onCollapsed"
+<div style="margin-top: 30px">
+  grid开关
+  <Switch v-model:checked="grid" />
+</div>
+<br />
+<div>
+  只读
+  <Switch v-model:checked="readonly" />
+</div>
+<br />
+<div>
+  标签布局
+  <RadioGroup v-model:value="formLayoutType">
+    <RadioButton v-for="layout in layouts" :key="layout" :value="layout">{{ layout }}</RadioButton>
+  </RadioGroup>
+</div>
+<br />
+<pro-form
+  v-model:model="formModel"
+  :readonly="readonly"
+  :layout="formLayoutType"
+  :grid="grid"
+  :col-props="{
+    span: 8,
+  }"
+  @finish="handleSubmit"
+>
+  <pro-form-text
+    name="name"
+    label="应用名称"
+    :field-props="{
+      allowClear: true,
+      placeholder: '请输入',
+    }"
+    required
+  />
+  <pro-form-text
+    name="name2"
+    label="应用名称2"
+    :field-props="{
+      allowClear: true,
+      placeholder: '请输入',
+    }"
+    required
+  />
+  <pro-form-text
+    name="name3"
+    label="应用名称3"
+    :field-props="{
+      allowClear: true,
+      placeholder: '请输入',
+    }"
+    required
+  />
+  <pro-form-text
+    name="name4"
+    label="应用名称4"
+    :field-props="{
+      allowClear: true,
+      placeholder: '请输入',
+    }"
+    required
+  />
+  <pro-form-text
+    name="name5"
+    label="应用名称5"
+    :field-props="{
+      allowClear: true,
+      placeholder: '请输入',
+    }"
+    required
+  />
+  <pro-form-text
+    name="name6"
+    label="应用名称6"
+    :col-props="{
+      xl: 8,
+      md: 12,
+    }"
+    :field-props="{
+      allowClear: true,
+      placeholder: '请输入',
+    }"
+    required
+  />
+  <pro-form-text
+    name="name79"
+    label="应用名称7"
+    :field-props="{
+      allowClear: true,
+      placeholder: '请输入',
+    }"
+    required
+  />
+  <pro-form-password
+    name="password"
+    label="密码"
+    :field-props="{
+      allowClear: true,
+      placeholder: '请输入',
+    }"
+    required
+  />
+  <pro-form-select
+    name="gender"
+    label="性别"
+    :options="sex"
+    :field-props="{
+      placeholder: '请选择',
+    }"
+    required
   >
-    <FormItem name="name" label="应用名称" required>
-      <input v-model:value="formModel.name" placeholder="请输入" allow-clear />
-    </FormItem>
-    <FormItem name="creater" label="创建人" required>
-      <input v-model:value="formModel.creater" placeholder="请输入" />
-    </FormItem>
-    <FormItem name="sex" label="性别" required>
-      <select v-model:value="formModel.sex">
-        <SelectOption v-for="item in sex" :key="item.value" :value="item.value"
-          >{{ item.label }}</SelectOption
-        >
-      </select>
-    </FormItem>
-    <FormItem name="status" label="应用状态">
-      <input v-model:value="formModel.status" placeholder="请输入" />
-    </FormItem>
-    <FormItem name="startDate" label="响应日期">
-      <DatePicker v-model:value="formModel.startDate" placeholder="请输入" />
-    </FormItem>
-    <FormItem name="create" label="创建时间">
-      <RangePicker
-        v-model:value="formModel.create"
-        :placeholder="['开始时间', '结束时间']"
-      />
-    </FormItem>
-  </QueryFilter>
-</template>
+    <template #option="{ value: val, label, icon }">
+      <span role="img" :aria-label="val">{{ icon }}</span>
+      &nbsp;&nbsp;{{ label }}
+    </template>
+  </pro-form-select>
+  <pro-form-select
+    name="girlName"
+    label="Girl姓名"
+    :field-props="{
+      placeholder: '请选择',
+      mode: 'multiple',
+      options: girlNameoptions,
+    }"
+    required
+  >
+    <template #dropdownRender="{ menuNode: menu }">
+      <v-nodes :vnodes="menu" />
+      <Divider style="margin: 4px 0" />
+      <div style="padding: 4px 8px; cursor: pointer" @mousedown="(e) => e.preventDefault()" @click="addItem">
+        <plus-outlined />
+        Add item
+      </div>
+    </template>
+  </pro-form-select>
+</pro-form>
 
 <script lang="ts" setup>
-  import { ref, reactive } from "vue";
-  import { QueryFilter } from "@ant-design-vue/pro-form";
-  import dayjs, { type Dayjs } from "dayjs";
-  import {
-    FormItem,
-    Input,
-    Select,
-    SelectOption,
-    RangePicker,
-    DatePicker,
-  } from "ant-design-vue";
+import { reactive, ref, FunctionalComponent } from 'vue';
+import { PlusOutlined } from '@ant-design/icons-vue';
+import { RadioGroup, RadioButton, Switch, Divider, type SelectProps } from 'ant-design-vue';
+import type { FormLayout } from 'ant-design-vue/es/form/Form';
+import { ProForm, ProFormText, ProFormPassword, ProFormSelect } from '../../packages/pro-form';
+import '../../packages/pro-form/src/style.less'
+import 'ant-design-vue/dist/antd.css'
 
-  // main.[js|ts]
-  import "@ant-design-vue/pro-form/dist/style.css"; // pro-form css or style.less
+const layouts = ['horizontal', 'vertical', 'inline'];
 
-  const formModel = reactive({
-    name: "123",
-    creater: "11",
-    sex: "男",
-    status: "",
-    startDate: "",
-    create: [
-      dayjs("2015/01/01", "YYYY/MM/DD"),
-      dayjs("2016/01/01", "YYYY/MM/DD"),
-    ] as [Dayjs, Dayjs],
+const formModel = reactive({
+  name: '456',
+  name2: '567',
+  name3: 'xxx',
+  name4: '',
+  name5: '',
+  name6: '',
+  name7: '',
+  password: '111',
+  gender: '女',
+  girlName: undefined,
+});
+
+const sex = ref([
+  {
+    value: '男',
+    label: '男',
+    icon: '🇨🇳',
+  },
+  {
+    value: '女',
+    label: '女',
+    icon: '🇺🇸',
+  },
+]);
+
+const girlNameoptions = ref<SelectProps['options']>([
+  {
+    label: 'Manager',
+    options: [
+      {
+        value: 'jack',
+        label: 'Jack',
+      },
+      {
+        value: 'lucy',
+        label: 'Lucy',
+      },
+    ],
+  },
+  {
+    label: 'Engineer',
+    options: [
+      {
+        value: 'yiminghe',
+        label: 'Yiminghe',
+      },
+    ],
+  },
+]);
+
+const formLayoutType = ref<FormLayout>('horizontal');
+const grid = ref(true);
+const readonly = ref(false);
+
+const handleSubmit = (value: any) => {
+  console.log(value);
+};
+
+const VNodes: FunctionalComponent = (_, { attrs }) => {
+  return attrs.vnodes;
+};
+
+let index = 0;
+const addItem = () => {
+  girlNameoptions.value?.[1].options.push({
+    value: index++,
+    label: `Item${index++}`,
   });
-  const sex = ref([
-    {
-      value: "男",
-      label: "男",
-    },
-    {
-      value: "女",
-      label: "女",
-    },
-  ]);
-
-  function handleSubmit(params: any) {
-    console.log(params);
-  }
-  function onCollapsed(collapsed: boolean) {
-    console.log(collapsed);
-  }
+};
 </script>
-```
-
-:::
 
 ## API
 

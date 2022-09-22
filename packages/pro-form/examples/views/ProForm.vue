@@ -135,13 +135,25 @@
         </div>
       </template>
     </pro-form-select>
+    <pro-form-select
+      name="lang"
+      label="语言"
+      :field-props="{
+        placeholder: '请选择',
+      }"
+    >
+      <SelectOption v-for="lang in langs" :key="lang.value" :value="lang.value">
+        <span role="img" :aria-label="lang.value">{{ lang.icon }}</span
+        >&nbsp;&nbsp;{{ lang.label }}</SelectOption
+      >
+    </pro-form-select>
   </pro-form>
 </template>
 
 <script lang="ts" setup>
 import { reactive, ref, FunctionalComponent } from 'vue';
 import { PlusOutlined } from '@ant-design/icons-vue';
-import { RadioGroup, RadioButton, Switch, Divider, type SelectProps } from 'ant-design-vue';
+import { RadioGroup, RadioButton, Switch, Divider, SelectOption, type SelectProps } from 'ant-design-vue';
 import type { FormLayout } from 'ant-design-vue/es/form/Form';
 import { ProForm, ProFormText, ProFormPassword, ProFormSelect } from '@ant-design-vue/pro-form';
 
@@ -158,6 +170,7 @@ const formModel = reactive({
   password: '111',
   gender: '女',
   girlName: undefined,
+  lang: undefined,
 });
 
 const sex = ref([
@@ -195,6 +208,19 @@ const girlNameoptions = ref<SelectProps['options']>([
         label: 'Yiminghe',
       },
     ],
+  },
+]);
+
+const langs = ref([
+  {
+    value: '中文',
+    label: '中文',
+    icon: '🇨🇳',
+  },
+  {
+    value: 'English',
+    label: 'English',
+    icon: '🇺🇸',
   },
 ]);
 

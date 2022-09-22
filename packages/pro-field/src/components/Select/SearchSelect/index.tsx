@@ -15,6 +15,7 @@ export const slots = [
   'tagRender',
   'maxTagPlaceholder',
   'optionLabel',
+  'default',
 ];
 
 const SearchSelect = defineComponent({
@@ -32,6 +33,7 @@ const SearchSelect = defineComponent({
     const tagRender = getSlot(slots, props, 'tagRender');
     const maxTagPlaceholder = getSlot(slots, props, 'maxTagPlaceholder');
     const optionLabel = getSlot(slots, props, 'optionLabel');
+    const children = getSlot(slots, props, 'default');
 
     return () => {
       return (
@@ -49,6 +51,7 @@ const SearchSelect = defineComponent({
             tagRender,
             maxTagPlaceholder,
             optionLabel,
+            default: children,
           }}
           allowClear
         />

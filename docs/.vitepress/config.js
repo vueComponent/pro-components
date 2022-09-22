@@ -1,4 +1,6 @@
-export default {
+import { defineConfig } from "vitepress";
+
+export default defineConfig({
   base: "/pro-components/",
   description: "中后台重型组件",
   themeConfig: {
@@ -68,4 +70,4 @@ export default {
       },
     ],
   },
-};
+});

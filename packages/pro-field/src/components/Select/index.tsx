@@ -1,42 +1,60 @@
 import { defineComponent, type App, DefineComponent, Plugin, PropType, ExtractPropTypes } from 'vue';
 import type { SelectProps } from 'ant-design-vue';
+import { getSlot, type ProFieldRequestData } from '@ant-design-vue/pro-utils';
 import SearchSelect from './SearchSelect';
 import type { SearchSelectProps } from './SearchSelect/types';
 import { proFieldFC } from '../typings';
+import { useFetchData } from './hooks/useFetchData';
 
 export const fieldSelectProps = {
   ...proFieldFC,
   fieldProps: {
     type: Object as PropType<SelectProps & { option: SearchSelectProps['option'] }>,
   },
+  // 请求参数
+  params: {
+    type: Object as PropType<Record<string, any>>,
+  },
+  // 请求
+  request: {
+    type: Function as PropType<ProFieldRequestData>,
+  },
 };
 export type FieldSelectProps = Partial<ExtractPropTypes<typeof fieldSelectProps>>;
 
 const FieldSelect = defineComponent({
   props: fieldSelectProps,
-  setup(props) {
+  slots: ['render', 'renderFormItem'],
+  setup(props, { slots }) {
+    const { loading, options } = useFetchData(props);
     const children = () => {
-      if (props.mode === 'read') {
-        const dom = <>{props.text}</>;
-        if (props.render) {
-          return props.render(props.text, { mode: props.mode, fieldProps: props.fieldProps }, dom) || null;
+      const { mode, text, fieldProps } = props;
+      const render = getSlot(slots, props, 'render') as any;
+      const renderFormItem = getSlot(slots, props, 'renderFormItem') as any;
+
+      if (mode === 'read') {
+        const dom = <>{text}</>;
+        if (render) {
+          return render(text, { mode, fieldProps }, dom) || null;
         }
         return dom;
       }
-      if (props.mode === 'edit' || props.mode === 'update') {
+      if (mode === 'edit' || mode === 'update') {
         const renderDom = () => {
           return (
             <SearchSelect
               style={{
                 minWidth: 100,
               }}
-              {...props.fieldProps}
+              {...fieldProps}
+              loading={loading.value}
+              options={options.value}
             />
           );
         };
         const dom = renderDom();
-        if (props.renderFormItem) {
-          return props.renderFormItem(props.text, { mode: props.mode, fieldProps: props.fieldProps }, dom) || null;
+        if (renderFormItem) {
+          return renderFormItem(text, { mode, fieldProps }, dom) || null;
         }
         return dom;
       }
