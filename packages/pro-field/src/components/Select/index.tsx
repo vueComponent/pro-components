@@ -1,5 +1,4 @@
 import { defineComponent, type App, DefineComponent, Plugin, PropType, ExtractPropTypes } from 'vue';
-import type { SelectProps } from 'ant-design-vue';
 import { getSlot, type ProFieldRequestData } from '@ant-design-vue/pro-utils';
 import SearchSelect from './SearchSelect';
 import type { SearchSelectProps } from './SearchSelect/types';
@@ -9,7 +8,7 @@ import { useFetchData } from './hooks/useFetchData';
 export const fieldSelectProps = {
   ...proFieldFC,
   fieldProps: {
-    type: Object as PropType<SelectProps & { option: SearchSelectProps['option'] }>,
+    type: Object as PropType<SearchSelectProps>,
   },
   // 请求参数
   params: {
@@ -40,15 +39,23 @@ const FieldSelect = defineComponent({
         return dom;
       }
       if (mode === 'edit' || mode === 'update') {
+        const restProps: SearchSelectProps = {
+          ...fieldProps,
+          loading: loading.value,
+        };
+        // 这里兼容options为空时，自定义SelectOption的情况
+        if (typeof fieldProps?.default === 'function') {
+          restProps.default = fieldProps?.default;
+        } else {
+          restProps.options = options.value;
+        }
         const renderDom = () => {
           return (
             <SearchSelect
               style={{
                 minWidth: 100,
               }}
-              {...fieldProps}
-              loading={loading.value}
-              options={options.value}
+              {...restProps}
             />
           );
         };
