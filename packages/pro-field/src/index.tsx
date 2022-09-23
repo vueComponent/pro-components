@@ -9,7 +9,15 @@ import {
   type Plugin,
   type DefineComponent,
 } from 'vue';
-import { pickProProps, omitUndefined } from '@ant-design-vue/pro-utils';
+import {
+  pickProProps,
+  omitUndefined,
+  type ProFieldRequestData,
+  ProFieldTextType,
+  ProFieldValueType,
+  ProFieldValueObjectType,
+  VueNode,
+} from '@ant-design-vue/pro-utils';
 import { isValidElement } from 'ant-design-vue/es/_util/props-util';
 import { cloneVNodes } from 'ant-design-vue/es/_util/vnode';
 import { warning } from 'ant-design-vue/es/vc-util/warning';
@@ -52,9 +60,6 @@ import FieldSelect from './components/Select';
 import { slots as searchSelectSlots } from './components/Select/SearchSelect';
 export { FieldSelect, searchSelectProps, searchSelectSlots, type SearchSelectProps };
 
-// utils-type
-import type { ProFieldTextType, ProFieldValueType, ProFieldValueObjectType, VueNode } from '@ant-design-vue/pro-utils';
-
 // style
 import './default.less';
 import './style.less';
@@ -64,6 +69,14 @@ export const renderProps = {
   ...proRenderFieldPropsType,
   emptyText: {
     type: String as PropType<VueNode>,
+  },
+  // 请求参数
+  params: {
+    type: Object as PropType<Record<string, any>>,
+  },
+  // 请求
+  request: {
+    type: Function as PropType<ProFieldRequestData>,
   },
 };
 

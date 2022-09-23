@@ -1,5 +1,5 @@
 import type { EmitsOptions, SetupContext, CSSProperties, PropType, ExtractPropTypes } from 'vue';
-import type { VueNode, ProFieldValueType } from '@ant-design-vue/pro-utils';
+import type { VueNode, ProFieldValueType, ProFieldRequestData } from '@ant-design-vue/pro-utils';
 import type { ProFormItemProps } from './components/FormItem';
 import type { ProFieldPropsType } from '@ant-design-vue/pro-field';
 import type { ColProps } from 'ant-design-vue/es/col';
@@ -135,6 +135,10 @@ export const extendsProps = {
   // 请求参数
   params: {
     type: Object as PropType<Recordable>,
+  },
+  /** 从服务器读取选项 */
+  request: {
+    type: Function as PropType<ProFieldRequestData>,
   },
 };
 

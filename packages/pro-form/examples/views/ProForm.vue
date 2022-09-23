@@ -147,6 +147,28 @@
         >&nbsp;&nbsp;{{ lang.label }}</SelectOption
       >
     </pro-form-select>
+    <pro-form-select
+      name="country"
+      label="国家"
+      :field-props="{
+        placeholder: '请选择',
+      }"
+      :request="
+        async () => {
+          await waitTime(1000);
+          return [
+            {
+              label: '中国',
+              value: '中国',
+            },
+            {
+              label: '美国',
+              value: '美国',
+            },
+          ];
+        }
+      "
+    />
   </pro-form>
 </template>
 
@@ -156,6 +178,14 @@ import { PlusOutlined } from '@ant-design/icons-vue';
 import { RadioGroup, RadioButton, Switch, Divider, SelectOption, type SelectProps } from 'ant-design-vue';
 import type { FormLayout } from 'ant-design-vue/es/form/Form';
 import { ProForm, ProFormText, ProFormPassword, ProFormSelect } from '@ant-design-vue/pro-form';
+
+const waitTime = (time = 100) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, time);
+  });
+};
 
 const layouts = ['horizontal', 'vertical', 'inline'];
 
@@ -171,18 +201,19 @@ const formModel = reactive({
   gender: '女',
   girlName: undefined,
   lang: undefined,
+  country: undefined,
 });
 
 const sex = ref([
   {
     value: '男',
     label: '男',
-    icon: '🇨🇳',
+    icon: '👨',
   },
   {
     value: '女',
     label: '女',
-    icon: '🇺🇸',
+    icon: '👩‍🦰',
   },
 ]);
 

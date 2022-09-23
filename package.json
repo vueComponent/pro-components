@@ -11,11 +11,7 @@
     "build": "pnpm run build --filter ./packages",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "TIMING=1 eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "preinstall": "npx only-allow pnpm",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:serve": "vitepress serve docs",
-    "docs:deploy": "pnpm run docs:build && gh-pages -d docs/.vitepress/dist"
+    "preinstall": "npx only-allow pnpm"
   },
   "keywords": [
     "antd",

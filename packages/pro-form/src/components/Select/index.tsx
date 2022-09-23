@@ -53,6 +53,7 @@ export const ProFormSelect = defineComponent({
     });
 
     return () => {
+      const { request, params, colProps } = props;
       return (
         <ProFormField
           valueType={'select'}
@@ -73,8 +74,10 @@ export const ProFormSelect = defineComponent({
             default: children,
           }}
           filedConfig={{ valueType: 'select' }}
-          colProps={props.colProps}
+          colProps={colProps}
           formItemProps={formItemProps}
+          request={request}
+          params={params}
           {...formItemProps}
         />
       );
