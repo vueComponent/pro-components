@@ -1,5 +1,6 @@
 import { defineComponent, type App, DefineComponent, Plugin, PropType, ExtractPropTypes } from 'vue';
 import { getSlot, type ProFieldRequestData } from '@ant-design-vue/pro-utils';
+import { Spin } from 'ant-design-vue';
 import SearchSelect from './SearchSelect';
 import type { SearchSelectProps } from './SearchSelect/types';
 import { proFieldFC } from '../typings';
@@ -25,8 +26,8 @@ const FieldSelect = defineComponent({
   props: fieldSelectProps,
   slots: ['render', 'renderFormItem'],
   setup(props, { slots }) {
-    const { loading, options } = useFetchData(props);
-    const children = () => {
+    const { defaultKeyWords, loading, options } = useFetchData(props);
+    return () => {
       const { mode, text, fieldProps } = props;
       const render = getSlot(slots, props, 'render') as any;
       const renderFormItem = getSlot(slots, props, 'renderFormItem') as any;
@@ -39,36 +40,26 @@ const FieldSelect = defineComponent({
         return dom;
       }
       if (mode === 'edit' || mode === 'update') {
-        const restProps: SearchSelectProps = {
-          ...fieldProps,
-          loading: loading.value,
-        };
-        // 这里兼容options为空时，自定义SelectOption的情况
-        if (typeof fieldProps?.default === 'function') {
-          restProps.default = fieldProps?.default;
-        } else {
-          restProps.options = options.value;
-        }
-        const renderDom = () => {
-          return (
-            <SearchSelect
-              style={{
-                minWidth: 100,
-              }}
-              {...restProps}
-            />
-          );
-        };
-        const dom = renderDom();
+        const renderDom = (
+          <SearchSelect
+            style={{
+              minWidth: 100,
+            }}
+            {...fieldProps}
+            loading={loading.value}
+            options={options.value}
+            fetchData={(value) => (defaultKeyWords.value = value)}
+            resetData={() => (defaultKeyWords.value = '')}
+            default={fieldProps?.default}
+          />
+        );
         if (renderFormItem) {
-          return renderFormItem(text, { mode, fieldProps }, dom) || null;
+          return renderFormItem(text, { mode, fieldProps }, renderDom) || null;
         }
-        return dom;
+        return renderDom;
       }
       return null;
     };
-
-    return () => children();
   },
 });
 

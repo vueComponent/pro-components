@@ -142,7 +142,7 @@
         placeholder: '请选择',
       }"
     >
-      <SelectOption v-for="lang in langs" :key="lang.value" :value="lang.value">
+      <SelectOption v-for="lang in langs" :key="lang.value" :disabled="true" :value="lang.value">
         <span role="img" :aria-label="lang.value">{{ lang.icon }}</span
         >&nbsp;&nbsp;{{ lang.label }}</SelectOption
       >
@@ -152,22 +152,11 @@
       label="国家"
       :field-props="{
         placeholder: '请选择',
+        showSearch: true,
+        mode: 'multiple',
+        filterOption: false,
       }"
-      :request="
-        async () => {
-          await waitTime(1000);
-          return [
-            {
-              label: '中国',
-              value: '中国',
-            },
-            {
-              label: '美国',
-              value: '美国',
-            },
-          ];
-        }
-      "
+      :request="fetchUser"
     />
   </pro-form>
 </template>
@@ -179,12 +168,22 @@ import { RadioGroup, RadioButton, Switch, Divider, SelectOption, type SelectProp
 import type { FormLayout } from 'ant-design-vue/es/form/Form';
 import { ProForm, ProFormText, ProFormPassword, ProFormSelect } from '@ant-design-vue/pro-form';
 
-const waitTime = (time = 100) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(true);
-    }, time);
-  });
+let lastFetchId = 0;
+
+const fetchUser = async (value: string) => {
+  console.log('fetching user', value);
+  lastFetchId += 1;
+  const fetchId = lastFetchId;
+  const response = await fetch('https://randomuser.me/api/?results=5');
+  const body = await response.json();
+  if (fetchId !== lastFetchId) {
+    // for fetch callback order
+    return;
+  }
+  return body.results.map((user: any) => ({
+    label: `${user.name.first} ${user.name.last}`,
+    value: user.login.username,
+  }));
 };
 
 const layouts = ['horizontal', 'vertical', 'inline'];
