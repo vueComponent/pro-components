@@ -3,7 +3,6 @@ import type { DefaultOptionType } from 'ant-design-vue/es/select';
 import type { FieldSelectProps } from '../index';
 
 export const useFetchData = (props: FieldSelectProps) => {
-  console.log('default', props.fieldProps?.default?.());
   const defaultKeyWords = ref('');
   const loading = ref(false);
   const options = ref<DefaultOptionType[]>(props.fieldProps?.options || []);

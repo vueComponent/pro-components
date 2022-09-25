@@ -1,6 +1,7 @@
 import { defineComponent, type App, DefineComponent, Plugin, PropType, ExtractPropTypes } from 'vue';
 import { getSlot, type ProFieldRequestData } from '@ant-design-vue/pro-utils';
 import { Spin } from 'ant-design-vue';
+import renderEmpty from 'ant-design-vue/es/config-provider/renderEmpty';
 import SearchSelect from './SearchSelect';
 import type { SearchSelectProps } from './SearchSelect/types';
 import { proFieldFC } from '../typings';
@@ -40,6 +41,7 @@ const FieldSelect = defineComponent({
         return dom;
       }
       if (mode === 'edit' || mode === 'update') {
+        const hasChildren = typeof fieldProps?.default === 'function';
         const renderDom = (
           <SearchSelect
             style={{
@@ -47,10 +49,15 @@ const FieldSelect = defineComponent({
             }}
             {...fieldProps}
             loading={loading.value}
-            options={options.value}
+            options={hasChildren ? undefined : options.value}
+            default={hasChildren ? fieldProps?.default : undefined}
             fetchData={(value) => (defaultKeyWords.value = value)}
             resetData={() => (defaultKeyWords.value = '')}
-            default={fieldProps?.default}
+            v-slots={{
+              notFoundContent: () => {
+                return loading.value ? <Spin size={'small'} /> : fieldProps?.notFoundContent || renderEmpty('Select');
+              },
+            }}
           />
         );
         if (renderFormItem) {

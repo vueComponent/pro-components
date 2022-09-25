@@ -26,7 +26,7 @@ export const searchSelectProps = {
     type: Function as PropType<(props: DefaultOptionType) => VueNode>,
   },
   default: {
-    type: Function as PropType<(props?: DefaultOptionType) => VueNode>,
+    type: Function as PropType<(props: DefaultOptionType) => VueNode>,
   },
   // 刷新数据
   fetchData: {

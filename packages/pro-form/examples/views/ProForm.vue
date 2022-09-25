@@ -142,7 +142,7 @@
         placeholder: '请选择',
       }"
     >
-      <SelectOption v-for="lang in langs" :key="lang.value" :disabled="true" :value="lang.value">
+      <SelectOption v-for="lang in langs" :key="lang.value" :value="lang.value">
         <span role="img" :aria-label="lang.value">{{ lang.icon }}</span
         >&nbsp;&nbsp;{{ lang.label }}</SelectOption
       >
