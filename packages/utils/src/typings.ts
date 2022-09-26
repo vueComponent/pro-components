@@ -5,6 +5,8 @@ import type { ProFieldValueType, ProFieldValueTypeWithFieldProps } from './types
 
 export { ProFieldValueType, ProFieldValueTypeWithFieldProps };
 
+export type Recordable<T = any> = Record<string, T>;
+
 // Node
 export type VueNode =
   | Slot
