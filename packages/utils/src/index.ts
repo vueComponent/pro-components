@@ -10,13 +10,15 @@ import omitUndefined from './omitUndefined';
 import pickProProps from './pickProProps';
 export { omitUndefined, pickProProps };
 
+import { proxyToRaw } from './proxyToRaw';
+export { proxyToRaw };
+
 // type
 import {
   VueNode,
   ProFieldFCMode,
   VueText,
   ProFieldTextType,
-  RequestOptionsType,
   ProFieldRequestData,
   ProFieldValueObjectType,
   ProFieldValueType,
@@ -27,7 +29,6 @@ export {
   ProFieldFCMode,
   VueText,
   ProFieldTextType,
-  RequestOptionsType,
   ProFieldRequestData,
   ProFieldValueObjectType,
   ProFieldValueType,

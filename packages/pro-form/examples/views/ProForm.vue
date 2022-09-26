@@ -135,15 +135,56 @@
         </div>
       </template>
     </pro-form-select>
+    <pro-form-select
+      name="lang"
+      label="语言"
+      :field-props="{
+        placeholder: '请选择',
+      }"
+    >
+      <SelectOption v-for="lang in langs" :key="lang.value" :value="lang.value">
+        <span role="img" :aria-label="lang.value">{{ lang.icon }}</span
+        >&nbsp;&nbsp;{{ lang.label }}</SelectOption
+      >
+    </pro-form-select>
+    <pro-form-select
+      name="country"
+      label="国家"
+      :field-props="{
+        placeholder: '请选择',
+        showSearch: true,
+        mode: 'multiple',
+        filterOption: false,
+      }"
+      :request="fetchUser"
+    />
   </pro-form>
 </template>
 
 <script lang="ts" setup>
 import { reactive, ref, FunctionalComponent } from 'vue';
 import { PlusOutlined } from '@ant-design/icons-vue';
-import { RadioGroup, RadioButton, Switch, Divider, type SelectProps } from 'ant-design-vue';
+import { RadioGroup, RadioButton, Switch, Divider, SelectOption, type SelectProps } from 'ant-design-vue';
 import type { FormLayout } from 'ant-design-vue/es/form/Form';
 import { ProForm, ProFormText, ProFormPassword, ProFormSelect } from '@ant-design-vue/pro-form';
+
+let lastFetchId = 0;
+
+const fetchUser = async (value: string) => {
+  console.log('fetching user', value);
+  lastFetchId += 1;
+  const fetchId = lastFetchId;
+  const response = await fetch('https://randomuser.me/api/?results=5');
+  const body = await response.json();
+  if (fetchId !== lastFetchId) {
+    // for fetch callback order
+    return;
+  }
+  return body.results.map((user: any) => ({
+    label: `${user.name.first} ${user.name.last}`,
+    value: user.login.username,
+  }));
+};
 
 const layouts = ['horizontal', 'vertical', 'inline'];
 
@@ -158,18 +199,20 @@ const formModel = reactive({
   password: '111',
   gender: '女',
   girlName: undefined,
+  lang: undefined,
+  country: undefined,
 });
 
 const sex = ref([
   {
     value: '男',
     label: '男',
-    icon: '🇨🇳',
+    icon: '👨',
   },
   {
     value: '女',
     label: '女',
-    icon: '🇺🇸',
+    icon: '👩‍🦰',
   },
 ]);
 
@@ -195,6 +238,19 @@ const girlNameoptions = ref<SelectProps['options']>([
         label: 'Yiminghe',
       },
     ],
+  },
+]);
+
+const langs = ref([
+  {
+    value: '中文',
+    label: '中文',
+    icon: '🇨🇳',
+  },
+  {
+    value: 'English',
+    label: 'English',
+    icon: '🇺🇸',
   },
 ]);
 

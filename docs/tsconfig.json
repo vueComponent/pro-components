@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "lib": ["esnext", "dom"],
+    "paths": {
+      "@ant-design-vue/pro-layout": ["../packages/pro-layout/src/index.ts"],
+      "@ant-design-vue/pro-form": ["../packages/pro-form/src/index.ts"]
+    },
+    "jsx": "preserve"
+  },
+  "include": ["**/*", ".vitepress/**/*"],
+  "exclude": ["node_modules"]
+}

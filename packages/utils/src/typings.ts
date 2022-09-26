@@ -1,8 +1,11 @@
 import type { Slot, VNode, VNodeChild } from 'vue';
+import type { DefaultOptionType } from 'ant-design-vue/es/select';
 
 import type { ProFieldValueType, ProFieldValueTypeWithFieldProps } from './types';
 
 export { ProFieldValueType, ProFieldValueTypeWithFieldProps };
+
+export type Recordable<T = any> = Record<string, T>;
 
 // Node
 export type VueNode =
@@ -30,16 +33,7 @@ export type VueText = string | number;
 // Text
 export type ProFieldTextType = VueNode | VueNode[] | Record<string, any> | Record<string, any>[];
 
-export type RequestOptionsType = {
-  label?: VueNode;
-  value?: VueText;
-  /** 渲染的节点类型 */
-  optionType?: 'optGroup' | 'option';
-  options?: Omit<RequestOptionsType, 'children' | 'optionType'>[];
-  [key: string]: any;
-};
-
-export type ProFieldRequestData<U = any> = (params: U, props: any) => Promise<RequestOptionsType[]>;
+export type ProFieldRequestData<U = any> = (params: U, props: any) => Promise<DefaultOptionType[]>;
 
 export type ProFieldValueObjectType = {
   type: 'progress' | 'money' | 'percent' | 'image';

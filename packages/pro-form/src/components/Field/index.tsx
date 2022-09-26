@@ -1,4 +1,4 @@
-import { unref, defineComponent, FunctionalComponent, isProxy, type PropType, ExtractPropTypes } from 'vue';
+import { unref, defineComponent, FunctionalComponent, type PropType, ExtractPropTypes } from 'vue';
 import ProField from '@ant-design-vue/pro-field';
 import ProFormItem from '../FormItem';
 import { useGridHelpers } from '../../helpers';
@@ -29,7 +29,7 @@ const ProFormField = defineComponent({
   setup(props) {
     const formContext = useFormInstance();
     return () => {
-      const valueType = props.valueType || 'text';
+      const { valueType = 'text', request, params } = props;
       const FormItem: FunctionalComponent = () => {
         return (
           <ProFormItem
@@ -46,6 +46,8 @@ const ProFormField = defineComponent({
                       (formContext.model.value || {})[props.formItemProps?.name as NameType] = value;
                     },
                   }}
+                  request={request}
+                  params={params}
                   formItemProps={{
                     ...props.formItemProps,
                     model: formContext.model.value,

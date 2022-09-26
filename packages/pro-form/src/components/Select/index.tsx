@@ -17,6 +17,9 @@ const props = {
   option: {
     type: Function as PropType<(props: DefaultOptionType) => VueNode>,
   },
+  default: {
+    type: Function as PropType<(props: DefaultOptionType) => VueNode>,
+  },
 };
 
 export type ProFormSelectProps = Partial<ExtractPropTypes<typeof props>>;
@@ -43,12 +46,14 @@ export const ProFormSelect = defineComponent({
     const tagRender = getSlot(slots, props, 'tagRender');
     const maxTagPlaceholder = getSlot(slots, props, 'maxTagPlaceholder');
     const optionLabel = getSlot(slots, props, 'optionLabel');
+    const children = getSlot(slots, props, 'default');
 
     const options = computed(() => {
       return props.options || props.fieldProps?.options;
     });
 
     return () => {
+      const { request, params, colProps } = props;
       return (
         <ProFormField
           valueType={'select'}
@@ -66,10 +71,13 @@ export const ProFormSelect = defineComponent({
             tagRender,
             maxTagPlaceholder,
             optionLabel,
+            default: children,
           }}
           filedConfig={{ valueType: 'select' }}
-          colProps={props.colProps}
+          colProps={colProps}
           formItemProps={formItemProps}
+          request={request}
+          params={params}
           {...formItemProps}
         />
       );
