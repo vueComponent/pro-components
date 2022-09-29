@@ -1,4 +1,3 @@
-import { toRaw, isProxy } from 'vue';
 import { proxyToRaw } from '@ant-design-vue/pro-utils';
 import type { Recordable } from '../../typings';
 
