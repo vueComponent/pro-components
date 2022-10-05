@@ -60,6 +60,10 @@ import FieldSelect from './components/Select';
 import { slots as searchSelectSlots } from './components/Select/SearchSelect';
 export { FieldSelect, searchSelectProps, searchSelectSlots, type SearchSelectProps };
 
+import { fieldDatePickerProps, type FieldDatePickerProps } from './components/DatePicker/types';
+import FieldDatePicker, { slots as fieldDatePickerSlots } from './components/DatePicker';
+export { FieldDatePicker, fieldDatePickerProps, fieldDatePickerSlots, FieldDatePickerProps };
+
 // style
 import './default.less';
 import './style.less';
@@ -100,6 +104,20 @@ const defaultRenderText = (
   props: RenderProps
   // valueTypeMap: Record<string, ProRenderFieldPropsType>
 ): VueNode => {
+  if (valueType === 'date') {
+    const { fieldProps } = props;
+    return (
+      <FieldDatePicker
+        {...props}
+        fieldProps={{
+          ...fieldProps,
+          mode: 'date',
+          picker: 'date',
+          format: 'YYYY-MM-DD',
+        }}
+      />
+    );
+  }
   if (valueType === 'select') {
     let text = '';
     if (dataValue instanceof Array) {

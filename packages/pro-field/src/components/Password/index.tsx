@@ -11,6 +11,7 @@ const FieldPassword = defineComponent({
   setup(props, { slots }) {
     return () => {
       const { mode, text, fieldProps } = props;
+      const placeholder = fieldProps.placeholder || '请输入';
       const render = props.render ?? slots.render;
       const renderFormItem = props.renderFormItem ?? slots?.renderFormItem;
 
@@ -34,7 +35,7 @@ const FieldPassword = defineComponent({
         return dom;
       }
       if (mode === 'edit' || mode === 'update') {
-        const renderDom = <InputPassword allowClear {...props.fieldProps} />;
+        const renderDom = <InputPassword {...props.fieldProps} allowClear placeholder={placeholder} />;
         if (renderFormItem) {
           return renderFormItem(text, { mode, fieldProps }, renderDom);
         }

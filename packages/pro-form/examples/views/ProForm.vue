@@ -158,6 +158,13 @@
       }"
       :request="fetchUser"
     />
+    <pro-form-date-picker
+      name="expirationTime"
+      label="合同失效时间"
+      :field-props="{
+        placeholder: '请选择合同失效时间',
+      }"
+    />
   </pro-form>
 </template>
 
@@ -166,7 +173,8 @@ import { reactive, ref, FunctionalComponent } from 'vue';
 import { PlusOutlined } from '@ant-design/icons-vue';
 import { RadioGroup, RadioButton, Switch, Divider, SelectOption, type SelectProps } from 'ant-design-vue';
 import type { FormLayout } from 'ant-design-vue/es/form/Form';
-import { ProForm, ProFormText, ProFormPassword, ProFormSelect } from '@ant-design-vue/pro-form';
+import { ProForm, ProFormText, ProFormPassword, ProFormSelect, ProFormDatePicker } from '@ant-design-vue/pro-form';
+import type { Dayjs } from 'dayjs';
 
 let lastFetchId = 0;
 
@@ -201,6 +209,7 @@ const formModel = reactive({
   girlName: undefined,
   lang: undefined,
   country: undefined,
+  expirationTime: ref<Dayjs>(),
 });
 
 const sex = ref([
