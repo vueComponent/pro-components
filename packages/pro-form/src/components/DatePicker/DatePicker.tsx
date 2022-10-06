@@ -5,6 +5,7 @@ import { pick } from 'lodash-es';
 import { fieldDatePickerSlots } from '@ant-design-vue/pro-field';
 import ProFormField, { proFormFieldProps } from '../Field';
 import { proFormItemProps } from '../FormItem';
+import type { VueNode } from 'ant-design-vue/lib/_util/type';
 
 const props = {
   ...proFormFieldProps,
@@ -25,29 +26,24 @@ export const ProFormDatePicker = defineComponent({
       ...props.formItemProps,
       ...pick(props, Object.keys(proFormItemProps)),
     };
-    const suffixIcon = getSlot(slots, props, 'suffixIcon');
-    const prevIcon = getSlot(slots, props, 'prevIcon');
-    const nextIcon = getSlot(slots, props, 'nextIcon');
-    const superPrevIcon = getSlot(slots, props, 'superPrevIcon');
-    const superNextIcon = getSlot(slots, props, 'superNextIcon');
-    const dateRender = getSlot(slots, props, 'dateRender');
-    const renderExtraFooter = getSlot(slots, props, 'renderExtraFooter');
-    const monthCellRender = getSlot(slots, props, 'monthCellRender');
+    const suffixIcon = getSlot<() => VueNode>(slots, props, 'suffixIcon');
+    const prevIcon = getSlot<() => VueNode>(slots, props, 'prevIcon');
+    const nextIcon = getSlot<() => VueNode>(slots, props, 'nextIcon');
+    const superPrevIcon = getSlot<() => VueNode>(slots, props, 'superPrevIcon');
+    const superNextIcon = getSlot<() => VueNode>(slots, props, 'superNextIcon');
+
     return () => {
       const { fieldProps, colProps } = props;
       return (
         <ProFormField
           valueType={'date'}
           fieldProps={{
-            ...fieldProps,
             suffixIcon,
             prevIcon,
             nextIcon,
             superPrevIcon,
             superNextIcon,
-            dateRender,
-            renderExtraFooter,
-            monthCellRender,
+            ...fieldProps,
           }}
           filedConfig={{ valueType: 'date' }}
           colProps={colProps}

@@ -57,8 +57,7 @@ export { FieldPassword, passwordTextProps, type PasswordTextProps };
 
 import { searchSelectProps, type SearchSelectProps } from './components/Select/SearchSelect/types';
 import FieldSelect from './components/Select';
-import { slots as searchSelectSlots } from './components/Select/SearchSelect';
-export { FieldSelect, searchSelectProps, searchSelectSlots, type SearchSelectProps };
+export { FieldSelect, searchSelectProps, type SearchSelectProps };
 
 import { fieldDatePickerProps, type FieldDatePickerProps } from './components/DatePicker/types';
 import FieldDatePicker, { slots as fieldDatePickerSlots } from './components/DatePicker';
@@ -108,13 +107,13 @@ const defaultRenderText = (
     const { fieldProps } = props;
     return (
       <FieldDatePicker
-        {...props}
+        dateFormat="YYYY-MM-DD"
         fieldProps={{
           ...fieldProps,
           mode: 'date',
           picker: 'date',
-          format: 'YYYY-MM-DD',
         }}
+        {...props}
       />
     );
   }
@@ -125,12 +124,12 @@ const defaultRenderText = (
     } else {
       text = dataValue as string;
     }
-    return <FieldSelect {...props} text={text} />;
+    return <FieldSelect text={text} {...props} />;
   }
   if (valueType === 'password') {
-    return <FieldPassword {...props} text={dataValue as string} />;
+    return <FieldPassword text={dataValue as string} {...props} />;
   }
-  return <FieldText {...props} text={dataValue as string} />;
+  return <FieldText text={dataValue as string} {...props} />;
 };
 
 const ProField = defineComponent({
@@ -161,7 +160,7 @@ const ProField = defineComponent({
       const omitFieldProps = omitUndefined({
         ...fieldProps,
         value: unref(inputValue),
-        'onUpdate:value'(value: string) {
+        'onUpdate:value'(value: any) {
           inputValue.value = value;
           fieldProps?.['onUpdate:value']?.(value);
         },
