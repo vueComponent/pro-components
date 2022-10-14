@@ -114,6 +114,7 @@ const defaultRenderText = (
           picker: 'date',
         }}
         {...props}
+        text={dataValue as string}
       />
     );
   }
@@ -124,12 +125,12 @@ const defaultRenderText = (
     } else {
       text = dataValue as string;
     }
-    return <FieldSelect text={text} {...props} />;
+    return <FieldSelect {...props} text={text} />;
   }
   if (valueType === 'password') {
-    return <FieldPassword text={dataValue as string} {...props} />;
+    return <FieldPassword {...props} text={dataValue as string} />;
   }
-  return <FieldText text={dataValue as string} {...props} />;
+  return <FieldText {...props} text={dataValue as string} />;
 };
 
 const ProField = defineComponent({
