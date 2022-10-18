@@ -1,12 +1,12 @@
 import { defineComponent, type App, type Plugin, type DefineComponent } from 'vue';
 import { Input } from 'ant-design-vue';
-import { textFieldPorps, type TextFieldPorps } from './types';
+import { textFieldProps, type TextFieldProps } from './types';
 import 'ant-design-vue/es/input/style/index.less';
 
 const FieldText = defineComponent({
   name: 'FieldText',
   inheritAttrs: false,
-  props: textFieldPorps,
+  props: textFieldProps,
   slots: ['render', 'renderFormItem'],
   setup(props, { slots }) {
     return () => {
@@ -44,4 +44,4 @@ FieldText.install = (app: App) => {
   return app;
 };
 
-export default FieldText as DefineComponent<TextFieldPorps> & Plugin;
+export default FieldText as DefineComponent<TextFieldProps> & Plugin;

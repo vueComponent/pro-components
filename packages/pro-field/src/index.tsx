@@ -47,9 +47,9 @@ export {
 };
 
 // pro-field
-import { textFieldPorps, type TextFieldPorps } from './components/Text/types';
+import { textFieldProps, type TextFieldProps } from './components/Text/types';
 import FieldText from './components/Text';
-export { FieldText, textFieldPorps, type TextFieldPorps };
+export { FieldText, textFieldProps, type TextFieldProps };
 
 import { passwordTextProps, type PasswordTextProps } from './components/Password/types';
 import FieldPassword from './components/Password';
