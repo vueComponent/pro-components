@@ -47,9 +47,9 @@ export {
 };
 
 // pro-field
-import { textFieldPorps, type TextFieldPorps } from './components/Text/types';
+import { textFieldProps, type TextFieldProps } from './components/Text/types';
 import FieldText from './components/Text';
-export { FieldText, textFieldPorps, type TextFieldPorps };
+export { FieldText, textFieldProps, type TextFieldProps };
 
 import { passwordTextProps, type PasswordTextProps } from './components/Password/types';
 import FieldPassword from './components/Password';
@@ -57,8 +57,11 @@ export { FieldPassword, passwordTextProps, type PasswordTextProps };
 
 import { searchSelectProps, type SearchSelectProps } from './components/Select/SearchSelect/types';
 import FieldSelect from './components/Select';
-import { slots as searchSelectSlots } from './components/Select/SearchSelect';
-export { FieldSelect, searchSelectProps, searchSelectSlots, type SearchSelectProps };
+export { FieldSelect, searchSelectProps, type SearchSelectProps };
+
+import { fieldDatePickerProps, type FieldDatePickerProps } from './components/DatePicker/types';
+import FieldDatePicker, { slots as fieldDatePickerSlots } from './components/DatePicker';
+export { FieldDatePicker, fieldDatePickerProps, fieldDatePickerSlots, FieldDatePickerProps };
 
 // style
 import './default.less';
@@ -100,6 +103,21 @@ const defaultRenderText = (
   props: RenderProps
   // valueTypeMap: Record<string, ProRenderFieldPropsType>
 ): VueNode => {
+  if (valueType === 'date') {
+    const { fieldProps } = props;
+    return (
+      <FieldDatePicker
+        dateFormat="YYYY-MM-DD"
+        fieldProps={{
+          ...fieldProps,
+          mode: 'date',
+          picker: 'date',
+        }}
+        {...props}
+        text={dataValue as string}
+      />
+    );
+  }
   if (valueType === 'select') {
     let text = '';
     if (dataValue instanceof Array) {
@@ -143,7 +161,7 @@ const ProField = defineComponent({
       const omitFieldProps = omitUndefined({
         ...fieldProps,
         value: unref(inputValue),
-        'onUpdate:value'(value: string) {
+        'onUpdate:value'(value: any) {
           inputValue.value = value;
           fieldProps?.['onUpdate:value']?.(value);
         },

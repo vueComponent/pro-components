@@ -1,16 +1,17 @@
 import { defineComponent, type App, type Plugin, type DefineComponent } from 'vue';
 import { Input } from 'ant-design-vue';
-import { textFieldPorps, type TextFieldPorps } from './types';
+import { textFieldProps, type TextFieldProps } from './types';
 import 'ant-design-vue/es/input/style/index.less';
 
 const FieldText = defineComponent({
   name: 'FieldText',
   inheritAttrs: false,
-  props: textFieldPorps,
+  props: textFieldProps,
   slots: ['render', 'renderFormItem'],
   setup(props, { slots }) {
     return () => {
       const { type, mode, text, emptyText, fieldProps } = props;
+      const placeholder = fieldProps.placeholder || '请输入';
       const render = props.render ?? slots?.render;
       const renderFormItem = props.renderFormItem ?? slots?.renderFormItem;
       if (mode === 'read') {
@@ -27,7 +28,7 @@ const FieldText = defineComponent({
         return dom;
       }
       if (mode === 'edit' || mode === 'update') {
-        const renderDom = <Input type={type} allowClear {...fieldProps} />;
+        const renderDom = <Input {...fieldProps} type={type} allowClear placeholder={placeholder} />;
         if (renderFormItem) {
           return renderFormItem(text, { mode, fieldProps }, renderDom);
         }
@@ -43,4 +44,4 @@ FieldText.install = (app: App) => {
   return app;
 };
 
-export default FieldText as DefineComponent<TextFieldPorps> & Plugin;
+export default FieldText as DefineComponent<TextFieldProps> & Plugin;

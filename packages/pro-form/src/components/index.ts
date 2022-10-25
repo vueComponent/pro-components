@@ -6,3 +6,6 @@ export { ProFormPassword, ProFieldPasswordPropsType };
 
 import { ProFormSelect } from './Select';
 export { ProFormSelect };
+
+import { ProFormDatePicker } from './DatePicker/DatePicker';
+export { ProFormDatePicker };

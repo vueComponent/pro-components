@@ -1,5 +1,5 @@
 import { defineComponent, computed, unref, type App, DefineComponent, Plugin, PropType, ExtractPropTypes } from 'vue';
-import { searchSelectSlots } from '@ant-design-vue/pro-field';
+// import { searchSelectSlots } from '@ant-design-vue/pro-field';
 import { getSlot, type VueNode } from '@ant-design-vue/pro-utils';
 import { pick } from 'lodash-es';
 import type { SelectProps, DefaultOptionType } from 'ant-design-vue/es/select';
@@ -28,24 +28,22 @@ export const ProFormSelect = defineComponent({
   name: 'ProFormSelect',
   inheritAttrs: false,
   props,
-  slots: searchSelectSlots,
+  slots: ['notFoundContent', 'suffixIcon'],
   setup(props, { slots }) {
     const formItemProps = {
       ...props.formItemProps,
       ...pick(props, Object.keys(proFormItemProps)),
     };
 
-    const notFoundContent = getSlot(slots, props, 'notFoundContent');
-    const suffixIcon = getSlot(slots, props, 'suffixIcon');
-    const itemIcon = getSlot(slots, props, 'itemIcon');
-    const removeIcon = getSlot(slots, props, 'removeIcon');
-    const clearIcon = getSlot(slots, props, 'clearIcon');
+    const notFoundContent = getSlot<() => VueNode>(slots, props, 'notFoundContent');
+    const suffixIcon = getSlot<() => VueNode>(slots, props, 'suffixIcon');
+    const itemIcon = getSlot<() => VueNode>(slots, props, 'itemIcon');
+    const removeIcon = getSlot<() => VueNode>(slots, props, 'removeIcon') as any;
+    const clearIcon = getSlot<() => VueNode>(slots, props, 'clearIcon');
     const dropdownRender = getSlot(slots, props, 'dropdownRender');
-    const option = getSlot(slots, props, 'option');
-    const placeholder = getSlot(slots, props, 'placeholder');
+    const placeholder = getSlot<() => VueNode>(slots, props, 'placeholder') as any;
     const tagRender = getSlot(slots, props, 'tagRender');
     const maxTagPlaceholder = getSlot(slots, props, 'maxTagPlaceholder');
-    const optionLabel = getSlot(slots, props, 'optionLabel');
     const children = getSlot(slots, props, 'default');
 
     const options = computed(() => {
@@ -53,12 +51,11 @@ export const ProFormSelect = defineComponent({
     });
 
     return () => {
-      const { request, params, colProps } = props;
+      const { request, params, colProps, fieldProps } = props;
       return (
         <ProFormField
           valueType={'select'}
           fieldProps={{
-            ...props.fieldProps,
             options: unref(options),
             notFoundContent,
             suffixIcon,
@@ -66,12 +63,11 @@ export const ProFormSelect = defineComponent({
             removeIcon,
             clearIcon,
             dropdownRender,
-            option,
-            placeholder,
+            placeholder: placeholder?.(),
             tagRender,
             maxTagPlaceholder,
-            optionLabel,
             default: children,
+            ...fieldProps,
           }}
           filedConfig={{ valueType: 'select' }}
           colProps={colProps}

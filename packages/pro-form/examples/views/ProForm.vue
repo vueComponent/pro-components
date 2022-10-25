@@ -139,25 +139,40 @@
       name="lang"
       label="语言"
       :field-props="{
-        placeholder: '请选择',
+        placeholder: '请选择语言',
       }"
     >
       <SelectOption v-for="lang in langs" :key="lang.value" :value="lang.value">
         <span role="img" :aria-label="lang.value">{{ lang.icon }}</span
         >&nbsp;&nbsp;{{ lang.label }}</SelectOption
       >
+      <template #suffixIcon>
+        <plus-outlined />
+      </template>
     </pro-form-select>
     <pro-form-select
       name="country"
       label="国家"
       :field-props="{
-        placeholder: '请选择',
         showSearch: true,
         mode: 'multiple',
         filterOption: false,
       }"
       :request="fetchUser"
-    />
+    >
+      <template #placeholder> 请选择国家 </template>
+    </pro-form-select>
+    <pro-form-date-picker
+      name="expirationTime"
+      label="合同失效时间"
+      :field-props="{
+        placeholder: '请选择合同失效时间',
+      }"
+    >
+      <template #superPrevIcon>
+        <plus-outlined />
+      </template>
+    </pro-form-date-picker>
   </pro-form>
 </template>
 
@@ -166,7 +181,7 @@ import { reactive, ref, FunctionalComponent } from 'vue';
 import { PlusOutlined } from '@ant-design/icons-vue';
 import { RadioGroup, RadioButton, Switch, Divider, SelectOption, type SelectProps } from 'ant-design-vue';
 import type { FormLayout } from 'ant-design-vue/es/form/Form';
-import { ProForm, ProFormText, ProFormPassword, ProFormSelect } from '@ant-design-vue/pro-form';
+import { ProForm, ProFormText, ProFormPassword, ProFormSelect, ProFormDatePicker } from '@ant-design-vue/pro-form';
 
 let lastFetchId = 0;
 
@@ -201,6 +216,7 @@ const formModel = reactive({
   girlName: undefined,
   lang: undefined,
   country: undefined,
+  expirationTime: undefined,
 });
 
 const sex = ref([

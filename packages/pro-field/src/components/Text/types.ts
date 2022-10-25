@@ -3,7 +3,7 @@ import type { InputProps } from 'ant-design-vue/es/input/inputProps';
 import type { VueNode } from '@ant-design-vue/pro-utils';
 import { proFieldFC } from '../typings';
 
-export const textFieldPorps = {
+export const textFieldProps = {
   ...proFieldFC,
   // 这里预留一个原生的input type属性
   type: {
@@ -15,4 +15,4 @@ export const textFieldPorps = {
   },
 };
 
-export type TextFieldPorps = Partial<ExtractPropTypes<typeof textFieldPorps>>;
+export type TextFieldProps = Partial<ExtractPropTypes<typeof textFieldProps>>;
