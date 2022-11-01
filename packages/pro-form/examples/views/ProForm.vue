@@ -167,6 +167,7 @@
       label="合同失效时间"
       :field-props="{
         placeholder: '请选择合同失效时间',
+        picker: 'month',
       }"
     >
       <template #superPrevIcon>

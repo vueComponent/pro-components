@@ -24,6 +24,7 @@ export const fieldSelectProps = {
 export type FieldSelectProps = Partial<ExtractPropTypes<typeof fieldSelectProps>>;
 
 const FieldSelect = defineComponent({
+  inheritAttrs: false,
   props: fieldSelectProps,
   slots: ['render', 'renderFormItem'],
   setup(props, { slots }) {

@@ -5,6 +5,7 @@ import {
   ref,
   ExtractPropTypes,
   VNode,
+  isProxy,
   type App,
   type Plugin,
   type DefineComponent,
@@ -12,6 +13,7 @@ import {
 import {
   pickProProps,
   omitUndefined,
+  proxyToRaw,
   type ProFieldRequestData,
   ProFieldTextType,
   ProFieldValueType,
@@ -23,6 +25,7 @@ import { cloneVNodes } from 'ant-design-vue/es/_util/vnode';
 import { warning } from 'ant-design-vue/es/vc-util/warning';
 import { omit } from 'lodash-es';
 import type { NameType } from './components/typings';
+import { Dayjs } from 'dayjs';
 
 import {
   baseProFieldFC,
@@ -105,6 +108,11 @@ const defaultRenderText = (
 ): VueNode => {
   if (valueType === 'date') {
     const { fieldProps } = props;
+    let dateText = '';
+    if (isProxy(dataValue)) {
+      dateText = (proxyToRaw(dataValue as Record<string, any>) as Dayjs).format('YYYY-MM-DD');
+      console.log('dateText', dateText);
+    }
     return (
       <FieldDatePicker
         dateFormat="YYYY-MM-DD"
@@ -114,7 +122,7 @@ const defaultRenderText = (
           picker: 'date',
         }}
         {...props}
-        text={dataValue as string}
+        text={dateText}
       />
     );
   }
