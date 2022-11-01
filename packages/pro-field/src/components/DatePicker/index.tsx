@@ -35,7 +35,7 @@ const FieldDatePicker = defineComponent({
 
     return () => {
       const { mode, text, fieldProps } = props;
-      const { placeholder, format } = fieldProps || {};
+      const { placeholder, format = 'YYYY-MM-DD' } = fieldProps || {};
 
       if (mode === 'read') {
         const dom = formatDate(text, format);
@@ -55,6 +55,7 @@ const FieldDatePicker = defineComponent({
               superNextIcon,
             }}
             {...fieldProps}
+            format={format}
             placeholder={placeholder || '请选择'}
             allowClear
           />
