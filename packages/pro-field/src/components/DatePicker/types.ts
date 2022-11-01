@@ -4,10 +4,6 @@ import { proFieldFC } from '../typings';
 
 export const fieldDatePickerProps = {
   ...proFieldFC,
-  /** 日期格式化 */
-  dateFormat: {
-    type: String,
-  },
   fieldProps: {
     type: Object as PropType<CommonProps<any> & DatePickerProps<any>>,
   },

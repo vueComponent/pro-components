@@ -167,7 +167,7 @@
       label="合同失效时间"
       :field-props="{
         placeholder: '请选择合同失效时间',
-        picker: 'month',
+        format: 'YYYY-MM-DD',
       }"
     >
       <template #superPrevIcon>
@@ -183,6 +183,7 @@ import { PlusOutlined } from '@ant-design/icons-vue';
 import { RadioGroup, RadioButton, Switch, Divider, SelectOption, type SelectProps } from 'ant-design-vue';
 import type { FormLayout } from 'ant-design-vue/es/form/Form';
 import { ProForm, ProFormText, ProFormPassword, ProFormSelect, ProFormDatePicker } from '@ant-design-vue/pro-form';
+import dayjs, { type Dayjs } from 'dayjs';
 
 let lastFetchId = 0;
 
@@ -204,6 +205,8 @@ const fetchUser = async (value: string) => {
 
 const layouts = ['horizontal', 'vertical', 'inline'];
 
+const dateFormat = 'YYYY/MM/DD';
+
 const formModel = reactive({
   name: '456',
   name2: '567',
@@ -217,7 +220,7 @@ const formModel = reactive({
   girlName: undefined,
   lang: undefined,
   country: undefined,
-  expirationTime: undefined,
+  expirationTime: ref<Dayjs>(dayjs('2015/01/01', dateFormat)),
 });
 
 const sex = ref([
@@ -290,4 +293,6 @@ const addItem = () => {
     label: `Item${index++}`,
   });
 };
+
+const customFormat = (value: Dayjs) => `custom format: ${value?.format('YYYY-MM-DD')}`;
 </script>
