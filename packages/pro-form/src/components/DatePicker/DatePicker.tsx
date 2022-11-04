@@ -31,6 +31,8 @@ export const ProFormDatePicker = defineComponent({
     const nextIcon = getSlot<() => VueNode>(slots, props, 'nextIcon');
     const superPrevIcon = getSlot<() => VueNode>(slots, props, 'superPrevIcon');
     const superNextIcon = getSlot<() => VueNode>(slots, props, 'superNextIcon');
+    const renderExtraFooter = getSlot<() => VueNode>(slots, props, 'renderExtraFooter');
+    const dateRender = getSlot<() => VueNode>(slots, props, 'dateRender');
 
     return () => {
       const { fieldProps, colProps } = props;
@@ -43,6 +45,8 @@ export const ProFormDatePicker = defineComponent({
             nextIcon,
             superPrevIcon,
             superNextIcon,
+            renderExtraFooter,
+            dateRender,
             ...fieldProps,
           }}
           filedConfig={{ valueType: 'date' }}

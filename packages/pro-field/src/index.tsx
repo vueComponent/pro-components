@@ -110,7 +110,6 @@ const defaultRenderText = (
         fieldProps={{
           ...fieldProps,
           mode: 'date',
-          picker: 'date',
         }}
         {...props}
         text={dataValue}

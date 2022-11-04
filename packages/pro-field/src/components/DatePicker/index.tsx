@@ -16,7 +16,15 @@ const formatDate = (text: any, format: any) => {
   }
 };
 
-export const slots = ['suffixIcon', 'prevIcon', 'nextIcon', 'superPrevIcon', 'superNextIcon'];
+export const slots = [
+  'suffixIcon',
+  'prevIcon',
+  'nextIcon',
+  'superPrevIcon',
+  'superNextIcon',
+  'renderExtraFooter',
+  'dateRender',
+];
 
 const FieldDatePicker = defineComponent({
   name: 'FieldDatePicker',
@@ -29,6 +37,12 @@ const FieldDatePicker = defineComponent({
     const nextIcon = getSlot<() => VueNode>(slots, props.fieldProps as Record<string, any>, 'nextIcon');
     const superPrevIcon = getSlot<() => VueNode>(slots, props.fieldProps as Record<string, any>, 'superPrevIcon');
     const superNextIcon = getSlot<() => VueNode>(slots, props.fieldProps as Record<string, any>, 'superNextIcon');
+    const renderExtraFooter = getSlot<() => VueNode>(
+      slots,
+      props.fieldProps as Record<string, any>,
+      'renderExtraFooter'
+    );
+    const dateRender = getSlot<() => VueNode>(slots, props.fieldProps as Record<string, any>, 'dateRender');
 
     const render = getSlot(slots, props.fieldProps as Record<string, any>, 'render') as any;
     const renderFormItem = getSlot(slots, props.fieldProps as Record<string, any>, 'renderFormItem') as any;
@@ -53,6 +67,8 @@ const FieldDatePicker = defineComponent({
               nextIcon,
               superPrevIcon,
               superNextIcon,
+              renderExtraFooter,
+              dateRender,
             }}
             {...fieldProps}
             format={format}

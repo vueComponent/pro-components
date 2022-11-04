@@ -173,12 +173,18 @@
       <template #superPrevIcon>
         <plus-outlined />
       </template>
+      <template #renderExtraFooter>extra footer</template>
+      <template #dateRender="{ current }">
+        <div class="ant-picker-cell-inner" :style="getCurrentStyle(current)">
+          {{ current.date() }}
+        </div>
+      </template>
     </pro-form-date-picker>
   </pro-form>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, FunctionalComponent } from 'vue';
+import { reactive, ref, FunctionalComponent, CSSProperties } from 'vue';
 import { PlusOutlined } from '@ant-design/icons-vue';
 import { RadioGroup, RadioButton, Switch, Divider, SelectOption, type SelectProps } from 'ant-design-vue';
 import type { FormLayout } from 'ant-design-vue/es/form/Form';
@@ -295,4 +301,15 @@ const addItem = () => {
 };
 
 const customFormat = (value: Dayjs) => `custom format: ${value?.format('YYYY-MM-DD')}`;
+
+const getCurrentStyle = (current: Dayjs) => {
+  const style: CSSProperties = {};
+
+  if (current.date() === 2) {
+    style.border = '1px solid #1890ff';
+    style.borderRadius = '50%';
+  }
+
+  return style;
+};
 </script>
