@@ -17,3 +17,5 @@ export const fieldRangePickerProps = {
 export type FieldRangePickerProps = Partial<ExtractPropTypes<typeof fieldRangePickerProps>>;
 
 export type RangePickerValueType = [string, string] | [Dayjs, Dayjs];
+
+export type RangesType = Record<string, [Dayjs, Dayjs] | (() => [Dayjs, Dayjs])>;

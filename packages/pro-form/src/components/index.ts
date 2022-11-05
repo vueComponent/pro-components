@@ -9,3 +9,6 @@ export { ProFormSelect };
 
 import { ProFormDatePicker } from './DatePicker/DatePicker';
 export { ProFormDatePicker };
+
+import { ProFormDateRangePicker } from './DateRangePicker/DateRangePicker';
+export { ProFormDateRangePicker };

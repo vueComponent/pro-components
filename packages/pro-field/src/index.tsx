@@ -63,6 +63,10 @@ import { fieldDatePickerProps, type FieldDatePickerProps } from './components/Da
 import FieldDatePicker, { slots as fieldDatePickerSlots } from './components/DatePicker';
 export { FieldDatePicker, fieldDatePickerProps, fieldDatePickerSlots, FieldDatePickerProps };
 
+import { fieldRangePickerProps, type FieldRangePickerProps } from './components/RangePicker/types';
+import FieldRangePicker, { slots as rangePickerSlots } from './components/RangePicker';
+export { FieldRangePicker, fieldRangePickerProps, rangePickerSlots, FieldRangePickerProps };
+
 // style
 import './default.less';
 import './style.less';
@@ -107,6 +111,19 @@ const defaultRenderText = (
     const { fieldProps } = props;
     return (
       <FieldDatePicker
+        fieldProps={{
+          ...fieldProps,
+          mode: 'date',
+        }}
+        {...props}
+        text={dataValue}
+      />
+    );
+  }
+  if (valueType === 'dateRange') {
+    const { fieldProps } = props;
+    return (
+      <FieldRangePicker
         fieldProps={{
           ...fieldProps,
           mode: 'date',

@@ -180,6 +180,22 @@
         </div>
       </template>
     </pro-form-date-picker>
+    <pro-form-date-range-picker
+      name="rangeTimes"
+      label="开始结束时间"
+      :field-props="{
+        placeholder: ['请选择开始时间', '请选择结束时间'],
+        showTime: true,
+        format: 'YYYY/MM/DD HH:mm:ss',
+      }"
+    >
+      <template #renderExtraFooter>extra footer</template>
+      <template #dateRender="{ current }">
+        <div class="ant-picker-cell-inner" :style="getCurrentStyle(current)">
+          {{ current.date() }}
+        </div>
+      </template>
+    </pro-form-date-range-picker>
   </pro-form>
 </template>
 
@@ -188,7 +204,14 @@ import { reactive, ref, FunctionalComponent, CSSProperties } from 'vue';
 import { PlusOutlined } from '@ant-design/icons-vue';
 import { RadioGroup, RadioButton, Switch, Divider, SelectOption, type SelectProps } from 'ant-design-vue';
 import type { FormLayout } from 'ant-design-vue/es/form/Form';
-import { ProForm, ProFormText, ProFormPassword, ProFormSelect, ProFormDatePicker } from '@ant-design-vue/pro-form';
+import {
+  ProForm,
+  ProFormText,
+  ProFormPassword,
+  ProFormSelect,
+  ProFormDatePicker,
+  ProFormDateRangePicker,
+} from '@ant-design-vue/pro-form';
 import dayjs, { type Dayjs } from 'dayjs';
 
 let lastFetchId = 0;
@@ -213,6 +236,8 @@ const layouts = ['horizontal', 'vertical', 'inline'];
 
 const dateFormat = 'YYYY/MM/DD';
 
+type RangeValue = [Dayjs, Dayjs];
+
 const formModel = reactive({
   name: '456',
   name2: '567',
@@ -227,6 +252,7 @@ const formModel = reactive({
   lang: undefined,
   country: undefined,
   expirationTime: ref<Dayjs>(dayjs('2015/01/01', dateFormat)),
+  rangeTimes: ref<RangeValue>(),
 });
 
 const sex = ref([

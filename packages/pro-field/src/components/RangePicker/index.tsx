@@ -1,6 +1,6 @@
 import { defineComponent, type App, DefineComponent, Plugin } from 'vue';
 import dayjs from 'dayjs';
-import { fieldRangePickerProps, FieldRangePickerProps } from './types';
+import { fieldRangePickerProps, FieldRangePickerProps, RangesType } from './types';
 import { RangePicker } from 'ant-design-vue';
 import { getSlot } from '@ant-design-vue/pro-utils';
 import type { VueNode } from 'ant-design-vue/lib/_util/type';
@@ -80,7 +80,7 @@ const FieldRangePicker = defineComponent({
             }}
             {...fieldProps}
             format={format}
-            ranges={ranges as Record<string, [dayjs.Dayjs, dayjs.Dayjs] | (() => [dayjs.Dayjs, dayjs.Dayjs])>}
+            ranges={ranges as RangesType}
             placeholder={placeholder || ['请选择', '请选择']}
             allowClear
           />
