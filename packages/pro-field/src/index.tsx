@@ -107,32 +107,99 @@ const defaultRenderText = (
   props: RenderProps
   // valueTypeMap: Record<string, ProRenderFieldPropsType>
 ): VueNode => {
+  // 日期
   if (valueType === 'date') {
     const { fieldProps } = props;
     return (
       <FieldDatePicker
+        {...props}
         fieldProps={{
           ...fieldProps,
           mode: 'date',
         }}
-        {...props}
         text={dataValue}
       />
     );
   }
+
+  // 周
+  if (valueType === 'dateWeek') {
+    const { fieldProps } = props;
+    return (
+      <FieldDatePicker
+        {...props}
+        fieldProps={{
+          ...fieldProps,
+          format: 'YYYY-wo',
+          picker: 'week',
+        }}
+        text={dataValue}
+      />
+    );
+  }
+
+  // 月
+  if (valueType === 'dateMonth') {
+    const { fieldProps } = props;
+    return (
+      <FieldDatePicker
+        {...props}
+        fieldProps={{
+          ...fieldProps,
+          format: 'YYYY-MM',
+          picker: 'month',
+        }}
+        text={dataValue}
+      />
+    );
+  }
+
+  // 季度
+  if (valueType === 'dateQuarter') {
+    const { fieldProps } = props;
+    return (
+      <FieldDatePicker
+        {...props}
+        fieldProps={{
+          ...fieldProps,
+          format: 'YYYY-[Q]Q',
+          picker: 'quarter',
+        }}
+        text={dataValue}
+      />
+    );
+  }
+
+  // 年
+  if (valueType === 'dateYear') {
+    const { fieldProps } = props;
+    return (
+      <FieldDatePicker
+        {...props}
+        fieldProps={{
+          ...fieldProps,
+          format: 'YYYY',
+          picker: 'year',
+        }}
+        text={dataValue}
+      />
+    );
+  }
+
+  // 日期范围
   if (valueType === 'dateRange') {
     const { fieldProps } = props;
     return (
       <FieldRangePicker
+        {...props}
         fieldProps={{
           ...fieldProps,
-          mode: 'date',
         }}
-        {...props}
         text={dataValue}
       />
     );
   }
+
   if (valueType === 'select') {
     let text = '';
     if (dataValue instanceof Array) {

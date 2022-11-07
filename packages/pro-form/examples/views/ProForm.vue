@@ -196,6 +196,20 @@
         </div>
       </template>
     </pro-form-date-range-picker>
+    <pro-form-date-picker-week
+      name="weakTime"
+      label="选择周"
+      :field-props="{
+        placeholder: '请选择周时间',
+      }"
+    />
+    <ProFormDatePickerYear
+      name="yearTime"
+      label="选择年"
+      :field-props="{
+        placeholder: '请选择年时间',
+      }"
+    />
   </pro-form>
 </template>
 
@@ -211,6 +225,8 @@ import {
   ProFormSelect,
   ProFormDatePicker,
   ProFormDateRangePicker,
+  ProFormDatePickerWeek,
+  ProFormDatePickerYear,
 } from '@ant-design-vue/pro-form';
 import dayjs, { type Dayjs } from 'dayjs';
 
@@ -253,6 +269,8 @@ const formModel = reactive({
   country: undefined,
   expirationTime: ref<Dayjs>(dayjs('2015/01/01', dateFormat)),
   rangeTimes: ref<RangeValue>(),
+  weakTime: ref<Dayjs>(),
+  yearTime: ref<Dayjs>(),
 });
 
 const sex = ref([

@@ -24,6 +24,7 @@ export const slots = [
   'superNextIcon',
   'renderExtraFooter',
   'dateRender',
+  'monthCellRender',
 ];
 
 const FieldDatePicker = defineComponent({
@@ -43,13 +44,14 @@ const FieldDatePicker = defineComponent({
       'renderExtraFooter'
     );
     const dateRender = getSlot<() => VueNode>(slots, props.fieldProps as Record<string, any>, 'dateRender');
+    const monthCellRender = getSlot<() => VueNode>(slots, props.fieldProps as Record<string, any>, 'monthCellRender');
 
     const render = getSlot(slots, props.fieldProps as Record<string, any>, 'render') as any;
     const renderFormItem = getSlot(slots, props.fieldProps as Record<string, any>, 'renderFormItem') as any;
 
     return () => {
       const { mode, text, fieldProps } = props;
-      const { placeholder, format = 'YYYY-MM-DD' } = fieldProps || {};
+      const { placeholder, format } = fieldProps || {};
 
       if (mode === 'read') {
         const dom = formatDate(text, format);
@@ -69,6 +71,7 @@ const FieldDatePicker = defineComponent({
               superNextIcon,
               renderExtraFooter,
               dateRender,
+              monthCellRender,
             }}
             {...fieldProps}
             format={format}

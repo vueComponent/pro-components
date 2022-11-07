@@ -8,6 +8,9 @@ export const fieldDatePickerProps = {
   fieldProps: {
     type: Object as PropType<CommonProps<Dayjs> & DatePickerProps<Dayjs>>,
   },
+  picker: {
+    type: String as PropType<CommonProps<Dayjs>['picker']>,
+  },
 };
 
 export type FieldDatePickerProps = Partial<ExtractPropTypes<typeof fieldDatePickerProps>>;
