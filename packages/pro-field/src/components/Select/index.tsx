@@ -12,10 +12,6 @@ export const fieldSelectProps = {
   fieldProps: {
     type: Object as PropType<SearchSelectProps>,
   },
-  // 请求参数
-  params: {
-    type: Object as PropType<Record<string, any>>,
-  },
   // 请求
   request: {
     type: Function as PropType<ProFieldRequestData>,

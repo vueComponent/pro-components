@@ -10,13 +10,9 @@ export const useFetchData = (props: FieldSelectProps) => {
     const { request } = props;
     watchEffect(() => {
       loading.value = true;
-      request(
-        {
-          ...props.params,
-          keyWords: defaultKeyWords.value,
-        },
-        props
-      )
+      request({
+        keyWords: defaultKeyWords.value,
+      })
         .then((data) => {
           options.value = data;
         })

@@ -33,7 +33,7 @@ export type VueText = string | number;
 // Text
 export type ProFieldTextType = VueNode | VueNode[] | Record<string, any> | Record<string, any>[];
 
-export type ProFieldRequestData<U = any> = (params: U, props: any) => Promise<DefaultOptionType[]>;
+export type ProFieldRequestData<U = any> = (params?: U) => Promise<DefaultOptionType[]>;
 
 export type ProFieldValueObjectType = {
   type: 'progress' | 'money' | 'percent' | 'image';
