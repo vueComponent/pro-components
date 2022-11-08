@@ -2,13 +2,11 @@ import type { PropType, ExtractPropTypes } from 'vue';
 import type { ProFieldFCMode, VueNode, ProFieldTextType } from '@ant-design-vue/pro-utils';
 import type { FormItemProps, FormProps } from 'ant-design-vue';
 
-export type NameType = string | number;
-
 // BaseProFieldProps
 export const baseProFieldFC = {
   /** 值的类型 */
   text: {
-    type: [String, Array, Object] as PropType<ProFieldTextType>,
+    type: [String, Number, Array, Object] as PropType<ProFieldTextType>,
   },
   fieldProps: {
     type: Object as PropType<any>,

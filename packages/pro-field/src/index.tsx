@@ -17,12 +17,12 @@ import {
   ProFieldValueType,
   ProFieldValueObjectType,
   VueNode,
+  VueText,
 } from '@ant-design-vue/pro-utils';
 import { isValidElement } from 'ant-design-vue/es/_util/props-util';
 import { cloneVNodes } from 'ant-design-vue/es/_util/vnode';
 import { warning } from 'ant-design-vue/es/vc-util/warning';
 import { omit } from 'lodash-es';
-import type { NameType } from './components/typings';
 
 import {
   baseProFieldFC,
@@ -66,6 +66,14 @@ export { FieldDatePicker, fieldDatePickerProps, fieldDatePickerSlots, FieldDateP
 import { fieldRangePickerProps, type FieldRangePickerProps } from './components/RangePicker/types';
 import FieldRangePicker, { slots as rangePickerSlots } from './components/RangePicker';
 export { FieldRangePicker, fieldRangePickerProps, rangePickerSlots, FieldRangePickerProps };
+
+import { fieldTimePickerProps, type FieldTimePickerProps } from './components/TimePicker/types';
+import FieldTimePicker, { slots as timePickerSlots } from './components/TimePicker';
+export { FieldTimePicker, fieldTimePickerProps, timePickerSlots, FieldTimePickerProps };
+
+import { fieldTimeRangePickerProps, type FieldTimeRangePickerProps } from './components/TimeRangePicker/types';
+import FieldTimeRangePicker, { slots as timeRangePickerSlots } from './components/TimeRangePicker';
+export { FieldTimeRangePicker, fieldTimeRangePickerProps, timeRangePickerSlots, FieldTimeRangePickerProps };
 
 // style
 import './default.less';
@@ -196,6 +204,70 @@ const defaultRenderText = (
     );
   }
 
+  // 如果是日期加时间类型的值
+  if (valueType === 'dateTime') {
+    const { fieldProps } = props;
+    return (
+      <FieldDatePicker
+        {...props}
+        fieldProps={{
+          ...fieldProps,
+          picker: 'date',
+          format: 'YYYY-MM-DD HH:mm:ss',
+          showTime: true,
+        }}
+        text={dataValue}
+      />
+    );
+  }
+
+  // 如果是日期加时间类型的值的值
+  if (valueType === 'dateTimeRange') {
+    const { fieldProps } = props;
+    return (
+      <FieldRangePicker
+        {...props}
+        fieldProps={{
+          ...fieldProps,
+          picker: 'date',
+          format: 'YYYY-MM-DD HH:mm:ss',
+          showTime: true,
+        }}
+        text={dataValue}
+      />
+    );
+  }
+
+  // 如果是时间类型的值
+  if (valueType === 'time') {
+    const { fieldProps } = props;
+    return (
+      <FieldTimePicker
+        {...props}
+        fieldProps={{
+          ...fieldProps,
+          format: 'HH:mm:ss',
+        }}
+        text={dataValue}
+      />
+    );
+  }
+
+  // 如果是时间类型的值
+  if (valueType === 'timeRange') {
+    const { fieldProps } = props;
+    return (
+      <FieldTimeRangePicker
+        {...props}
+        fieldProps={{
+          ...fieldProps,
+          format: 'HH:mm:ss',
+        }}
+        text={dataValue}
+      />
+    );
+  }
+
   if (valueType === 'select') {
     let text = '';
     if (dataValue instanceof Array) {
@@ -218,7 +290,7 @@ const ProField = defineComponent({
   setup(props) {
     return () => {
       const { readonly, mode, text, valueType, formItemProps, fieldProps, renderFormItem } = props;
-      const formItemName = formItemProps?.name as NameType;
+      const formItemName = formItemProps?.name as VueText;
       const formModel = formItemProps?.model;
       if (!formModel) {
         warning(false, 'model is required for validateFields to work.');

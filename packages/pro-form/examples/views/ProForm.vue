@@ -185,7 +185,6 @@
       label="开始结束时间"
       :field-props="{
         placeholder: ['请选择开始时间', '请选择结束时间'],
-        showTime: true,
         format: 'YYYY/MM/DD HH:mm:ss',
       }"
     >
@@ -203,6 +202,13 @@
         placeholder: '请选择周时间',
       }"
     />
+    <ProFormDatePickerQuarter
+      name="quarterTime"
+      label="选择季度"
+      :field-props="{
+        placeholder: '请选择季度时间',
+      }"
+    />
     <ProFormDatePickerYear
       name="yearTime"
       label="选择年"
@@ -210,6 +216,34 @@
         placeholder: '请选择年时间',
       }"
     />
+    <ProFormTimePicker
+      name="timeDate"
+      label="选择时间"
+      :field-props="{
+        placeholder: '选择时间',
+      }"
+    />
+    <ProFormTimeRangePicker
+      name="timeRangeDate"
+      label="选择时间区域"
+      :field-props="{
+        placeholder: ['选择开始时间', '选择结束时间'],
+      }"
+    />
+    <ProFormDateTimeRangePicker
+      name="dateTimeRange"
+      label="选择时间范围-时分秒"
+      :field-props="{
+        placeholder: ['选择开始时间', '选择结束时间'],
+      }"
+    >
+      <template #renderExtraFooter>extra footer</template>
+      <template #dateRender="{ current }">
+        <div class="ant-picker-cell-inner" :style="getCurrentStyle(current)">
+          {{ current.date() }}
+        </div>
+      </template>
+    </ProFormDateTimeRangePicker>
   </pro-form>
 </template>
 
@@ -227,6 +261,10 @@ import {
   ProFormDateRangePicker,
   ProFormDatePickerWeek,
   ProFormDatePickerYear,
+  ProFormDatePickerQuarter,
+  ProFormDateTimeRangePicker,
+  ProFormTimePicker,
+  ProFormTimeRangePicker,
 } from '@ant-design-vue/pro-form';
 import dayjs, { type Dayjs } from 'dayjs';
 
@@ -270,7 +308,11 @@ const formModel = reactive({
   expirationTime: ref<Dayjs>(dayjs('2015/01/01', dateFormat)),
   rangeTimes: ref<RangeValue>(),
   weakTime: ref<Dayjs>(),
+  quarterTime: ref<Dayjs>(),
   yearTime: ref<Dayjs>(),
+  timeDate: ref<Dayjs>(),
+  timeRangeDate: ref<Dayjs>(),
+  dateTimeRange: ref<RangeValue>(),
 });
 
 const sex = ref([
