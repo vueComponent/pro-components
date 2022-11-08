@@ -25,6 +25,7 @@
       span: 8,
     }"
     @finish="handleSubmit"
+    @reset="handleReset"
   >
     <pro-form-text
       name="name"
@@ -267,6 +268,7 @@ import {
   ProFormTimeRangePicker,
 } from '@ant-design-vue/pro-form';
 import dayjs, { type Dayjs } from 'dayjs';
+import type { Recordable } from '@/typings';
 
 let lastFetchId = 0;
 
@@ -302,9 +304,13 @@ const formModel = reactive({
   name7: '',
   password: '111',
   gender: '女',
-  girlName: undefined,
+  // 如果是Select多选,这里初始值一定要设置成[], 详看：https://github.com/vueComponent/ant-design-vue/issues/5445
+  // prop.o[prop.k] = [].concat(initialValue.value);
+  girlName: [],
   lang: undefined,
-  country: undefined,
+  // 如果是Select多选,这里初始值一定要设置成[], 详看：https://github.com/vueComponent/ant-design-vue/issues/5445
+  // prop.o[prop.k] = [].concat(initialValue.value);
+  country: [],
   expirationTime: ref<Dayjs>(dayjs('2015/01/01', dateFormat)),
   rangeTimes: ref<RangeValue>(),
   weakTime: ref<Dayjs>(),
@@ -370,8 +376,12 @@ const formLayoutType = ref<FormLayout>('horizontal');
 const grid = ref(true);
 const readonly = ref(false);
 
-const handleSubmit = (value: any) => {
+const handleSubmit = (value: Recordable) => {
   console.log(value);
+};
+
+const handleReset = (value: Recordable) => {
+  console.log('重置', value);
 };
 
 const VNodes: FunctionalComponent = (_, { attrs }) => {

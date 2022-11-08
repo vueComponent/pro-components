@@ -39,6 +39,13 @@ export const commonFormProps = {
   readonly: {
     type: Boolean as PropType<boolean>,
   },
+  /**
+   * 是否重置之后重新请求数据
+   */
+  submitOnReset: {
+    type: Boolean as PropType<boolean>,
+    default: false,
+  },
   /**表单提交 */
   onFinish: {
     type: Function as PropType<(fromModel: Recordable<any>) => void>,
