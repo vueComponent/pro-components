@@ -11,28 +11,25 @@ import {
     type PropType,
     type ExtractPropTypes,
     type DefineComponent,
-    watchEffect
+    watchEffect,
+    onMounted
 } from 'vue';
 
 import 'ant-design-vue/es/table/style';
 import { Table } from 'ant-design-vue';
-import type { ColumnType } from 'ant-design-vue/lib/table';
-import useConfigInject from 'ant-design-vue/es/_util/hooks/useConfigInject';
-import useMediaQuery from './hooks/useMediaQuery';
-
-import { defaultSettingProps } from './defaultSettings';
-import { routeContextInjectKey, defaultRouteContext, type RouteContextProps } from './RouteContext';
+import { tableProps } from 'ant-design-vue/es/table';
 
 import './ProTable.less';
-
+export type RequestData<T> = {
+    data: T[] | undefined;
+    success?: boolean;
+    total?: number;
+} & Record<string, any>;
 export const proTableProps = {
-    loading: Boolean,
-    bordered: Boolean,
-    dataSource: Array,
-    columns: Array,
-    current: Number,
-    pageSize: Number,
-    total: Number
+    ...tableProps(),
+    request: {
+        type: Promise<Partial<RequestData<any>>>
+    }
 };
 
 export type ProTableProps = Partial<ExtractPropTypes<typeof proTableProps>>;
@@ -43,10 +40,25 @@ const ProTable = defineComponent({
     props: proTableProps,
 
     setup(props, { emit, attrs, slots }) {
+        console.log('props', props);
+        let dataSource = reactive([]);
+        onMounted(() => {
+            const request = props?.request || undefined;
+            if (request) {
+                request.then(res => {
+                    console.log('request', res);
+                    if (res.success) {
+                        dataSource = res.data;
+                    }
+                });
+            }
+        });
         return () => {
+            console.log('dataSource', dataSource);
+
             return (
                 <div>
-                    <Table dataSource={props?.dataSource} columns={props?.columns} />
+                    <Table dataSource={dataSource} {...props} />
                 </div>
             );
         };

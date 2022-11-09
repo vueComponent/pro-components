@@ -1,5 +1,5 @@
 <template>
-  <pro-table :dataSource="data" :columns="columns"></pro-table>
+  <pro-table :request="request" :columns="columns" :bordered="true"></pro-table>
 </template>
 
 <script setup lang="ts">
@@ -31,7 +31,13 @@ const columns = reactive<ColumnsType>([
 ]);
 const data = reactive([{ name: 123, age: 18 }]);
 const i18n = (t: string) => t;
-
+const request = new Promise((resolve, reject) => {
+  resolve({
+    data,
+    success: true,
+    total: 100
+  })
+})
 const loading = ref(false);
 const router = useRouter();
 

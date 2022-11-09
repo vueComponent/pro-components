@@ -1,9 +1,8 @@
 import './default.less';
 import './style.less';
 
-export * from './RouteContext';
 export * from './typings';
-export * from './utils/getMenuData';
+
 export { createContext, useContext } from './hooks/context';
 export type { ContextType, CreateContext } from './hooks/context';
 
