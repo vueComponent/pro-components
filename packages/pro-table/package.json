@@ -57,7 +57,9 @@
     "vue-tsc": "^0.34.7"
   },
   "contributors": [
-    "yiyi <1710797241@qq.com>"
+    "yiyi <1710797241@qq.com>",
+    "Sendya <18x@loacg.com>",
+    "tangjinzhou <415800467@qq.com>"
   ],
   "description": "Ant Design Pro table of Vue, easy to use pro scaffolding."
 }
