@@ -1,4 +1,5 @@
-import type { Slot, VNode, VNodeChild } from 'vue';
+import type { VNode } from 'vue';
+import type { VueNode } from '@ant-design-vue/pro-utils';
 
 export type Theme = 'dark' | 'light';
 
@@ -69,20 +70,6 @@ export interface MenuDataItem {
 
 export type WithFalse<T> = T | false;
 
-export type CustomRender =
-  | Slot
-  | VNodeChild
-  | VNode
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  | ((...props: any[]) => Slot)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  | ((...props: any[]) => VNode)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  | ((...args: any[]) => VNode)
-  | VNode[]
-  | JSX.Element
-  | string
-  | null
-  | undefined;
+export type CustomRender = VueNode;
 
 export type FormatMessage = (message?: string) => string;

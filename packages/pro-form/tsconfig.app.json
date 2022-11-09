@@ -1,0 +1,24 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "include": [
+    "env.d.ts",
+    "src/**/*",
+    "src/*.ts",
+    "src/**/*.vue",
+    "examples/**/*.vue"
+  ],
+  "exclude": ["src/**/__tests__/*", "node_modules"],
+  "compilerOptions": {
+    "composite": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@ant-design-vue/pro-form": ["./src/index.ts"],
+      "vue-types": ["../../node_modules/vue-types"]
+    },
+    "preserveValueImports": false,
+    "useUnknownInCatchVariables": true
+  }
+}

@@ -2,7 +2,7 @@
 
 @import 'ant-design-vue/es/table/style/index.less';
 
-.@{basicLayout-prefix-cls} {
+.@{pro-table-prefix-cls} {
     // BFC
     display: flex;
     flex-direction: column;
@@ -37,24 +37,24 @@
     }
 
     // children should support fixed
-    .@{basicLayout-prefix-cls}-is-children.@{basicLayout-prefix-cls}-fix-siderbar {
+    .@{pro-table-prefix-cls}-is-children.@{pro-table-prefix-cls}-fix-siderbar {
         height: 100vh;
         overflow: hidden;
         transform: rotate(0);
     }
 
-    .@{basicLayout-prefix-cls}-has-header {
+    .@{pro-table-prefix-cls}-has-header {
         // tech-page-container
         .tech-page-container {
             height: calc(100vh - @pro-layout-header-height);
         }
-        .@{basicLayout-prefix-cls}-is-children.@{basicLayout-prefix-cls}-has-header {
+        .@{pro-table-prefix-cls}-is-children.@{pro-table-prefix-cls}-has-header {
             .tech-page-container {
                 height: calc(100vh - @pro-layout-header-height - @pro-layout-header-height);
             }
-            .@{basicLayout-prefix-cls}-is-children {
+            .@{pro-table-prefix-cls}-is-children {
                 min-height: calc(100vh - @pro-layout-header-height);
-                &.@{basicLayout-prefix-cls}-fix-siderbar {
+                &.@{pro-table-prefix-cls}-fix-siderbar {
                     height: calc(100vh - @pro-layout-header-height);
                 }
             }
