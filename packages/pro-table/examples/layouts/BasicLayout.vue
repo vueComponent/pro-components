@@ -29,7 +29,7 @@ const columns = reactive<ColumnsType>([
     key: "age",
   },
 ]);
-const data = reactive([{ name: 123, age: 18 }]);
+const data = [{ name: 123, age: 18 }];
 const i18n = (t: string) => t;
 const request = new Promise((resolve, reject) => {
   resolve({

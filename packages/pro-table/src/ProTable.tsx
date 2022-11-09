@@ -41,21 +41,20 @@ const ProTable = defineComponent({
 
     setup(props, { emit, attrs, slots }) {
         console.log('props', props);
-        let dataSource = reactive([]);
+        let dataSource: any[];
         onMounted(() => {
             const request = props?.request || undefined;
             if (request) {
                 request.then(res => {
                     console.log('request', res);
                     if (res.success) {
-                        dataSource = res.data;
+                        dataSource = reactive(res.data || []);
                     }
                 });
             }
         });
+        console.log('dataSource', dataSource);
         return () => {
-            console.log('dataSource', dataSource);
-
             return (
                 <div>
                     <Table dataSource={dataSource} {...props} />
