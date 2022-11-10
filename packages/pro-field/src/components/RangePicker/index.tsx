@@ -1,7 +1,7 @@
 import { defineComponent, type App, DefineComponent, Plugin } from 'vue';
 import dayjs from 'dayjs';
-import { fieldDatePickerProps, FieldDatePickerProps } from './types';
-import { DatePicker } from 'ant-design-vue';
+import { fieldRangePickerProps, FieldRangePickerProps, RangesType } from './types';
+import { RangePicker } from 'ant-design-vue';
 import { getSlot } from '@ant-design-vue/pro-utils';
 import type { VueNode } from 'ant-design-vue/lib/_util/type';
 
@@ -24,13 +24,12 @@ export const slots = [
   'superNextIcon',
   'renderExtraFooter',
   'dateRender',
-  'monthCellRender',
 ];
 
-const FieldDatePicker = defineComponent({
-  name: 'FieldDatePicker',
+const FieldRangePicker = defineComponent({
+  name: 'FieldRangePicker',
   inheritAttrs: false,
-  props: fieldDatePickerProps,
+  props: fieldRangePickerProps,
   slots,
   setup(props, { slots }) {
     const suffixIcon = getSlot<() => VueNode>(slots, props.fieldProps as Record<string, any>, 'suffixIcon');
@@ -44,25 +43,32 @@ const FieldDatePicker = defineComponent({
       'renderExtraFooter'
     );
     const dateRender = getSlot<() => VueNode>(slots, props.fieldProps as Record<string, any>, 'dateRender');
-    const monthCellRender = getSlot<() => VueNode>(slots, props.fieldProps as Record<string, any>, 'monthCellRender');
 
     const render = getSlot(slots, props.fieldProps as Record<string, any>, 'render') as any;
     const renderFormItem = getSlot(slots, props.fieldProps as Record<string, any>, 'renderFormItem') as any;
 
     return () => {
       const { mode, text, fieldProps } = props;
-      const { placeholder, format } = fieldProps || {};
+      const { placeholder, ranges, format = 'YYYY-MM-DD' } = fieldProps || {};
+      const [startText, endText] = Array.isArray(text) ? text : [];
 
       if (mode === 'read') {
-        const dom = formatDate(text, format);
+        const parsedStartText: string = startText ? formatDate(startText, format) : '';
+        const parsedEndText: string = endText ? formatDate(endText, format) : '';
+        const dom = (
+          <div>
+            <div>{parsedStartText || '-'}</div>
+            <div>{parsedEndText || '-'}</div>
+          </div>
+        );
         if (render) {
           return render(text, { mode, ...fieldProps }, <>{dom}</>);
         }
-        return <>{dom}</>;
+        return dom;
       }
       if (mode === 'edit' || mode === 'update') {
         const dom = (
-          <DatePicker
+          <RangePicker
             v-slots={{
               suffixIcon,
               prevIcon,
@@ -71,11 +77,11 @@ const FieldDatePicker = defineComponent({
               superNextIcon,
               renderExtraFooter,
               dateRender,
-              monthCellRender,
             }}
             {...fieldProps}
             format={format}
-            placeholder={placeholder || '请选择'}
+            ranges={ranges as RangesType}
+            placeholder={placeholder || ['请选择', '请选择']}
             allowClear
           />
         );
@@ -89,9 +95,9 @@ const FieldDatePicker = defineComponent({
   },
 });
 
-FieldDatePicker.install = (app: App) => {
-  app.component(FieldDatePicker.name, FieldDatePicker);
+FieldRangePicker.install = (app: App) => {
+  app.component(FieldRangePicker.name, FieldRangePicker);
   return app;
 };
 
-export default FieldDatePicker as DefineComponent<FieldDatePickerProps> & Plugin;
+export default FieldRangePicker as DefineComponent<FieldRangePickerProps> & Plugin;

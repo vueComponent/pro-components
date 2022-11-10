@@ -25,6 +25,7 @@
       span: 8,
     }"
     @finish="handleSubmit"
+    @reset="handleReset"
   >
     <pro-form-text
       name="name"
@@ -167,21 +168,107 @@
       label="合同失效时间"
       :field-props="{
         placeholder: '请选择合同失效时间',
+        format: customFormat,
       }"
     >
       <template #superPrevIcon>
         <plus-outlined />
       </template>
+      <template #renderExtraFooter>extra footer</template>
+      <template #dateRender="{ current }">
+        <div class="ant-picker-cell-inner" :style="getCurrentStyle(current)">
+          {{ current.date() }}
+        </div>
+      </template>
     </pro-form-date-picker>
+    <pro-form-date-range-picker
+      name="rangeTimes"
+      label="开始结束时间"
+      :field-props="{
+        placeholder: ['请选择开始时间', '请选择结束时间'],
+        format: 'YYYY/MM/DD HH:mm:ss',
+      }"
+    >
+      <template #renderExtraFooter>extra footer</template>
+      <template #dateRender="{ current }">
+        <div class="ant-picker-cell-inner" :style="getCurrentStyle(current)">
+          {{ current.date() }}
+        </div>
+      </template>
+    </pro-form-date-range-picker>
+    <pro-form-date-picker-week
+      name="weakTime"
+      label="选择周"
+      :field-props="{
+        placeholder: '请选择周时间',
+      }"
+    />
+    <ProFormDatePickerQuarter
+      name="quarterTime"
+      label="选择季度"
+      :field-props="{
+        placeholder: '请选择季度时间',
+      }"
+    />
+    <ProFormDatePickerYear
+      name="yearTime"
+      label="选择年"
+      :field-props="{
+        placeholder: '请选择年时间',
+      }"
+    />
+    <ProFormTimePicker
+      name="timeDate"
+      label="选择时间"
+      :field-props="{
+        placeholder: '选择时间',
+      }"
+    />
+    <ProFormTimeRangePicker
+      name="timeRangeDate"
+      label="选择时间区域"
+      :field-props="{
+        placeholder: ['选择开始时间', '选择结束时间'],
+      }"
+    />
+    <ProFormDateTimeRangePicker
+      name="dateTimeRange"
+      label="选择时间范围-时分秒"
+      :field-props="{
+        placeholder: ['选择开始时间', '选择结束时间'],
+      }"
+    >
+      <template #renderExtraFooter>extra footer</template>
+      <template #dateRender="{ current }">
+        <div class="ant-picker-cell-inner" :style="getCurrentStyle(current)">
+          {{ current.date() }}
+        </div>
+      </template>
+    </ProFormDateTimeRangePicker>
   </pro-form>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, FunctionalComponent } from 'vue';
+import { reactive, ref, FunctionalComponent, CSSProperties } from 'vue';
 import { PlusOutlined } from '@ant-design/icons-vue';
 import { RadioGroup, RadioButton, Switch, Divider, SelectOption, type SelectProps } from 'ant-design-vue';
 import type { FormLayout } from 'ant-design-vue/es/form/Form';
-import { ProForm, ProFormText, ProFormPassword, ProFormSelect, ProFormDatePicker } from '@ant-design-vue/pro-form';
+import {
+  ProForm,
+  ProFormText,
+  ProFormPassword,
+  ProFormSelect,
+  ProFormDatePicker,
+  ProFormDateRangePicker,
+  ProFormDatePickerWeek,
+  ProFormDatePickerYear,
+  ProFormDatePickerQuarter,
+  ProFormDateTimeRangePicker,
+  ProFormTimePicker,
+  ProFormTimeRangePicker,
+} from '@ant-design-vue/pro-form';
+import dayjs, { type Dayjs } from 'dayjs';
+import type { Recordable } from '@/typings';
 
 let lastFetchId = 0;
 
@@ -203,6 +290,10 @@ const fetchUser = async (value: string) => {
 
 const layouts = ['horizontal', 'vertical', 'inline'];
 
+const dateFormat = 'YYYY/MM/DD';
+
+type RangeValue = [Dayjs, Dayjs];
+
 const formModel = reactive({
   name: '456',
   name2: '567',
@@ -213,10 +304,21 @@ const formModel = reactive({
   name7: '',
   password: '111',
   gender: '女',
-  girlName: undefined,
+  // 如果是Select多选,这里初始值一定要设置成[], 详看：https://github.com/vueComponent/ant-design-vue/issues/5445
+  // prop.o[prop.k] = [].concat(initialValue.value);
+  girlName: [],
   lang: undefined,
-  country: undefined,
-  expirationTime: undefined,
+  // 如果是Select多选,这里初始值一定要设置成[], 详看：https://github.com/vueComponent/ant-design-vue/issues/5445
+  // prop.o[prop.k] = [].concat(initialValue.value);
+  country: [],
+  expirationTime: ref<Dayjs>(dayjs('2015/01/01', dateFormat)),
+  rangeTimes: ref<RangeValue>(),
+  weakTime: ref<Dayjs>(),
+  quarterTime: ref<Dayjs>(),
+  yearTime: ref<Dayjs>(),
+  timeDate: ref<Dayjs>(),
+  timeRangeDate: ref<Dayjs>(),
+  dateTimeRange: ref<RangeValue>(),
 });
 
 const sex = ref([
@@ -274,8 +376,12 @@ const formLayoutType = ref<FormLayout>('horizontal');
 const grid = ref(true);
 const readonly = ref(false);
 
-const handleSubmit = (value: any) => {
+const handleSubmit = (value: Recordable) => {
   console.log(value);
+};
+
+const handleReset = (value: Recordable) => {
+  console.log('重置', value);
 };
 
 const VNodes: FunctionalComponent = (_, { attrs }) => {
@@ -288,5 +394,18 @@ const addItem = () => {
     value: index++,
     label: `Item${index++}`,
   });
+};
+
+const customFormat = (value: Dayjs) => `custom format: ${value?.format('YYYY-MM-DD')}`;
+
+const getCurrentStyle = (current: Dayjs) => {
+  const style: CSSProperties = {};
+
+  if (current.date() === 2) {
+    style.border = '1px solid #1890ff';
+    style.borderRadius = '50%';
+  }
+
+  return style;
 };
 </script>

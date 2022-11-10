@@ -15,9 +15,9 @@ const props = {
   },
 };
 
-export type ProFormDatePickerProps = Partial<ExtractPropTypes<typeof props>>;
+export type ProFormDateTimePickerProps = Partial<ExtractPropTypes<typeof props>>;
 
-export const ProFormDatePicker = defineComponent({
+export const ProFormDateTimePicker = defineComponent({
   name: 'ProFormDatePicker',
   inheritAttrs: false,
   props,
@@ -39,7 +39,7 @@ export const ProFormDatePicker = defineComponent({
       const { fieldProps, colProps } = props;
       return (
         <ProFormField
-          valueType={'date'}
+          valueType={'dateTime'}
           fieldProps={{
             ...fieldProps,
             suffixIcon,
@@ -50,7 +50,7 @@ export const ProFormDatePicker = defineComponent({
             renderExtraFooter,
             dateRender,
           }}
-          filedConfig={{ valueType: 'date' }}
+          filedConfig={{ valueType: 'dateTime' }}
           colProps={colProps}
           formItemProps={formItemProps}
           {...formItemProps}
@@ -60,9 +60,9 @@ export const ProFormDatePicker = defineComponent({
   },
 });
 
-ProFormDatePicker.install = (app: App) => {
-  app.component(ProFormDatePicker.name, ProFormDatePicker);
+ProFormDateTimePicker.install = (app: App) => {
+  app.component(ProFormDateTimePicker.name, ProFormDateTimePicker);
   return app;
 };
 
-export default ProFormDatePicker as DefineComponent<ProFormDatePickerProps> & Plugin;
+export default ProFormDateTimePicker as DefineComponent<ProFormDateTimePickerProps> & Plugin;

@@ -6,6 +6,7 @@ import { getSlot } from '@ant-design-vue/pro-utils';
 export const slots = ['default'];
 
 const SearchSelect = defineComponent({
+  inheritAttrs: false,
   props: searchSelectProps,
   slots,
   setup(props, { slots }) {

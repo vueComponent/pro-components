@@ -1,63 +1,133 @@
 <template>
   <QueryFilter :model="formModel" @finish="handleSubmit" @collapsed="onCollapsed">
     <ProFormText
-      v-model:value="formModel.name2"
-      name="name2"
-      label="应用名称2"
+      name="name"
+      label="应用名称"
       :field-props="{
         allowClear: true,
         placeholder: '请输入',
       }"
       required
     />
-    <FormItem name="name" label="应用名称" required>
-      <Input v-model:value="formModel.name" placeholder="请输入" allow-clear />
-    </FormItem>
-    <FormItem name="creater" label="创建人" required>
-      <Input v-model:value="formModel.creater" placeholder="请输入" />
-    </FormItem>
-    <FormItem name="sex" label="性别" required>
-      <Select v-model:value="formModel.sex">
-        <SelectOption v-for="item in sex" :key="item.value" :value="item.value">{{ item.label }}</SelectOption>
-      </Select>
-    </FormItem>
-    <FormItem name="status" label="应用状态">
-      <Input v-model:value="formModel.status" placeholder="请输入" />
-    </FormItem>
-    <FormItem name="startDate" label="响应日期">
-      <DatePicker v-model:value="formModel.startDate" placeholder="请输入" />
-    </FormItem>
-    <FormItem name="create" label="创建时间">
-      <RangePicker v-model:value="formModel.create" :placeholder="['开始时间', '结束时间']" />
-    </FormItem>
+    <pro-form-select
+      name="country"
+      label="国家"
+      :field-props="{
+        showSearch: true,
+        mode: 'multiple',
+        filterOption: false,
+      }"
+      :request="fetchUser"
+    >
+      <template #placeholder> 请选择国家 </template>
+    </pro-form-select>
+    <pro-form-date-picker
+      name="expirationTime"
+      label="合同失效时间"
+      :field-props="{
+        placeholder: '请选择合同失效时间',
+        format: customFormat,
+      }"
+    >
+      <template #superPrevIcon>
+        <plus-outlined />
+      </template>
+      <template #renderExtraFooter>extra footer</template>
+      <template #dateRender="{ current }">
+        <div class="ant-picker-cell-inner" :style="getCurrentStyle(current)">
+          {{ current.date() }}
+        </div>
+      </template>
+    </pro-form-date-picker>
+    <pro-form-date-range-picker
+      name="rangeTimes"
+      label="开始结束时间"
+      :field-props="{
+        placeholder: ['请选择开始时间', '请选择结束时间'],
+        showTime: true,
+        format: 'YYYY/MM/DD HH:mm:ss',
+      }"
+    >
+      <template #renderExtraFooter>extra footer</template>
+      <template #dateRender="{ current }">
+        <div class="ant-picker-cell-inner" :style="getCurrentStyle(current)">
+          {{ current.date() }}
+        </div>
+      </template>
+    </pro-form-date-range-picker>
+    <pro-form-date-picker-week
+      name="weakTime"
+      label="选择周"
+      :field-props="{
+        placeholder: '请选择周时间',
+      }"
+    >
+      <template #renderExtraFooter>extra footer</template>
+    </pro-form-date-picker-week>
+    <ProFormDatePickerYear
+      name="yearTime"
+      label="选择年"
+      :field-props="{
+        placeholder: '请选择年时间',
+      }"
+    />
   </QueryFilter>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, CSSProperties } from 'vue';
 import dayjs, { type Dayjs } from 'dayjs';
-import { QueryFilter, ProFormText } from '@ant-design-vue/pro-form';
-import { FormItem, Input, Select, SelectOption, RangePicker, DatePicker } from 'ant-design-vue';
+import {
+  QueryFilter,
+  ProFormText,
+  ProFormSelect,
+  ProFormDatePicker,
+  ProFormDateRangePicker,
+  ProFormDatePickerWeek,
+  ProFormDatePickerYear,
+} from '@ant-design-vue/pro-form';
+
+const dateFormat = 'YYYY/MM/DD';
+
+type RangeValue = [Dayjs, Dayjs];
+
+let lastFetchId = 0;
+const fetchUser = async () => {
+  lastFetchId += 1;
+  const fetchId = lastFetchId;
+  const response = await fetch('https://randomuser.me/api/?results=5');
+  const body = await response.json();
+  if (fetchId !== lastFetchId) {
+    // for fetch callback order
+    return;
+  }
+  return body.results.map((user: any) => ({
+    label: `${user.name.first} ${user.name.last}`,
+    value: user.login.username,
+  }));
+};
 
 const formModel = reactive({
-  name2: '456',
-  name: '123',
-  creater: '11',
-  sex: '男',
-  status: '',
-  startDate: '',
-  create: [dayjs('2015/01/01', 'YYYY/MM/DD'), dayjs('2016/01/01', 'YYYY/MM/DD')] as [Dayjs, Dayjs],
+  name: '456',
+  country: undefined,
+  expirationTime: ref<Dayjs>(dayjs('2015/01/01', dateFormat)),
+  rangeTimes: ref<RangeValue>(),
+  weakTime: ref<Dayjs>(),
+  yearTime: ref<Dayjs>(),
 });
-const sex = ref([
-  {
-    value: '男',
-    label: '男',
-  },
-  {
-    value: '女',
-    label: '女',
-  },
-]);
+
+const customFormat = (value: Dayjs) => `custom format: ${value?.format('YYYY-MM-DD')}`;
+
+const getCurrentStyle = (current: Dayjs) => {
+  const style: CSSProperties = {};
+
+  if (current.date() === 2) {
+    style.border = '1px solid #1890ff';
+    style.borderRadius = '50%';
+  }
+
+  return style;
+};
 
 function handleSubmit(params: any) {
   console.log(params);
