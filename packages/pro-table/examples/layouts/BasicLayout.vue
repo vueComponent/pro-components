@@ -1,5 +1,5 @@
 <template>
-  <pro-table :request="request" :columns="columns" :bordered="true"></pro-table>
+  <pro-table :request="request" :columns="columns" :bordered="true" :pagination="pagination"></pro-table>
 </template>
 
 <script setup lang="ts">
@@ -17,6 +17,9 @@ import {
   Menu,
 } from "ant-design-vue";
 import type { ColumnsType } from "ant-design-vue/lib/vc-table/interface";
+const pagination = reactive({
+  pageSize: 10
+})
 const columns = reactive<ColumnsType>([
   {
     dataIndex: "name",
@@ -29,15 +32,20 @@ const columns = reactive<ColumnsType>([
     key: "age",
   },
 ]);
-const data = [{ name: 123, age: 18 }];
 const i18n = (t: string) => t;
-const request = new Promise((resolve, reject) => {
-  resolve({
+const request = async (params: any) => {
+  let data: any[] = [];
+
+  console.log('params', params);
+  for (let i = 0; i < params.pageSize; i++) {
+    data.push({ name: '第' + params.current + '页的' + (i + 1), age: 18 })
+  }
+  return {
     data,
     success: true,
     total: 100
-  })
-})
+  }
+}
 const loading = ref(false);
 const router = useRouter();
 
