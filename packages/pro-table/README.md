@@ -60,7 +60,7 @@ After that, you can use pro-layout in your Vue components as simply as this:
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 
-import type { ColumnsType } from 'ant-design-vue/lib/vc-table/interface';
+import type { ColumnsType } from '@ant-design-vue/pro-table';
 const pagination = reactive({
     pageSize: 10
 });
@@ -68,20 +68,30 @@ const columns = reactive<ColumnsType>([
     {
         dataIndex: 'name',
         title: '姓名',
-        key: 'name'
+        key: 'name',
+        search: true
     },
     {
         dataIndex: 'age',
         title: '年龄',
-        key: 'age'
+        key: 'age',
+        search: true
+    },
+    {
+        dataIndex: 'action',
+        title: '操作',
+        key: 'action'
     }
 ]);
-const request = async (params: any) => {
+const request = async (params: any = {}) => {
     let data: any[] = [];
 
     console.log('params', params);
     for (let i = 0; i < params.pageSize; i++) {
-        data.push({ name: '第' + params.current + '页的' + (i + 1), age: 18 });
+        data.push({
+            name: '第' + params.current + '页的' + +(i + 1) + (params?.name || ''),
+            age: 18
+        });
     }
     return {
         data,
@@ -94,181 +104,21 @@ const request = async (params: any) => {
 
 ## API
 
-### ProLayout
+### ProTable
 
-| Property                | Description                                                           | Type                                                                   | Default Value      |
-| ----------------------- | --------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------------------ |
-| title                   | layout in the upper left corner title                                 | VNode \| String                                                        | `'Ant Design Pro'` |
-| logo                    | layout top left logo url                                              | VNode \| render                                                        | -                  |
-| loading                 | layout loading status                                                 | boolean                                                                | -                  |
-| layout                  | layout menu mode, sidemenu: right navigation, topmenu: top navigation | 'side' \| 'top' \| 'mix'                                               | `'side'`           |
-| contentWidth            | content mode of layout, Fluid: adaptive, Fixed: fixed width 1200px    | 'Fixed' \| 'Fluid'                                                     | `Fluid`            |
-| navTheme                | Navigation theme                                                      | 'light' \|'dark'                                                       | `'light'`          |
-| headerTheme             | Header Bar theme                                                      | 'light' \|'dark'                                                       | `'light'`          |
-| menuData                | Vue-router `routes` prop                                              | Object                                                                 | `[{}]`             |
-| collapsed               | control menu's collapse and expansion                                 | boolean                                                                | true               |
-| selectedKeys            | menu selected keys                                                    | string[]                                                               | `[]`               |
-| openKeys                | menu openKeys                                                         | string[]                                                               | `[]`               |
-| isMobile                | is mobile                                                             | boolean                                                                | false              |
-| onCollapse \| @collapse | folding collapse event of menu                                        | (collapsed: boolean) => void                                           | -                  |
-| menuHeaderRender        | render header logo and title                                          | v-slot \| VNode \| (logo,title)=>VNode \| false                        | -                  |
-| menuExtraRender         | render extra menu item                                                | v-slot \| VNode \| (props)=>VNode \| false                             | -                  |
-| menuFooterRender        | render footer menu item                                               | v-slot \| VNode \| (props)=>VNode \| false                             | -                  |
-| headerContentRender     | custom header render method                                           | `slot` \| (props: BasicLayoutProps) => VNode                           | -                  |
-| rightContentRender      | header right content render method                                    | `slot` \| (props: HeaderViewProps) => VNode                            | -                  |
-| collapsedButtonRender   | custom collapsed button method                                        | `slot` \| (collapsed: boolean) => VNode                                | -                  |
-| footerRender            | custom footer render method                                           | `slot` \| (props: BasicLayoutProps) => VNode                           | `false`            |
-| breadcrumbRender        | custom breadcrumb render method                                       | `slot` \| ({ route, params, routes, paths, h }) => VNode[]             | -                  |
-| menuItemRender          | custom render Menu.Item                                               | v-slot#menuItemRender="{ item, icon }" \| ({ item, icon }) => VNode    | null               |
-| subMenuItemRender       | custom render Menu.SubItem                                            | v-slot#subMenuItemRender="{ item, icon }" \| ({ item, icon }) => VNode | null               |
-| locale                  | i18n                                                                  | Function (key: string) => string \| `false`                            | `false`            |
+| Property   | Description                                    | Type                                                  | Default Valuere |
+| ---------- | ---------------------------------------------- | ----------------------------------------------------- | --------------- |
+| request    | 获取`dataSource` 的方法                        | (params?: {pageSize,current}) => {data,success,total} | -               |
+| dataSource | Table 的数据，protable 推荐使用 request 来加载 | T[]                                                   | -               |
+|            | Vue-router`routes` prop                        | Object                                                | `[{}]`          |
 
-> Menu generation requires `getMenuData` and `clearMenuItem` function
-> e.g. `const { menuData } = getMenuData(clearMenuItem(routes))`
+### Columns 列定义
 
-### PageContainer
+与 ant-design-vue 中 table 相比 ，多出以下属性
 
-| Property       | Description                                      | Type                               | Default Value |
-| -------------- | ------------------------------------------------ | ---------------------------------- | ------------- |
-| content        | Content area                                     | VNode \| v-slot                    | -             |
-| extra          | Extra content area, on the right side of content | VNode \| v-slot                    | -             |
-| extraContent   | Extra content area, on the right side of content | VNode \| v-slot                    | -             |
-| tabList        | Tabs title list                                  | `Array<{key: string, tab: sting}>` | -             |
-| tab-change     | Switch panel callback                            | (key) => void                      | -             |
-| tab-active-key | The currently highlighted tab item               | string                             | -             |
-
-### WaterMark
-
-| Property      | Description                           | Type             | Default Value          |
-| ------------- | ------------------------------------- | ---------------- | ---------------------- |
-| markStyle     | mark style                            | CSSProperties    | -                      |
-| markClassName | mark class                            | string           | -                      |
-| gapX          | Horizontal spacing between water-mark | number           | 212                    |
-| gapY          | Vertical spacing between watermark    | number           | 222                    |
-| offsetLeft    | Horizontal offset                     | number           | `offsetTop = gapX / 2` |
-| offsetTop     | Vertical offset                       | number           | `offsetTop = gapY / 2` |
-|               |                                       |                  |                        |
-| width         |                                       | number           | 120                    |
-| height        |                                       | number           | 64                     |
-| rotate        | Angle of rotation, unit °             | number           | -22                    |
-| image         | image src                             | string           | -                      |
-| zIndex        | water-mark z-index                    | number           | 9                      |
-| content       | water-mark Content                    | string           | -                      |
-| fontColor     | font-color                            | string           | `rgba(0,0,0,.15)`      |
-| fontSize      | font-size                             | string`\|`number | 16                     |
-
-### Custom Render
-
-#### Custom rightContentRender
-
-```vue
-<template #rightContentRender>
-    <div style="margin-right: 12px">
-        <a-avatar shape="square" size="small">
-            <template #icon>
-                <UserOutlined />
-            </template>
-        </a-avatar>
-    </div>
-</template>
-```
-
-#### Custom menu.item
-
-```vue
-<template #menuItemRender="{ item, icon }">
-    <a-menu-item
-        :key="item.path"
-        :disabled="item.meta?.disabled"
-        :danger="item.meta?.danger"
-        :icon="icon"
-    >
-        <router-link :to="{ path: item.path }">
-            <span class="ant-pro-menu-item">
-                <a-badge count="5" dot>
-                    <span class="ant-pro-menu-item-title">{{ item.meta.title }}</span>
-                </a-badge>
-            </span>
-        </router-link>
-    </a-menu-item>
-</template>
-```
-
-#### Custom menuExtraRender
-
-```vue
-<template #menuExtraRender="{ collapsed }">
-    <a-input-search v-if="!collapsed" />
-</template>
-```
-
-#### Custom menuFooterRender
-
-```vue
-<template #menuFooterRender>
-    <div>menu footer</div>
-</template>
-```
-
-#### Custom breadcrumbRender
-
-```vue
-<template #breadcrumbRender="{ route, params, routes }">
-    <span v-if="routes.indexOf(route) === routes.length - 1">
-        {{ route.breadcrumbName }}
-    </span>
-    <router-link v-else :to="{ path: route.path, params }">
-        {{ route.breadcrumbName }}
-    </router-link>
-</template>
-```
-
-#### Custom collapsedButtonRender
-
-```vue
-<template #collapsedButtonRender="collapsed">
-    <HeartOutlined v-if="collapsed" />
-    <SmileOutlined v-else />
-</template>
-```
-
-#### Custom footer with slot
-
-```vue
-<GlobalFooter>
-  <template #links>
-    <a>链接1</a>
-    <a>链接2</a>
-    <a>链接3</a>
-    <a>链接4</a>
-  </template>
-  <template #copyright>
-    <span>Pro Layout &copy; 2021 Sendya.</span>
-  </template>
-</GlobalFooter>
-```
-
-#### Custom footer with props
-
-```vue
-<GlobalFooter
-    :links="[
-        { title: 'Link 1', href: '#' },
-        { title: 'Link 2', href: '#' }
-    ]"
-    copyright="Pro Layout &copy; 2021 Sendya."
-/>
-```
-
-### Use WaterMark
-
-```vue
-<router-view v-slot="{ Component }">
-  <WaterMark content="Pro Layout">
-    <component :is="Component" />
-  </WaterMark>
-</router-view>
-```
+| Property | Description  | Type    | Default Valuere |
+| -------- | ------------ | ------- | --------------- |
+| search   | 是否支持搜索 | boolean | -               |
 
 ## Build project
 

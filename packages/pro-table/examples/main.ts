@@ -7,9 +7,7 @@ import router from './router';
 import icons from './icons';
 
 // functional
-import 'ant-design-vue/es/result/style';
-import 'ant-design-vue/es/button/style';
-import 'ant-design-vue/es/message/style';
+import 'ant-design-vue/dist/antd.less';
 
 const app = createApp(App);
 

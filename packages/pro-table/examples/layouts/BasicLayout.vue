@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 
-import type { ColumnsType } from "ant-design-vue/lib/vc-table/interface";
+import type { ColumnsType } from "@ant-design-vue/pro-table";
 const pagination = reactive({
   pageSize: 10,
 });
@@ -14,19 +14,29 @@ const columns = reactive<ColumnsType>([
     dataIndex: "name",
     title: "姓名",
     key: "name",
+    search: true
   },
   {
     dataIndex: "age",
     title: "年龄",
     key: "age",
+    search: true
+
+  },
+  {
+    dataIndex: "action",
+    title: "操作",
+    key: "action",
+
+
   },
 ]);
-const request = async (params: any) => {
+const request = async (params: any = {}) => {
   let data: any[] = [];
 
   console.log("params", params);
   for (let i = 0; i < params.pageSize; i++) {
-    data.push({ name: "第" + params.current + "页的" + (i + 1), age: 18 });
+    data.push({ name: "第" + params.current + "页的" + + (i + 1) + (params?.name || ''), age: 18 });
   }
   return {
     data,
