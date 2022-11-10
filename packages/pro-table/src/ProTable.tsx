@@ -85,9 +85,7 @@ const ProTable = defineComponent({
             getDataSource(statePagination?.current, statePagination?.pageSize);
         });
         const handleChange = (page: number, pageSize: number) => {
-            console.log('handleChange', page, pageSize, 'originPageSize', statePagination.pageSize);
             let current = page;
-
             if (pageSize !== statePagination.pageSize) {
                 current = 1;
             }
@@ -95,9 +93,7 @@ const ProTable = defineComponent({
             statePagination.current = current;
             getDataSource(statePagination.current, statePagination.pageSize);
         };
-        const showSizeChange = (current: number, size: number) => {
-            // statePagination.pageSize = size;
-        };
+        const showSizeChange = (current: number, size: number) => {};
         expose({ handleChange });
         return () => {
             const tableProps: any = {
@@ -110,9 +106,6 @@ const ProTable = defineComponent({
                     onShowSizeChange: showSizeChange
                 }
             };
-
-            console.log(' statePagination', statePagination);
-
             return <Table {...props} {...tableProps} />;
         };
     }

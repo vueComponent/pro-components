@@ -1,5 +1,5 @@
 <h1 align="center">
-Ant Design Pro Layout
+Ant Design Pro Table
 </h1>
 
 <div align="center">
@@ -7,15 +7,6 @@ Ant Design Pro Layout
 [![NPM version](https://img.shields.io/npm/v/@ant-design-vue/pro-table/latest?style=flat)](https://npmjs.org/package/@ant-design-vue/pro-table) [![Vue Support](https://img.shields.io/badge/support-Vue3-green?style=flat)](./package.json) [![Vue Grammar Level](https://img.shields.io/badge/full-Composition%20API-blue?style=flat)](https://v3.vuejs.org/guide/composition-api-introduction.html) [![NPM downloads](http://img.shields.io/npm/dm/@ant-design-vue/pro-table.svg?style=flat)](https://npmjs.org/package/@ant-design-vue/pro-table) [![License](https://img.shields.io/github/license/vueComponent/pro-layout)](./LICENSE)
 
 </div>
-
-<details>
-   <summary> 💻 <b>Preview layout</b>: </summary>
-   <br />
-   <img src="https://user-images.githubusercontent.com/5404542/130903472-5020f0ff-a1c3-461a-9072-134b5fdd4c0e.jpeg" />
-   <img src="https://user-images.githubusercontent.com/5404542/130903580-def38691-e912-4a05-aa50-8ab112acf9f4.jpeg" />
-   <img src="https://user-images.githubusercontent.com/5404542/130903670-558423f1-987a-446e-ad56-1d7791e9ad5f.jpeg" />
-   <img src="https://user-images.githubusercontent.com/5404542/130903737-f8a6a404-8445-43fd-830b-d72974edc3ff.jpeg" />
-</details>
 
 ## Basic Usage
 
@@ -47,7 +38,7 @@ import '@ant-design-vue/pro-table/dist/style.css'; // pro-layout css or style.le
 import { createApp } from 'vue';
 import App from './App.vue';
 import Antd from 'ant-design-vue';
-import ProLayout, { PageContainer } from '@ant-design-vue/pro-table';
+import ProTable from '@ant-design-vue/pro-table';
 
 const app = createApp(App);
 
@@ -58,37 +49,46 @@ After that, you can use pro-layout in your Vue components as simply as this:
 
 ```vue
 <template>
-    <pro-layout
-        :locale="locale"
-        v-bind="layoutConf"
-        v-model:openKeys="state.openKeys"
-        v-model:collapsed="state.collapsed"
-        v-model:selectedKeys="state.selectedKeys"
-    >
-        <router-view />
-    </pro-layout>
+    <pro-table
+        :request="request"
+        :columns="columns"
+        :bordered="true"
+        :pagination="pagination"
+    ></pro-table>
 </template>
 
 <script setup lang="ts">
-import { reactive, useRouter } from 'vue';
-import { getMenuData, clearMenuItem } from '@ant-design-vue/pro-table';
+import { reactive, ref } from 'vue';
 
-const locale = (i18n: string) => i18n;
-const router = useRouter();
-
-const { menuData } = getMenuData(clearMenuItem(router.getRoutes()));
-
-const state = reactive({
-    collapsed: false, // default value
-    openKeys: ['/dashboard'],
-    selectedKeys: ['/welcome']
+import type { ColumnsType } from 'ant-design-vue/lib/vc-table/interface';
+const pagination = reactive({
+    pageSize: 10
 });
-const layoutConf = reactive({
-    navTheme: 'dark',
-    layout: 'mix',
-    splitMenus: false,
-    menuData
-});
+const columns = reactive<ColumnsType>([
+    {
+        dataIndex: 'name',
+        title: '姓名',
+        key: 'name'
+    },
+    {
+        dataIndex: 'age',
+        title: '年龄',
+        key: 'age'
+    }
+]);
+const request = async (params: any) => {
+    let data: any[] = [];
+
+    console.log('params', params);
+    for (let i = 0; i < params.pageSize; i++) {
+        data.push({ name: '第' + params.current + '页的' + (i + 1), age: 18 });
+    }
+    return {
+        data,
+        success: true,
+        total: 100
+    };
+};
 </script>
 ```
 
