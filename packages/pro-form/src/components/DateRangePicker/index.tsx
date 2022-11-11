@@ -1,27 +1,39 @@
 import { defineComponent, type PropType, ExtractPropTypes, App, DefineComponent, Plugin } from 'vue';
-import type { CommonProps, DatePickerProps } from 'ant-design-vue/es/date-picker/generatePicker/props';
+import { rangePickerProps, type CommonProps } from 'ant-design-vue/es/date-picker/generatePicker/props';
 import { getSlot } from '@ant-design-vue/pro-utils';
-import type { Dayjs } from 'dayjs';
 import { pick } from 'lodash-es';
-import { fieldDatePickerSlots } from '@ant-design-vue/pro-field';
+import type { Dayjs } from 'dayjs';
+import { rangePickerSlots } from '@ant-design-vue/pro-field';
 import ProFormField, { proFormFieldProps } from '../Field';
 import { proFormItemProps } from '../FormItem';
 import type { VueNode } from 'ant-design-vue/lib/_util/type';
 
+const rangeProps = rangePickerProps<Dayjs>();
+
+export type RangePickerProps = Partial<ExtractPropTypes<typeof rangeProps>>;
+
 const props = {
   ...proFormFieldProps,
   fieldProps: {
-    type: Object as PropType<Omit<CommonProps<Dayjs> & DatePickerProps<Dayjs>, 'value'>>,
+    type: Object as PropType<
+      Omit<
+        Omit<CommonProps<Dayjs>, 'placeholder'> &
+          RangePickerProps & {
+            placeholder: string[];
+          },
+        'value'
+      >
+    >,
   },
 };
 
-export type ProFormDatePickerProps = Partial<ExtractPropTypes<typeof props>>;
+export type ProFormDateRangePickerProps = Partial<ExtractPropTypes<typeof props>>;
 
-export const ProFormDatePicker = defineComponent({
-  name: 'ProFormDatePicker',
+export const ProFormDateRangePicker = defineComponent({
+  name: 'ProFormDateRangePicker',
   inheritAttrs: false,
   props,
-  slots: fieldDatePickerSlots,
+  slots: rangePickerSlots,
   setup(props, { slots }) {
     const formItemProps = {
       ...props.formItemProps,
@@ -39,9 +51,8 @@ export const ProFormDatePicker = defineComponent({
       const { fieldProps, colProps } = props;
       return (
         <ProFormField
-          valueType={'date'}
+          valueType={'dateRange'}
           fieldProps={{
-            ...fieldProps,
             suffixIcon,
             prevIcon,
             nextIcon,
@@ -49,8 +60,9 @@ export const ProFormDatePicker = defineComponent({
             superNextIcon,
             renderExtraFooter,
             dateRender,
+            ...fieldProps,
           }}
-          filedConfig={{ valueType: 'date' }}
+          filedConfig={{ valueType: 'dateRange' }}
           colProps={colProps}
           formItemProps={formItemProps}
           {...formItemProps}
@@ -60,9 +72,9 @@ export const ProFormDatePicker = defineComponent({
   },
 });
 
-ProFormDatePicker.install = (app: App) => {
-  app.component(ProFormDatePicker.name, ProFormDatePicker);
+ProFormDateRangePicker.install = (app: App) => {
+  app.component(ProFormDateRangePicker.name, ProFormDateRangePicker);
   return app;
 };
 
-export default ProFormDatePicker as DefineComponent<ProFormDatePickerProps> & Plugin;
+export default ProFormDateRangePicker as DefineComponent<ProFormDateRangePickerProps> & Plugin;

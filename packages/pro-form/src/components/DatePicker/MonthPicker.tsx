@@ -15,10 +15,10 @@ const props = {
   },
 };
 
-export type ProFormDatePickerProps = Partial<ExtractPropTypes<typeof props>>;
+export type ProFormDatePickerMonthProps = Partial<ExtractPropTypes<typeof props>>;
 
-export const ProFormDatePicker = defineComponent({
-  name: 'ProFormDatePicker',
+export const ProFormDatePickerMonth = defineComponent({
+  name: 'ProFormDatePickerMonth',
   inheritAttrs: false,
   props,
   slots: fieldDatePickerSlots,
@@ -34,12 +34,13 @@ export const ProFormDatePicker = defineComponent({
     const superNextIcon = getSlot<() => VueNode>(slots, props, 'superNextIcon');
     const renderExtraFooter = getSlot<() => VueNode>(slots, props, 'renderExtraFooter');
     const dateRender = getSlot<() => VueNode>(slots, props, 'dateRender');
+    const monthCellRender = getSlot<() => VueNode>(slots, props, 'monthCellRender');
 
     return () => {
       const { fieldProps, colProps } = props;
       return (
         <ProFormField
-          valueType={'date'}
+          valueType={'dateMonth'}
           fieldProps={{
             ...fieldProps,
             suffixIcon,
@@ -49,8 +50,9 @@ export const ProFormDatePicker = defineComponent({
             superNextIcon,
             renderExtraFooter,
             dateRender,
+            monthCellRender,
           }}
-          filedConfig={{ valueType: 'date' }}
+          filedConfig={{ valueType: 'dateMonth' }}
           colProps={colProps}
           formItemProps={formItemProps}
           {...formItemProps}
@@ -60,9 +62,9 @@ export const ProFormDatePicker = defineComponent({
   },
 });
 
-ProFormDatePicker.install = (app: App) => {
-  app.component(ProFormDatePicker.name, ProFormDatePicker);
+ProFormDatePickerMonth.install = (app: App) => {
+  app.component(ProFormDatePickerMonth.name, ProFormDatePickerMonth);
   return app;
 };
 
-export default ProFormDatePicker as DefineComponent<ProFormDatePickerProps> & Plugin;
+export default ProFormDatePickerMonth as DefineComponent<ProFormDatePickerMonthProps> & Plugin;
