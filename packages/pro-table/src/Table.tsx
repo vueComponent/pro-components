@@ -123,7 +123,7 @@ const ProTable = defineComponent({
             <SearchForm columns={props.columns} onFinish={onFinish} />
             <TableWrapper cardProps={cardProps} toolbar={toolbar}>
               <ToolBar options={options} toolbar={toolbar} v-slots={{ actions, settings }} />
-              <TableAlert />
+              {/* <TableAlert /> */}
               <Table {...tableProps} v-slots={slots} onChange={onChange} />
             </TableWrapper>
           </Provider>
