@@ -7,7 +7,7 @@ export type {
     ProTableProps,
     ResponseData
 } from './typings';
-import EditableProTable from './components/EditableProTable';
+import EditableProTable from './components/EditableTable';
 import ProTable from './Table';
 import type { App } from 'vue';
 ProTable.EditableProTable = EditableProTable;

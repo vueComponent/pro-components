@@ -1,4 +1,4 @@
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent, ref, reactive, unref } from 'vue';
 import Table, { tableProps } from 'ant-design-vue/es/table';
 import { Card } from 'ant-design-vue';
 import { SearchForm, ToolBar, TableAlert } from './components';
@@ -11,6 +11,7 @@ import type { MaybeElement, ProTableProps, ActionType, SizeType } from './typing
 import 'ant-design-vue/es/table/style';
 import 'ant-design-vue/es/card/style';
 import './index.less';
+import { EditableFormWrapper } from './components/EditableFormWrapper';
 
 const TableWrapper: FunctionalComponent<{
     cardBordered?: ProTableProps['cardBordered'];
@@ -29,6 +30,11 @@ const TableWrapper: FunctionalComponent<{
 
 export const proTableProps = {
     ...tableProps(),
+    editable: {
+        type: Boolean,
+        default: false
+    },
+    model: Object,
     columns: Array as PropType<ProTableProps['columns']>,
     request: Function as PropType<ProTableProps['request']>,
     params: Object as PropType<ProTableProps['params']>,
@@ -53,7 +59,7 @@ export const proTableProps = {
 const ProTable = defineComponent({
     name: 'ProTable',
     props: proTableProps,
-    slots: ['actions', 'settings'],
+    slots: ['actions', 'settings', 'editForm'],
     emits: ['change', 'load', 'requestError', 'update:size'],
     setup(props, { slots, emit, expose }) {
         const containerRef = ref<MaybeElement>();
@@ -72,6 +78,8 @@ const ProTable = defineComponent({
         });
 
         const onFinish = (model: Record<string, unknown>) => {
+            console.log('model', model);
+
             setQueryFilter({ ...model });
         };
 
@@ -107,6 +115,7 @@ const ProTable = defineComponent({
 
         return () => {
             const {
+                editable,
                 onChange: discard,
                 cardBordered,
                 cardProps,
@@ -123,7 +132,15 @@ const ProTable = defineComponent({
 
             const actions = getSlot<Slot>(slots, props, 'actions');
             const settings = getSlot<Slot>(slots, props, 'actions');
-
+            const renderTable = () => {
+                return editable ? (
+                    <EditableFormWrapper model={unref(props.model || {})}>
+                        <Table {...tableProps} v-slots={slots} onChange={onChange} />
+                    </EditableFormWrapper>
+                ) : (
+                    <Table {...tableProps} v-slots={slots} onChange={onChange} />
+                );
+            };
             return (
                 <div class={defaultPrefixCls} ref={containerRef}>
                     <Provider value={context}>
@@ -135,7 +152,7 @@ const ProTable = defineComponent({
                                 v-slots={{ actions, settings }}
                             />
                             {/* <TableAlert /> */}
-                            <Table {...tableProps} v-slots={slots} onChange={onChange} />
+                            {renderTable()}
                         </TableWrapper>
                     </Provider>
                 </div>
