@@ -1,17 +1,30 @@
 import { ProForm } from '@ant-design-vue/pro-form';
-import { defineComponent, unref } from 'vue';
+import { defineComponent, reactive, unref, watchEffect } from 'vue';
 export const editableFormWrapperProps = {
-    model: Object
+    model: Object,
+    onValuesChange: Function
 };
 export const EditableFormWrapper = defineComponent({
     name: 'EditableFormWrapper',
     props: editableFormWrapperProps,
-    setup(props, { slots }) {
-        const modelValue = unref(props.model || {});
-        console.log('modelValue', modelValue);
-
+    setup(props, { slots, emit }) {
+        let modelValue = reactive({ model: {} });
+        watchEffect(() => {
+            modelValue.model = props.model || {};
+        });
         return () => {
-            return <ProForm model={modelValue}>{slots.default?.()}</ProForm>;
+            return (
+                <ProForm
+                    onValuesChange={values => {
+                        if (props.onValuesChange) {
+                            props?.onValuesChange(values);
+                        }
+                    }}
+                    model={modelValue.model}
+                >
+                    {slots.default?.()}
+                </ProForm>
+            );
         };
     }
 });

@@ -1,4 +1,13 @@
-import { computed, defineComponent, unref, type App, type Plugin, type DefineComponent } from 'vue';
+import {
+    computed,
+    defineComponent,
+    unref,
+    type App,
+    type Plugin,
+    type DefineComponent,
+    watch,
+    toRaw
+} from 'vue';
 import { Form } from 'ant-design-vue';
 import { SearchOutlined, UndoOutlined } from '@ant-design/icons-vue';
 import { baseFormProps, baseFormEmit, type BaseFormPropsType } from './types';
@@ -17,7 +26,7 @@ const BaseForm = defineComponent({
     setup(props, { attrs, emit, expose, slots }) {
         const fromState = useFormState({ props, attrs });
         const { model, formInstanceRef, getFormProps, RowWrapper } = fromState;
-
+        let baseModel = unref(model);
         const formMethods = useFormMethods();
         const { handleFormValues } = formMethods;
 
@@ -36,6 +45,15 @@ const BaseForm = defineComponent({
         const submitterProps = computed(() => {
             return typeof props.submitter === 'boolean' || !props.submitter ? {} : props.submitter;
         });
+        watch(
+            () => baseModel,
+            curr => {
+                emit('valuesChange', curr);
+            },
+            {
+                deep: true
+            }
+        );
 
         const submitterNode = () => {
             if (!props.submitter) return undefined;
@@ -72,7 +90,7 @@ const BaseForm = defineComponent({
                 return wrapItems;
             });
             return (
-                <Form ref={formInstanceRef} {...unref(getFormProps)} model={unref(model)}>
+                <Form ref={formInstanceRef} {...unref(getFormProps)} model={baseModel}>
                     {unref(content)}
                 </Form>
             );

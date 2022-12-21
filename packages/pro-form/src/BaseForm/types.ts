@@ -77,7 +77,8 @@ export const baseFormProps = {
 
 export const baseFormEmit = {
     finish: (values: Recordable<any>) => isObject(values),
-    submit: (values: Recordable<any>) => isObject(values)
+    submit: (values: Recordable<any>) => isObject(values),
+    valuesChange: (values: Recordable<any>) => isObject(values)
 };
 
 export type BaseFormEmit = typeof baseFormEmit;

@@ -27,6 +27,7 @@
             span: 8
         }"
         @finish="handleSubmit"
+        @values-change="handleValuesChange"
         @reset="handleReset"
     >
         <pro-form-text
@@ -420,5 +421,9 @@ const getCurrentStyle = (current: Dayjs) => {
     }
 
     return style;
+};
+
+const handleValuesChange = (values: any) => {
+    console.log('values', values);
 };
 </script>

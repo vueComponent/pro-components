@@ -1,9 +1,9 @@
-import { defineComponent, ref, reactive, unref } from 'vue';
+import { defineComponent, ref, reactive, unref, watch, toRaw } from 'vue';
 import Table, { tableProps } from 'ant-design-vue/es/table';
 import { Card } from 'ant-design-vue';
 import { SearchForm, ToolBar, TableAlert } from './components';
 import Provider, { defaultPrefixCls, defaultContext, type Context } from './shared/Context';
-import { useFetchData, useFullscreen } from './hooks';
+import { useEditData, useFetchData, useFullscreen } from './hooks';
 import { getSlot } from '@ant-design-vue/pro-utils';
 import type { App, DefineComponent, FunctionalComponent, Slot, Plugin, PropType } from 'vue';
 import type { MaybeElement, ProTableProps, ActionType, SizeType } from './typings';
@@ -34,7 +34,6 @@ export const proTableProps = {
         type: Boolean,
         default: false
     },
-    model: Object,
     columns: Array as PropType<ProTableProps['columns']>,
     request: Function as PropType<ProTableProps['request']>,
     params: Object as PropType<ProTableProps['params']>,
@@ -60,7 +59,7 @@ const ProTable = defineComponent({
     name: 'ProTable',
     props: proTableProps,
     slots: ['actions', 'settings', 'editForm'],
-    emits: ['change', 'load', 'requestError', 'update:size'],
+    emits: ['change', 'load', 'requestError', 'update:size', 'valuesChange'],
     setup(props, { slots, emit, expose }) {
         const containerRef = ref<MaybeElement>();
 
@@ -71,7 +70,8 @@ const ProTable = defineComponent({
             context: requestProps,
             reload,
             setPageInfo,
-            setQueryFilter
+            setQueryFilter,
+            setDataSource
         } = useFetchData(props.request, props, {
             onLoad: dataSource => emit('load', dataSource),
             onRequestError: e => emit('requestError', e)
@@ -112,7 +112,41 @@ const ProTable = defineComponent({
         expose(actionRef);
 
         const context = reactive<Context>({ ...defaultContext, actionRef });
+        let editDataModel = reactive<Record<string, unknown>>({ name_0: 123 });
 
+        const handleFilterValue = (value: any) => {
+            const keys = Object.keys(value);
+            const currenDataSource = toRaw(requestProps.dataSource);
+
+            for (let i = 0; i < keys.length; i++) {
+                const column = keys[i].split('_')[0];
+                const key = parseInt(keys[i].split('_')[1]) as number;
+                const val = value[keys[i]];
+                const currentRow = currenDataSource[key];
+                currentRow[column] = val;
+                currenDataSource[key] = currentRow;
+                setDataSource(currenDataSource);
+            }
+            emit('valuesChange', currenDataSource);
+        };
+        watch(
+            () => requestProps.dataSource,
+            cur => {
+                let tempEditData: Record<string, unknown> = {};
+                cur.forEach((item, index) => {
+                    const keys = Object.keys(item);
+                    keys.forEach((item2, index2) => {
+                        let column = item2 + '_' + index;
+                        tempEditData[column] = item[item2];
+                    });
+                });
+                editDataModel = tempEditData;
+            }
+        );
+
+        const onValuesChange = (values: any) => {
+            handleFilterValue(values);
+        };
         return () => {
             const {
                 editable,
@@ -134,7 +168,7 @@ const ProTable = defineComponent({
             const settings = getSlot<Slot>(slots, props, 'actions');
             const renderTable = () => {
                 return editable ? (
-                    <EditableFormWrapper model={unref(props.model || {})}>
+                    <EditableFormWrapper onValuesChange={onValuesChange} model={editDataModel}>
                         <Table {...tableProps} v-slots={slots} onChange={onChange} />
                     </EditableFormWrapper>
                 ) : (

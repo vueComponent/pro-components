@@ -28,7 +28,6 @@ const ProFormField = defineComponent({
     props: proFormFieldProps,
     setup(props) {
         const formContext = useFormInstance();
-        console.log('formContext', formContext);
 
         return () => {
             const { valueType = 'text', request, params } = props;

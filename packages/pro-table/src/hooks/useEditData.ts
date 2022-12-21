@@ -1,18 +1,9 @@
 import type { ColumnsType } from 'ant-design-vue/es/table';
 import { isReactive, reactive, shallowRef } from 'vue';
 
-export const useEditData = (props: Record<string, unknown>, editKeys: number[] | string[]) => {
-    const columns = props.columns as Array<ColumnsType & { dataIndex: string }>;
-    let editData = reactive([]);
-    const singRowData: { [x: string]: unknown }[] = [];
-    columns.map(item => {
-        if (!item?.disabled) {
-            singRowData.push({ [item.dataIndex]: '' });
-        }
-    });
-    editKeys.map(item => {
-        editData.push(singRowData);
-    });
+export const useEditData = (dataSource: Record<string, unknown>[]) => {
+    let editData = reactive(dataSource);
+
     const updateEditData = (
         key: number | string,
         column: string | number,
