@@ -112,19 +112,21 @@ const ProTable = defineComponent({
         expose(actionRef);
 
         const context = reactive<Context>({ ...defaultContext, actionRef });
-        let editDataModel = reactive<Record<string, unknown>>({ name_0: 123 });
+        let editDataModel = reactive<Record<string, Object>>({ formData: { name_0: 123 } });
 
         const handleFilterValue = (value: any) => {
-            const keys = Object.keys(value);
+            const keys = Object.keys(toRaw(value));
             const currenDataSource = toRaw(requestProps.dataSource);
 
             for (let i = 0; i < keys.length; i++) {
                 const column = keys[i].split('_')[0];
                 const key = parseInt(keys[i].split('_')[1]) as number;
                 const val = value[keys[i]];
-                const currentRow = currenDataSource[key];
+                let currentRow = currenDataSource[key];
+
                 currentRow[column] = val;
                 currenDataSource[key] = currentRow;
+
                 setDataSource(currenDataSource);
             }
             emit('valuesChange', currenDataSource);
@@ -140,13 +142,19 @@ const ProTable = defineComponent({
                         tempEditData[column] = item[item2];
                     });
                 });
-                editDataModel = tempEditData;
+                editDataModel.formData = tempEditData;
+            }
+        );
+        watch(
+            () => editDataModel.formData,
+            curr => {
+                handleFilterValue(curr);
+            },
+            {
+                deep: true
             }
         );
 
-        const onValuesChange = (values: any) => {
-            handleFilterValue(values);
-        };
         return () => {
             const {
                 editable,
@@ -168,7 +176,7 @@ const ProTable = defineComponent({
             const settings = getSlot<Slot>(slots, props, 'actions');
             const renderTable = () => {
                 return editable ? (
-                    <EditableFormWrapper onValuesChange={onValuesChange} model={editDataModel}>
+                    <EditableFormWrapper model={editDataModel.formData}>
                         <Table {...tableProps} v-slots={slots} onChange={onChange} />
                     </EditableFormWrapper>
                 ) : (

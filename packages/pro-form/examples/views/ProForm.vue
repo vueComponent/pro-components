@@ -256,7 +256,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, FunctionalComponent, CSSProperties } from 'vue';
+import { reactive, ref, FunctionalComponent, CSSProperties, onMounted } from 'vue';
 import { PlusOutlined } from '@ant-design/icons-vue';
 import {
     RadioGroup,
@@ -308,7 +308,7 @@ const dateFormat = 'YYYY/MM/DD';
 
 type RangeValue = [Dayjs, Dayjs];
 
-const formModel = reactive({
+const formModel = ref({
     name: '456',
     name2: '567',
     name3: 'xxx',

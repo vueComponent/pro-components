@@ -1,5 +1,5 @@
 import { ProForm } from '@ant-design-vue/pro-form';
-import { defineComponent, reactive, unref, watchEffect } from 'vue';
+import { defineComponent, reactive, ref, toRaw, unref, watch, watchEffect } from 'vue';
 export const editableFormWrapperProps = {
     model: Object,
     onValuesChange: Function
@@ -8,23 +8,14 @@ export const EditableFormWrapper = defineComponent({
     name: 'EditableFormWrapper',
     props: editableFormWrapperProps,
     setup(props, { slots, emit }) {
-        let modelValue = reactive({ model: {} });
+        let modelValue = ref({});
+
         watchEffect(() => {
-            modelValue.model = props.model || {};
+            modelValue.value = toRaw(props.model) || {};
         });
+
         return () => {
-            return (
-                <ProForm
-                    onValuesChange={values => {
-                        if (props.onValuesChange) {
-                            props?.onValuesChange(values);
-                        }
-                    }}
-                    model={modelValue.model}
-                >
-                    {slots.default?.()}
-                </ProForm>
-            );
+            return <ProForm model={modelValue}>{slots.default?.()}</ProForm>;
         };
     }
 });
