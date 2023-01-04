@@ -20,10 +20,10 @@ export default defineConfig({
         preprocessorOptions: {
             less: {
                 // DO NOT REMOVE THIS LINE
-                javascriptEnabled: true
-                // modifyVars: {
-                //   hack: `true; @import 'ant-design-vue/es/style/themes/default.less'`,
-                // }
+                javascriptEnabled: true,
+                modifyVars: {
+                    hack: `true; @import 'ant-design-vue/es/style/themes/default.less'`
+                }
             }
         }
     },

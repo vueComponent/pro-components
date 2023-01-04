@@ -5,44 +5,43 @@ import { BaseForm } from '../BaseForm/index';
 import ProFormItem from '../components/FormItem';
 
 export const proFormPorps = {
-  ...commonFormProps,
+    ...commonFormProps
 };
 
 export type ProFormPorps = Partial<ExtractPropTypes<typeof proFormPorps>>;
 
 const ProForm = defineComponent({
-  name: 'ProForm',
-  inheritAttrs: false,
-  props: proFormPorps,
-  setup(props, { slots }) {
-    return () => {
-      return (
-        <BaseForm
-          {...props}
-          layout={props.layout || 'vertical'}
-          submitter={{}}
-          contentRender={(items, submitter) => {
+    name: 'ProForm',
+    inheritAttrs: false,
+    props: proFormPorps,
+    setup(props, { slots }) {
+        return () => {
             return (
-              <>
-                {items}
-                {submitter}
-              </>
+                <BaseForm
+                    {...props}
+                    layout={props.layout || 'vertical'}
+                    contentRender={(items, submitter) => {
+                        return (
+                            <>
+                                {items}
+                                {submitter}
+                            </>
+                        );
+                    }}
+                >
+                    {slots?.default?.()}
+                </BaseForm>
             );
-          }}
-        >
-          {slots?.default?.()}
-        </BaseForm>
-      );
-    };
-  },
+        };
+    }
 });
 
 ProForm.useForm = Form.useForm;
 ProForm.Item = ProFormItem;
 
 ProForm.install = (app: App) => {
-  app.component(ProForm.name, ProForm);
-  return app;
+    app.component(ProForm.name, ProForm);
+    return app;
 };
 
 export default ProForm as DefineComponent<ProFormPorps> & Plugin;
