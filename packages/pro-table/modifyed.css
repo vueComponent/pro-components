@@ -1,0 +1,44 @@
+.pro-table-tooltip-text span {
+  color: #fff;
+}
+.ant-pro-table {
+  z-index: 1;
+}
+.ant-pro-table:not(:root):fullscreen {
+  min-height: 100vh;
+  overflow: auto;
+  background: #fff;
+}
+.ant-pro-table-extra {
+  margin-bottom: 16px;
+}
+.ant-pro-table-polling .ant-pro-table-list-toolbar-setting-item .anticon.anticon-reload {
+  transform: rotate(0deg);
+  animation: turn 1s linear infinite;
+}
+.ant-pro-table td.ant-table-cell > a {
+  font-size: 14px;
+}
+.ant-pro-table .ant-table .ant-table-tbody .ant-table-wrapper:only-child .ant-table {
+  margin: 0;
+}
+.ant-pro-table .ant-table.ant-table-middle .ant-pro-table {
+  margin: -12px -8px;
+}
+@keyframes turn {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
