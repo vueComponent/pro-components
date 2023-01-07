@@ -1,26 +1,108 @@
-import { ref, isRef } from 'vue';
+import { ref, onUnmounted } from 'vue';
+import screenfull from 'screenfull';
 import type { MaybeElementRef } from '../typings';
+import type { Ref, ComponentPublicInstance } from 'vue';
 
-export const useFullscreen = (target?: MaybeElementRef) => {
-  const isFullscreen = ref<boolean>(false);
+type TargetValue<T> = T | undefined | null;
 
-  const elememtRef = isRef(target) ? target : ref(target);
+type TargetType = ComponentPublicInstance | HTMLElement | Element | Window | Document;
 
-  if (elememtRef.value instanceof HTMLElement) {
-    console.log('onMounted:containerRef', elememtRef.value);
-  } else {
-    console.log('onMounted:containerRef', elememtRef.value ? elememtRef.value?.$el : document.body);
+type BasicTarget<T extends TargetType = HTMLElement> = (() => TargetValue<T>) | TargetValue<T> | Ref<TargetValue<T>>;
+
+interface Options {
+  onExitFull?: () => void;
+  onFull?: () => void;
+}
+
+const getTargetElement = <T extends TargetType>(target: BasicTarget<T>, defaultElement?: T) => {
+  if (!target) {
+    return defaultElement;
   }
 
+  let targetElement: TargetValue<T>;
+
+  if (typeof target === 'function') {
+    targetElement = target();
+  } else if ('value' in target) {
+    targetElement = target.value;
+  } else {
+    targetElement = target;
+  }
+
+  if (targetElement && '$el' in targetElement) {
+    return targetElement.$el;
+  }
+
+  return targetElement;
+};
+
+export const useFullscreen = (target: MaybeElementRef, options?: Options) => {
+  const isFullscreen = ref<boolean>(false);
+
+  const { onFull, onExitFull } = options || {};
+
+  const onFullRef = ref(onFull);
+  const onExitFullRef = ref(onExitFull);
+
+  const onChange = () => {
+    if (screenfull.isEnabled) {
+      const el = getTargetElement(target);
+
+      if (!screenfull.element) {
+        onExitFullRef.value?.();
+        isFullscreen.value = false;
+        screenfull.off('change', onChange);
+      } else {
+        if (screenfull.element === el) {
+          onFullRef.value?.();
+        } else {
+          onExitFullRef.value?.();
+        }
+        isFullscreen.value = screenfull.element === el;
+      }
+    }
+  };
+
   const enter = () => {
-    console.log();
+    const el = getTargetElement(target);
+    if (!el) return;
+
+    if (screenfull.isEnabled) {
+      try {
+        screenfull.request(el);
+        screenfull.on('change', onChange);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
+
   const exit = () => {
-    console.log();
+    if (!isFullscreen.value) {
+      return;
+    }
+    if (screenfull.isEnabled) {
+      try {
+        screenfull.exit();
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
+
   const toggle = () => {
-    console.log();
+    if (isFullscreen.value) {
+      exit();
+    } else {
+      enter();
+    }
   };
+
+  onUnmounted(() => {
+    if (screenfull.isEnabled) {
+      screenfull.off('change', onChange);
+    }
+  });
 
   return { isFullscreen, enter, exit, toggle };
 };

@@ -13,12 +13,13 @@ type TableAlertProps = {
 };
 
 const TableAlert: FunctionalComponent<TableAlertProps> = ({ selectedRowKeys = [] }) => {
-  const { getPrefixCls } = useSharedContext();
+  const { getPrefixCls, getMessage: t } = useSharedContext();
 
   const className = getPrefixCls('alert');
 
-  // TODO: t('alert.selected', '已选择'), t('alert.item', '项')
-  const alertInfo = <Space>{`已选择${selectedRowKeys.length}项`}</Space>;
+  const alertInfo = (
+    <Space>{`${t('alert.selected', '已选择')}${selectedRowKeys.length}${t('alert.item', '项')}`}</Space>
+  );
 
   return (
     <div class={className}>
