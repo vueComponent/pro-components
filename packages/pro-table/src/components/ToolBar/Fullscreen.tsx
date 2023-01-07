@@ -1,11 +1,14 @@
 import { defineComponent, shallowReactive, watchPostEffect } from 'vue';
 import { Tooltip } from 'ant-design-vue';
 import { FullscreenOutlined, FullscreenExitOutlined } from '@ant-design/icons-vue';
+import { useSharedContext } from '../../shared/Context';
 
 import 'ant-design-vue/es/tooltip/style';
 
 const FullScreen = defineComponent({
   setup() {
+    const { actionRef, getMessage: t } = useSharedContext();
+
     const state = shallowReactive<{
       fullscreen: boolean;
     }>({
@@ -18,16 +21,16 @@ const FullScreen = defineComponent({
       };
     });
 
-    // TODO: t('tableToolBar.exitFullScreen', '退出全屏')
-    // TODO: t('tableToolBar.fullScreen', '全屏')
+    const onClick = () => actionRef?.fullScreen();
+
     return () =>
       state.fullscreen ? (
-        <Tooltip title={`退出全屏`}>
-          <FullscreenExitOutlined />
+        <Tooltip title={t('tableToolBar.exitFullScreen', '退出全屏')}>
+          <FullscreenExitOutlined onClick={onClick} />
         </Tooltip>
       ) : (
-        <Tooltip title={`全屏`}>
-          <FullscreenOutlined />
+        <Tooltip title={t('tableToolBar.fullScreen', '全屏')}>
+          <FullscreenOutlined onClick={onClick} />
         </Tooltip>
       );
   },

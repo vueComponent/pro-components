@@ -28,10 +28,11 @@
     "./dist/style.less": "./dist/style.less"
   },
   "dependencies": {
-    "@ant-design/icons-vue": "^6.1.0",
     "@ant-design-vue/pro-form": "workspace:^0.1.0",
+    "@ant-design/icons-vue": "^6.1.0",
     "ant-design-vue": "^3.2.10",
     "lodash-es": "^4.17.21",
+    "screenfull": "^6.0.2",
     "vue": "^3.2.39"
   },
   "devDependencies": {
@@ -65,9 +66,9 @@
   },
   "peerDependencies": {
     "@ant-design/icons-vue": ">=6.1.0",
-    "ant-design-vue": ">=3.2.0",
     "@ant-design-vue/pro-form": "^0.1.0",
-    "@ant-design-vue/pro-utils": "^0.0.0"
+    "@ant-design-vue/pro-utils": "^0.0.0",
+    "ant-design-vue": ">=3.2.0"
   },
   "peerDependenciesMeta": {},
   "contributors": [

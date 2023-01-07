@@ -1,4 +1,4 @@
-import type { ComponentPublicInstance, CSSProperties, Ref } from 'vue';
+import type { ComponentPublicInstance, ShallowRef, Ref } from 'vue';
 import type { TableProps, ColumnType } from 'ant-design-vue/es/table';
 import type { SortOrder, FilterValue } from 'ant-design-vue/es/table/interface';
 import type { CardProps } from 'ant-design-vue';
@@ -7,15 +7,20 @@ import type { OptionConfig } from './components/ToolBar';
 
 export type WithFalse<T> = T | false;
 
-export type MaybeRef<T> = T | Ref<T>;
-
 export type VueInstance = ComponentPublicInstance;
 
-export type MaybeElement = HTMLElement | VueInstance | undefined;
+export type MaybeElement = Element | HTMLElement | VueInstance | undefined;
+
+export type MaybeRef<T> = T | ShallowRef<T> | Ref<T>;
 
 export type MaybeElementRef<T extends MaybeElement = MaybeElement> = MaybeRef<T>;
 
 export declare type DefaultRecordType = Record<string, unknown>;
+
+// fork from https://github.com/vueComponent/ant-design-vue/blob/main/components/vc-table/interface.ts
+export declare type Key = number | string;
+export declare type FixedType = 'left' | 'right' | boolean;
+export declare type DataIndex = string | number | readonly (string | number)[];
 
 export type ProColumnType<RecordType> = ColumnType<RecordType> & {
   valueType?: 'index' | 'indexBorder' | 'text' | 'select';
@@ -26,7 +31,10 @@ export type ProColumnGroupType<RecordType> = Omit<ProColumnType<RecordType>, 'da
   chilren: ProColumnsType<RecordType>;
 };
 
-export type ProColumnsType<RecordType> = (ProColumnGroupType<RecordType> | ProColumnType<RecordType>)[];
+export type ProColumnsType<RecordType extends DefaultRecordType = DefaultRecordType> = (
+  | ProColumnGroupType<RecordType>
+  | ProColumnType<RecordType>
+)[];
 
 export type RequestParams = {
   current?: number;
@@ -58,16 +66,20 @@ export type ProTableProps<RecordType extends DefaultRecordType = DefaultRecordTy
     options: WithFalse<OptionConfig>;
   }>;
 
-export type SizeType = 'large' | 'middle' | 'small' | undefined;
-
 export type ActionType = {
-  /**
-   * @deprecated 规划中，可能会被移除。
-   * 建议使用双向绑定（v-model:size）
-   */
-  changeSize?: (size: SizeType) => void;
   fullScreen: () => void;
   reload: (resetPageIndex?: boolean) => Promise<void>;
 };
 
-export type FormatMessage = (message: string) => string;
+export type SizeType = 'large' | 'middle' | 'small' | undefined;
+
+export type ColumnState = {
+  show?: boolean;
+  fixed?: FixedType;
+  order?: number;
+  disable?:
+    | boolean
+    | {
+        checkbox: boolean;
+      };
+};

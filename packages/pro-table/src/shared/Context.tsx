@@ -1,12 +1,17 @@
-import { reactive } from 'vue';
 import { createContext, useContext } from '../hooks';
-import type { InjectionKey } from 'vue';
-import type { ActionType, FormatMessage, WithFalse } from '../typings';
+import { zhCN } from '../locale';
+import type { InjectionKey, Ref } from 'vue';
+import type { ActionType, MaybeElementRef, SizeType, ColumnState } from '../typings';
 
 export interface Context {
   getPrefixCls: (suffixCls?: string, customizePrefixCls?: string) => string;
-  locale?: WithFalse<FormatMessage>;
+  getMessage: (id: string, defaultMessage: string) => string;
   actionRef?: ActionType;
+  containerRef?: MaybeElementRef;
+  size?: SizeType;
+  setSize?: (size: SizeType) => void;
+  columnsMap?: Record<string, ColumnState>;
+  setColumnsMap?: (columnsMap: Record<string, ColumnState>) => void;
 }
 
 export const defaultPrefixCls = 'ant-pro-table';
@@ -16,11 +21,12 @@ export const getPrefixCls = (suffixCls?: string, customizePrefixCls?: string) =>
   return suffixCls ? `${defaultPrefixCls}-${suffixCls}` : defaultPrefixCls;
 };
 
-// set default context
-export const defaultContext = reactive({
+export const defaultContext: Context = {
   getPrefixCls,
-  locale: (t: string) => t,
-});
+  getMessage: (id: string, defaultMessage?: string) => {
+    return ((zhCN as Record<string, unknown>)[id] as string) ?? defaultMessage;
+  },
+};
 
 export const contextInjectKey: InjectionKey<Context> = Symbol('context');
 

@@ -1,62 +1,94 @@
-<template>
-    <pro-table
-        @change="handleChane"
-        :request="request"
-        :columns="columns"
-        :bordered="true"
-        :pagination="pagination"
-    >
-        <template #bodyCell="{ column, text, record }">
-            <div v-if="column.dataIndex === 'action'">点击</div>
-            <div v-else>{{ text }}</div>
-        </template>
-    </pro-table>
-</template>
+<script lang="ts" setup>
+import ProTable, { type ProColumnsType } from '@ant-design-vue/pro-table';
+import axios from 'axios';
 
-<script setup lang="ts">
-import { reactive, ref } from 'vue';
+const columns: ProColumnsType = [
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    fixed: 'left',
+    sorter: true,
+    search: true,
+    width: '20%',
+  },
+  {
+    title: 'Gender',
+    dataIndex: 'gender',
+    filters: [
+      { text: 'Male', value: 'male' },
+      { text: 'Female', value: 'female' },
+    ],
+    width: '20%',
+    search: true,
+  },
+  {
+    title: 'Post Code',
+    dataIndex: ['location', 'postcode'],
+  },
+  {
+    title: 'City',
+    dataIndex: ['location', 'city'],
+  },
+  {
+    title: 'State',
+    dataIndex: ['location', 'state'],
+  },
+  {
+    title: 'Country',
+    dataIndex: ['location', 'country'],
+  },
+  {
+    title: 'Age',
+    dataIndex: ['registered', 'age'],
+  },
+  {
+    title: 'Phone',
+    dataIndex: 'phone',
+    search: true,
+  },
+  {
+    title: 'Cell',
+    dataIndex: 'cell',
+    search: true,
+    fixed: 'right',
+  },
+];
 
-import type { ColumnsType } from '@ant-design-vue/pro-table';
-const handleChane = values => {
-    console.log(values, '分页');
-};
-const pagination = reactive({
-    pageSize: 10
-});
-const columns = reactive<ColumnsType>([
-    {
-        dataIndex: 'name',
-        title: '姓名',
-        key: 'name',
-        search: true
+const request = async ({
+  current,
+  pageSize,
+  ...others
+}: {
+  current: number;
+  pageSize: number;
+  [key: string]: unknown;
+}) => {
+  const {
+    data: { results },
+  } = await axios.get<{
+    results: Record<string, unknown>[];
+  }>('https://randomuser.me/api?noinfo', {
+    params: {
+      results: pageSize,
+      page: current,
+      ...others,
     },
-    {
-        dataIndex: 'age',
-        title: '年龄',
-        key: 'age',
-        search: true
-    },
-    {
-        dataIndex: 'action',
-        title: '操作',
-        key: 'action',
-        disabled: true
-    }
-]);
-const request = async (params: any = {}) => {
-    let data: any[] = [];
-
-    console.log('params', params);
-    for (let i = 0; i < params.pageSize; i++) {
-        data.push({
-            name: '第' + params.current + '页的' + +(i + 1) + (params?.name || ''),
-            age: 18
-        });
-    }
-    return {
-        data,
-        success: true,
-        total: 100
-    };
+  });
+  return {
+    data: results,
+    total: 200,
+  };
 };
 </script>
+<template>
+  <pro-table
+    :columns="columns"
+    :row-key="record => record.login.uuid"
+    :request="request"
+    :options="{ density: true, fullScreen: true }"
+  >
+    <template #bodyCell="{ column, text }">
+      <template v-if="column.dataIndex === 'name'">{{ text.first }} {{ text.last }}</template>
+    </template>
+  </pro-table>
+</template>

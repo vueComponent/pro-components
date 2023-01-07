@@ -3,12 +3,13 @@ import ListToolBar, { type ListToolBarSetting, type ListToolBarProps } from '../
 import { ReloadOutlined } from '@ant-design/icons-vue';
 import Density from './Density';
 import ColumnSetting from './ColumnSetting';
-import FullscreenIcon from './FullscreenIcon';
+import Fullscreen from './Fullscreen';
 import { useSharedContext } from '../../shared/Context';
 import type { InputProps } from 'ant-design-vue';
 import type { WithFalse } from '../../typings';
 
 import './index.less';
+import type { ColumnsType } from 'ant-design-vue/es/table';
 
 export interface ActionType {
   reload: (resetPageIndex?: boolean) => Promise<void>;
@@ -28,20 +29,21 @@ export type OptionSearchProps = InputProps & { name?: string } & {
 
 // TODO: search
 export type OptionConfig = Partial<{
-  reload: OptionsType;
   density: boolean;
-  setting: boolean;
   fullScreen: OptionsType;
+  reload: OptionsType;
+  setting: boolean;
   search: OptionSearchProps | boolean;
 }>;
 
 export type ToolBarProps = {
+  columns?: ColumnsType;
   options?: WithFalse<OptionConfig>;
   toolbar?: WithFalse<ListToolBarProps>;
 };
 
-const ToolBar: FunctionalComponent<ToolBarProps> = ({ toolbar, options: propsOptions }) => {
-  const { actionRef } = useSharedContext();
+const ToolBar: FunctionalComponent<ToolBarProps> = ({ columns = [], toolbar, options: propsOptions }) => {
+  const { actionRef, getMessage: t } = useSharedContext();
 
   if (toolbar === false) return null;
 
@@ -54,21 +56,14 @@ const ToolBar: FunctionalComponent<ToolBarProps> = ({ toolbar, options: propsOpt
   const options = propsOptions ?? defaultOptions;
 
   const catalog: Record<string, ListToolBarSetting | VNode> = {
-    // TODO: t('tableToolBar.reload', '刷新')
     reload: {
       icon: <ReloadOutlined />,
-      tooltip: '刷新',
+      tooltip: t('tableToolBar.reload', '刷新'),
       onClick: () => actionRef?.reload(),
     },
-    // TODO: t('tableToolBar.density', '表格密度')
     density: <Density />,
-    // TODO: t('tableToolBar.columnSetting', '列设置')
-    setting: <ColumnSetting />,
-    // TODO: t('tableToolBar.fullScreen', '全屏')
-    fullScreen: {
-      icon: <FullscreenIcon />,
-      onClick: () => actionRef?.fullScreen(),
-    },
+    setting: <ColumnSetting columns={columns} />,
+    fullScreen: <Fullscreen />,
   };
 
   const settings = options
