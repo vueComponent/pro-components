@@ -252,19 +252,37 @@
                 </div>
             </template>
         </ProFormDateTimeRangePicker>
+        <ProFormRadio             
+            name="radio"
+            label="Checkbox.Group"
+        >
+            <Radio value="a">Hangzhou</Radio>
+            <Radio value="b">Shanghai</Radio>
+            <Radio value="c">Beijing</Radio>
+            <Radio value="d" disabled>Chengdu</Radio>
+        </ProFormRadio>
+        <ProFormRadio             
+            name="radio1"
+            label="Checkbox.Group"
+            :field-props="{
+                options: optionsWithDisabled
+            }"
+        />
+            
     </pro-form>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, FunctionalComponent, CSSProperties, onMounted } from 'vue';
+import { ref, FunctionalComponent, CSSProperties } from 'vue';
 import { PlusOutlined } from '@ant-design/icons-vue';
 import {
     RadioGroup,
     RadioButton,
+    Radio,
     Switch,
     Divider,
     SelectOption,
-    type SelectProps
+    type SelectProps, RadioGroupProps
 } from 'ant-design-vue';
 import type { FormLayout } from 'ant-design-vue/es/form/Form';
 import {
@@ -279,7 +297,8 @@ import {
     ProFormDatePickerQuarter,
     ProFormDateTimeRangePicker,
     ProFormTimePicker,
-    ProFormTimeRangePicker
+    ProFormTimeRangePicker,
+    ProFormRadio
 } from '@ant-design-vue/pro-form';
 import dayjs, { type Dayjs } from 'dayjs';
 import type { Recordable } from '@/typings';
@@ -332,7 +351,9 @@ const formModel = ref({
     yearTime: ref<Dayjs>(),
     timeDate: ref<Dayjs>(),
     timeRangeDate: ref<Dayjs>(),
-    dateTimeRange: ref<RangeValue>()
+    dateTimeRange: ref<RangeValue>(),
+    radio: 'a',
+    radio1: ''
 });
 
 const sex = ref([
@@ -385,6 +406,12 @@ const langs = ref([
         icon: '🇺🇸'
     }
 ]);
+
+const optionsWithDisabled: RadioGroupProps['options'] = [
+  { label: 'Apple', value: 'Apple' },
+  { label: 'Pear', value: 'Pear' },
+  { label: 'Orange', value: 'Orange', disabled: true },
+];
 
 const formLayoutType = ref<FormLayout>('horizontal');
 const grid = ref(true);
