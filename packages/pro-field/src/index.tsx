@@ -75,6 +75,11 @@ import { fieldTimeRangePickerProps, type FieldTimeRangePickerProps } from './com
 import FieldTimeRangePicker, { slots as timeRangePickerSlots } from './components/TimeRangePicker';
 export { FieldTimeRangePicker, fieldTimeRangePickerProps, timeRangePickerSlots, FieldTimeRangePickerProps };
 
+import { fieldRadioProps, type FieldRadioProps } from './components/Radio/types';
+import FieldRadio from './components/Radio';
+export { FieldRadio, fieldRadioProps, FieldRadioProps };
+
+
 // style
 import './default.less';
 import './style.less';
@@ -266,6 +271,19 @@ const defaultRenderText = (
         text={dataValue}
       />
     );
+  }
+
+  if (valueType === 'radio' || valueType === 'radioButton') {
+    const { fieldProps } = props
+    return (
+      <FieldRadio 
+        {...props}
+        fieldProps={{
+          ...fieldProps,
+        }}
+        text={dataValue as string} 
+      />
+    )
   }
 
   if (valueType === 'select') {

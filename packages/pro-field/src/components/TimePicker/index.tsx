@@ -21,8 +21,8 @@ const FieldTimePicker = defineComponent({
       'renderExtraFooter'
     );
 
-    const render = getSlot(slots, props.fieldProps as Record<string, any>, 'render') as any;
-    const renderFormItem = getSlot(slots, props.fieldProps as Record<string, any>, 'renderFormItem') as any;
+    const render = getSlot(slots, props.fieldProps as Record<string, any>, 'render') as Function;
+    const renderFormItem = getSlot(slots, props.fieldProps as Record<string, any>, 'renderFormItem') as Function;
 
     return () => {
       const { mode, text, fieldProps } = props;
