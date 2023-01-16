@@ -1,9 +1,9 @@
 {
   "name": "@ant-design-vue/pro-form",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vue-tsc --noEmit && vite -v build",
     "vars": "lessc --js ./src/style.less modifyed.css",
     "types": "vue-tsc --declaration --emitDeclarationOnly",
     "preview": "vite preview --port 5050",
