@@ -293,8 +293,6 @@ const ColumnSetting: FunctionalComponent<ColumnSettingProps> = (props, { slots }
 
   const { columnsMap = {}, setColumnsMap, getMessage: t, getPrefixCls } = useSharedContext();
 
-  console.log('ColumnSetting.columnsMap', columnsMap);
-
   const localColumns: LocalColumns = columns;
 
   /**

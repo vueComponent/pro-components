@@ -27,12 +27,9 @@
     "./dist/style.css": "./dist/style.css",
     "./dist/style.less": "./dist/style.less"
   },
-  "dependencies": {
+  "dependencies": {    
     "@ant-design/icons-vue": "^6.1.0",
-    "ant-design-vue": "^3.2.10",
-    "omit.js": "^2.0.2",
-    "vue": "^3.2.39",
-    "vue-router": "^4.0.14"
+    "omit.js": "^2.0.2"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.3.2",
@@ -53,10 +50,11 @@
     "jsdom": "^19.0.0",
     "less": "^4.1.2",
     "prettier": "^2.6.2",
-    "typescript": "~4.5.5",
-    "vite": "^2.9.5",
-    "vitest": "^0.5.9",
-    "vue-tsc": "^0.34.7"
+    "vue-router": "^4.1.5"
+  },
+  "peerDependencies": {
+    "ant-design-vue": ">=3.2.0",
+    "vue": ">=3.2.0"
   },
   "contributors": [
     "tangjinzhou <415800467@qq.com>",
