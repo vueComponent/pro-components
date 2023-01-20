@@ -1,4 +1,4 @@
-import { defineComponent, ref, reactive, watch, toRaw, watchEffect } from 'vue';
+import { defineComponent, ref, reactive, watch } from 'vue';
 import Table, { tableProps } from 'ant-design-vue/es/table';
 import { Card } from 'ant-design-vue';
 import { SearchForm, ToolBar, TableAlert } from './components';
@@ -6,12 +6,12 @@ import Provider, { defaultPrefixCls, defaultContext, type Context } from './shar
 import { useFetchData, useFullscreen } from './hooks';
 import { getSlot } from '@ant-design-vue/pro-utils';
 import type { FunctionalComponent, Slot, PropType } from 'vue';
-import type { ProTableProps, ActionType, SizeType, MaybeElement } from './typings';
+import type { ProTableProps, ActionType, MaybeElement } from './typings';
 
 import 'ant-design-vue/es/table/style';
 import 'ant-design-vue/es/card/style';
 import './index.less';
-import { EditableFormWrapper } from './components/EditableFormWrapper';
+// import { EditableFormWrapper } from './components/EditableFormWrapper';
 
 const TableWrapper: FunctionalComponent<{
   cardBordered?: ProTableProps['cardBordered'];
@@ -62,8 +62,10 @@ export const proTableProps = {
 const ProTable = defineComponent({
   name: 'ProTable',
   props: proTableProps,
-  slots: ['actions', 'settings', 'editForm'],
-  emits: ['change', 'load', 'requestError', 'valuesChange', 'update:size'],
+  // slots: ['actions', 'settings', 'editForm'],
+  slots: ['actions', 'settings'],
+  // emits: ['update:size', 'change', 'load', 'requestError', 'valuesChange'],
+  emits: ['update:size', 'change', 'load', 'requestError'],
   setup(props, { slots, emit, expose }) {
     const containerRef = ref<MaybeElement>();
 
@@ -117,50 +119,50 @@ const ProTable = defineComponent({
       },
     );
 
-    const editDataModel = reactive<Record<string, Record<string, unknown>>>({ formData: { name_0: 123 } });
+    // const editDataModel = reactive<Record<string, Record<string, unknown>>>({ formData: { name_0: 123 } });
 
-    const handleFilterValue = (value: any) => {
-      const keys = Object.keys(toRaw(value));
-      const currenDataSource = toRaw(requestProps.dataSource);
+    // const handleFilterValue = (value: any) => {
+    //   const keys = Object.keys(toRaw(value));
+    //   const currenDataSource = toRaw(requestProps.dataSource);
 
-      for (let i = 0; i < keys.length; i++) {
-        const column = keys[i].split('_')[0];
-        const key = parseInt(keys[i].split('_')[1]) as number;
-        const val = value[keys[i]];
-        const currentRow = currenDataSource[key];
+    //   for (let i = 0; i < keys.length; i++) {
+    //     const column = keys[i].split('_')[0];
+    //     const key = parseInt(keys[i].split('_')[1]) as number;
+    //     const val = value[keys[i]];
+    //     const currentRow = currenDataSource[key];
 
-        currentRow[column] = val;
-        currenDataSource[key] = currentRow;
+    //     currentRow[column] = val;
+    //     currenDataSource[key] = currentRow;
 
-        setDataSource(currenDataSource);
-      }
-      emit('valuesChange', currenDataSource);
-    };
+    //     setDataSource(currenDataSource);
+    //   }
+    //   emit('valuesChange', currenDataSource);
+    // };
 
-    watch(
-      () => requestProps.dataSource,
-      cur => {
-        const tempEditData: Record<string, unknown> = {};
-        cur.forEach((item, index) => {
-          const keys = Object.keys(item);
-          keys.forEach((item2, index2) => {
-            const column = item2 + '_' + index;
-            tempEditData[column] = item[item2];
-          });
-        });
-        editDataModel.formData = tempEditData;
-      },
-    );
+    // watch(
+    //   () => requestProps.dataSource,
+    //   cur => {
+    //     const tempEditData: Record<string, unknown> = {};
+    //     cur.forEach((item, index) => {
+    //       const keys = Object.keys(item);
+    //       keys.forEach((item2, index2) => {
+    //         const column = item2 + '_' + index;
+    //         tempEditData[column] = item[item2];
+    //       });
+    //     });
+    //     editDataModel.formData = tempEditData;
+    //   },
+    // );
 
-    watch(
-      () => editDataModel.formData,
-      curr => {
-        handleFilterValue(curr);
-      },
-      {
-        deep: true,
-      },
-    );
+    // watch(
+    //   () => editDataModel.formData,
+    //   curr => {
+    //     handleFilterValue(curr);
+    //   },
+    //   {
+    //     deep: true,
+    //   },
+    // );
 
     return () => {
       const { editable, onChange: discard, cardBordered, cardProps, toolbar, options, ...others } = props;
@@ -174,15 +176,15 @@ const ProTable = defineComponent({
       const actions = getSlot<Slot>(slots, props, 'actions');
       const settings = getSlot<Slot>(slots, props, 'actions');
 
-      const renderTable = () => {
-        return editable ? (
-          <EditableFormWrapper model={editDataModel.formData}>
-            <Table {...tableProps} v-slots={slots} onChange={onChange} />
-          </EditableFormWrapper>
-        ) : (
-          <Table {...tableProps} v-slots={slots} onChange={onChange} />
-        );
-      };
+      // const renderTable = () => {
+      //   return editable ? (
+      //     <EditableFormWrapper model={editDataModel.formData}>
+      //       <Table {...tableProps} v-slots={slots} onChange={onChange} />
+      //     </EditableFormWrapper>
+      //   ) : (
+      //     <Table {...tableProps} v-slots={slots} onChange={onChange} />
+      //   );
+      // };
 
       return (
         <div class={defaultPrefixCls} ref={containerRef}>
@@ -190,8 +192,8 @@ const ProTable = defineComponent({
             <SearchForm columns={props.columns} onFinish={onFinish} />
             <TableWrapper cardProps={cardProps} toolbar={toolbar}>
               <ToolBar options={options} columns={props.columns} toolbar={toolbar} v-slots={{ actions, settings }} />
-              {/* <TableAlert /> */}
-              {renderTable()}
+              <TableAlert />
+              <Table {...tableProps} v-slots={slots} onChange={onChange} />
             </TableWrapper>
           </Provider>
         </div>

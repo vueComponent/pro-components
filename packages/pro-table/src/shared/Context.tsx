@@ -1,7 +1,8 @@
 import { createContext, useContext } from '../hooks';
-import { zhCN } from '../locale';
-import type { InjectionKey, Ref } from 'vue';
+import type { InjectionKey } from 'vue';
 import type { ActionType, MaybeElementRef, SizeType, ColumnState } from '../typings';
+
+import { zhCN } from '../locale';
 
 export interface Context {
   getPrefixCls: (suffixCls?: string, customizePrefixCls?: string) => string;
