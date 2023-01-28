@@ -57,6 +57,7 @@ export type FetchData<RecordType> = (
 
 export type ProTableProps<RecordType extends DefaultRecordType = DefaultRecordType> = TableProps<RecordType> &
   Partial<{
+    editable: boolean;
     columns: ProColumnsType<RecordType>;
     request: FetchData<RecordType>;
     params: Record<string, unknown>;

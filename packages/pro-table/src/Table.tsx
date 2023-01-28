@@ -5,7 +5,7 @@ import { Card } from 'ant-design-vue';
 import Table, { tableProps } from 'ant-design-vue/es/table';
 import { SearchForm, ToolBar, TableAlert } from './components';
 import { getSlot } from '@ant-design-vue/pro-utils';
-import type { FunctionalComponent, Slot, PropType } from 'vue';
+import type { DefineComponent, FunctionalComponent, PropType, Plugin, Slot } from 'vue';
 import type { ProTableProps, ActionType, MaybeElement } from './typings';
 
 import './Table.less';
@@ -198,4 +198,4 @@ const ProTable = defineComponent({
   },
 });
 
-export default ProTable;
+export default ProTable as DefineComponent<ProTableProps> & Plugin;
