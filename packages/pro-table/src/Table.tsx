@@ -1,16 +1,14 @@
-import { defineComponent, ref, reactive, watch, toRaw, watchEffect } from 'vue';
-import Table, { tableProps } from 'ant-design-vue/es/table';
-import { Card } from 'ant-design-vue';
-import { SearchForm, ToolBar, TableAlert } from './components';
+import { defineComponent, ref, reactive, watch, toRaw } from 'vue';
 import Provider, { defaultPrefixCls, defaultContext, type Context } from './shared/Context';
 import { useFetchData, useFullscreen } from './hooks';
+import { Card } from 'ant-design-vue';
+import Table, { tableProps } from 'ant-design-vue/es/table';
+import { SearchForm, ToolBar, TableAlert } from './components';
 import { getSlot } from '@ant-design-vue/pro-utils';
 import type { FunctionalComponent, Slot, PropType } from 'vue';
-import type { ProTableProps, ActionType, SizeType, MaybeElement } from './typings';
+import type { ProTableProps, ActionType, MaybeElement } from './typings';
 
-import 'ant-design-vue/es/table/style';
-import 'ant-design-vue/es/card/style';
-import './index.less';
+import './Table.less';
 import { EditableFormWrapper } from './components/EditableFormWrapper';
 
 const TableWrapper: FunctionalComponent<{

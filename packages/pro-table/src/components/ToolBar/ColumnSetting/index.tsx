@@ -1,4 +1,5 @@
 import type { FunctionalComponent, VNodeChild } from 'vue';
+import { useSharedContext } from '../../../shared/Context';
 import { Checkbox, Space, Popover, Tree, Tooltip } from 'ant-design-vue';
 import {
   HolderOutlined,
@@ -7,7 +8,6 @@ import {
   VerticalAlignMiddleOutlined,
   VerticalAlignBottomOutlined,
 } from '@ant-design/icons-vue';
-import { useSharedContext } from '../../../shared/Context';
 import { genColumnKey } from '../../../utils';
 import { omit } from 'lodash-es';
 import type { DataNode } from 'ant-design-vue/es/tree';
@@ -18,12 +18,6 @@ import type {
   ProColumnsType,
   ColumnState,
 } from '../../../typings';
-
-import 'ant-design-vue/es/checkbox/style';
-import 'ant-design-vue/es/space/style';
-import 'ant-design-vue/es/popover/style';
-import 'ant-design-vue/es/tree/style';
-import 'ant-design-vue/es/tooltip/style';
 
 import './index.less';
 

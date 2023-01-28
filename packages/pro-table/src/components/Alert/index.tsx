@@ -1,9 +1,7 @@
 import type { FunctionalComponent } from 'vue';
-import { Alert, Space } from 'ant-design-vue';
 import { useSharedContext } from '../../shared/Context';
+import { Alert, Space } from 'ant-design-vue';
 
-import 'ant-design-vue/es/alert/style';
-import 'ant-design-vue/es/space/style';
 import './index.less';
 
 type TableAlertProps = {
