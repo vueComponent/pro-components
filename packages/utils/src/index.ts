@@ -1,16 +1,18 @@
-import isImg from './isImg';
-import isNil from './isNil';
-import isUrl from './isUrl';
-import { getSlotVNode, getSlot } from './getSlot';
+import isImg from "./isImg";
+import isNil from "./isNil";
+import isUrl from "./isUrl";
+import { getSlotVNode, getSlot } from "./getSlot";
+export { getType } from "./getType";
+export { objToMap } from "./objToMap";
 
-export * from './is';
+export * from "./is";
 export { isImg, isNil, isUrl, getSlotVNode, getSlot };
 
-import omitUndefined from './omitUndefined';
-import pickProProps from './pickProProps';
+import omitUndefined from "./omitUndefined";
+import pickProProps from "./pickProProps";
 export { omitUndefined, pickProProps };
 
-import { proxyToRaw } from './proxyToRaw';
+import { proxyToRaw } from "./proxyToRaw";
 export { proxyToRaw };
 
 // type
@@ -23,7 +25,11 @@ import {
   ProFieldValueObjectType,
   ProFieldValueType,
   ProFieldValueTypeWithFieldProps,
-} from './typings';
+  ProSchemaValueEnumType,
+  ProSchemaValueEnumMap,
+  ProSchemaValueEnumObj,
+  ProFieldValueEnumType,
+} from "./typings";
 export {
   VueNode,
   ProFieldFCMode,
@@ -33,4 +39,8 @@ export {
   ProFieldValueObjectType,
   ProFieldValueType,
   ProFieldValueTypeWithFieldProps,
+  ProSchemaValueEnumType,
+  ProSchemaValueEnumMap,
+  ProSchemaValueEnumObj,
+  ProFieldValueEnumType,
 };
