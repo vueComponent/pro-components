@@ -36,41 +36,41 @@ ProTable puts a layer of wrapping on top of antd's Table, supports some presets,
   params={params}
   request={async (
     // The first parameter params is the combination of the query form and params parameters
-    // The first parameter will always have pageSize and current, which are antd specifications
-    params: T & {
-      pageSize: number;
-      current: number;
-    },
+    // The first parameter will always have current and pageSize, which are antd specifications
+    params,
     sort,
     filter,
   ) => {
     // Here you need to return a Promise, and you can transform the data before returning it
     // If you need to transform the parameters you can change them here
-    const payload = await axios.get('//api', {
-      page: params.current,
-      pageSize: params.pageSize,
+    const {
+      data: { results: data, total },
+    } = await axios.get<{ results: Record<string, unknown>[]; total: number }>('/api', {
+      params: {
+        page: params.current,
+        pageSize: params.pageSize,
+      },
     });
     return {
-      data: payload.result,
-      // Please return true for success.
-      // otherwise the table will stop parsing the data, even if there is data
-      success: boolean,
+      // If return false for success, the table will stop parsing the data, even if there is data.
+      success: true,
+      data,
       // not passed will use the length of the data, if it is paged you must pass
-      total: number,
+      total,
     };
   }}
 />
 ```
 
-### Attributes
+### Properties
 
 | Name | Description | Type | Default Value |
 | --- | --- | --- | --- |
 | request | How to get `dataSource` | `(params?: {pageSize,current},sort,filter) => {data,success,total}` | - |
 | params | Additional parameters used for `request` query, once changed will trigger reloading | `object` | - |
 | cardBordered | Border of Card components around Table and Search | `boolean \| {search?: boolean, table?: boolean}` | false |
-| cardProps | Card's props which wrap the Table, not displayed when set to false | `false` \| [CardProps](https://antdv.com/components/card#API) | - |
-| toolbar | Transparent transmission of `ListToolBar` configuration items, not displayed when set to false | `false` \| [ListToolBarProps](#listtoolbarprops) |  |
+| cardProps | Card's props which wrap the Table, not displayed when set to false | `false` \| [CardProps](https://antdv.com/components/card#Card) | - |
+| toolbar | Transparent transmission of `ListToolBar` configuration items, not displayed when set to false | `false` \| [ListToolBarProps](#listtoolbarprops) | - |
 | options | table toolbar, not displayed when set to false | `{{ reload: boolean \| function, density?: boolean, setting: boolean, fullScreen: boolean \| function }}` | `{ reload :true, density: true, setting: true }` |
 
 ### Slots

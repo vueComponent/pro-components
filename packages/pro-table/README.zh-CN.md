@@ -36,27 +36,27 @@ ProTable 在 antd 的 Table 上进行了一层封装，支持了一些预设，�
   params={params}
   request={async (
     // 第一个参数 params 查询表单和 params 参数的结合
-    // 第一个参数中一定会有 pageSize 和  current ，这两个参数是 antd 的规范
-    params: T & {
-      pageSize: number;
-      current: number;
-    },
+    // 第一个参数中一定会有 current 和 pageSize，这两个参数是 antd 的规范
+    params,
     sort,
     filter,
   ) => {
     // 这里需要返回一个 Promise,在返回之前你可以进行数据转化
     // 如果需要转化参数可以在这里进行修改
-    const payload = await axios.get('//api', {
-      page: params.current,
-      pageSize: params.pageSize,
+    const {
+      data: { results: data, total },
+    } = await axios.get<{ results: Record<string, unknown>[]; total: number }>('/api', {
+      params: {
+        page: params.current,
+        pageSize: params.pageSize,
+      },
     });
     return {
-      data: payload.result,
-      // success 请返回 true，
-      // 不然 table 会停止解析数据，即使有数据
-      success: boolean,
+      // 如果 success 请返回 false，不然 table 会停止解析数据，即使有数据
+      success: true,
+      data,
       // 不传会使用 data 的长度，如果是分页一定要传
-      total: number,
+      total,
     };
   }}
 />
@@ -69,7 +69,7 @@ ProTable 在 antd 的 Table 上进行了一层封装，支持了一些预设，�
 | request | 获取 `dataSource` 的方法 | `(params?: {pageSize,current},sort,filter) => {data,success,total}` | - |
 | params | 用于 `request` 查询的额外参数，一旦变化会触发重新加载 | `object` | - |
 | cardBordered | Table 和 Search 外围 Card 组件的边框 | `boolean \| {search?: boolean, table?: boolean}` | false |
-| cardProps | Table 外围的 Card 组件的属性，设为 false 时不显示 | false |  |
+| cardProps | Table 外围的 Card 组件的属性，设为 false 时不显示 | false \| [CardProps](https://antdv.com/components/card#Card) | - |
 | toolbar | 透传 `ListToolBar` 配置项 | [ListToolBarProps](#listtoolbarprops) | - |
 | options | table 工具栏设置区域的配置项，传入 function 会点击时触发 | `{{ density?: boolean, fullScreen: boolean \| function, reload: boolean \| function, setting: boolean `}}` | `{ fullScreen: false, reload: true, setting: true }` |
 
