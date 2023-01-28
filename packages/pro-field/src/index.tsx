@@ -287,13 +287,7 @@ const defaultRenderText = (
   }
 
   if (valueType === 'select') {
-    let text = '';
-    if (dataValue instanceof Array) {
-      text = dataValue.join(',');
-    } else {
-      text = dataValue as string;
-    }
-    return <FieldSelect {...props} text={text} />;
+    return <FieldSelect {...props} text={dataValue} />;
   }
   if (valueType === 'password') {
     return <FieldPassword {...props} text={dataValue as string} />;

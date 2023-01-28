@@ -255,17 +255,24 @@
         <ProFormRadio             
             name="radio"
             label="Checkbox.Group"
+            :col-props="{
+                span: 24                
+            }"
         >
             <Radio value="a">Hangzhou</Radio>
             <Radio value="b">Shanghai</Radio>
-            <Radio value="c">Beijing</Radio>
-            <Radio value="d" disabled>Chengdu</Radio>
+            <Radio value="c" disabled>Beijing</Radio>
+            <Radio value="d">Chengdu</Radio>
         </ProFormRadio>
         <ProFormRadio             
             name="radio1"
             label="Checkbox.Group"
+            :col-props="{
+                xs: 24
+            }"
             :field-props="{
-                options: optionsWithDisabled
+                options: optionsWithDisabled,
+                optionType: 'button'
             }"
         />
             
@@ -353,7 +360,7 @@ const formModel = ref({
     timeRangeDate: ref<Dayjs>(),
     dateTimeRange: ref<RangeValue>(),
     radio: 'a',
-    radio1: ''
+    radio1: 'A'
 });
 
 const sex = ref([
@@ -374,11 +381,11 @@ const girlNameoptions = ref<SelectProps['options']>([
         label: 'Manager',
         options: [
             {
-                value: 'jack',
+                value: 'j',
                 label: 'Jack'
             },
             {
-                value: 'lucy',
+                value: 'l',
                 label: 'Lucy'
             }
         ]
@@ -408,9 +415,9 @@ const langs = ref([
 ]);
 
 const optionsWithDisabled: RadioGroupProps['options'] = [
-  { label: 'Apple', value: 'Apple' },
-  { label: 'Pear', value: 'Pear' },
-  { label: 'Orange', value: 'Orange', disabled: true },
+  { label: 'Apple', value: 'A' },
+  { label: 'Pear', value: 'P' },
+  { label: 'Orange', value: 'O', disabled: true },
 ];
 
 const formLayoutType = ref<FormLayout>('horizontal');
