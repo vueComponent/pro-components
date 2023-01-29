@@ -27,7 +27,7 @@ export type ProColumnType<RecordType> = ColumnType<RecordType> & {
   search?: boolean;
 };
 
-export type ProColumnGroupType<RecordType> = Omit<ProColumnType<RecordType>, 'dataIndex'> & {
+export type ProColumnGroupType<RecordType extends DefaultRecordType> = Omit<ProColumnType<RecordType>, 'dataIndex'> & {
   chilren: ProColumnsType<RecordType>;
 };
 
@@ -37,8 +37,8 @@ export type ProColumnsType<RecordType extends DefaultRecordType = DefaultRecordT
 )[];
 
 export type RequestParams = {
-  current?: number;
-  pageSize?: number;
+  current: number;
+  pageSize: number;
   [key: string]: unknown;
 };
 
@@ -50,7 +50,7 @@ export type ResponseData<RecordType> = {
 };
 
 export type FetchData<RecordType> = (
-  params?: RequestParams,
+  params: RequestParams,
   sort?: Record<string, SortOrder>,
   filter?: Record<string, FilterValue | null>,
 ) => Promise<ResponseData<RecordType>>;
