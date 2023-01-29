@@ -31,14 +31,14 @@ export type ProColumnGroupType<RecordType> = Omit<ProColumnType<RecordType>, 'da
   chilren: ProColumnsType<RecordType>;
 };
 
-export type ProColumnsType<RecordType = DefaultRecordType> = (
+export type ProColumnsType<RecordType extends DefaultRecordType = DefaultRecordType> = (
   | ProColumnGroupType<RecordType>
   | ProColumnType<RecordType>
 )[];
 
 export type RequestParams = {
-  current: number;
-  pageSize: number;
+  current?: number;
+  pageSize?: number;
   [key: string]: unknown;
 };
 
@@ -50,13 +50,14 @@ export type ResponseData<RecordType> = {
 };
 
 export type FetchData<RecordType> = (
-  params: RequestParams,
+  params?: RequestParams,
   sort?: Record<string, SortOrder>,
   filter?: Record<string, FilterValue | null>,
 ) => Promise<ResponseData<RecordType>>;
 
 export type ProTableProps<RecordType extends DefaultRecordType = DefaultRecordType> = TableProps<RecordType> &
   Partial<{
+    editable: boolean;
     columns: ProColumnsType<RecordType>;
     request: FetchData<RecordType>;
     params: Record<string, unknown>;
