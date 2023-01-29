@@ -37,26 +37,27 @@ ProTable 在 antd 的 Table 上进行了一层封装，支持了一些预设，�
   request={async (
     // 第一个参数 params 查询表单和 params 参数的结合
     // 第一个参数中一定会有 pageSize 和  current ，这两个参数是 antd 的规范
-    params: T & {
-      pageSize: number;
-      current: number;
-    },
+    { current, pageSize, ...params },
     sort,
     filter,
   ) => {
     // 这里需要返回一个 Promise,在返回之前你可以进行数据转化
     // 如果需要转化参数可以在这里进行修改
-    const payload = await axios.get('//api', {
-      page: params.current,
-      pageSize: params.pageSize,
+    const {
+      data: { result: data, total },
+    } = await axios.get<{
+      result: Record<string, unknown>[];
+      total: number;
+    }>('/api', {
+      params: { page: current, pageSize, ...params },
     });
     return {
-      data: payload.result,
+      data,
+      // 不传会使用 data 的长度，如果是分页一定要传
+      total,
       // success 请返回 true，
       // 不然 table 会停止解析数据，即使有数据
-      success: boolean,
-      // 不传会使用 data 的长度，如果是分页一定要传
-      total: number,
+      success: true,
     };
   }}
 />
@@ -82,10 +83,10 @@ ProTable 在 antd 的 Table 上进行了一层封装，支持了一些预设，�
 
 ### 事件
 
-| 名称         | 说明                          | 参数                        |
-| ------------ | ----------------------------- | --------------------------- |
-| load         | 数据加载完成后触发,会多次触发 | `(dataSource: T[]) => void` |
-| requestError | 数据加载失败时触发            | `(error: Error) => void`    |
+| 名称 | 说明 | 参数 |
+| --- | --- | --- |
+| load | 数据加载完成后触发,会多次触发 | `(dataSource: T[]) => void` |
+| requestError | 数据加载失败时触发 | `(error: Error) => void` |
 
 ### 列表工具栏
 
@@ -93,18 +94,18 @@ ProTable 在 antd 的 Table 上进行了一层封装，支持了一些预设，�
 
 #### ListToolBarProps
 
-| 参数         | 说明                                           | 类型                              | 默认值  |
-| ------------ | ---------------------------------------------- | --------------------------------- | ------- |
-| title        | 标题                                           | `尚未实现`                        | -       |
-| subTitle     | 子标题                                         | `尚未实现`                        | -       |
-| description  | 描述                                           | `尚未实现`                        | -       |
-| search       | 查询区                                         | `尚未实现`                        | -       |
-| actions      | 操作区                                         | `false \| VueNode[]`              | -       |
-| settings     | 设置区                                         | `false \| (VueNode \| Setting)[]` | -       |
-| filter       | 过滤区，通常配合 `LightFilter` 使用            | `尚未实现`                        | -       |
-| multipleLine | 是否多行展示                                   | `尚未实现`                        | `false` |
-| menu         | 菜单配置                                       | `尚未实现`                        | -       |
-| tabs         | 标签页配置，仅当 `multipleLine` 为 true 时有效 | `尚未实现`                        | -       |
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| title | 标题 | `尚未实现` | - |
+| subTitle | 子标题 | `尚未实现` | - |
+| description | 描述 | `尚未实现` | - |
+| search | 查询区 | `尚未实现` | - |
+| actions | 操作区 | `false \| VueNode[]` | - |
+| settings | 设置区 | `false \| (VueNode \| Setting)[]` | - |
+| filter | 过滤区，通常配合 `LightFilter` 使用 | `尚未实现` | - |
+| multipleLine | 是否多行展示 | `尚未实现` | `false` |
+| menu | 菜单配置 | `尚未实现` | - |
+| tabs | 标签页配置，仅当 `multipleLine` 为 true 时有效 | `尚未实现` | - |
 
 #### Setting
 
