@@ -106,7 +106,7 @@ export const useFetchData = <T>(
     }
   };
 
-  // If `request` is undefined, relinquish the control of `loading`, `dataSource`, `pagination`.
+  // If `request` is undefined, release the control of `loading`, `dataSource`, `pagination`.
   watchEffect(() => {
     getData === undefined &&
       Object.assign(
@@ -135,7 +135,7 @@ export const useFetchData = <T>(
     { immediate: true },
   );
 
-  watch([state.params, queryFilter], async (current, previous) => {
+  watch([() => state.params, queryFilter], async (current, previous) => {
     if (!isEqual(current, previous)) {
       setPageInfo({ current: 1 });
       await fetchData();

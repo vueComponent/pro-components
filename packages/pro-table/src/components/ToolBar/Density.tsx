@@ -1,7 +1,7 @@
 import { defineComponent, shallowReactive, watch, watchEffect } from 'vue';
+import { useSharedContext } from '../../shared/Context';
 import { Dropdown, Menu, Tooltip } from 'ant-design-vue';
 import { ColumnHeightOutlined } from '@ant-design/icons-vue';
-import { useSharedContext } from '../../shared/Context';
 import type { SizeType } from '../../typings';
 
 const { Item } = Menu;

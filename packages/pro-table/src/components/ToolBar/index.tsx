@@ -1,10 +1,10 @@
 import type { FunctionalComponent, VNode } from 'vue';
+import { useSharedContext } from '../../shared/Context';
 import ListToolBar, { type ListToolBarSetting, type ListToolBarProps } from '../ListToolBar';
 import { ReloadOutlined } from '@ant-design/icons-vue';
 import Density from './Density';
 import ColumnSetting from './ColumnSetting';
 import Fullscreen from './Fullscreen';
-import { useSharedContext } from '../../shared/Context';
 import type { InputProps } from 'ant-design-vue';
 import type { WithFalse } from '../../typings';
 
@@ -42,7 +42,7 @@ export type ToolBarProps = {
   toolbar?: WithFalse<ListToolBarProps>;
 };
 
-const ToolBar: FunctionalComponent<ToolBarProps> = ({ columns = [], toolbar, options: propsOptions }) => {
+const ToolBar: FunctionalComponent<ToolBarProps> = ({ columns = [], toolbar, options: propsOptions }, { slots }) => {
   const { actionRef, getMessage: t } = useSharedContext();
 
   if (toolbar === false) return null;
@@ -72,7 +72,7 @@ const ToolBar: FunctionalComponent<ToolBarProps> = ({ columns = [], toolbar, opt
         .map(key => catalog[key])
     : [];
 
-  return <ListToolBar settings={settings} {...toolbar} />;
+  return <ListToolBar settings={settings} {...toolbar} v-slots={slots} />;
 };
 
 export default ToolBar;
