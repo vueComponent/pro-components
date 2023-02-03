@@ -2,6 +2,7 @@ import type { App } from 'vue';
 import ProTable from './Table';
 import EditableProTable from './components/EditableTable';
 
+import './default.less';
 import './style.less';
 
 export type { ProColumnType, ProColumnGroupType, ProColumnsType, ProTableProps, ResponseData } from './typings';

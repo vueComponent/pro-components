@@ -27,11 +27,11 @@ export type ProColumnType<RecordType> = ColumnType<RecordType> & {
   search?: boolean;
 };
 
-export type ProColumnGroupType<RecordType> = Omit<ProColumnType<RecordType>, 'dataIndex'> & {
+export type ProColumnGroupType<RecordType extends DefaultRecordType> = Omit<ProColumnType<RecordType>, 'dataIndex'> & {
   chilren: ProColumnsType<RecordType>;
 };
 
-export type ProColumnsType<RecordType = DefaultRecordType> = (
+export type ProColumnsType<RecordType extends DefaultRecordType = DefaultRecordType> = (
   | ProColumnGroupType<RecordType>
   | ProColumnType<RecordType>
 )[];
@@ -57,6 +57,7 @@ export type FetchData<RecordType> = (
 
 export type ProTableProps<RecordType extends DefaultRecordType = DefaultRecordType> = TableProps<RecordType> &
   Partial<{
+    editable: boolean;
     columns: ProColumnsType<RecordType>;
     request: FetchData<RecordType>;
     params: Record<string, unknown>;
