@@ -1,11 +1,9 @@
 import { isVNode, type FunctionalComponent, type VNode } from 'vue';
-import { Space, Tooltip } from 'ant-design-vue';
 import { useSharedContext } from '../../shared/Context';
+import { Space, Tooltip } from 'ant-design-vue';
 import { getSlotVNode } from '@ant-design-vue/pro-utils';
 import type { WithFalse } from '../../typings';
 
-import 'ant-design-vue/es/space/style';
-import 'ant-design-vue/es/tooltip/style';
 import './index.less';
 
 export type ListToolBarSetting = {

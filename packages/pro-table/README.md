@@ -37,26 +37,27 @@ ProTable puts a layer of wrapping on top of antd's Table, supports some presets,
   request={async (
     // The first parameter params is the combination of the query form and params parameters
     // The first parameter will always have pageSize and current, which are antd specifications
-    params: T & {
-      pageSize: number;
-      current: number;
-    },
+    { current, pageSize, ...params },
     sort,
     filter,
   ) => {
     // Here you need to return a Promise, and you can transform the data before returning it
     // If you need to transform the parameters you can change them here
-    const payload = await axios.get('//api', {
-      page: params.current,
-      pageSize: params.pageSize,
+    const {
+      data: { result: data, total },
+    } = await axios.get<{
+      result: Record<string, unknown>[];
+      total: number;
+    }>('/api', {
+      params: { page: current, pageSize, ...params },
     });
     return {
-      data: payload.result,
+      data,
+      // not passed will use the length of the data, if it is paged you must pass
+      total,
       // Please return true for success.
       // otherwise the table will stop parsing the data, even if there is data
-      success: boolean,
-      // not passed will use the length of the data, if it is paged you must pass
-      total: number,
+      success: true,
     };
   }}
 />
@@ -75,17 +76,17 @@ ProTable puts a layer of wrapping on top of antd's Table, supports some presets,
 
 ### Slots
 
-| Name     | Description                                              | Tag             |
-| -------- | -------------------------------------------------------- | --------------- |
-| actions  | Render toolbar actions area                              | v-slot:actions  |
+| Name | Description | Tag |
+| --- | --- | --- |
+| actions | Render toolbar actions area | v-slot:actions |
 | settings | Render toolbar settings area, will overwrite the options | v-slot:settings |
 
 ### Events
 
-| Name         | Description                                                             | Arguments                   |
-| ------------ | ----------------------------------------------------------------------- | --------------------------- |
-| load         | Triggered after the data is loaded, it will be triggered multiple times | `(dataSource: T[]) => void` |
-| requestError | Triggered when data loading fails                                       | `(error: Error) => void`    |
+| Name | Description | Arguments |
+| --- | --- | --- |
+| load | Triggered after the data is loaded, it will be triggered multiple times | `(dataSource: T[]) => void` |
+| requestError | Triggered when data loading fails | `(error: Error) => void` |
 
 ### ListToolbar
 
@@ -95,24 +96,24 @@ Toolbar section for customizing forms.
 
 Toolbar configuration properties for lists and tables
 
-| Parameters   | Description                                              | Type                            | Default |
-| ------------ | -------------------------------------------------------- | ------------------------------- | ------- |
-| title        | title                                                    | `not implemented`               | -       |
-| subTitle     | subTitle                                                 | `not implemented`               | -       |
-| description  | description                                              | `not implemented`               | -       |
-| search       | query area                                               | `not implemented`               | -       |
-| actions      | actions area                                             | `false \| VNode[]`              | -       |
-| settings     | settings area                                            | `false \| (VNode \| Setting)[]` | -       |
-| filter       | The filter area, usually used with `LightFilter`         | `not implemented`               | -       |
-| multipleLine | Whether to display multiple lines                        | `not implemented`               | -       |
-| menu         | menu configuration                                       | `not implemented`               | -       |
-| tabs         | Tabs configuration, only valid if `multipleLine` is true | `not implemented`               | -       |
+| Parameters | Description | Type | Default |
+| --- | --- | --- | --- |
+| title | title | `not implemented` | - |
+| subTitle | subTitle | `not implemented` | - |
+| description | description | `not implemented` | - |
+| search | query area | `not implemented` | - |
+| actions | actions area | `false \| VNode[]` | - |
+| settings | settings area | `false \| (VNode \| Setting)[]` | - |
+| filter | The filter area, usually used with `LightFilter` | `not implemented` | - |
+| multipleLine | Whether to display multiple lines | `not implemented` | - |
+| menu | menu configuration | `not implemented` | - |
+| tabs | Tabs configuration, only valid if `multipleLine` is true | `not implemented` | - |
 
 #### Setting
 
-| Parameters | Description                 | Type                  | Default |
-| ---------- | --------------------------- | --------------------- | ------- |
-| icon       | icon                        | `ReactNode`           | -       |
-| tooltip    | tooltip Description         | `string`              | -       |
-| key        | operation unique identifier | `string`              | -       |
-| onClick    | set to be triggered         | `(key: string)=>void` | -       |
+| Parameters | Description | Type | Default |
+| --- | --- | --- | --- |
+| icon | icon | `ReactNode` | - |
+| tooltip | tooltip Description | `string` | - |
+| key | operation unique identifier | `string` | - |
+| onClick | set to be triggered | `(key: string)=>void` | - |
