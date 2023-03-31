@@ -1,5 +1,5 @@
 import { defineComponent, shallowReactive, watchPostEffect } from 'vue';
-import { useSharedContext } from '../../shared/Context';
+import { useSharedContext } from '../../store/Provider';
 import { Tooltip } from 'ant-design-vue';
 import { FullscreenOutlined, FullscreenExitOutlined } from '@ant-design/icons-vue';
 

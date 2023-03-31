@@ -1,6 +1,6 @@
-import type { FunctionalComponent } from 'vue';
-import { useSharedContext } from '../../shared/Context';
+import { useSharedContext } from '../../store/Provider';
 import { Alert, Space } from 'ant-design-vue';
+import type { FunctionalComponent } from 'vue';
 
 import './index.less';
 

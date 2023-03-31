@@ -1,63 +1,30 @@
-import { defineComponent, ref, reactive, watch, toRaw } from 'vue';
-import Provider, { defaultPrefixCls, defaultContext, type Context } from './shared/Context';
+import { defineComponent, ref, reactive, watch } from 'vue';
+import Provider, { defaultPrefixCls, defaultContext, type Context } from './store/Provider';
 import { useFetchData, useFullscreen } from './hooks';
-import { Card } from 'ant-design-vue';
 import Table, { tableProps } from 'ant-design-vue/es/table';
-import { SearchForm, ToolBar, TableAlert } from './components';
+import { SearchForm, Wrapper, TableAlert, ToolBar } from './components';
 import { getSlot } from '@ant-design-vue/pro-utils';
-import type { DefineComponent, FunctionalComponent, PropType, Plugin, Slot } from 'vue';
+import type { DefineComponent, PropType, Plugin, Slot } from 'vue';
 import type { ProTableProps, ActionType, MaybeElement } from './typings';
 
 import './Table.less';
-import { EditableFormWrapper } from './components/EditableFormWrapper';
 
-const TableWrapper: FunctionalComponent<{
-  cardBordered?: ProTableProps['cardBordered'];
-  cardProps?: ProTableProps['cardProps'];
-  toolbar?: ProTableProps['toolbar'];
-}> = ({ cardProps, toolbar }, { slots }) => {
-  const props = cardProps !== false && {
-    bodyStyle: toolbar === false ? { padding: 0 } : { paddingTop: 0 },
-    ...cardProps,
-  };
-
-  const Tag = cardProps !== false ? Card : 'div';
-
-  return <Tag {...props}>{slots.default?.()}</Tag>;
-};
-
-export const proTableProps = {
+const props = {
   ...tableProps(),
-  editable: {
-    type: Boolean,
-    default: false,
-  },
   columns: Array as PropType<ProTableProps['columns']>,
   request: Function as PropType<ProTableProps['request']>,
   params: Object as PropType<ProTableProps['params']>,
-  cardBordered: {
-    type: [Boolean, Object] as PropType<ProTableProps['cardBordered']>,
-    default: true,
-  },
-  cardProps: {
-    type: [Boolean, Object] as PropType<ProTableProps['cardProps']>,
-    default: undefined,
-  },
-  toolbar: {
-    type: [Boolean, Object] as PropType<ProTableProps['toolbar']>,
-    default: undefined,
-  },
-  options: {
-    type: [Boolean, Object] as PropType<ProTableProps['options']>,
-    default: undefined,
-  },
+  cardBordered: [Boolean, Object] as PropType<ProTableProps['cardBordered']>,
+  cardProps: [false, Object] as PropType<ProTableProps['cardProps']>,
+  toolbar: [false, Object] as PropType<ProTableProps['toolbar']>,
+  options: [false, Object] as PropType<ProTableProps['options']>,
 };
 
 const ProTable = defineComponent({
   name: 'ProTable',
-  props: proTableProps,
+  props,
   slots: ['actions', 'settings', 'editForm'],
-  emits: ['change', 'load', 'requestError', 'valuesChange', 'update:size'],
+  emits: ['change', 'load', 'requestError', 'update:size'],
   setup(props, { slots, emit, expose }) {
     const containerRef = ref<MaybeElement>();
 
@@ -69,7 +36,6 @@ const ProTable = defineComponent({
       reload,
       setPageInfo,
       setQueryFilter,
-      setDataSource,
     } = useFetchData(props.request, props, {
       onLoad: dataSource => emit('load', dataSource),
       onRequestError: e => emit('requestError', e),
@@ -111,82 +77,28 @@ const ProTable = defineComponent({
       },
     );
 
-    const editDataModel = reactive<Record<string, Record<string, unknown>>>({ formData: { name_0: 123 } });
-
-    const handleFilterValue = (value: any) => {
-      const keys = Object.keys(toRaw(value));
-      const currenDataSource = toRaw(requestProps.dataSource);
-
-      for (let i = 0; i < keys.length; i++) {
-        const column = keys[i].split('_')[0];
-        const key = parseInt(keys[i].split('_')[1]) as number;
-        const val = value[keys[i]];
-        const currentRow = currenDataSource[key];
-
-        currentRow[column] = val;
-        currenDataSource[key] = currentRow;
-
-        setDataSource(currenDataSource);
-      }
-      emit('valuesChange', currenDataSource);
-    };
-
-    watch(
-      () => requestProps.dataSource,
-      cur => {
-        const tempEditData: Record<string, unknown> = {};
-        cur.forEach((item, index) => {
-          const keys = Object.keys(item);
-          keys.forEach((item2, index2) => {
-            const column = item2 + '_' + index;
-            tempEditData[column] = item[item2];
-          });
-        });
-        editDataModel.formData = tempEditData;
-      },
-    );
-
-    watch(
-      () => editDataModel.formData,
-      curr => {
-        handleFilterValue(curr);
-      },
-      {
-        deep: true,
-      },
-    );
-
     return () => {
-      const { editable, onChange: discard, cardBordered, cardProps, toolbar, options, ...others } = props;
+      const { onChange: discard, cardBordered, cardProps, toolbar, options, ...others } = props;
 
       const tableProps = {
         ...others,
         ...requestProps,
         size: context.size,
+        bordered: typeof cardBordered === 'boolean' ? cardBordered : cardBordered?.table,
       };
 
       const actions = getSlot<Slot>(slots, props, 'actions');
       const settings = getSlot<Slot>(slots, props, 'actions');
 
-      const renderTable = () => {
-        return editable ? (
-          <EditableFormWrapper model={editDataModel.formData}>
-            <Table {...tableProps} v-slots={slots} onChange={onChange} />
-          </EditableFormWrapper>
-        ) : (
-          <Table {...tableProps} v-slots={slots} onChange={onChange} />
-        );
-      };
-
       return (
         <div class={defaultPrefixCls} ref={containerRef}>
           <Provider value={context}>
             <SearchForm columns={props.columns} onFinish={onFinish} />
-            <TableWrapper cardProps={cardProps} toolbar={toolbar}>
+            <Wrapper cardProps={cardProps} toolbar={toolbar}>
               <ToolBar options={options} columns={props.columns} toolbar={toolbar} v-slots={{ actions, settings }} />
               {/* <TableAlert /> */}
-              {renderTable()}
-            </TableWrapper>
+              <Table {...tableProps} v-slots={slots} onChange={onChange} />
+            </Wrapper>
           </Provider>
         </div>
       );

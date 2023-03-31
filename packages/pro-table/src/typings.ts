@@ -5,6 +5,11 @@ import type { CardProps } from 'ant-design-vue';
 import type { ListToolBarProps } from './components/ListToolBar';
 import type { OptionConfig } from './components/ToolBar';
 
+// fork from https://github.com/vueComponent/ant-design-vue/blob/main/components/vc-table/interface.ts
+export declare type Key = number | string;
+export declare type FixedType = 'left' | 'right' | boolean;
+export declare type DataIndex = string | number | readonly (string | number)[];
+
 export type WithFalse<T> = T | false;
 
 export type VueInstance = ComponentPublicInstance;
@@ -16,11 +21,6 @@ export type MaybeRef<T> = T | ShallowRef<T> | Ref<T>;
 export type MaybeElementRef<T extends MaybeElement = MaybeElement> = MaybeRef<T>;
 
 export declare type DefaultRecordType = Record<string, unknown>;
-
-// fork from https://github.com/vueComponent/ant-design-vue/blob/main/components/vc-table/interface.ts
-export declare type Key = number | string;
-export declare type FixedType = 'left' | 'right' | boolean;
-export declare type DataIndex = string | number | readonly (string | number)[];
 
 export type ProColumnType<RecordType> = ColumnType<RecordType> & {
   valueType?: 'index' | 'indexBorder' | 'text' | 'select';
@@ -57,7 +57,7 @@ export type FetchData<RecordType> = (
 
 export type ProTableProps<RecordType extends DefaultRecordType = DefaultRecordType> = TableProps<RecordType> &
   Partial<{
-    editable: boolean;
+    // editable: boolean;
     columns: ProColumnsType<RecordType>;
     request: FetchData<RecordType>;
     params: Record<string, unknown>;
