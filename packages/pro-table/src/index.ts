@@ -1,20 +1,13 @@
-import type { App } from 'vue';
 import ProTable from './Table';
-import EditableProTable from './components/EditableTable';
-
-import './default.less';
-import './style.less';
+import EditableProTable from './Edit';
+import type { App } from 'vue';
 
 export type { ProColumnType, ProColumnGroupType, ProColumnsType, ProTableProps, ResponseData } from './typings';
 
-ProTable.EditableProTable = EditableProTable;
+ProTable.install = (app: App) => app.component(ProTable.name, ProTable);
 
-ProTable.install = (app: App) => {
-  app.component(ProTable.name, ProTable);
-  app.component(EditableProTable.name, EditableProTable);
-  return app;
-};
+EditableProTable.install = (app: App) => app.component(EditableProTable.name, EditableProTable);
 
-export { EditableProTable };
+export { EditableProTable, ProTable };
 
 export default ProTable;

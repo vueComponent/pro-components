@@ -1,7 +1,8 @@
-import { isVNode, type FunctionalComponent, type VNode } from 'vue';
-import { useSharedContext } from '../../shared/Context';
+import { isVNode } from 'vue';
+import { useSharedContext } from '../../store/Provider';
 import { Space, Tooltip } from 'ant-design-vue';
 import { getSlotVNode } from '@ant-design-vue/pro-utils';
+import type { FunctionalComponent, VNode } from 'vue';
 import type { WithFalse } from '../../typings';
 
 import './index.less';

@@ -1,69 +1,55 @@
 <template>
-    <editable-pro-table
-        @valuesChange="handleValuesChange"
-        :editableKeys="editableKeys"
-        @change="handleChane"
-        :request="request"
-        :columns="columns"
-        :bordered="true"
-        :pagination="pagination"
-    >
-        <template #bodyCell="{ column, text, record }">
-            <div v-if="column.dataIndex === 'action'">点击</div>
-            <div v-else>{{ text }}</div>
-        </template>
-    </editable-pro-table>
+  <editable-pro-table v-model:value="value" :columns="columns" :data-source="dataSource" />
+  {{ JSON.stringify(value) }}
 </template>
 
-<script setup lang="ts">
-import { reactive, ref } from 'vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
+import { EditableProTable, type ProColumnsType } from '@ant-design-vue/pro-table';
 
-import type { ColumnsType } from '@ant-design-vue/pro-table';
-const editableKeys = ref([0, 1]);
-const handleChane = values => {
-    console.log(values, '分页handleChane keys');
-    editableKeys.value = [0, 1, 2, 4, 5];
-};
-const pagination = reactive({
-    pageSize: 10
-});
-const columns = reactive<ColumnsType>([
-    {
-        dataIndex: 'name',
-        title: '姓名',
-        key: 'name',
-        search: true
-    },
-    {
-        dataIndex: 'age',
-        title: '年龄',
-        key: 'age',
-        search: true
-    },
-    {
-        dataIndex: 'action',
-        title: '操作',
-        key: 'action',
-        disabled: true
-    }
-]);
-const request = async (params: any = {}) => {
-    let data: any[] = [];
+const columns: ProColumnsType = [
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name'
+  },
+  {
+    title: 'Age',
+    dataIndex: 'age',
+    key: 'age'
+  },
+  {
+    title: 'Address',
+    dataIndex: 'address',
+    key: 'address'
+  },
+  {
+    title: 'Tags',
+    key: 'tags',
+    dataIndex: 'tags'
+  }
+];
 
-    console.log('params', params);
-    for (let i = 0; i < params.pageSize; i++) {
-        data.push({
-            name: '第' + params.current + '页的' + +(i + 1) + (params?.name || ''),
-            age: 18
-        });
-    }
-    return {
-        data,
-        success: true,
-        total: 100
-    };
-};
-const handleValuesChange = (values: any) => {
-    console.log('handleValuesChange', values);
-};
+const dataSource = [
+  {
+    key: '1',
+    name: 'John Brown',
+    age: 32,
+    address: 'New York No. 1 Lake Park'
+  },
+  {
+    key: '2',
+    name: 'Jim Green',
+    age: 42,
+    address: 'London No. 1 Lake Park'
+  },
+  {
+    key: '3',
+    name: 'Joe Black',
+    age: 32,
+    address: 'Sidney No. 1 Lake Park'
+  }
+];
+
+const value = ref<Record<string, unknown>[]>([]);
 </script>

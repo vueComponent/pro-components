@@ -65,10 +65,6 @@ export const useFetchData = <T>(
     });
   };
 
-  const setDataSource = (data: T[]) => {
-    context.dataSource = data;
-  };
-
   const queryFilter = shallowRef<Record<string, unknown>>({});
 
   const setQueryFilter = (params: Record<string, unknown>) => {
@@ -147,5 +143,5 @@ export const useFetchData = <T>(
     await fetchData();
   };
 
-  return { context, reload, setPageInfo, setQueryFilter, setDataSource };
+  return { context, reload, setPageInfo, setQueryFilter };
 };

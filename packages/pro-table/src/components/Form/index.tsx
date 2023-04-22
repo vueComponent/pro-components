@@ -1,6 +1,7 @@
-import { defineComponent, reactive, computed, toRaw, type PropType } from 'vue';
-import { useSharedContext } from '../../shared/Context';
+import { defineComponent, reactive, computed, toRaw } from 'vue';
+import { useSharedContext } from '../../store/Provider';
 import { QueryFilter, queryFilterProps, ProFormText } from '@ant-design-vue/pro-form';
+import type { PropType } from 'vue';
 import type { ProColumnsType, ProColumnType } from '../../typings';
 
 import './index.less';
