@@ -105,6 +105,12 @@ const routes: RouteRecordRaw[] = [
         ],
       },
       {
+        path: '/test-tab',
+        name: 'TestTab',
+        meta: { title: '测试Tab标签', hideInMenu: false },
+        component: () => import('../views/TestTab.vue'),
+      },
+      {
         path: 'https://next.antdv.com/',
         name: 'baidu_target',
         meta: { title: 'Ant Design Vue 官网', icon: 'link-outlined', target: '_blank' },
