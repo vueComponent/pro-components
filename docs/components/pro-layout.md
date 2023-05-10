@@ -118,13 +118,15 @@ const layoutConf = reactive({
 | menuHeaderRender        | render header logo and title                                          | v-slot \| VNode \| (logo,title)=>VNode \| false                        | -                  |
 | menuExtraRender         | render extra menu item                                                | v-slot \| VNode \| (props)=>VNode \| false                             | -                  |
 | menuFooterRender        | render footer menu item                                               | v-slot \| VNode \| (props)=>VNode \| false                             | -                  |
-| headerContentRender     | custom header render method                                           | `slot` \| (props: BasicLayoutProps) => VNode                           | -                  |
-| rightContentRender      | header right content render method                                    | `slot` \| (props: HeaderViewProps) => VNode                            | -                  |
-| collapsedButtonRender   | custom collapsed button method                                        | `slot` \| (collapsed: boolean) => VNode                                | -                  |
-| footerRender            | custom footer render method                                           | `slot` \| (props: BasicLayoutProps) => VNode                           | `false`            |
-| breadcrumbRender        | custom breadcrumb render method                                       | `slot` \| ({ route, params, routes, paths, h }) => VNode[]             | -                  |
 | menuItemRender          | custom render Menu.Item                                               | v-slot#menuItemRender="{ item, icon }" \| ({ item, icon }) => VNode    | null               |
 | subMenuItemRender       | custom render Menu.SubItem                                            | v-slot#subMenuItemRender="{ item, icon }" \| ({ item, icon }) => VNode | null               |
+| collapsedButtonRender   | custom collapsed button method                                        | `slot` \| (collapsed: boolean) => VNode                                | -                  |
+| headerRender            | custom header render method                                           | `slot` \| (props: BasicLayoutProps) => VNode                           | -                  |
+| headerContentRender     | header content render method only layout side                         | `slot` \| (props: BasicLayoutProps) => VNode                           | -                  |
+| rightContentRender      | header right content render method                                    | `slot` \| (props: BasicLayoutProps) => VNode                           | -                  |
+| footerRender            | custom footer render method                                           | `slot` \| (props: BasicLayoutProps) => VNode                           | `false`            |
+| tabRender               | custom tab render method                                              | `slot` \| ({ width, ...BasicLayoutProps }) => VNode                    | `false`            |
+| breadcrumbRender        | custom breadcrumb render method                                       | `slot` \| ({ route, params, routes, paths, h }) => VNode[]             | -                  |
 | locale                  | i18n                                                                  | Function (key: string) => string \| `false`                            | `false`            |
 
 > Menu generation requires `getMenuData` and `clearMenuItem` function
@@ -233,6 +235,38 @@ const layoutConf = reactive({
 <template #collapsedButtonRender="collapsed">
   <HeartOutlined v-if="collapsed" />
   <SmileOutlined v-else />
+</template>
+```
+
+#### Custom tabRender
+
+```vue
+<template #tabRender="{ width, fixedHeader }">
+  <div>
+    <header
+      class="ant-layout-header"
+      style="height: 36px; line-height: 36px; background: transparent"
+      v-if="fixedHeader"
+    ></header>
+    <div
+      :style="{
+        margin: '0',
+        height: '36px',
+        lineHeight: '36px',
+        right: '0px',
+        top: '48px',
+        position: fixedHeader ? 'fixed' : 'unset',
+        zIndex: 14,
+        padding: '4px 16px',
+        width: width,
+        background: '#fff',
+        boxShadow: '0 1px 4px #0015291f',
+        transition: 'background 0.3s, width 0.2s',
+      }"
+    >
+      tabRender fixedHeader：{{fixedHeader}} width：{{ width }} 
+    </div>
+  </div>
 </template>
 ```
 
