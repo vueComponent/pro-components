@@ -34,6 +34,7 @@ import type {
   HeaderContentRender,
   HeaderRender,
   FooterRender,
+  TabRender,
   RightContentRender,
   MenuItemRender,
   SubMenuItemRender,
@@ -99,9 +100,7 @@ export const basicLayoutProps = {
   },
   breadcrumbRender: {
     type: [Object, Function, Boolean] as PropType<BreadcrumbRender>,
-    default() {
-      return null;
-    },
+    default: () => null,
   },
   headerContentRender: {
     type: [Function, Object, Boolean] as PropType<HeaderContentRender>,
@@ -113,6 +112,10 @@ export const basicLayoutProps = {
   },
   footerRender: {
     type: [Object, Function, Boolean] as PropType<FooterRender>,
+    default: () => undefined,
+  },
+  tabRender: {
+    type: [Object, Function, Boolean] as PropType<TabRender>,
     default: () => undefined,
   },
 };
@@ -259,7 +262,8 @@ const ProLayout = defineComponent({
       const rightContentRender = getSlot<RightContentRender>(slots, props, 'rightContentRender');
       const customHeaderRender = getSlot<HeaderRender>(slots, props, 'headerRender');
       const footerRender = getSlot<FooterRender>(slots, props, 'footerRender');
-
+      const tabRender = getSlot<TabRender>(slots, props, 'tabRender');
+      
       // menu
       const menuHeaderRender = getSlot<MenuHeaderRender>(slots, props, 'menuHeaderRender');
       const menuExtraRender = getSlot<MenuExtraRender>(slots, props, 'menuExtraRender');
@@ -294,8 +298,24 @@ const ProLayout = defineComponent({
         )
       );
 
+      const tabDom = computed(() => {
+        if (props.tabRender === false || !tabRender) {
+          return null;
+        }
+        let layout = props.layout;
+        let fixedHeader = props.fixedHeader;
+        // 计算侧边栏的宽度，不然导致左边的样式会出问题
+        let width = '100%';
+        if (layout === 'mix' && hasSplitMenu.value && flatMenuData.value.length === 0) {
+          width = '100%';
+        } else if(fixedHeader && !isTop.value && !isMobile.value){
+          width = `calc(100% - ${siderWidth.value}px)`;
+        }
+        return tabRender({ width, ...props });
+      });
+      
       routeContext.hasHeader = !!headerDom.value;
-
+      
       const contentClassName = computed(() => {
         return {
           [`${baseClassName.value}-content`]: true,
@@ -335,6 +355,7 @@ const ProLayout = defineComponent({
                 )}
                 <div style={genLayoutStyle} class={prefixCls.value}>
                   {headerDom.value}
+                  {tabDom.value}
                   <WrapContent
                     isChildrenLayout={props.isChildrenLayout}
                     class={contentClassName.value}

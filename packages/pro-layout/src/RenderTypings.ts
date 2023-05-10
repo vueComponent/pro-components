@@ -8,6 +8,7 @@ export type BreadcrumbRender = BreadcrumbProps['itemRender'];
 export type HeaderContentRender = WithFalse<() => CustomRender>;
 export type HeaderRender = WithFalse<(props: ProProps) => CustomRender>;
 export type FooterRender = WithFalse<(props: ProProps) => CustomRender>;
+export type TabRender = WithFalse<(props: ProProps) => CustomRender>;
 export type RightContentRender = WithFalse<(props: ProProps) => CustomRender>;
 export type MenuItemRender = WithFalse<
   (args: { item: MenuDataItem; title?: JSX.Element; icon?: JSX.Element }) => CustomRender
