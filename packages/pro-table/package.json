@@ -1,6 +1,6 @@
 {
-  "name": "pro-table-ant-design-vue",
-  "version": "0.0.4",
+  "name": "@ant-design-vue/pro-table",
+  "version": "0.0.1",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -17,27 +17,28 @@
   ],
   "types": "./dist",
   "style": "./dist/style.css",
-  "main": "./dist/pro-table-ant-design-vue.umd.js",
-  "module": "./dist/pro-table-ant-design-vue.es.js",
+  "main": "./dist/pro-table.umd.js",
+  "module": "./dist/pro-table.es.js",
   "exports": {
     ".": {
-      "import": "./dist/pro-table-ant-design-vue.es.js",
-      "require": "./dist/pro-table-ant-design-vue.umd.js"
+      "import": "./dist/pro-table.es.js",
+      "require": "./dist/pro-table.umd.js"
     },
     "./dist/style.css": "./dist/style.css",
     "./dist/style.less": "./dist/style.less"
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
-    "@ant-design-vue/pro-form": "^0.1.1",
+    "@ant-design-vue/pro-form": "workspace:^0.1.1",
+    "@ant-design-vue/pro-utils": "workspace:^0.0.0",
     "lodash-es": "^4.17.21",
     "screenfull": "^6.0.2"
   },
   "devDependencies": {
-    "@ant-design-vue/pro-layout": "^3.2.3",
+    "@ant-design-vue/pro-layout": "workspace:^3.2.3",
     "@rollup/plugin-typescript": "^8.3.2",
     "@rushstack/eslint-patch": "^1.1.3",
-    "@shared/vite-plugin-less-copy": "^0.0.0",
+    "@shared/vite-plugin-less-copy": "workspace:^0.0.0",
     "@types/jsdom": "^16.2.14",
     "@types/lodash-es": "^4.17.6",
     "@types/node": "^16.11.27",

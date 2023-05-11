@@ -45,11 +45,10 @@ const SearchForm = defineComponent({
                   value: item[0],
                 };
               })}
-              {...column}
             />
           );
         } else if (column.valueType === 'date') {
-          return <ProFormDatePicker name={column.dataIndex as string} label={column.title as string} {...column} />;
+          return <ProFormDatePicker name={column.dataIndex as string} label={column.title as string} />;
         } else {
           return (
             <ProFormText
