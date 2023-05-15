@@ -23,7 +23,7 @@ export declare type FixedType = 'left' | 'right' | boolean;
 export declare type DataIndex = string | number | readonly (string | number)[];
 
 export type ProColumnType<RecordType> = ColumnType<RecordType> & {
-  valueType?: 'index' | 'indexBorder' | 'text' | 'select';
+  valueType?: 'index' | 'indexBorder' | 'text' | 'select' | 'date';
   search?: boolean;
 };
 
