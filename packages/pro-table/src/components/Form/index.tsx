@@ -36,6 +36,7 @@ const SearchForm = defineComponent({
         if (column.valueType === 'select') {
           return (
             <ProFormSelect
+              {...column}
               name={column.dataIndex as string}
               label={column.title as string}
               options={Object.entries(column.valueEnum).map((item: any) => {
@@ -48,7 +49,7 @@ const SearchForm = defineComponent({
             />
           );
         } else if (column.valueType === 'date') {
-          return <ProFormDatePicker name={column.dataIndex as string} label={column.title as string} />;
+          return <ProFormDatePicker name={column.dataIndex as string} label={column.title as string} {...column} />;
         } else {
           return (
             <ProFormText
@@ -68,7 +69,7 @@ const SearchForm = defineComponent({
 
       return (
         <div class={className}>
-          <QueryFilter class={formClassName} model={model} onFinish={onFinish}>
+          <QueryFilter class={formClassName} defaultCollapsed={false} model={model} onFinish={onFinish}>
             {...formFields}
           </QueryFilter>
         </div>
