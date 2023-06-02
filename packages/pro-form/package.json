@@ -1,6 +1,6 @@
 {
   "name": "@ant-design-vue/pro-form",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite -v build",
@@ -28,13 +28,13 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
-    "@ant-design-vue/pro-field": "workspace:^0.0.0",
-    "@ant-design-vue/pro-utils": "workspace:^0.0.0",
+    "@ant-design-vue/pro-field": "workspace:^1.0.0",
+    "@ant-design-vue/pro-utils": "workspace:^1.0.0",
     "@types/lodash": "^4.14.185",
     "dayjs": "^1.11.5"
   },
   "devDependencies": {
-    "@ant-design-vue/pro-layout": "workspace:^3.2.3",
+    "@ant-design-vue/pro-layout": "workspace:^3.2.4-2",
     "@shared/vite-plugin-less-copy": "workspace:^0.0.0",
     "@rollup/plugin-typescript": "^8.3.2",
     "@rushstack/eslint-patch": "^1.1.3",
