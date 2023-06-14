@@ -19,11 +19,11 @@
     <!-- custom right-content -->
     <template #rightContentRender>
       <div style="margin-right: 12px">
-        <a-avatar shape="square" size="small">
+        <Avatar shape="square" size="small">
           <template #icon>
             <UserOutlined />
           </template>
-        </a-avatar>
+        </Avatar>
       </div>
     </template>
     <!-- custom breadcrumb itemRender  -->
@@ -72,6 +72,8 @@
 import { computed, reactive, ref, watchEffect, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { getMenuData, clearMenuItem, type RouteContextProps } from '@ant-design-vue/pro-layout';
+import { Avatar } from 'ant-design-vue';
+
 
 const watermarkContent = ref('Pro Layout');
 const loading = ref(false);
