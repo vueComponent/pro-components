@@ -1,5 +1,5 @@
 import type { FunctionalComponent, VNodeChild } from 'vue';
-import { useSharedContext } from '../../../shared/Context';
+import { useSharedContext } from '../../../store/Provider';
 import { Checkbox, Space, Popover, Tree, Tooltip } from 'ant-design-vue';
 import {
   HolderOutlined,
@@ -286,8 +286,6 @@ const ColumnSetting: FunctionalComponent<ColumnSettingProps> = (props, { slots }
   const { columns, checkable = true, checkedReset = true, draggable = true, listsHeight, extra } = props;
 
   const { columnsMap = {}, setColumnsMap, getMessage: t, getPrefixCls } = useSharedContext();
-
-  console.log('ColumnSetting.columnsMap', columnsMap);
 
   const localColumns: LocalColumns = columns;
 

@@ -11,7 +11,7 @@ import {
 } from 'vue';
 /* replace antd ts define */
 import PageHeader, { pageHeaderProps } from 'ant-design-vue/es/page-header';
-import { Tabs, Affix, Spin } from 'ant-design-vue';
+import { Tabs, Affix } from 'ant-design-vue';
 import type { TabPaneProps } from './interfaces/TabPane';
 import type { TabBarExtraContent /*, TabsProps */ } from './interfaces/Tabs';
 import type { AffixProps } from './interfaces/Affix';
@@ -22,7 +22,7 @@ import 'ant-design-vue/es/affix/style';
 import 'ant-design-vue/es/page-header/style';
 import 'ant-design-vue/es/breadcrumb/style';
 import 'ant-design-vue/es/tabs/style';
-import 'ant-design-vue/es/spin/style';
+import PageLoading from '../PageLoading';
 import GridContent from '../GridContent';
 import FooterToolbar from '../FooterToolbar';
 import { withInstall } from 'ant-design-vue/es/_util/type';
@@ -291,7 +291,7 @@ const PageContainer = defineComponent({
           )}
           <GridContent>
             {loading.value ? (
-              <Spin />
+              <PageLoading />
             ) : slots.default ? (
               <div>
                 <div class={`${prefixedClassName.value}-children-content`}>{slots.default()}</div>
