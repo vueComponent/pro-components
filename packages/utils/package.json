@@ -1,7 +1,7 @@
 {
   "name": "@ant-design-vue/pro-utils",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
