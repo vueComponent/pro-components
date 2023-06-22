@@ -138,6 +138,7 @@ const layoutConf = reactive({
 | tabList        | Tabs title list                                  | `Array<{key: string, tab: sting}>` | -             |
 | tab-change     | Switch panel callback                            | (key) => void                      | -             |
 | tab-active-key | The currently highlighted tab item               | string                             | -             |
+| breadcrumb     | Show Bread crumbs bar                            | Boolean                            | -             |
 
 ### WaterMark
 
