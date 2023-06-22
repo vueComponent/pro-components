@@ -55,37 +55,19 @@ const routes: RouteRecordRaw[] = [
               {
                 path: 'child1',
                 name: 'list-child1-child1',
-                meta: {
-                  title: '一一级列表页面',
-                  // attach `params` to `$route.params`
-                  params: {
-                    id: 1,
-                  },
-                },
+                meta: { title: '一一级列表页面' },
                 component: () => import('../views/DynamicPage.vue'),
               },
               {
                 path: 'child2',
                 name: 'list-child1-child2',
-                meta: {
-                  title: '二一级列表页面',
-                  // attach `params` to `$route.params`
-                  params: {
-                    id: 2,
-                  },
-                },
+                meta: { title: '二一级列表页面' },
                 component: () => import('../views/DynamicPage.vue'),
               },
               {
                 path: 'child3',
                 name: 'list-child1-child3',
-                meta: {
-                  title: '三一级列表页面',
-                  // attach `params` to `$route.params`
-                  params: {
-                    id: 3,
-                  },
-                },
+                meta: { title: '三一级列表页面' },
                 component: () => import('../views/DynamicPage.vue'),
               },
             ],
@@ -107,7 +89,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/test-tab',
         name: 'TestTab',
-        meta: { title: '测试Tab标签', hideInMenu: false },
+        meta: { title: '测试Tab标签', icon:'icon-icon-test', hideInMenu: false },
         component: () => import('../views/TestTab.vue'),
       },
       {
