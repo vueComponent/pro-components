@@ -1,0 +1,19 @@
+{
+  "extends": "@mistjs/tsconfig-vue",
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": [
+      "vite/client"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@ant-design-vue/pro-provider": ["./packages/provider/src"],
+      "@ant-design-vue/pro-form": ["./packages/form/src"],
+      "@ant-design-vue/pro-field": ["./packages/field/src"],
+      "@ant-design-vue/pro-utils": ["./packages/utils/src"],
+      "@ant-design-vue/pro-table": ["./packages/table/src"]
+    }
+  }
+}

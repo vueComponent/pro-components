@@ -1,0 +1,24 @@
+{
+  "name": "@ant-design-vue/pro-field",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@ant-design/icons-vue": "^6.1.0",
+    "@v-c/utils": "^0.0.25",
+    "@vueuse/core": "^10.2.1",
+    "ant-design-vue": "^4.0.0",
+    "dayjs": "^1.11.9",
+    "lodash.tonumber": "^4.0.3",
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "@types/lodash.tonumber": "^4.0.7"
+  }
+}

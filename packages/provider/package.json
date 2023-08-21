@@ -1,0 +1,21 @@
+{
+  "name": "@ant-design-vue/pro-provider",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "aibayanyu20 <aibayanyu@qq.com>",
+  "main": "dist/index.js",
+  "scripts": {},
+  "dependencies": {
+    "@ctrl/tinycolor": "^3.6.0",
+    "@v-c/utils": "^0.0.25",
+    "ant-design-vue": "^4.0.0",
+    "dayjs": "^1.11.9",
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.1",
+    "typescript": "^5.1.6"
+  }
+}
