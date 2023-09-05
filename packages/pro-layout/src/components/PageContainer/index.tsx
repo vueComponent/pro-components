@@ -206,7 +206,7 @@ const ProPageHeader: FunctionalComponent<PageContainerProps & { prefixedClassNam
 
   const pageHeaderTitle = title !== false ? title : undefined;
 
-  let pageHeaderBreadcrumb = {};
+  let pageHeaderBreadcrumb = undefined;
   if(breadcrumb !== false){
     const value = useRouteContext();
     const unrefBreadcrumb = unref(value.breadcrumb || {});
