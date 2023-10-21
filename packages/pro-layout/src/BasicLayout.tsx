@@ -313,6 +313,21 @@ const ProLayout = defineComponent({
         }
         return tabRender({ width, ...props });
       });
+
+      const footerDom = computed(() => {
+        if (props.footerRender === false || !footerRender) {
+          return null;
+        }
+        let layout = props.layout;
+        // 计算侧边栏的宽度，不然导致左边的样式会出问题
+        let width = '100%';
+        if (layout === 'mix' && hasSplitMenu.value && flatMenuData.value.length === 0) {
+          width = '100%';
+        } else if(!isTop.value && !isMobile.value){
+          width = `calc(100% - ${siderWidth.value}px)`;
+        }
+        return footerRender({ width, ...props });
+      });
       
       routeContext.hasHeader = !!headerDom.value;
       
@@ -363,7 +378,7 @@ const ProLayout = defineComponent({
                   >
                     {props.loading ? <PageLoading /> : slots.default?.()}
                   </WrapContent>
-                  {footerRender && footerRender(props)}
+                  {footerDom.value}
                 </div>
               </Layout>
             </div>

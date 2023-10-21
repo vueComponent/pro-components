@@ -159,6 +159,18 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
   const hasSplitMenu = computed(() => props.layout === 'mix' && props.splitMenus);
   const sTheme = computed(() => (props.layout === 'mix' && props.navTheme !== 'realDark' && 'light') || props.navTheme);
   const sSideWidth = computed(() => (props.collapsed ? props.collapsedWidth : props.siderWidth));
+  const sSideHeaderTop = computed(() => {
+    if(props.layout === 'mix'){
+      // 混合菜单布局去除顶栏
+      if(Reflect.get(props, 'headerRender') === false){
+        return undefined;
+      }
+      if(!props.isMobile) {
+        return `${props.headerHeight}px`;
+      }
+    }
+    return undefined;
+  });
   const classNames = computed(() => {
     return {
       [baseClassName]: true,
@@ -234,7 +246,7 @@ const SiderMenu: FunctionalComponent<SiderMenuProps> = (props: SiderMenuProps) =
         collapsedWidth={collapsedWidth}
         style={{
           overflow: 'hidden',
-          paddingTop: props.layout === 'mix' && !props.isMobile ? `${props.headerHeight}px` : undefined,
+          paddingTop: sSideHeaderTop.value,
         }}
         width={siderWidth}
         theme={sTheme.value === 'realDark' ? 'dark' : sTheme.value}

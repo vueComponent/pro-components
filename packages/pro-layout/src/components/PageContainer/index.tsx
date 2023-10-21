@@ -116,6 +116,10 @@ export const pageContainerProps = {
     type: Boolean,
     default: () => undefined,
   }, //PropTypes.looseBool,
+  breadcrumb: {
+    type: Boolean,
+    default: () => undefined,
+  },
 };
 
 export type PageContainerProps = Partial<ExtractPropTypes<typeof pageContainerProps>>;
@@ -182,6 +186,7 @@ const ProPageHeader: FunctionalComponent<PageContainerProps & { prefixedClassNam
     title,
     tabList,
     tabActiveKey,
+    breadcrumb,
     content,
     pageHeaderRender,
     header,
@@ -191,7 +196,6 @@ const ProPageHeader: FunctionalComponent<PageContainerProps & { prefixedClassNam
     fixedHeader: _,
     ...restProps
   } = props;
-  const value = useRouteContext();
 
   if (pageHeaderRender === false) {
     return null;
@@ -200,17 +204,18 @@ const ProPageHeader: FunctionalComponent<PageContainerProps & { prefixedClassNam
     return pageHeaderRender({ ...props });
   }
 
-  let pageHeaderTitle = title;
-  if (!title && title !== false) {
-    pageHeaderTitle = value.title;
-  }
+  const pageHeaderTitle = title !== false ? title : undefined;
 
-  const unrefBreadcrumb = unref(value.breadcrumb || {});
-  const breadcrumb = restProps.breadcrumb || {
-    ...unrefBreadcrumb,
-    routes: unrefBreadcrumb.routes,
-    itemRender: unrefBreadcrumb.itemRender,
-  };
+  let pageHeaderBreadcrumb = undefined;
+  if(breadcrumb !== false){
+    const value = useRouteContext();
+    const unrefBreadcrumb = unref(value.breadcrumb || {});
+    pageHeaderBreadcrumb = {
+      ...unrefBreadcrumb,
+      routes: unrefBreadcrumb.routes,
+      itemRender: unrefBreadcrumb.itemRender,
+    };
+  }
 
   return (
     <div class={`${prefixedClassName}-wrap`}>
@@ -218,7 +223,7 @@ const ProPageHeader: FunctionalComponent<PageContainerProps & { prefixedClassNam
         {...restProps}
         // {...value}
         title={pageHeaderTitle}
-        breadcrumb={breadcrumb}
+        breadcrumb={pageHeaderBreadcrumb}
         footer={renderFooter({
           ...restProps,
           tabList,

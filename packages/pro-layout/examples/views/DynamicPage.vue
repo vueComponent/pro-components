@@ -1,5 +1,5 @@
 <template>
-  <page-container :title="`${$route.meta.title} ${$route.params.id}`" sub-title="is a sub-title.">
+  <page-container :title="`${$route.meta.title}`" sub-title="is a sub-title.">
     <template #content>
       <div>
         container.content

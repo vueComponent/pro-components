@@ -19,11 +19,11 @@
     <!-- custom right-content -->
     <template #rightContentRender>
       <div style="margin-right: 12px">
-        <a-avatar shape="square" size="small">
+        <Avatar shape="square" size="small">
           <template #icon>
             <UserOutlined />
           </template>
-        </a-avatar>
+        </Avatar>
       </div>
     </template>
     <!-- custom breadcrumb itemRender  -->
@@ -93,10 +93,22 @@ const state = reactive({
   splitMenus: true,
   // title: 'ProLayout',
   // logo: 'https://alicdn.antdv.com/v2/assets/logo.1ef800a8.svg',
-  navTheme: 'realDark',
+
+  // navTheme: 'realDark',
+  navTheme: 'dark',
+  headerTheme: 'dark',
+
   layout: 'mix',
+  // layout: 'side',
+  // layout: 'top',
+  
   fixSiderbar: true,
   fixedHeader: true,
+
+  headerRender: undefined,
+  // headerRender: false,
+  menuHeaderRender: undefined,
+  // menuHeaderRender: false,
 });
 const breadcrumb = computed(() =>
   router.currentRoute.value.matched.concat().map((item) => {

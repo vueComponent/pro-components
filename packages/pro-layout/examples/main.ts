@@ -8,7 +8,8 @@ import icons from './icons';
 import 'ant-design-vue/es/result/style';
 import 'ant-design-vue/es/button/style';
 import 'ant-design-vue/es/message/style';
-import 'ant-design-vue/dist/antd.dark.less';
+import 'ant-design-vue/dist/antd.variable.min.css';
+// import 'ant-design-vue/dist/antd.dark.less';
 import '@ant-design-vue/pro-layout/style.less';
 
 const app = createApp(App);
