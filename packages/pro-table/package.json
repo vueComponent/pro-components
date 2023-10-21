@@ -35,10 +35,10 @@
     "screenfull": "^6.0.2"
   },
   "devDependencies": {
-    "@ant-design-vue/pro-layout": "workspace:^3.2.3",
+    "@ant-design-vue/pro-layout": "workspace:^",
     "@rollup/plugin-typescript": "^8.3.2",
     "@rushstack/eslint-patch": "^1.1.3",
-    "@shared/vite-plugin-less-copy": "workspace:^0.0.0",
+    "@shared/vite-plugin-less-copy": "workspace:^",
     "@types/jsdom": "^16.2.14",
     "@types/lodash-es": "^4.17.6",
     "@types/node": "^16.11.27",
