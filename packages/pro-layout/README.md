@@ -120,7 +120,7 @@ const layoutConf = reactive({
 | headerRender            | custom header render method                                           | `slot` \| (props: BasicLayoutProps) => VNode                           | -                  |
 | headerContentRender     | header content render method only layout side                         | `slot` \| (props: BasicLayoutProps) => VNode                           | -                  |
 | rightContentRender      | header right content render method                                    | `slot` \| (props: BasicLayoutProps) => VNode                           | -                  |
-| footerRender            | custom footer render method                                           | `slot` \| (props: BasicLayoutProps) => VNode                           | `false`            |
+| footerRender            | custom footer render method                                           | `slot` \| ({ width, ...BasicLayoutProps }) => VNode                           | `false`            |
 | tabRender               | custom tab render method                                              | `slot` \| ({ width, ...BasicLayoutProps }) => VNode                    | `false`            |
 | breadcrumbRender        | custom breadcrumb render method                                       | `slot` \| ({ route, params, routes, paths, h }) => VNode[]             | -                  |
 | locale                  | i18n                                                                  | Function (key: string) => string \| `false`                            | `false`            |
@@ -270,17 +270,29 @@ const layoutConf = reactive({
 #### Custom footer with slot
 
 ```vue
-<GlobalFooter>
-  <template #links>
-    <a>链接1</a>
-    <a>链接2</a>
-    <a>链接3</a>
-    <a>链接4</a>
-  </template>
-  <template #copyright>
-    <span>Pro Layout &copy; 2021 Sendya.</span>
-  </template>
-</GlobalFooter>
+<template #footerRender="{ width, headerTheme }">
+  <div>
+    <footer class="ant-layout-footer" style="height: 36px; line-height: 36px; background: transparent"></footer>
+    <div
+      :style="{
+        margin: '0',
+        height: '36px',
+        lineHeight: '36px',
+        right: '0px',
+        bottom: '0px',
+        position: headerTheme == 'dark' ? 'fixed' : 'unset',
+        zIndex: 14,
+        padding: '4px 16px',
+        width: width,
+        background: '#fff',
+        boxShadow: '0 1px 4px #0015291f',
+        transition: 'background 0.3s, width 0.2s'
+      }"
+    >
+      footerRender headerTheme：{{ headerTheme }} width：{{ width }}
+    </div>
+  </div>
+</template>
 ```
 
 #### Custom footer with props
