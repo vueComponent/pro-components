@@ -37,7 +37,9 @@ export const Action = defineComponent({
   },
   emits: ['collapsed'],
   setup(props, { emit }) {
+
     const { submit, resetForm } = useFormInstance();
+
     const onCollapsed = () => {
       emit('collapsed', !props.collapsed);
     };

@@ -54,14 +54,8 @@ export const gridHelpers: (config: ProFormGridConfig & CommonProps) => GridHelpe
 });
 
 export const useGridHelpers = (props?: (ProFormGridConfig & CommonProps) | boolean) => {
-  const formInstance = useFormInstance();
   const _grid = ref<boolean>();
   const _colProps = ref<ColProps>();
-  if (formInstance) {
-    const { grid, colProps } = unref(formInstance.getFormProps);
-    _grid.value = grid;
-    _colProps.value = colProps;
-  }
 
   const config = computed(() => {
     if (typeof props === 'object') {

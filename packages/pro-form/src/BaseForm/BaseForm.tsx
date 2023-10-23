@@ -37,7 +37,7 @@ const BaseForm = defineComponent({
             ...formEvents,
             ...formMethods
         } as BaseFormType;
-
+        
         createFromInstance(instance);
 
         expose(instance);

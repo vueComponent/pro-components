@@ -57,7 +57,7 @@ export const useFromEvents = (params: EventsParams) => {
   const resetFields = (name?: NamePath) => {
     unref(formInstanceRef)?.resetFields(name);
 
-    props.onReset?.(model.value);
+    props.onReset?.(handleFormValues(model.value));
     submitOnReset && handleSubmit();
   };
 

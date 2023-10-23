@@ -1,5 +1,5 @@
 <template>
-    <QueryFilter :model="formModel" @finish="handleSubmit" @collapsed="onCollapsed">
+    <QueryFilter :model="formModel" @finish="handleSubmit" @collapsed="onCollapsed" @reset="onReset">
         <ProFormText
             name="name"
             label="应用名称"
@@ -109,7 +109,7 @@ const fetchUser = async () => {
 
 const formModel = reactive({
     name: '456',
-    country: undefined,
+    country: [],
     expirationTime: ref<Dayjs>(dayjs('2015/01/01', dateFormat)),
     rangeTimes: ref<RangeValue>(),
     weakTime: ref<Dayjs>(),
@@ -134,5 +134,9 @@ function handleSubmit(params: any) {
 }
 function onCollapsed(collapsed: boolean) {
     console.log(collapsed);
+}
+
+function onReset(params: any) {
+    console.log(params);
 }
 </script>
